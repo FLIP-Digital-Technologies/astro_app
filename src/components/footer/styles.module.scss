@@ -1,0 +1,108 @@
+.footer {
+  background: #020109;
+  padding: 74px 95px 52px 95px;
+  color: #ffffff;
+
+  &Top {
+    margin: 0 auto;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 94px;
+
+    &Sub {
+      font-size: 15px;
+      line-height: 18px;
+      font-weight: 400;
+      color: #777777;
+    }
+
+    &Main {
+      font-size: 36px;
+      line-height: 46px;
+      text-align: center;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 16px;
+      margin-bottom: 16px;
+      width: 397px;
+    }
+  }
+  &Bottom {
+    display: flex;
+    justify-content: space-between;
+
+    .left {
+      width: 30%;
+      .logo {
+        margin-bottom: 9px;
+      }
+
+      .main {
+        font-weight: 450;
+        font-size: 15px;
+        line-height: 19px;
+        margin-bottom: 9px;
+      }
+
+      .sub {
+        font-weight: 450;
+        font-size: 12px;
+        line-height: 15px;
+        color: #474360;
+        margin-bottom: 8px;
+      }
+
+      .btnHolder {
+        display: flex;
+        align-items: center;
+      }
+
+      .iosBtn {
+        height: 46px;
+        padding: 0 23px;
+        cursor: pointer;
+        width: fit-content;
+        left: 95px;
+        top: 452px;
+        background: #0e0d1c;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-weight: 450;
+        font-size: 22px;
+        line-height: 28px;
+        color: #ffffff;
+        margin-right: 9px;
+
+        svg {
+          margin-right: 9px;
+        }
+
+        &.android {
+          padding: 0 10px;
+        }
+      }
+    }
+    .center {
+      width: 30%;
+
+      display: flex;
+      justify-content: space-between;
+
+      .link {
+        font-weight: 450;
+        font-size: 14px;
+        line-height: 18px;
+        margin-bottom: 28px;
+      }
+    }
+
+    .right {
+      width: 30%;
+    }
+  }
+}
