@@ -47,6 +47,7 @@ const SignUp = (props) => {
             value={firstName}
             onChange={(e) => handleFirstName(e.target.value)}
             required={true}
+            label="Firstname"
           />
           <Input
             className={styles.auth__content__input__body}
@@ -55,6 +56,7 @@ const SignUp = (props) => {
             value={lastName}
             onChange={(e) => handleLastName(e.target.value)}
             required={true}
+            label="Last name"
           />
           <Input
             className={styles.auth__content__input__body}
