@@ -40,7 +40,7 @@ const SignUp = (props) => {
           <h3 className={styles.auth__content__subTitle}>
             Create your Flip account in a sec!
           </h3>
-          {/* <Input
+          <Input
             className={styles.auth__content__input__body}
             inputClass={styles.auth__content__input}
             placeholder="First Name"
@@ -55,16 +55,6 @@ const SignUp = (props) => {
             value={lastName}
             onChange={(e) => handleLastName(e.target.value)}
             required={true}
-          /> */}
-
-          <Input
-            className={styles.auth__content__input__body}
-            inputClass={styles.auth__content__input}
-            placeholder="Username"
-            value={firstName}
-            onChange={(e) => handleFirstName(e.target.value)}
-            required={true}
-            label="Username"
           />
           <Input
             className={styles.auth__content__input__body}
