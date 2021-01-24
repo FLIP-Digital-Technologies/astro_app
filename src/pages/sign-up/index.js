@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { AuthHeader } from "../../components/header";
 import Input from "../../components/input";
 import Button from "../../components/button";
@@ -14,6 +14,8 @@ const SignUp = (props) => {
   const [firstName, handleFirstName] = useState("");
   const [lastName, handleLastName] = useState("");
   const [confirmPassword, handleConfirmPassword] = useState("");
+
+  const history = useHistory();
 
   const register = (e) => {
     if (e) {
@@ -109,7 +111,12 @@ const SignUp = (props) => {
             type="submit"
           />
 
-          <div className={styles.auth__content__alt}>
+          <div
+            onClick={() => {
+              history.push("/signin");
+            }}
+            className={styles.auth__content__alt}
+          >
             <span>Already have a Flip account? </span>
             <span className={styles.auth__content__alt__link}>Sign In</span>
           </div>

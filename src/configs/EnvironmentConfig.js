@@ -1,5 +1,5 @@
 const dev = {
-  API_ENDPOINT_URL: "https://myflipapp-297309.uc.r.appspot.com/api",
+  API_ENDPOINT_URL: "https://myflipapp-297309.uc.r.appspot.com/",
 };
 
 const prod = {
