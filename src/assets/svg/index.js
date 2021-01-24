@@ -3,13 +3,17 @@ export { ReactComponent as LogogBlack } from "./logo-black.svg";
 export { ReactComponent as LogoWhiteBig } from "./logo_white_big.svg";
 export { ReactComponent as LogoFooter } from "./LogoFooter.svg";
 
-export { ReactComponent as Home } from "./home.svg";
-export { ReactComponent as GiftCard } from "./gift.svg";
+export { ReactComponent as LogoNav } from "./logo.svg";
+
+export { ReactComponent as Home } from "./home_new.svg";
+export { ReactComponent as GiftCard } from "./gift_new.svg";
 export { ReactComponent as Contact } from "./contact.svg";
 export { ReactComponent as Coin } from "./coin.svg";
 export { ReactComponent as RateIcon } from "./rate.svg";
 export { ReactComponent as Transactions } from "./transactions.svg";
 export { ReactComponent as Wallet } from "./wallet.svg";
+export { ReactComponent as Settings } from "./settings.svg";
+export { ReactComponent as Logout } from "./logout.svg";
 
 export { ReactComponent as Bell } from "./bell.svg";
 export { ReactComponent as CaretDown } from "./caret-down.svg";

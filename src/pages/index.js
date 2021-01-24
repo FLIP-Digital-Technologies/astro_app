@@ -15,3 +15,4 @@ export { default as AboutRates } from "./about-rates";
 export { default as BTC } from "./btc";
 export { default as Bills } from "./bills";
 export { default as Airtime } from "./airtime";
+export { default as Settings } from "./settings";

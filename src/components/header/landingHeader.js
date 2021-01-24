@@ -1,10 +1,10 @@
 import React from "react";
 import { useHistory, Link, useLocation } from "react-router-dom";
-import { LogoWhiteBig, LogogBlack } from "../../assets/svg";
+import { LogoNav, LogogBlack } from "../../assets/svg";
 import Button from "../button";
 import styles from "./style.module.scss";
 
-const LandingHeader = ({ form }) => {
+const LandingHeader = ({ form, type }) => {
   let location = useLocation();
   const { pathname } = location;
   const history = useHistory();
@@ -13,44 +13,46 @@ const LandingHeader = ({ form }) => {
       className={`${styles.landingHeader} ${form === "white" && styles.rev}`}
     >
       <div className={styles.landingHeaderLeft}>
-        {console.log({ pathname })}
         <Link to="/">
-          {form === "white" ? <LogogBlack /> : <LogoWhiteBig />}{" "}
+          <LogoNav className={styles.landingHeaderLeftLogo} />
         </Link>
-        <div className={styles.landingHeaderLeftLinks}>
-          <Link to="/rates">
-            <div
-              className={`${styles.landingHeaderLeftLinksItem}  ${
-                form === "white" && styles.rev
-              } ${pathname === "/rates" && styles.active}`}
-            >
-              Rates
-            </div>
-          </Link>
-          <Link to="/about">
-            <div
-              className={`${styles.landingHeaderLeftLinksItem}  ${
-                form === "white" && styles.rev
-              }  ${pathname === "/about" && styles.active}`}
-            >
-              About
-            </div>
-          </Link>
-        </div>
       </div>
 
-      <div>
-        <Button
-          onClick={() => history.push("/signin")}
-          form="full"
-          text="Login"
-          className={`${styles.login} ${form === "white" && styles.rev}`}
-        />
-        <Button
-          onClick={() => history.push("/signup")}
-          form="full"
-          text="Get Started"
-        />
+      <div className={styles.landingHeaderLeftLinks}>
+        <div className={styles.landingHeaderLeftLinks}>
+          <div
+            className={`${styles.landingHeaderLeftLinksItem}  ${
+              form === "white" && styles.rev
+            } ${pathname === "/rates" && styles.active}`}
+          >
+            About
+          </div>
+
+          <div
+            className={`${styles.landingHeaderLeftLinksItem}  ${
+              form === "white" && styles.rev
+            }  ${pathname === "/about" && styles.active}`}
+          >
+            Get Help
+          </div>
+        </div>
+        {type === "signup" || !type ? (
+          <Button
+            onClick={() => history.push("/signin")}
+            form="full"
+            text="Login"
+            className={`${styles.login} ${form === "white" && styles.rev}`}
+          />
+        ) : null}
+
+        {type !== "signup" ? (
+          <Button
+            onClick={() => history.push("/signup")}
+            form="full"
+            text="Sign up"
+            className={styles.signup}
+          />
+        ) : null}
       </div>
     </div>
   );

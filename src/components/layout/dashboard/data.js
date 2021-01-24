@@ -9,6 +9,8 @@ import {
   Transactions,
   RateIcon,
   ArrowLeft,
+  Settings,
+  Logout,
 } from "../../../assets/svg";
 
 export const Routes = {
@@ -16,7 +18,7 @@ export const Routes = {
   giftcard: "/app/giftcard",
   airtime: "/app/airtime",
   bills: "/app/bills",
-  rate: "/app/rate",
+  settings: "/app/settings",
   onBoarding: "/app/onboarding",
   home: "/app",
   profile: "/app/profile",
@@ -24,11 +26,11 @@ export const Routes = {
 
 export const navigation = [
   { Icon: Home, Name: "Home", route: Routes.home },
-  { Icon: GiftCard, Name: "GiftCards", route: Routes.giftcard },
+  { Icon: GiftCard, Name: "Cards", route: Routes.giftcard },
   { Icon: Coin, Name: "Bitcoin", route: Routes.BTC },
   { Icon: Transactions, Name: "Bills", route: Routes.bills },
-  { Icon: RateIcon, Name: "Setting", route: Routes.rate },
-  { Icon: RateIcon, Name: "Log out", route: "" },
+  { Icon: Settings, Name: "Setting", route: Routes.settings },
+  { Icon: Logout, Name: "Log out", route: "" },
 ];
 
 const Goback = ({ route, name }) => {

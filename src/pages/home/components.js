@@ -104,15 +104,30 @@ export const AirtimeFlyout = ({ state, setState }) => {
   return (
     <div>
       <div className={styles.airttime}>
+        <Select
+          labelClass={styles.largeMarginLabel}
+          label="Select provider"
+          value={state.ngn}
+          name="ngn"
+          placeholder="Sealect a provider"
+          options={[]}
+        />
+        <Select
+          labelClass={styles.largeMarginLabel}
+          label="Select currency"
+          value={state.ngn}
+          name="select payment currency"
+          placeholder="₦5000"
+          options={[]}
+        />
         <Input
           labelClass={styles.largeMarginLabel}
-          label="Amount in USD"
+          label="Amount"
           value={state.usd}
           name="usd"
-          placeholder="e.g $1"
-          hint="@150/usd"
+          placeholder="e.g ₦200"
         />
-        <Input
+        {/* <Input
           labelClass={styles.largeMarginLabel}
           label="Amount in NGN"
           value={state.ngn}
@@ -139,7 +154,74 @@ export const AirtimeFlyout = ({ state, setState }) => {
           placeholder="₦5000"
           hint="@500/usd"
           options={[]}
+        /> */}
+        <Button loading={true} className={styles.airttime__button} form="full">
+          Proceed
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export const FundFlyout = ({ state, setState }) => {
+  return (
+    <div>
+      <div className={styles.airttime}>
+        <Select
+          labelClass={styles.largeMarginLabel}
+          label="Select wallet"
+          value={state.wallet}
+          onSelect={(value) =>
+            setState((state) => ({ ...state, wallet: value }))
+          }
+          name="ngn"
+          placeholder="Select a network provider"
+          options={[
+            { render: "NGN wallet", value: "NGN" },
+            { render: "GHS wallet", value: "GHS" },
+          ]}
         />
+        {state.wallet && (
+          <Input
+            labelClass={styles.largeMarginLabel}
+            label={`Amount in ${state.wallet}`}
+            value={state.amount}
+            name="usd"
+            placeholder="e.g $1"
+            hint="@150/usd"
+            onChange={(e) =>
+              setState((state) => ({ ...state, amount: e.target.value }))
+            }
+          />
+        )}
+        {/* <Input
+          labelClass={styles.largeMarginLabel}
+          label="Amount in NGN"
+          value={state.ngn}
+          name="ngn"
+          placeholder="₦5000"
+          hint="@500/usd"
+        />
+
+        <Select
+          labelClass={styles.largeMarginLabel}
+          label="Amount in NGN"
+          value={state.ngn}
+          name="ngn"
+          placeholder="₦5000"
+          hint="@500/usd"
+          options={[]}
+        />
+
+        <Select
+          labelClass={styles.largeMarginLabel}
+          label="Amount in NGN"
+          value={state.ngn}
+          name="ngn"
+          placeholder="₦5000"
+          hint="@500/usd"
+          options={[]}
+        /> */}
         <Button loading={true} className={styles.airttime__button} form="full">
           Proceed
         </Button>

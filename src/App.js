@@ -17,6 +17,7 @@ import {
   BTC,
   Airtime,
   Bills,
+  Settings,
 } from "./pages";
 import {
   getBTCTransactionHistory,
@@ -71,6 +72,9 @@ function App(props) {
       </Route> */}
       <Route path="/app/bills">
         <Bills />
+      </Route>
+      <Route path="/app/settings">
+        <Settings />
       </Route>
       {/* <Redirect to="/" /> */}
     </Switch>

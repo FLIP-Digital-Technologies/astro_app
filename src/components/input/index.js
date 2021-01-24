@@ -39,7 +39,12 @@ const Input = ({
           {Dummy?.type === "reverse" ? (
             <div className={styles.input__dummy__reverse}>
               <span>{Dummy?.text}</span>
-              {Dummy.Icon ? <Dummy.Icon /> : null}
+              {Dummy.Icon ? (
+                <Dummy.Icon
+                  onClick={Dummy?.onIconClick ? Dummy?.onIconClick : () => {}}
+                  className={styles.input__dummy__reverse__icon}
+                />
+              ) : null}
             </div>
           ) : (
             <div className={styles.input__dummy}>

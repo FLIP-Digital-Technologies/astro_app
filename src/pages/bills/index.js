@@ -54,6 +54,7 @@ const Bills = ({ getBTCRates, balance, btcRates, buyCoins, buyBTC }) => {
   }, [getBTCRates]);
   return (
     <DashboardLayout>
+      <span className={styles.gitcard__top__title}>Bills </span>
       <Flyout state={formState} setState={setFormState} />
       <div className={styles.bills}>
         <div className={styles.bills__content}>

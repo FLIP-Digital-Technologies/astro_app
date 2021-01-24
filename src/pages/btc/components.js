@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "antd";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { ExclamationCircleOutlined, CopyTwoTone } from "@ant-design/icons";
 import Button from "../../components/button";
 import Input from "../../components/input";
 import Select from "../../components/select";
@@ -80,7 +80,7 @@ export const BuySection = ({ balance, rates, state, setState }) => {
       <div className={styles.transactionCard__holder__sub}>
         <Input
           labelClass={styles.largeMarginLabel}
-          label="Deposit to"
+          label="Buy to"
           Dummy={{ text: "BTC wallet" }}
         />
         <Select
@@ -92,7 +92,7 @@ export const BuySection = ({ balance, rates, state, setState }) => {
         />
 
         <Input
-          label="BTC amount needed"
+          label="Amount (BTC)"
           value={state.btc}
           name="btc"
           onChange={handleChange}
@@ -172,7 +172,7 @@ export const SellSection = ({ balance, rates, state, setState }) => {
 
         <Input
           labelClass={styles.largeMarginLabel}
-          label="BTC amount for sale"
+          label="Amount (BTC)"
           value={state.btc}
           name="btc"
           onChange={handleChange}
@@ -201,6 +201,152 @@ export const SellSection = ({ balance, rates, state, setState }) => {
           hint={`Current rate ${
             rates && rates.tickers && Money(rates.tickers.btcngn.sell, "NGN")
           } / BTC`}
+        /> */}
+      </div>
+    </div>
+  );
+};
+
+export const SendSection = ({ balance, rates, state, setState }) => {
+  const handleChange = ({ target: { name, value } }) => {
+    let ticker = rates && rates.tickers;
+    let btc, ngn, usd;
+    if (name === "btc") {
+      btc = value;
+      ngn = ticker && ticker.btcngn.sell * value;
+      // usd = ticker && ticker.tickers.btcusd.sell * value;
+      usd = 26000 * value;
+      setState((state) => ({ ...state, btc, usd, ngn }));
+    } else if (name === "ngn") {
+      ngn = value;
+      btc = value / (ticker && ticker.btcngn.sell);
+      // usd = ticker && ticker.tickers.btcusd.sell * value;
+      usd = 26000 * btc;
+      setState((state) => ({ ...state, btc, usd, ngn }));
+    } else if (name === "usd") {
+      usd = value;
+      // btc = value / (ticker && ticker.btcusd.sell);
+      btc = value / 26000;
+      ngn = ticker && ticker.btcngn.sell * btc;
+      setState((state) => ({ ...state, btc, usd, ngn }));
+    }
+    if (!value) {
+      setState((state) => ({ ...state, btc: 0, usd: 0, ngn: 0 }));
+    }
+  };
+  return (
+    <div className={styles.transactionCard}>
+      <div className={styles.transactionCard__holder__sub}>
+        <Input
+          labelClass={styles.largeMarginLabel}
+          hintClass={styles.largeMarginHint}
+          label="BTC wallet Balance"
+          Dummy={{ text: "0.005 BTC" }}
+          // hint={`Current Balance ${
+          //   balance && balance.BTC && Money(balance.BTC.balance, "BTC")
+          // } `}
+        />
+
+        <Input
+          labelClass={styles.largeMarginLabel}
+          hintClass={styles.largeMarginHint}
+          label="BTC wallet Address"
+          placeholder="recieving BTC wallet address"
+          // Dummy={{
+          //   text: "2j2enje92dhdhdhuhdjhaha",
+          //   Icon: CopyTwoTone,
+          //   type: "reverse",
+          //   onIconClick: () => {},
+          // }}
+          // hint={`Current Balance ${
+          //   balance && balance.BTC && Money(balance.BTC.balance, "BTC")
+          // } `}
+        />
+
+        <Input
+          labelClass={styles.largeMarginLabel}
+          label="Amount (BTC)"
+          value={state.btc}
+          name="btc"
+          onChange={handleChange}
+          hint={`Current rate ${
+            rates && rates.tickers && Money(rates.tickers.btcusd.sell, "USD")
+          } / BTC`}
+          hintClass={styles.largeMarginHint}
+          placeholder="e.g 0.000011"
+        />
+      </div>
+    </div>
+  );
+};
+
+export const RecieveSection = ({ balance, rates, state, setState }) => {
+  const handleChange = ({ target: { name, value } }) => {
+    let ticker = rates && rates.tickers;
+    let btc, ngn, usd;
+    if (name === "btc") {
+      btc = value;
+      ngn = ticker && ticker.btcngn.sell * value;
+      // usd = ticker && ticker.tickers.btcusd.sell * value;
+      usd = 26000 * value;
+      setState((state) => ({ ...state, btc, usd, ngn }));
+    } else if (name === "ngn") {
+      ngn = value;
+      btc = value / (ticker && ticker.btcngn.sell);
+      // usd = ticker && ticker.tickers.btcusd.sell * value;
+      usd = 26000 * btc;
+      setState((state) => ({ ...state, btc, usd, ngn }));
+    } else if (name === "usd") {
+      usd = value;
+      // btc = value / (ticker && ticker.btcusd.sell);
+      btc = value / 26000;
+      ngn = ticker && ticker.btcngn.sell * btc;
+      setState((state) => ({ ...state, btc, usd, ngn }));
+    }
+    if (!value) {
+      setState((state) => ({ ...state, btc: 0, usd: 0, ngn: 0 }));
+    }
+  };
+  return (
+    <div className={styles.transactionCard}>
+      <div className={styles.transactionCard__holder__sub}>
+        <Input
+          labelClass={styles.largeMarginLabel}
+          hintClass={styles.largeMarginHint}
+          label="BTC wallet Balance"
+          Dummy={{ text: "0.005 BTC" }}
+          // hint={`Current Balance ${
+          //   balance && balance.BTC && Money(balance.BTC.balance, "BTC")
+          // } `}
+        />
+
+        <Input
+          labelClass={styles.largeMarginLabel}
+          hintClass={styles.largeMarginHint}
+          label="BTC wallet Address"
+          Dummy={{
+            text: "2j2enje92dhdhdhuhdjhaha",
+            Icon: CopyTwoTone,
+            type: "reverse",
+            onIconClick: () => {},
+          }}
+          hint="Your wallet address"
+          // hint={`Current Balance ${
+          //   balance && balance.BTC && Money(balance.BTC.balance, "BTC")
+          // } `}
+        />
+
+        {/* <Input
+          labelClass={styles.largeMarginLabel}
+          label="Amount (BTC)"
+          value={state.btc}
+          name="btc"
+          onChange={handleChange}
+          hint={`Current rate ${
+            rates && rates.tickers && Money(rates.tickers.btcusd.sell, "USD")
+          } / BTC`}
+          hintClass={styles.largeMarginHint}
+          placeholder="e.g 0.000011"
         /> */}
       </div>
     </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Drawer } from "antd";
+import { PlusOutlined, PhoneOutlined } from "@ant-design/icons";
 import { DashboardLayout } from "../../components/layout";
 import Table from "../../components/table";
 import Input from "../../components/input";
@@ -22,7 +23,7 @@ import {
 } from "../../redux/actions/user";
 import { getBankListByCountry } from "../../redux/actions/bank";
 import { getLastUserWithdrawalDetails } from "../../redux/actions/withdrawals";
-import { AirtimeFlyout } from "./components";
+import { AirtimeFlyout, FundFlyout } from "./components";
 
 const Home = ({
   user,
@@ -41,6 +42,7 @@ const Home = ({
   const [wallet, setWallet] = useState("NGN");
   const [renderBalance, setRenderBalance] = useState("0");
   const [showAirtime, setShowAirtime] = useState(false);
+  const [showFund, setShowFund] = useState(false);
 
   const [state, setState] = useState({});
 
@@ -62,16 +64,28 @@ const Home = ({
   }, []);
   return (
     <DashboardLayout>
+      <span className={styles.gitcard__top__title}>Home </span>
       {showAirtime && (
         <Drawer
           title="Airtime purchase"
-          width={500}
+          width={400}
           placement="right"
-          closable={false}
           onClose={() => setShowAirtime(false)}
           visible={showAirtime}
         >
           <AirtimeFlyout state={state} setState={setState} />
+        </Drawer>
+      )}
+
+      {showFund && (
+        <Drawer
+          title="Fund wallet"
+          placement="right"
+          width={400}
+          onClose={() => setShowFund(false)}
+          visible={showFund}
+        >
+          <FundFlyout state={state} setState={setState} />
         </Drawer>
       )}
       <div className={styles.home}>
@@ -118,8 +132,12 @@ const Home = ({
                 </div>
               </div>
             </div>
-            <div className={styles.fund}>
-              <div className={styles.fund__image}></div>
+            <div onClick={() => setShowFund(true)} className={styles.fund}>
+              <div className={styles.fund__image}>
+                <div>
+                  <PlusOutlined />
+                </div>
+              </div>
               <span className={styles.fund__text}>Fu-nd Wallet</span>
             </div>
           </div>
@@ -127,34 +145,51 @@ const Home = ({
             <div className={styles.quick__trade}>
               <div className={styles.quick__trade__image}>
                 <img
-                  src={Png.Amazon}
+                  src="https://via.placeholder.com/60.png"
                   alt="amazon"
                   className={styles.card__image}
                 />
               </div>
               <span className={styles.quick__trade__text}>GiftCard</span>
-              <div className={styles.quick__trade__btn}>Trade</div>
+              <div
+                onClick={() => history.push("/app/giftcard")}
+                className={styles.quick__trade__btn}
+              >
+                Trade
+              </div>
             </div>
             <div className={styles.quick__trade}>
               <div className={styles.quick__trade__image}>
                 <img
-                  src={Png.Amazon}
+                  src="https://via.placeholder.com/60.png"
                   alt="amazon"
                   className={styles.card__image}
                 />
               </div>
-              <span className={styles.quick__trade__text}>GiftCard</span>
-              <div className={styles.quick__trade__btn}>Trade</div>
+              <span className={styles.quick__trade__text}>Bitcoin</span>
+              <div
+                onClick={() => history.push("/app/btc")}
+                className={styles.quick__trade__btn}
+              >
+                Trade
+              </div>
             </div>
             <div
               onClick={() => setShowAirtime(true)}
               className={`${styles.actionBtn} ${styles.quickBtn}`}
             >
-              <div></div>
+              <div>
+                <PhoneOutlined rotate={90} />
+              </div>
               <span>Buy Airtime</span>
             </div>
-            <div className={`${styles.actionBtn} ${styles.quickBtn}`}>
-              <div></div>
+            <div
+              onClick={() => history.push("/app/bills")}
+              className={`${styles.actionBtn} ${styles.quickBtn}`}
+            >
+              <div>
+                <img src="https://via.placeholder.com/20.png" alt="bill" />
+              </div>
               <span>Pay a Bill</span>
             </div>
           </div>
@@ -166,7 +201,9 @@ const Home = ({
             <div className={styles.transactionHistory__content}>
               <div className={styles.transactionHistory__content__column}>
                 <div className={styles.transactionHistory__item}>
-                  <div className={styles.transactionHistory__item__image}></div>
+                  <div className={styles.transactionHistory__item__image}>
+                    <img src="https://via.placeholder.com/20.png" alt="bill" />
+                  </div>
                   <div className={styles.transactionHistory__item__text}>
                     <span
                       className={styles.transactionHistory__item__text__mian}
@@ -187,7 +224,9 @@ const Home = ({
                   </div>
                 </div>
                 <div className={styles.transactionHistory__item}>
-                  <div className={styles.transactionHistory__item__image}></div>
+                  <div className={styles.transactionHistory__item__image}>
+                    <img src="https://via.placeholder.com/20.png" alt="bill" />
+                  </div>
                   <div className={styles.transactionHistory__item__text}>
                     <span
                       className={styles.transactionHistory__item__text__mian}
@@ -210,7 +249,9 @@ const Home = ({
               </div>
               <div className={styles.transactionHistory__content__column}>
                 <div className={styles.transactionHistory__item}>
-                  <div className={styles.transactionHistory__item__image}></div>
+                  <div className={styles.transactionHistory__item__image}>
+                    <img src="https://via.placeholder.com/20.png" alt="bill" />
+                  </div>
                   <div className={styles.transactionHistory__item__text}>
                     <span
                       className={styles.transactionHistory__item__text__mian}
@@ -231,7 +272,9 @@ const Home = ({
                   </div>
                 </div>
                 <div className={styles.transactionHistory__item}>
-                  <div className={styles.transactionHistory__item__image}></div>
+                  <div className={styles.transactionHistory__item__image}>
+                    <img src="https://via.placeholder.com/20.png" alt="bill" />
+                  </div>
                   <div className={styles.transactionHistory__item__text}>
                     <span
                       className={styles.transactionHistory__item__text__mian}

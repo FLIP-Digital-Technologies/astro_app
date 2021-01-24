@@ -1,11 +1,13 @@
 .logo {
-  height: 32px;
+  height: fit-content;
   margin: 18px 16px 7px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .site-layout .site-layout-background {
   background: #fff;
 }
-
 
 .menu__title {
   color: #4c6294;
@@ -65,10 +67,10 @@
     display: flex;
     align-items: center;
 
-    &>div{
+    & > div {
       display: none;
       padding-right: 20px;
-      @media (max-width: 1000px){
+      @media (max-width: 1000px) {
         display: block;
       }
     }
@@ -84,9 +86,9 @@
   height: 108px;
 }
 
-span.anticon.anticon-bars{
+span.anticon.anticon-bars {
   display: none;
-  @media (max-width: 895px){
+  @media (max-width: 895px) {
     display: block;
   }
 }

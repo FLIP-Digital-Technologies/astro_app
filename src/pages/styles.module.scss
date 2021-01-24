@@ -1,5 +1,5 @@
 .home {
-  margin-top: 8px;
+  margin-top: 40px;
   margin-left: 11px;
   margin-right: 11px;
   &__welcome {
@@ -260,7 +260,6 @@
   &__select {
     display: flex;
     align-items: center;
-    max-width: 500px;
     justify-content: space-between;
     margin-bottom: 20px;
   }
@@ -745,30 +744,41 @@
 
 .auth {
   &__content {
-    width: 30%;
-    margin: 100px auto 0 auto;
     display: flex;
     flex-direction: column;
     padding-bottom: 60px;
+    justify-content: flex-start;
 
     &__title {
       font-size: 36px;
-      line-height: 20px;
+      line-height: 40px;
       color: #000000;
-      font-weight: 500;
+      font-weight: 700;
       text-align: center;
-      margin-bottom: 45px;
+      margin-bottom: 10px;
+      text-align: start;
+    }
+
+    &__subTitle {
+      font-size: 24px;
+      line-height: 28px;
+      color: #000000;
+      font-weight: 400;
+      text-align: center;
+      margin-bottom: 30px;
+      text-align: start;
     }
 
     &__input {
-      height: 59px;
+      height: 48px;
       border: 1px solid #777777 !important;
       background: #f6f7f9 !important;
       padding-left: 19px !important;
+      margin-bottom: 15px;
 
       &::placeholder {
         color: #777777 !important;
-        font-size: 18px;
+        font-size: 16px;
       }
 
       &__fullWidth {
@@ -776,7 +786,7 @@
       }
 
       &__body {
-        margin-bottom: 45px;
+        margin-bottom: 60px;
       }
     }
 
@@ -784,6 +794,7 @@
       font-size: 18px !important;
       line-height: 20px !important;
       padding: 20px !important;
+      margin-top: 30px;
     }
 
     &__terms {
@@ -797,6 +808,32 @@
         border-bottom: 1px solid #0066f5;
         cursor: pointer;
       }
+    }
+
+    &__alt {
+      margin-top: 40px;
+      font-size: 16px;
+      line-height: 20px;
+      color: #777777;
+      margin-bottom: 20px;
+      width: 100%;
+      text-align: center;
+      &__link {
+        color: #0066f5;
+        padding-bottom: 2px;
+        border-bottom: 1px solid #0066f5;
+        cursor: pointer;
+      }
+    }
+
+    &__forgot {
+      color: #0066f5;
+      padding-bottom: 2px;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 20px;
+      width: 100%;
+      text-align: end;
     }
   }
 }
@@ -1075,9 +1112,10 @@
 }
 
 .profile {
-  width: 100%;
-  padding-left: 10px;
+  max-width: 700px;
+  padding-left: 50px;
   padding-right: 10px;
+  margin: 0 auto;
   &Edit {
     border: 0.5px solid #eaeaea;
     box-sizing: border-box;
@@ -1303,7 +1341,7 @@
     margin-bottom: 48px;
     &Content {
       margin-top: 29px;
-      width: 60%;
+      width: 100%;
       display: flex;
       flex-wrap: wrap;
       flex-direction: row;
@@ -1324,7 +1362,7 @@
   &Security {
     &Content {
       margin-top: 29px;
-      width: 60%;
+      width: 100%;
       display: flex;
       flex-wrap: wrap;
       flex-direction: row;
@@ -1351,24 +1389,21 @@
 
 .landing {
   &__top {
-    background: #050811;
+    background: #00519e;
     height: 70vh;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 95px;
-    position: relative;
+
+    padding: 0 120px;
+    display: flex;
+    clip-path: polygon(0% 0%, 0% 100%, 100% 85%, 100% 0%);
 
     &__content {
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       color: #fff;
-      width: 500px;
+      width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-top: 120px;
 
       .title {
         font-weight: 500;
@@ -1390,17 +1425,28 @@
       }
 
       .button {
-        height: 53px;
-        width: 200px;
+        height: 58px;
+        width: 250px;
         flex: none;
+        border: 2px solid #fff;
+        border-radius: 40px;
+        font-size: 24px;
       }
+    }
+
+    &__image {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 
   &__steps {
-    background: #fafafa;
+    background: #00519e;
     padding: 78px 97px;
-
+    margin-top: -90px;
+    page-break-after: 100px;
     &.rev {
       background: #ffffff;
 
@@ -1414,9 +1460,14 @@
       font-weight: 500;
       font-size: 36px;
       line-height: 46px;
-      color: #000000;
+      color: #fff;
       width: fit-content;
-      margin-bottom: 42px;
+      margin-bottom: 50px;
+      font-weight: 700;
+      font-size: 48px;
+      line-height: 40px;
+      margin-bottom: 80px;
+      margin-top: 40px;
     }
 
     .stepHolder {
@@ -1425,8 +1476,14 @@
 
       .step {
         width: 25%;
+        display: flex;
+
+        &__text {
+          width: 70%;
+          margin-left: auto;
+        }
         &__icon {
-          background: #fefefe;
+          border: 1px solid #fff;
           width: 80px;
           height: 80px;
           border-radius: 50%;
@@ -1441,22 +1498,22 @@
         }
 
         &__title {
-          font-weight: 500;
-          font-size: 16px;
-          line-height: 20px;
-          margin-bottom: 12px;
-          color: #000000;
+          font-weight: 700;
+          font-size: 18px;
+          line-height: 22px;
+          margin-bottom: 10px;
+          color: #fff;
 
           &.rev {
             font-size: 18px;
-            color: #0d0d0b;
+            color: #fff;
           }
         }
 
         &__sub {
           font-size: 16px;
-          line-height: 19px;
-          color: #000000;
+          line-height: 22px;
+          color: #e7ebee;
           font-weight: 400;
 
           &.rev {
@@ -1474,10 +1531,14 @@
     align-items: center;
     padding: 0 219px 0 168px;
     justify-content: space-between;
+    margin-top: -40px;
+    // clip-path: polygon(0% 0%, 0% 100%, 100% 85%, 100% 0%);
 
     &.rev {
       flex-direction: row-reverse;
-      background: #f5f6fa;
+      background: #f9fbfd;
+      margin-top: -30px;
+      clip-path: polygon(0% 0%, 0% 100%, 100% 85%, 100% 10%);
     }
 
     .revSvg {
@@ -1485,10 +1546,11 @@
     }
 
     .content {
-      width: 330px;
+      max-width: 500px;
 
       &.rev {
-        width: 407px;
+        max-width: 500px;
+        margin-left: 60px;
       }
 
       &__top {
@@ -1515,19 +1577,20 @@
 
       .title {
         font-weight: 500;
-        font-size: 24px;
-        line-height: 30px;
+        font-size: 48px;
+        line-height: 40px;
         margin-bottom: 19px;
-        color: #000000;
+        color: #00519e;
+        font-weight: 700;
       }
 
       .sub {
-        font-size: 18px;
-        line-height: 22px;
+        font-size: 24px;
+        line-height: 28px;
 
         color: #000000;
         font-weight: 400;
-        margin-bottom: 19px;
+        margin-bottom: 50px;
       }
       .extra {
         font-size: 15px;
@@ -1546,7 +1609,8 @@
         height: 53px;
         flex: none;
         width: 166px;
-        border-radius: 5px;
+        border-radius: 30px;
+        font-size: 18px;
       }
     }
   }
@@ -1731,6 +1795,9 @@
       }
     }
   }
+
+  &__customer {
+  }
 }
 .home {
   &__top {
@@ -1788,6 +1855,7 @@
   }
 }
 .fund {
+  cursor: pointer;
   background-color: #efefef;
   width: 200px;
   height: 200px;
@@ -1807,6 +1875,23 @@
     margin-bottom: 10px;
     border: 1px solid #00519e;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    div {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #00519e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        fill: #fff;
+      }
+    }
   }
 }
 
@@ -1817,6 +1902,7 @@
   flex-wrap: wrap;
   margin-top: 50px;
   margin-bottom: 50px;
+  max-width: 1000px;
 
   &__trade {
     display: flex;
@@ -1851,6 +1937,8 @@
       border-radius: 20px;
       margin-top: 5px;
       cursor: pointer;
+      font-weight: 500;
+      font-size: 16px;
     }
   }
 }
@@ -1875,6 +1963,13 @@
     border-radius: 50%;
     margin-top: 30px;
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      fill: #fff;
+    }
   }
   span {
     font-size: 18px;
@@ -1977,13 +2072,10 @@
 }
 
 .airttime {
-  max-width: 500px;
-  margin: 0 50px;
-
   &__title {
     font-weight: 700;
     font-size: 24px;
-    margin-bottom: 50px;
+
     text-transform: capitalize;
   }
 

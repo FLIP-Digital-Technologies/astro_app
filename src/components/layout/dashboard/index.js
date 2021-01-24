@@ -8,6 +8,7 @@ import {
   Profile,
   Power,
   Contact,
+  LogoNav,
 } from "../../../assets/svg";
 import { navigation, generateRoute } from "./data";
 import { history } from "../../../redux/store";
@@ -62,7 +63,9 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
         }}
       >
         {/* <LogoWhite className={styles.logo} /> */}
-        <div className={styles.logo}></div>
+        <div className={styles.logo}>
+          <LogoNav />
+        </div>
         <Menu
           style={{
             backgroundColor: "#00519e",
@@ -147,6 +150,7 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
                   </div>
                 )}
               </div>
+              <img src={require("../../../assets/svg/logo.svg")} alt="hgj" />
             </div>
           </div>
         </Header>

@@ -1,5 +1,5 @@
 .header {
-  height: 120px;
+  height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,12 +15,12 @@
 
 .landing {
   &Header {
-    height: 124px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 95px;
-    background-color: #050811;
+    background-color: #00519e;
 
     &.rev {
       background-color: #fff;
@@ -29,17 +29,24 @@
     &Left {
       display: flex;
       align-items: center;
+      width: 100%;
+
+      &Logo {
+        height: 60px;
+      }
 
       &Links {
         display: flex;
-        margin-left: 95px;
+        margin: 0 auto;
         color: #ffffff;
+        align-items: center;
+        margin-right: 20px;
 
         &Item {
           font-weight: 500;
           font-size: 15px;
           line-height: 19px;
-          margin-right: 63px;
+          width: 80px;
           cursor: pointer;
           color: #ffffff;
 
@@ -64,12 +71,56 @@
     }
 
     .login {
-      background-color: #171524;
+      background-color: transparent;
       margin-right: 12px;
+      border: 1px solid;
 
       &.rev {
-        background-color: #0066f5;
+        background-color: #004578;
       }
+    }
+
+    .signup {
+      background-color: #fff;
+      margin-right: 12px;
+      border: 1px solid;
+      color: #004578;
+    }
+  }
+}
+
+.auth {
+  display: flex;
+  padding: 20px 50px;
+  height: 80vh;
+  align-items: center;
+  margin-top: 60px;
+
+  &__left {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &__image {
+      height: 400px;
+      margin-bottom: 40px;
+    }
+
+    font-size: 24px;
+    font-weight: 500;
+    color: rgb(99, 97, 97);
+  }
+
+  &__right {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__content {
+      width: 500px;
     }
   }
 }
