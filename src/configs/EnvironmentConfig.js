@@ -3,11 +3,11 @@ const dev = {
 };
 
 const prod = {
-  API_ENDPOINT_URL: "https://myflipapp-297309.uc.r.appspot.com/api",
+  API_ENDPOINT_URL: "https://myflipapp-297309.uc.r.appspot.com/",
 };
 
 const test = {
-  API_ENDPOINT_URL: "https://myflipapp-297309.uc.r.appspot.com/api",
+  API_ENDPOINT_URL: "https://myflipapp-297309.uc.r.appspot.com/",
 };
 
 const getEnv = () => {
