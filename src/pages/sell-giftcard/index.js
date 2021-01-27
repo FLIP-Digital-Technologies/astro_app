@@ -70,9 +70,9 @@ const SellGiftcard = (props) => {
                   return (
                     <Col
                       key={key}
-                      xs={24}
-                      sm={24}
-                      md={12}
+                      xs={12}
+                      sm={12}
+                      md={8}
                       lg={4}
                       xl={4}
                       className="gutter-row"

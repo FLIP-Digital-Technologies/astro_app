@@ -1,3 +1,5 @@
+@import "../../breakpoints.scss";
+
 .header {
   height: 80px;
   display: flex;
@@ -19,15 +21,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 95px;
+    padding: 0 20px;
     background-color: #00519e;
+
+    @include md {
+      padding: 0 70px;
+    }
 
     &.rev {
       background-color: #fff;
     }
 
     &Left {
-      display: flex;
       align-items: center;
       width: 100%;
 
@@ -41,6 +46,11 @@
         color: #ffffff;
         align-items: center;
         margin-right: 20px;
+        display: none;
+
+        @include md {
+          display: flex;
+        }
 
         &Item {
           font-weight: 500;
@@ -94,18 +104,38 @@
   padding: 20px 50px;
   align-items: flex-start;
   margin-top: 60px;
+  justify-content: space-around;
+
+  @include sm {
+    padding: 20px 20px;
+  }
 
   &__left {
-    width: 50%;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-top: 30px;
 
+    @include sm {
+      display: none;
+    }
+
+    @include md {
+      display: block;
+      width: clamp(200px, 50%, 400px);
+      margin-right: 20px;
+    }
+
+    @include lg {
+      width: 50%;
+    }
+
     &__image {
-      height: 400px;
+      height: auto;
       margin-bottom: 40px;
+      margin-right: 20px;
+      width: 100%;
     }
 
     font-size: 24px;
@@ -114,10 +144,22 @@
   }
 
   &__right {
-    width: 50%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @include sm {
+      width: 100%;
+    }
+
+    @include md {
+      width: clamp(300px, 50%, 600px);
+    }
+
+    @include lg {
+      width: 50%;
+    }
 
     &__content {
       width: 500px;

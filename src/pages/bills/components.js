@@ -3,6 +3,7 @@ import Input from "../../components/input";
 import Select from "../../components/select";
 import Button from "../../components/button";
 import { Drawer } from "antd";
+import styles from "../styles.module.scss";
 
 // {showAirtime && (
 //     <Drawer
@@ -24,46 +25,55 @@ export const Flyout = ({ state, setState }) => {
 
   return (
     <Drawer
-      title={state.title}
-      width={500}
+      title={state?.title}
       placement="right"
-      closable={false}
-      onClose={state.close}
-      visible={state.show}
+      onClose={state?.close}
+      visible={state?.show}
     >
-      {state.inputs.map((item) => {
-        switch (item.type) {
+      {state?.inputs.map((item) => {
+        switch (item?.type) {
           case "text":
             return (
               <Input
-                type={item.type}
-                value={state.creds[item.name]}
-                name={item.name}
-                disabled={item.disabled}
+                type={item?.type}
+                value={state?.creds[item.name]}
+                name={item?.name}
+                disabled={item?.disabled}
                 onChange={handelChange}
-                placeholder={item.placeholder}
-                hint={item.hint}
-                label={item.label}
+                placeholder={item?.placeholder}
+                hint={item?.hint}
+                label={item?.label}
               />
             );
 
           case "select":
             return (
               <Select
-                type={item.type}
-                value={state.creds[item.name]}
-                name={item.name}
-                disabled={item.disabled}
+                type={item?.type}
+                value={state?.creds[item.name]}
+                name={item?.name}
+                disabled={item?.disabled}
                 onChange={handelChange}
-                placeholder={item.placeholder}
-                hint={item.hint}
-                options={item.options || []}
-                label={item.label}
+                placeholder={item?.placeholder}
+                hint={item?.hint}
+                options={item?.options || []}
+                label={item?.label}
               />
             );
-
+          case "btn":
+            return (
+              <Button
+                type="submit"
+                loading={item?.loadiing}
+                disabled={item?.disabled}
+                form="full"
+                className={styles.billsBtnSubmit}
+              >
+                {item?.value}
+              </Button>
+            );
           default:
-            break;
+            return null;
         }
       })}
     </Drawer>

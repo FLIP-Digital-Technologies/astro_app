@@ -32,7 +32,11 @@ const AuthHeader = ({ form, children }) => {
 
       <div className={styles.auth}>
         <div className={styles.auth__left}>
-          <img src="https://via.placeholder.com/500X500.png" alt="" />
+          <img
+            className={styles.auth__left__image}
+            src="https://via.placeholder.com/500X500.png"
+            alt=""
+          />
         </div>
         <div className={styles.auth__right}>
           <div className={styles.auth__right__content}>{children}</div>{" "}

@@ -14,32 +14,134 @@ import {
 
 const Bills = ({ getBTCRates, balance, btcRates, buyCoins, buyBTC }) => {
   const INITIAL_STATE = {
-    title: "Cable",
+    title: "",
     close: () => setFormState(INITIAL_STATE),
     show: false,
-    inputs: [
-      {
-        type: "text",
-        name: "email",
-        placeholder: "your email addresss",
-        label: "Email",
-      },
-      {
-        type: "text",
-        name: "email",
-        placeholder: "your email addresss",
-        label: "Email",
-      },
-      {
-        type: "select",
-        name: "email",
-        placeholder: "your email addresss",
-        options: [],
-        label: "Country",
-      },
-    ],
+    inputs: [],
     creds: {},
   };
+  const BILLS = [
+    {
+      title: "Cable",
+      Icon: BarChartOutlined,
+      inputs: [
+        {
+          type: "text",
+          name: "email",
+          placeholder: "your email addresss",
+          label: "Email",
+        },
+        {
+          type: "text",
+          name: "email",
+          placeholder: "your email addresss",
+          label: "Email",
+        },
+        {
+          type: "select",
+          name: "email",
+          placeholder: "your email addresss",
+          options: [],
+          label: "Country",
+        },
+
+        {
+          type: "btn",
+          value: "submit",
+        },
+      ],
+    },
+    {
+      title: "Airtime",
+      Icon: BarChartOutlined,
+      inputs: [
+        {
+          type: "text",
+          name: "email",
+          placeholder: "your email addresss",
+          label: "Email",
+        },
+        {
+          type: "text",
+          name: "email",
+          placeholder: "your email addresss",
+          label: "Email",
+        },
+        {
+          type: "select",
+          name: "email",
+          placeholder: "your email addresss",
+          options: [],
+          label: "Country",
+        },
+
+        {
+          type: "btn",
+          value: "submit",
+        },
+      ],
+    },
+    {
+      title: "Internet",
+      Icon: BarChartOutlined,
+      inputs: [
+        {
+          type: "text",
+          name: "email",
+          placeholder: "your email addresss",
+          label: "Email",
+        },
+        {
+          type: "text",
+          name: "email",
+          placeholder: "your email addresss",
+          label: "Email",
+        },
+        {
+          type: "select",
+          name: "email",
+          placeholder: "your email addresss",
+          options: [],
+          label: "Country",
+        },
+
+        {
+          type: "btn",
+          value: "submit",
+        },
+      ],
+    },
+    {
+      title: "Electricity",
+      Icon: BarChartOutlined,
+      inputs: [
+        {
+          type: "text",
+          name: "email",
+          placeholder: "your email addresss",
+          label: "Email",
+        },
+        {
+          type: "text",
+          name: "email",
+          placeholder: "your email addresss",
+          label: "Email",
+        },
+        {
+          type: "select",
+          name: "email",
+          placeholder: "your email addresss",
+          options: [],
+          label: "Country",
+        },
+
+        {
+          type: "btn",
+          value: "submit",
+        },
+      ],
+    },
+  ];
   const [formState, setFormState] = useState(INITIAL_STATE);
 
   const [state, setState] = useState({
@@ -58,36 +160,21 @@ const Bills = ({ getBTCRates, balance, btcRates, buyCoins, buyBTC }) => {
       <Flyout state={formState} setState={setFormState} />
       <div className={styles.bills}>
         <div className={styles.bills__content}>
-          <div
-            onClick={() => setFormState((state) => ({ ...state, show: true }))}
-            className={`${styles.actionBtn} ${styles.quickBtn}`}
-          >
-            <div></div>
-            <span>Cable Tv</span>
-          </div>
-          <div className={`${styles.actionBtn} ${styles.quickBtn}`}>
-            <div></div>
-            <span>Internet</span>
-          </div>
-          <div className={`${styles.actionBtn} ${styles.quickBtn}`}>
-            <div></div>
-            <span>Electricity</span>
-          </div>
-        </div>
-
-        <div className={styles.bills__content}>
-          <div className={`${styles.actionBtn} ${styles.quickBtn}`}>
-            <div></div>
-            <span>Detting</span>
-          </div>
-          <div className={`${styles.actionBtn} ${styles.quickBtn}`}>
-            <div></div>
-            <span>Transport</span>
-          </div>
-          <div className={`${styles.actionBtn} ${styles.quickBtn}`}>
-            <div></div>
-            <span>Tickets</span>
-          </div>
+          {BILLS &&
+            BILLS.map((item) => (
+              <div
+                onClick={() => {
+                  setFormState((state) => ({ ...state, ...item, show: true }));
+                  setFormState((state) => ({ ...state, show: true }));
+                }}
+                className={`${styles.actionBtn} ${styles.quickBtn}`}
+              >
+                <div>
+                  <item.Icon />
+                </div>
+                <span>{item.title}</span>
+              </div>
+            ))}
         </div>
       </div>
     </DashboardLayout>

@@ -65,7 +65,11 @@ export const Middle = () => {
 export const Cards = () => {
   return (
     <div className={styles.landing__cards}>
-      <img src="https://via.placeholder.com/500X700.png" alt="placeholder" />
+      <img
+        className={styles.landing__cards__image}
+        src="https://via.placeholder.com/500X700.png"
+        alt="placeholder"
+      />
       <div className={styles.content}>
         {/* <div className={styles.content__top}>
           <Exchange /> <span className={styles.badge}>Exchange</span>
@@ -89,7 +93,7 @@ export const Hands = () => {
   return (
     <div className={`${styles.landing__cards} ${styles.rev}`}>
       <img
-        // className={styles.revSvg}
+        className={styles.landing__cards__image}
         src="https://via.placeholder.com/500X700.png"
         alt="placeholder"
       />

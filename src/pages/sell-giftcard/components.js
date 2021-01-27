@@ -68,6 +68,8 @@ export const GiftCardForm = ({
     setDetails((details) => ({ ...details, file: [...details.file, file] }));
   };
 
+  const onWalletChange = () => {};
+
   const handleDelete = (index) => {
     let file = details.file;
     file = file.filter((f, i) => i !== index);
@@ -132,6 +134,14 @@ export const GiftCardForm = ({
           /> */}
           <div className={styles.gitcard__form__left}>
             <Select
+              options={[]}
+              value={details.wallet}
+              onSelect={onWalletChange}
+              className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
+              label="Select wallet to credit"
+              labelClass={styles.label}
+            />
+            <Select
               options={cardOptions.filter((i) => {
                 return (
                   details.country.toLowerCase() &&
@@ -158,6 +168,25 @@ export const GiftCardForm = ({
               className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
               disabled={!rate}
             />
+            <div className={styles.gitcard__form__upload}>
+              <Upload handleFile={onHandleFile} />
+              {details.file.length > 0 && (
+                <div>
+                  <p>Uploaded files</p>
+                  <ul>
+                    {details.file.map((file, index) => (
+                      <li key={index}>
+                        <span style={{ marginRight: 7 }}>{file.name}</span>
+                        <CloseCircleOutlined
+                          onClick={() => handleDelete(index)}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* <Input
@@ -179,25 +208,6 @@ export const GiftCardForm = ({
           /> */}
           {progress && <span>{progress ? `uploading ${progress}%` : ""}</span>}
           {progress && <Progress percent={progress} status="active" />}
-          <div className={styles.gitcard__form__center}>
-            <Upload handleFile={onHandleFile} />
-            {details.file.length > 0 && (
-              <div>
-                <p>Uploaded files</p>
-                <ul>
-                  {details.file.map((file, index) => (
-                    <li key={index}>
-                      <span style={{ marginRight: 7 }}>{file.name}</span>
-                      <CloseCircleOutlined
-                        onClick={() => handleDelete(index)}
-                        style={{ cursor: "pointer" }}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
 
           <div className={styles.gitcard__form__right}>
             <div className={styles.gitcard__form__info}>

@@ -142,55 +142,59 @@ const Home = ({
             </div>
           </div>
           <div className={styles.quick}>
-            <div className={styles.quick__trade}>
-              <div className={styles.quick__trade__image}>
-                <img
-                  src="https://via.placeholder.com/60.png"
-                  alt="amazon"
-                  className={styles.card__image}
-                />
+            <div className={styles.quick__holder}>
+              <div className={styles.quick__trade}>
+                <div className={styles.quick__trade__image}>
+                  <img
+                    src="https://via.placeholder.com/60.png"
+                    alt="amazon"
+                    className={styles.card__image}
+                  />
+                </div>
+                <span className={styles.quick__trade__text}>GiftCard</span>
+                <div
+                  onClick={() => history.push("/app/giftcard")}
+                  className={styles.quick__trade__btn}
+                >
+                  Trade
+                </div>
               </div>
-              <span className={styles.quick__trade__text}>GiftCard</span>
+              <div className={styles.quick__trade}>
+                <div className={styles.quick__trade__image}>
+                  <img
+                    src="https://via.placeholder.com/60.png"
+                    alt="amazon"
+                    className={styles.card__image}
+                  />
+                </div>
+                <span className={styles.quick__trade__text}>Bitcoin</span>
+                <div
+                  onClick={() => history.push("/app/btc")}
+                  className={styles.quick__trade__btn}
+                >
+                  Trade
+                </div>
+              </div>
+            </div>
+            <div className={styles.quick__holder}>
               <div
-                onClick={() => history.push("/app/giftcard")}
-                className={styles.quick__trade__btn}
+                onClick={() => setShowAirtime(true)}
+                className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
-                Trade
+                <div>
+                  <PhoneOutlined rotate={90} />
+                </div>
+                <span>Buy Airtime</span>
               </div>
-            </div>
-            <div className={styles.quick__trade}>
-              <div className={styles.quick__trade__image}>
-                <img
-                  src="https://via.placeholder.com/60.png"
-                  alt="amazon"
-                  className={styles.card__image}
-                />
-              </div>
-              <span className={styles.quick__trade__text}>Bitcoin</span>
               <div
-                onClick={() => history.push("/app/btc")}
-                className={styles.quick__trade__btn}
+                onClick={() => history.push("/app/bills")}
+                className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
-                Trade
+                <div>
+                  <img src="https://via.placeholder.com/20.png" alt="bill" />
+                </div>
+                <span>Pay a Bill</span>
               </div>
-            </div>
-            <div
-              onClick={() => setShowAirtime(true)}
-              className={`${styles.actionBtn} ${styles.quickBtn}`}
-            >
-              <div>
-                <PhoneOutlined rotate={90} />
-              </div>
-              <span>Buy Airtime</span>
-            </div>
-            <div
-              onClick={() => history.push("/app/bills")}
-              className={`${styles.actionBtn} ${styles.quickBtn}`}
-            >
-              <div>
-                <img src="https://via.placeholder.com/20.png" alt="bill" />
-              </div>
-              <span>Pay a Bill</span>
             </div>
           </div>
 
@@ -246,8 +250,6 @@ const Home = ({
                     $250.00
                   </div>
                 </div>
-              </div>
-              <div className={styles.transactionHistory__content__column}>
                 <div className={styles.transactionHistory__item}>
                   <div className={styles.transactionHistory__item__image}>
                     <img src="https://via.placeholder.com/20.png" alt="bill" />
