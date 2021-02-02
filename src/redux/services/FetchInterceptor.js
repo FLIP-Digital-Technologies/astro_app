@@ -24,7 +24,7 @@ service.interceptors.request.use(
     config.headers["Access-Control-Allow-Method"] = "*";
 
     if (jwtToken) {
-      config.headers[TOKEN_PAYLOAD_KEY] = `Bearer ${jwtToken}`;
+      config.headers[TOKEN_PAYLOAD_KEY] = `${jwtToken}`;
     }
 
     if (!jwtToken && !config.headers[PUBLIC_REQUEST_KEY]) {
