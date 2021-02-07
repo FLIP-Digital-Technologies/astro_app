@@ -1066,7 +1066,6 @@
   flex-wrap: wrap;
   flex-direction: column;
   margin: 0 auto;
-  width: 500px;
 
   &__selector {
     width: 100%;
@@ -1936,10 +1935,14 @@
   .rates {
     display: flex;
     flex-direction: column;
-    max-width: 500px;
+    width: 100vw;
     margin: 0 auto;
     align-items: center;
     min-height: 90vh;
+
+    @include md {
+      width: 500px;
+    }
 
     &__left {
       margin-top: 130px;
@@ -1982,6 +1985,7 @@
       border-radius: 5px;
       padding: 38px 26px 41px 28px;
       margin-bottom: 50px;
+      text-align: center;
 
       @include sm {
         width: 100%;
@@ -2008,6 +2012,8 @@
         height: 65px;
         display: flex;
         margin-bottom: 12px;
+        justify-content: space-around;
+        margin-bottom: 20px;
 
         @include sm {
           flex-direction: column;
@@ -2017,10 +2023,10 @@
 
         .buttonLeft {
           flex: none;
-          width: 50%;
+          width: 45%;
           margin: 0;
           height: 100%;
-          border-radius: 5px 0px 0px 5px;
+          border-radius: 5px;
           font-size: 18px;
           line-height: 22px;
 
@@ -2032,18 +2038,19 @@
           }
 
           &.rev {
-            background: #ffffff;
+            background: #c1c1c1;
             border: 1px solid #eaeaea;
-            color: #eaeaea;
+            color: #ffffff;
+            font-weight: 500;
           }
         }
 
         .buttonRight {
           flex: none;
-          width: 50%;
+          width: 45%;
           margin: 0;
           height: 100%;
-          border-radius: 0px 5px 5px 0px;
+          border-radius: 5px;
           font-size: 18px;
           line-height: 22px;
 
@@ -2054,9 +2061,10 @@
           }
 
           &.rev {
-            background: #ffffff;
+            background: #c1c1c1;
             border: 1px solid #eaeaea;
-            color: #eaeaea;
+            color: #ffffff;
+            font-weight: 500;
           }
         }
       }
