@@ -49,9 +49,9 @@ function App(props) {
       <Route path="/app/giftcard">
         <SellGiftcard />
       </Route>
-      {/* <Route path="/app/rate">
+      <Route path="/app/rate">
         <Rate />
-      </Route> */}
+      </Route>
       <Route path="/app/coin">
         <Coin />
       </Route>

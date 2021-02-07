@@ -29,10 +29,10 @@ ReactDOM.render(
         </Route>
         {/* <Route path="/about">
           <About />
-        </Route>
+        </Route> */}
         <Route path="/rates">
           <AboutRates />
-        </Route> */}
+        </Route>
         <Route path="/signin">
           <SignIn />
         </Route>

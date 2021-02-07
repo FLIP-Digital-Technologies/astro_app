@@ -29,12 +29,12 @@ const AboutRates = () => {
     setType(value);
   };
   return (
-    <LandingLayout form="white">
+    <LandingLayout>
       <div className={styles.landing}>
         <div className={styles.rates}>
           <div className={styles.rates__left}>
-            <div className={styles.title}>Here are our rates</div>
-            <div className={styles.sub}>Absolutely the best there is</div>
+            <div className={styles.title}>Our rate</div>
+            <div className={styles.sub}>Absolutely the best</div>
           </div>
 
           <div className={styles.rates__right}>
@@ -74,7 +74,7 @@ const AboutRates = () => {
             <Button className={styles.button} text="Check Rates" form="full" />
           </div>
         </div>
-        <div className={`${styles.landing__steps} ${styles.rev} ${styles.two}`}>
+        {/* <div className={`${styles.landing__steps} ${styles.rev} ${styles.two}`}>
           <div className={styles.title}>How we are different</div>
           <div className={styles.stepHolder}>
             <div className={styles.step}>
@@ -116,6 +116,7 @@ const AboutRates = () => {
             </div>
           </div>
         </div>
+       */}
       </div>
     </LandingLayout>
   );

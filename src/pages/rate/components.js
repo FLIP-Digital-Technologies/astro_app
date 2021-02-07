@@ -145,13 +145,13 @@ export const RateSelector = ({
       </div>
       {isBuy ? (
         <div className={styles.rate__selector__content}>
-          <Input
+          <Select
             labelClass={styles.rate__selector__content__label}
             className={styles.rate__selector__content__input}
-            label="Buy bitcoin"
-            Dummy={{ Icon: BitcoinInput, text: "Bitcoin" }}
+            label="Select commodity"
+            options={[]}
           />
-          <Input
+          {/* <Input
             labelClass={styles.rate__selector__content__label}
             className={styles.rate__selector__content__input}
             label="Amount in BTC"
@@ -161,7 +161,7 @@ export const RateSelector = ({
             // hint={`Current rate ${rates && rates.tickers && Money(rates.tickers.btcusd.buy, "USD")} / BTC`}
             hintClass={styles.largeMarginHint}
             placeholder="e.g 0.000011"
-          />
+          /> */}
           <Input
             labelClass={styles.rate__selector__content__label}
             className={styles.rate__selector__content__input}

@@ -1,15 +1,18 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { DashboardLayout } from "../../components/layout";
 import { RateDetails, RateSelector } from "./components";
 import styles from "../styles.module.scss";
-import { getBTCCurrentMarketTicker, initialBTCBuyTransaction } from "../../redux/actions/btc";
+import {
+  getBTCCurrentMarketTicker,
+  initialBTCBuyTransaction,
+} from "../../redux/actions/btc";
 import { getGiftCardCodes } from "../../redux/actions/giftCard";
 import { sortData } from "../../utils/helper";
 
-const Rate = ({getBTCRates, balance, btcRates, giftCardList, getCards}) => {
+const Rate = ({ getBTCRates, balance, btcRates, giftCardList, getCards }) => {
   let b = giftCardList;
-  let list = sortData(b).map(i => i[0]);
+  let list = sortData(b).map((i) => i[0]);
   const [isBuy, setIsBuy] = useState(true);
   const [meta, setMeta] = useState(null);
   const [state, setState] = useState({
@@ -20,7 +23,7 @@ const Rate = ({getBTCRates, balance, btcRates, giftCardList, getCards}) => {
     cardType: "",
     asset: "",
     amount: 0,
-    total: 0
+    total: 0,
   });
   React.useEffect(() => {
     getBTCRates();
@@ -29,8 +32,12 @@ const Rate = ({getBTCRates, balance, btcRates, giftCardList, getCards}) => {
   return (
     <DashboardLayout>
       <div className={styles.rate}>
-        <RateSelector balance={balance} rates={btcRates} {...{state, setState, isBuy, setIsBuy, list, b, meta, setMeta}} />
-        <RateDetails  rates={btcRates} {...{state, setState,isBuy, setIsBuy, meta, setMeta}} />
+        <RateSelector
+          balance={balance}
+          rates={btcRates}
+          {...{ state, setState, isBuy, setIsBuy, list, b, meta, setMeta }}
+        />
+        {/* <RateDetails  rates={btcRates} {...{state, setState,isBuy, setIsBuy, meta, setMeta}} /> */}
       </div>
     </DashboardLayout>
   );
@@ -45,10 +52,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getBTCRates: () => {
-    dispatch(getBTCCurrentMarketTicker())
+    dispatch(getBTCCurrentMarketTicker());
   },
   buyCoins: (data) => {
-    dispatch(initialBTCBuyTransaction(data))
+    dispatch(initialBTCBuyTransaction(data));
   },
   getCards: (data) => {
     dispatch(getGiftCardCodes(data));
