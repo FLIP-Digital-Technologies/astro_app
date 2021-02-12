@@ -85,7 +85,7 @@ const Transactions = ({
   }
   return (
     <DashboardLayout>
-      <span className={styles.gitcard__top__title}>Bitcoin</span>
+      <span className={styles.gitcard__top__title}>Transactions</span>
       {viewDepositTrans && (
         <TransactionModal
           title={"Deposit"}
