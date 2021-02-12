@@ -1,20 +1,23 @@
-import fetch from './FetchInterceptor'
+import fetch from "./FetchInterceptor";
 
-const BTCTransactionServices = {}
+const BTCTransactionServices = {};
 
 BTCTransactionServices.getWalletDetails = function (params) {
   return fetch({
     url: `/api/wallets/${params.userId}`,
-    method: 'get'
-  })
-}
+    method: "get",
+  });
+};
 
 BTCTransactionServices.getCurrentMarketTicker = function () {
   return fetch({
-    url: '/api/transactions/btc/tickers',
-    method: 'get'
-  })
-}
+    url: "/api/transactions/btc/tickers",
+    method: "get",
+    headers: {
+      "public-request": "true",
+    },
+  });
+};
 
 BTCTransactionServices.initialBuyBTC = function (params, payload) {
   // {
@@ -23,12 +26,13 @@ BTCTransactionServices.initialBuyBTC = function (params, payload) {
   // }
   let data = {};
   data.amount = payload.amount;
+  data.referenceCurrency = payload.referenceCurrency;
   return fetch({
     url: `/api/transactions/btc/${params.userId}/buy`,
-    method: 'post',
+    method: "post",
     data: data,
-  })
-}
+  });
+};
 
 BTCTransactionServices.initialSellBTC = function (params, payload) {
   // {
@@ -37,14 +41,18 @@ BTCTransactionServices.initialSellBTC = function (params, payload) {
   // }
   let data = {};
   data.amount = payload.amount;
+  data.referenceCurrency = payload.referenceCurrency;
   return fetch({
     url: `/api/transactions/btc/${params.userId}/sell`,
-    method: 'post',
+    method: "post",
     data: data,
-  })
-}
+  });
+};
 
-BTCTransactionServices.initialSendBTCToExternalWallet = function (params, payload) {
+BTCTransactionServices.initialSendBTCToExternalWallet = function (
+  params,
+  payload
+) {
   // {
   //   "address": "mv4rnyY3Su5gjcDNzbMLKBQkBicCtHUtFB",
   //   "amount": 0.0001
@@ -53,28 +61,35 @@ BTCTransactionServices.initialSendBTCToExternalWallet = function (params, payloa
   data.address = payload.address;
   data.amount = payload.amount;
   return fetch({
-    url: `/api/transactions/btc/${params.userId}/sell`,
-    method: 'post',
+    url: `/api/transactions/btc/${params.userId}/send`,
+    method: "post",
     data: data,
-  })
-}
+  });
+};
 
 BTCTransactionServices.receiveBTC = function (params) {
   return fetch({
     url: `/api/transactions/btc/${params.userId}/receive`,
-    method: 'get'
-  })
-}
+    method: "get",
+  });
+};
 
 BTCTransactionServices.getTransactionHistory = function (params) {
   return fetch({
     url: `/api/transactions/btc/${params.userId}/history`,
-    method: 'get',
-    // params: {
-    //   skip: params.skip | 0,
-    //   limit: params.limit | 10
-    // }
-  })
-}
+    method: "get",
+    params: {
+      skip: params.skip,
+      limit: params.limit,
+    },
+  });
+};
+
+BTCTransactionServices.getBTCTransactionDetails = function (params) {
+  return fetch({
+    url: `/api/transactions/btc/${params.userId}/${params.transactionId}`,
+    method: "get",
+  });
+};
 
 export default BTCTransactionServices;

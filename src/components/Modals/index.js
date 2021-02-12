@@ -20,7 +20,7 @@ function GoBack() {
   );
 }
 
-function GoBackCon({onClick}) {
+function GoBackCon({ onClick }) {
   return (
     <div style={{ display: "flex", justifyContent: "flex-start" }}>
       <div onClick={onClick} style={{ padding: "10px 0px", cursor: "pointer" }}>
@@ -30,7 +30,16 @@ function GoBackCon({onClick}) {
   );
 }
 
-const ModalWrapper = ({ style, children, className, showClose, showCancel, isModalVisible, setIsModalVisible, showCloseAction= () => setIsModalVisible(false) }) => {
+const ModalWrapper = ({
+  style,
+  children,
+  className,
+  showClose,
+  showCancel,
+  isModalVisible,
+  setIsModalVisible,
+  showCloseAction = () => setIsModalVisible(false),
+}) => {
   // const [isModalVisible, setIsModalVisible] = useState(true);
 
   // const showModal = () => {
@@ -56,10 +65,7 @@ const ModalWrapper = ({ style, children, className, showClose, showCancel, isMod
         className={className}
       >
         {showCancel && (
-          <div
-            onClick={() => setIsModalVisible(false)}
-            className={styles.cancel}
-          >
+          <div onClick={handleCancel} className={styles.cancel}>
             <Cancel />
           </div>
         )}

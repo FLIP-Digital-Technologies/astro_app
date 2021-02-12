@@ -3,17 +3,17 @@ import { Link } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import "./style.css";
-import {
-  MidRocket,
-  MidChart,
-  MidMoney,
-  MidCards,
-  Exchange,
-  WorldSmall,
-  RocketTiny,
-  StarSmall,
-  MidPhone,
-} from "../../assets/svg";
+// import {
+//   MidRocket,
+//   MidChart,
+//   MidMoney,
+//   MidCards,
+//   Exchange,
+//   WorldSmall,
+//   RocketTiny,
+//   StarSmall,
+//   MidPhone,
+// } from "../../assets/svg";
 import Button from "../../components/button";
 import styles from "../styles.module.scss";
 

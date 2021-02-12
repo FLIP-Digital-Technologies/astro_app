@@ -5,19 +5,23 @@ import {
   Home,
   Coin,
   GiftCard,
-  Wallet,
+  // Wallet,
   Transactions,
-  RateIcon,
+  // RateIcon,
   ArrowLeft,
   Settings,
   Logout,
 } from "../../../assets/svg";
+import {
+  TransactionOutlined,
+} from '@ant-design/icons';
 
 export const Routes = {
   BTC: "/app/btc",
   giftcard: "/app/giftcard",
   airtime: "/app/airtime",
   bills: "/app/bills",
+  transactions: "/app/transactions",
   settings: "/app/settings",
   onBoarding: "/app/onboarding",
   home: "/app",
@@ -28,6 +32,7 @@ export const navigation = [
   { Icon: Home, Name: "Home", route: Routes.home },
   { Icon: GiftCard, Name: "Cards", route: Routes.giftcard },
   { Icon: Coin, Name: "Bitcoin", route: Routes.BTC },
+  { Icon: TransactionOutlined, Name: "Transactions", route: Routes.transactions },
   { Icon: Transactions, Name: "Bills", route: Routes.bills },
   { Icon: Settings, Name: "Setting", route: Routes.settings },
   { Icon: Logout, Name: "Log out", route: "" },

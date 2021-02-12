@@ -17,6 +17,9 @@ const Input = ({
   hintClass,
   errorMessage,
   type = "text",
+  minlength,
+  maxlength,
+  style = {},
   ...prop
 }) => {
   const textInput = useRef(null);
@@ -63,8 +66,11 @@ const Input = ({
           name={name}
           ref={textInput}
           type={type}
+          minLength={minlength}
+          maxLength={maxlength}
+          style={style}
           {...prop}
-          placeholder={placeholder ? placeholder : "placeholder"}
+          placeholder={placeholder ? placeholder : ""}
           className={`${
             value?.length < 1
               ? `${styles.input__input_placeholder}  ${styles.input__input}`

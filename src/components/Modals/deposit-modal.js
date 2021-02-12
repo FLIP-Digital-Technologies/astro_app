@@ -12,12 +12,13 @@ const DepositModal = ({
   depositNGN,
   depositMoneyDetails,
   depositMoney,
+  loading,
 }) => {
   const [amount, setAmount] = useState(0);
   const [openModal, setOpenModal] = useState(false);
   const handleDeposit = () => {
     depositNGN({ amount });
-    setOpenModal(true)
+    setOpenModal(true);
   };
   // useEffect(() => {
   //   if(depositMoney && !openModal){
@@ -29,16 +30,24 @@ const DepositModal = ({
       {openModal && (
         <ModalWrapper
           className={styles.scanSell__body}
-          style={{height: 800, width: 300}}
+          style={{ height: 800, width: 300 }}
           // showClose="no"
           // showCancel
           isModalVisible={depositMoney ? openModal : false}
-          setIsModalVisible={() => {setOpenModal(false);setIsModalVisible(false);}}
+          setIsModalVisible={() => {
+            setOpenModal(false);
+            setIsModalVisible(false);
+          }}
         >
           <iframe
             id="frame"
             height="800"
-            style={{border: "none", boxShadow: "none", width: "100%", paddingTop: 40}}
+            style={{
+              border: "none",
+              boxShadow: "none",
+              width: "100%",
+              paddingTop: 40,
+            }}
             title="payment"
             src={depositMoneyDetails && depositMoneyDetails.fw_paymentLink}
           ></iframe>
@@ -50,7 +59,6 @@ const DepositModal = ({
         className={styles.slimModal}
       >
         <div className={styles.title}>Make a deposit</div>
-        {console.log(isModalVisible, openModal)}
         <Input
           className={styles.input}
           label="Amount"
@@ -65,7 +73,7 @@ const DepositModal = ({
           text="Proceed to make payment"
           form="full"
           onClick={() => handleDeposit()}
-          disabled={!amount}
+          disabled={!amount || loading}
         />
       </ModalWrapper>
     </React.Fragment>
@@ -73,6 +81,7 @@ const DepositModal = ({
 };
 
 const mapStateToProps = (state) => ({
+  loading: state.payment.loading,
   depositMoney: state.payment.depositMoney,
   depositMoneyDetails: state.payment.depositMoneyDetails,
 });

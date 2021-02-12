@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { DashboardLayout } from "../../components/layout";
-import { RateDetails, RateSelector } from "./components";
+import { RateSelector } from "./components";
 import styles from "../styles.module.scss";
 import {
   getBTCCurrentMarketTicker,

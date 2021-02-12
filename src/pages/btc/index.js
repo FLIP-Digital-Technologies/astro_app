@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import Button from "../../components/button";
-import Input from "../../components/input";
 import { DashboardLayout } from "../../components/layout";
 import {
   ArrowLeftOutlined,
-  BarChartOutlined,
   DownloadOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-import { BitcoinInput } from "../../assets/svg";
 import {
   SellSection,
   BuySection,
@@ -20,26 +16,49 @@ import styles from "../styles.module.scss";
 import {
   getBTCCurrentMarketTicker,
   initialBTCBuyTransaction,
+  receiveBTCIntoWallet,
+  initialBTCSellTransaction,
+  initialBTCSellToExternalWalletTransaction
 } from "../../redux/actions/btc";
 
-const BuyCoin = ({ getBTCRates, balance, btcRates, buyCoins, buyBTC }) => {
+const BuyCoin = ({
+  getBTCRates,
+  balance,
+  btcRates,
+  buyCoins,
+  buyBTC,
+  btcWalletAddress = "",
+  receiveBTC,
+  loading,
+  sellCoins,
+  sellBTC,
+  sellCoinsExternal,
+  sellBTCExternal,
+}) => {
   const [state, setState] = useState({
     btc: 0,
     usd: 0,
     ngn: 0,
+    ghs: 0,
   });
   const [mode, setMode] = useState("buy");
   React.useEffect(() => {
+    receiveBTC();
     getBTCRates();
-  }, [getBTCRates]);
+  }, [getBTCRates, receiveBTC]);
   return (
     <DashboardLayout>
       <span className={styles.gitcard__top__title}>Bitcoin</span>
+      <br/>
+      <br/>
       <div className={styles.sellPage}>
         <div className={styles.sellPage__left}>
           <div className={styles.sellPage__select}>
             <div
-              onClick={() => setMode("buy")}
+              onClick={() => {
+                setMode("buy");
+                setState({ btc: 0, usd: 0, ngn: 0, ghs: 0 });
+              }}
               className={`${styles.actionBtn} ${styles.btcButton} ${
                 mode === "buy" && styles.active
               }`}
@@ -50,7 +69,10 @@ const BuyCoin = ({ getBTCRates, balance, btcRates, buyCoins, buyBTC }) => {
               <span>Buy</span>
             </div>
             <div
-              onClick={() => setMode("sell")}
+              onClick={() => {
+                setMode("sell");
+                setState({ btc: 0, usd: 0, ngn: 0, ghs: 0 });
+              }}
               className={`${styles.actionBtn} ${styles.btcButton} ${
                 mode === "sell" && styles.active
               }`}
@@ -62,7 +84,10 @@ const BuyCoin = ({ getBTCRates, balance, btcRates, buyCoins, buyBTC }) => {
             </div>
 
             <div
-              onClick={() => setMode("recieve")}
+              onClick={() => {
+                setMode("recieve");
+                setState({ btc: 0, usd: 0, ngn: 0, ghs: 0 });
+              }}
               className={`${styles.actionBtn} ${styles.btcButton} ${
                 mode === "recieve" && styles.active
               }`}
@@ -73,7 +98,10 @@ const BuyCoin = ({ getBTCRates, balance, btcRates, buyCoins, buyBTC }) => {
               <span>Recieve</span>
             </div>
             <div
-              onClick={() => setMode("send")}
+              onClick={() => {
+                setMode("send");
+                setState({ btc: 0, usd: 0, ngn: 0, ghs: 0 });
+              }}
               className={`${styles.actionBtn} ${styles.btcButton} ${
                 mode === "send" && styles.active
               }`}
@@ -85,13 +113,12 @@ const BuyCoin = ({ getBTCRates, balance, btcRates, buyCoins, buyBTC }) => {
             </div>
           </div>
 
-          <div className={styles.sellPage__rate}></div>
           <div className={styles.sellPage__top}>
             {mode === "buy" && (
               <BuySection
                 balance={balance}
                 rates={btcRates}
-                {...{ state, setState }}
+                {...{ state, setState, buyCoins, buyBTC, loading }}
               />
             )}
 
@@ -99,58 +126,31 @@ const BuyCoin = ({ getBTCRates, balance, btcRates, buyCoins, buyBTC }) => {
               <SellSection
                 balance={balance}
                 rates={btcRates}
-                {...{ state, setState }}
+                {...{ state, setState, sellCoins, sellBTC, loading }}
               />
             )}
             {mode === "send" && (
               <SendSection
                 balance={balance}
                 rates={btcRates}
-                {...{ state, setState }}
+                {...{
+                  state,
+                  setState,
+                  sellCoinsExternal,
+                  sellBTCExternal,
+                  loading,
+                }}
               />
             )}
 
             {mode === "recieve" && (
               <RecieveSection
-                balance={balance}
-                rates={btcRates}
-                {...{ state, setState }}
+                btcWalletAddress={btcWalletAddress}
+                btcRates={btcRates}
               />
             )}
           </div>
         </div>
-        {["buy", "sell", "send"].includes(mode) && (
-          <div className={styles.sellPage__right}>
-            <Input
-              labelClass={styles.largeMarginLabel}
-              label="Amount in USD"
-              value={state.usd}
-              name="usd"
-              placeholder="e.g $1"
-              hint="@150/usd"
-            />
-            <Input
-              labelClass={styles.largeMarginLabel}
-              label="Amount in NGN"
-              value={state.ngn}
-              name="ngn"
-              placeholder="₦5000"
-              hint="@500/usd"
-            />
-
-            <Input
-              labelClass={styles.largeMarginLabel}
-              label="Amount in GHC"
-              value={state.ngn}
-              name="ngn"
-              placeholder="₦5000"
-              hint="@500/usd"
-            />
-            <Button className={styles.sellPage__btn} form="full">
-              {mode}
-            </Button>
-          </div>
-        )}
       </div>
     </DashboardLayout>
   );
@@ -161,14 +161,27 @@ const mapStateToProps = (state) => ({
   btcTrans: state.btc.latestBTCTransaction,
   btcRates: state.btc.btcTicker,
   buyBTC: state.btc.buyBTC,
+  btcWalletAddress: state.btc.btcWalletAddress,
+  loading: state.btc.loading,
+  sellBTC: state.btc.sellBTC,
+  sellBTCExternal: state.btc.sellBTCExternal,
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  receiveBTC: () => {
+    dispatch(receiveBTCIntoWallet());
+  },
   getBTCRates: () => {
     dispatch(getBTCCurrentMarketTicker());
   },
   buyCoins: (data) => {
     dispatch(initialBTCBuyTransaction(data));
+  },
+  sellCoins: (data) => {
+    dispatch(initialBTCSellTransaction(data));
+  },
+  sellCoinsExternal: (data) => {
+    dispatch(initialBTCSellToExternalWalletTransaction(data));
   },
 });
 

@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import Button from "../../components/button";
 import { DashboardLayout } from "../../components/layout";
 import { ArrowLeftOutlined, BarChartOutlined } from "@ant-design/icons";
-import { BitcoinInput } from "../../assets/svg";
-import { SellSection, DetailsSection } from "./components";
+// import { BitcoinInput } from "../../assets/svg";
+import { SellSection } from "./components";
 import styles from "../styles.module.scss";
 import {
   getBTCCurrentMarketTicker,

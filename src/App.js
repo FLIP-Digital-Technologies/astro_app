@@ -8,14 +8,14 @@ import { getBankListByCountry } from "./redux/actions/bank";
 import {
   Home,
   SellGiftcard,
-  Wallet,
+  // Wallet,
   Transactions,
   Rate,
   OnBoarding,
   Coin,
   Profile,
   BTC,
-  Airtime,
+  // Airtime,
   Bills,
   Settings,
 } from "./pages";
@@ -30,7 +30,7 @@ function App(props) {
   useEffect(() => {
     props.getCurrentUser();
     props.getUserBankDetails();
-    props.getBankList();
+    // props.getBankList();
     props.getBalance();
     props.getLatestBTCTrans({ skip: 0, limit: 5 });
     props.getLatestGiftCardTrans({ skip: 0, limit: 5 });
@@ -58,18 +58,12 @@ function App(props) {
       <Route path="/app/btc">
         <BTC />
       </Route>
-      {/* <Route path="/app/wallet">
-        <Wallet />
-      </Route> */}
-      {/* <Route path="/app/transactions">
+      <Route path="/app/transactions">
         <Transactions />
-      </Route> */}
+      </Route>
       <Route path="/app/profile">
         <Profile />
       </Route>
-      {/* <Route path="/app/airtime">
-        <Airtime />
-      </Route> */}
       <Route path="/app/bills">
         <Bills />
       </Route>

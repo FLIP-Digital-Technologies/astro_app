@@ -1,6 +1,6 @@
-import fetch from './FetchInterceptor'
+import fetch from "./FetchInterceptor";
 
-const authService = {}
+const authService = {};
 
 authService.createAccount = function (payload) {
   // {
@@ -17,14 +17,14 @@ authService.createAccount = function (payload) {
   data.country = payload.country || "NGN";
   data.password = payload.password;
   return fetch({
-    url: '/api/user-account',
-    method: 'post',
+    url: "/api/user-account",
+    method: "post",
     data: data,
     headers: {
       "public-request": "true",
     },
-  })
-}
+  });
+};
 
 authService.loginAccount = function (payload) {
   // {
@@ -35,14 +35,14 @@ authService.loginAccount = function (payload) {
   data.email = payload.email;
   data.password = payload.password;
   return fetch({
-    url: '/api/log-in',
-    method: 'post',
+    url: "/api/log-in",
+    method: "post",
     data: data,
     headers: {
       "public-request": "true",
     },
-  })
-}
+  });
+};
 
 authService.checkEmailAvailability = function (payload) {
   // {
@@ -51,14 +51,14 @@ authService.checkEmailAvailability = function (payload) {
   let data = {};
   data.email = payload.email;
   return fetch({
-    url: '/api/user-account/validate-email',
-    method: 'post',
+    url: "/api/user-account/validate-email",
+    method: "post",
     data: data,
     headers: {
       "public-request": "true",
     },
-  })
-}
+  });
+};
 
 authService.verifyEmail = function (params, payload) {
   // {
@@ -68,17 +68,17 @@ authService.verifyEmail = function (params, payload) {
   data.otpCode = payload.otpCode;
   return fetch({
     url: `/api/user-account/${params.userId}/verify-email`,
-    method: 'post',
-    data: data
-  })
-}
+    method: "post",
+    data: data,
+  });
+};
 
 authService.resendVerificationCode = function (params) {
   return fetch({
     url: `/api/user-account/${params.userId}/resend-email-otp`,
-    method: 'post',
-  })
-}
+    method: "post",
+  });
+};
 
 authService.changePassword = function (params, payload) {
   // {
@@ -90,17 +90,17 @@ authService.changePassword = function (params, payload) {
   data.newPassword = payload.newPassword;
   return fetch({
     url: `/api/user-account/${params.userId}/password`,
-    method: 'put',
-    data: data
-  })
-}
+    method: "put",
+    data: data,
+  });
+};
 
 authService.resetPassword = function (params) {
   return fetch({
     url: `/api/user-account/${params.userId}/reset-password`,
-    method: 'post',
-  })
-}
+    method: "post",
+  });
+};
 
 authService.completePasswordReset = function (params, payload) {
   // {
@@ -112,10 +112,9 @@ authService.completePasswordReset = function (params, payload) {
   data.newPassword = payload.newPassword;
   return fetch({
     url: `/api/user-account/${params.userId}/complete-password-reset`,
-    method: 'put',
-    data: data
-  })
-}
+    method: "put",
+    data: data,
+  });
+};
 
-
-export default authService
+export default authService;

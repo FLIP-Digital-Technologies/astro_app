@@ -2,54 +2,78 @@ import * as actionTypes from "../constants";
 import bankService from "../services/BankService";
 // import { history } from "../store";
 
+const GetBankBranchByID = (data) => async (dispatch) => {
+  dispatch({
+    type: actionTypes.GET_BANKS_BRANCH_PENDING,
+  });
 
-const GetBankListByCountry = (data = {country: 'NG'}) => async dispatch => {
+  await bankService
+    .getCountryBranchList(data)
+    .then((response) => {
+      dispatch({
+        type: actionTypes.GET_BANKS_BRANCH_SUCCESS,
+        payload: response.data.bankBranches,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.GET_BANKS_BRANCH_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const getBankBranchByID = (data) => (dispatch) => {
+  dispatch(GetBankBranchByID(data));
+};
+
+const GetBankListByCountry = (data = { country: "NG" }) => async (dispatch) => {
   dispatch({
     type: actionTypes.GET_BANKS_BY_COUNTRY_PENDING,
-  })
+  });
 
   await bankService
     .getCountryBankList(data)
     .then((response) => {
       dispatch({
         type: actionTypes.GET_BANKS_BY_COUNTRY_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.GET_BANKS_BY_COUNTRY_FAILED,
-        payload: err
+        payload: err,
       });
     });
-}
+};
 
-export const getBankListByCountry = data => dispatch => {
+export const getBankListByCountry = (data) => (dispatch) => {
   dispatch(GetBankListByCountry(data));
 };
 
-const VerifyBankAccountDetails = data => async dispatch => {
+const VerifyBankAccountDetails = (data) => async (dispatch) => {
   dispatch({
     type: actionTypes.VERIFY_BANK_ACCOUNT_DETAILS_PENDING,
-  })
+  });
 
   await bankService
     .validateBankAccountDetails(data)
     .then((response) => {
       dispatch({
         type: actionTypes.VERIFY_BANK_ACCOUNT_DETAILS_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.VERIFY_BANK_ACCOUNT_DETAILS_FAILED,
-        payload: err
+        payload: err,
       });
     });
-    return;
-}
+  return;
+};
 
-export const verifyBankAccountDetails = data => dispatch => {
+export const verifyBankAccountDetails = (data) => (dispatch) => {
   dispatch(VerifyBankAccountDetails(data));
 };

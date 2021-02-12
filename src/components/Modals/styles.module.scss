@@ -30,7 +30,7 @@
 
 .withdrawInitial {
   max-width: 500px;
-  @media (max-width: 400px){
+  @media (max-width: 500px) {
     max-width: 400px;
     width: 300px !important;
   }
@@ -61,7 +61,7 @@
     color: #000000;
     cursor: pointer;
 
-    @media (max-width: 400px){
+    @media (max-width: 400px) {
       min-width: 245px;
       font-size: 14px;
     }
@@ -88,7 +88,7 @@
       justify-content: center;
       margin-bottom: 15px;
 
-      &.declined {
+      &.declined, &.DECLINED, &.CANCELLED, &.FAILED {
         background: #fff0f4;
 
         svg {
@@ -98,7 +98,7 @@
         }
       }
 
-      &.pending {
+      &.pending, &.SUBMITTED, &.PENDING {
         background: #fef6e0;
 
         svg {
@@ -108,7 +108,7 @@
         }
       }
 
-      &.success {
+      &.success, &.SUCCESSFUL, &DONE {
         background: #ecfbec;
 
         svg {
@@ -138,17 +138,17 @@
     line-height: 14px;
     color: #012169;
 
-    &.pending {
+    &.pending, &.SUBMITTED, &.PENDING {
       color: #f4bd51;
       text-transform: capitalize;
     }
 
-    &.success {
+    &.success, &.SUCCESSFUL, &DONE {
       color: #6fd26e;
       text-transform: capitalize;
     }
 
-    &.declined {
+    &.declined, &.DECLINED, &.CANCELLED, &.FAILED {
       color: #eb5757;
       text-transform: capitalize;
     }
@@ -270,10 +270,25 @@
       line-height: 14px;
       font-weight: 400;
 
-      &.pending {
+      &.pending, &.SUBMITTED, &.PENDING {
         color: #f4bd51;
         background: #fef6e0;
         border: 1px solid #f4bd51;
+        text-transform: capitalize;
+      }
+
+      &.success, &.SUCCESSFUL, &.DONE, &.APPROVED {
+        color: #6fd26e;
+        background: #e7f8e7;
+        border: 1px solid #6fd26e;
+        text-transform: capitalize;
+      }
+
+      &.declined, &.DECLINED, &.CANCELLED, &.FAILED {
+        color: #eb5757;
+        background: #eee9e9;
+        border: 1px solid #eb5757;
+        text-transform: capitalize;
       }
     }
   }
@@ -284,13 +299,15 @@
       line-height: 22px;
       color: #000000;
       font-weight: 400;
-      margin-bottom: 35px;
+      margin-bottom: 20px;
     }
 
     &__holder {
       display: flex;
       align-items: center;
-      margin-bottom: 35px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 20px;
     }
 
     &__holder:last-child {
@@ -301,17 +318,21 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      min-width: 200px;
+      padding-bottom: 20px;
 
       span:first-child {
         font-size: 15px;
         line-height: 18px;
         margin-bottom: 5px;
+        font-weight: 700;
       }
 
       span {
         font-size: 12px;
         line-height: 14px;
         color: #777777;
+        word-wrap: normal;
       }
     }
 

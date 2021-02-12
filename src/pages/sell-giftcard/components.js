@@ -29,11 +29,13 @@ export const GiftCardForm = ({
     number: 1,
     total: 0,
     file: [],
+    wallet: "ng"
   };
 
   const [details, setDetails] = useState(INITIAL_STATE);
   const [rate, setRate] = useState({});
   const [progress, setProgress] = useState();
+  const [open, setOpen] = useState(false);
 
   const onCountryChange = (value) => {
     setDetails((details) => ({ ...details, country: value, cardType: "" }));
@@ -68,7 +70,9 @@ export const GiftCardForm = ({
     setDetails((details) => ({ ...details, file: [...details.file, file] }));
   };
 
-  const onWalletChange = () => {};
+  const onWalletChange = (value) => {
+    setDetails((details) => ({ ...details, wallet: value }));
+  };
 
   const handleDelete = (index) => {
     let file = details.file;
@@ -92,6 +96,7 @@ export const GiftCardForm = ({
       )
     );
     const payload = {
+      referenceCurrency: details && details.wallet,
       imageURLs: resFile,
       amount: details.amount,
       quantity: details.number,
@@ -100,11 +105,12 @@ export const GiftCardForm = ({
       }`,
     };
     await SellGiftCard(payload);
+    setOpen(true);
   };
 
   return (
     <div className={styles.gitcard__form}>
-      {soldGiftCard && (
+      {open && soldGiftCard && (
         <SuccessfulModal title={"Sold"} onClick={() => history.push("/app")} />
       )}
       <div className={styles.gitcard__form__holder}>
@@ -118,57 +124,85 @@ export const GiftCardForm = ({
 
       <div className={styles.gitcard__form__body}>
         <div className={styles.gitcard__form__body__holder}>
-          {/* <Select
-            options={countryOptions.filter((i) => {
-              return (
-                active[active.name].filter((ki) =>
-                  i.value.toLowerCase().includes(ki.name)
-                ).length > 0
-              );
-            })}
-            value={details.country}
-            onSelect={onCountryChange}
-            className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
-            label="Select Country"
-            labelClass={styles.label}
-          /> */}
           <div className={styles.gitcard__form__left}>
-            <Select
-              options={[]}
-              value={details.wallet}
-              onSelect={onWalletChange}
-              className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
-              label="Select wallet to credit"
-              labelClass={styles.label}
-            />
-            <Select
-              options={cardOptions.filter((i) => {
-                return (
-                  details.country.toLowerCase() &&
-                  active[details.country.toLowerCase()].filter((ki) =>
-                    i.value.toLowerCase().includes(ki[0])
-                  ).length > 0
-                );
-              })}
-              value={details.cardType}
-              onSelect={onCardTypeChange}
-              className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
-              label="Card Type"
-              labelClass={styles.label}
-            />
-            <Input
-              label="Card value"
-              placeholder="Enter card value"
-              value={details.amount}
-              type="number"
-              min={rate && rate.min}
-              max={rate && rate.max}
-              onChange={(e) => onAmountChange(e.target.value)}
-              labelClass={styles.label}
-              className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
-              disabled={!rate}
-            />
-            <div className={styles.gitcard__form__upload}>
+            <div style={{marginBottom: 20}}>
+              <Select
+                options={[
+                  { render: "NGN wallet", value: "NGN" },
+                  { render: "GHS wallet", value: "GHS" },
+                ]}
+                value={details.wallet}
+                onSelect={onWalletChange}
+                className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
+                label="Select wallet to credit"
+                labelClass={styles.label}
+              />
+            </div>
+            <br/>
+            <div style={{marginBottom: 20}}>
+              <Select
+                options={countryOptions.filter((i) => {
+                  return (
+                    active[active.name].filter((ki) =>
+                      i.value.toLowerCase().includes(ki.name)
+                    ).length > 0
+                  );
+                })}
+                value={details.country}
+                onSelect={onCountryChange}
+                className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
+                label="Select Country"
+                labelClass={styles.label}
+              />
+            </div>
+            <br/>
+            <div style={{marginBottom: 20}}>
+              <Select
+                options={cardOptions.filter((i) => {
+                  return (
+                    details.country.toLowerCase() &&
+                    active[details.country.toLowerCase()].filter((ki) =>
+                      i.value.toLowerCase().includes(ki[0])
+                    ).length > 0
+                  );
+                })}
+                value={details.cardType}
+                onSelect={onCardTypeChange}
+                className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
+                label="Card Type"
+                labelClass={styles.label}
+              />
+            </div>
+            <br/>
+            <div>
+              <Input
+                label="Card value"
+                placeholder="Enter card value"
+                value={details.amount}
+                type="number"
+                min={rate && rate.min}
+                max={rate && rate.max}
+                onChange={(e) => onAmountChange(e.target.value)}
+                labelClass={styles.label}
+                className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
+                disabled={!rate}
+              />
+            </div>
+            <br/>
+            <div>
+              <Input
+                className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
+                value={details.number}
+                label="Quantity"
+                placeholder="minimum is 1"
+                labelClass={styles.label}
+                onChange={onNumberChange}
+                type="number"
+              />
+            </div>
+              <div className={styles.gitcard__form__upload}>
+              {progress && <span>{progress ? `uploading ${progress}%` : ""}</span>}
+              {progress && <Progress percent={progress} status="active" />}
               <Upload handleFile={onHandleFile} />
               {details.file.length > 0 && (
                 <div>
@@ -189,35 +223,15 @@ export const GiftCardForm = ({
             </div>
           </div>
 
-          {/* <Input
-            className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
-            value={details.number}
-            label="Quantity"
-            placeholder="minimum is 1"
-            labelClass={styles.label}
-            onChange={onNumberChange}
-            type="number"
-          /> */}
-          {/* <Input
-            label="Total ₦"
-            value={details.total}
-            readOnly
-            disabled
-            labelClass={styles.label}
-            className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
-          /> */}
-          {progress && <span>{progress ? `uploading ${progress}%` : ""}</span>}
-          {progress && <Progress percent={progress} status="active" />}
-
           <div className={styles.gitcard__form__right}>
             <div className={styles.gitcard__form__info}>
-              <span>Info</span>
+              <h3>Info</h3>
               <div>
-                <spna>Rate</spna> <span>0.00$</span>
+                <strong>Rate</strong>&emsp;<span>{rate && rate.rate && rate.rate[details.wallet]} {details && details.wallet}</span>
               </div>
               <div>
-                <span>Value</span>
-                <span>NGN0.00</span>
+                <strong>Value</strong>&emsp;
+                <span>{details && details.wallet} {details.total}</span>
               </div>
             </div>
             <Button

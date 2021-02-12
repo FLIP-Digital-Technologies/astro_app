@@ -254,7 +254,7 @@
   }
 
   &__left {
-    width: clamp(300px, 500px, 900px);
+    width: clamp(300px, 600px, 900px);
     @include sm {
       padding: 5px;
     }
@@ -423,6 +423,9 @@
       color: #0d0d0b;
       font-weight: 500;
       margin-left: 30px;
+      @include sm {
+        margin-left: 0px;
+      }
     }
 
     &__search {
@@ -475,15 +478,19 @@
       font-size: 18px;
       line-height: 22px;
       color: #000000;
+      text-align: center;
 
       .holder {
-        width: 100px;
-        height: 100px;
+        width: 120px;
+        height: 120px;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid #00519e;
+        border: 1px solid #805b5b26;
+        box-shadow: -3px 4px 20px #00000026;
         border-radius: 50%;
+        text-align: center;
+        margin-bottom: 10px;
       }
 
       svg {
@@ -560,7 +567,7 @@
         flex-direction: row;
 
         @include sm {
-          width: 350px;
+          width: 300px;
         }
 
         @include xl {
@@ -1480,6 +1487,12 @@
   }
 }
 
+.deleteButton {
+  background: #e82127;
+  color: #fff;
+  margin-top: 10px;
+}
+
 .landing {
   &__top {
     background: #00519e;
@@ -2281,13 +2294,15 @@
 }
 
 .actionBtn {
-  border: 1px solid #00519e;
+  // border: 1px solid #00519e;
+  // box-shadow: 3px -3px 20px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   display: flex;
   align-items: center;
   flex-direction: column;
-  box-shadow: 3px -3px 20px rgba(0, 0, 0, 0.15);
   cursor: pointer;
+  border: 1px solid #805b5b26;
+  box-shadow: -3px 4px 20px #00000026;
 }
 
 .quickBtn {

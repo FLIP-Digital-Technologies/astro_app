@@ -1,12 +1,8 @@
 import React from "react";
-import { useHistory, Link } from "react-router-dom";
-import { LogogBlack, MidCards } from "../../assets/svg";
-import Button from "../button";
 import styles from "./style.module.scss";
 import LandingHeader from "./landingHeader";
 
 const AuthHeader = ({ form, children }) => {
-  const history = useHistory();
   return (
     <>
       {/* <div className={styles.header}>

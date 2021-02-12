@@ -98,8 +98,9 @@ export { default as USD } from "./USD.svg";
 
 export { ReactComponent as Cancel } from "./cancel.svg";
 
-export { ReactComponent as TransactionIconBig } from "./transaction-icon-big.svg";
+export { ReactComponent as TransactionIconBig } from "./transaction-icon-med-pend.svg";
 export { ReactComponent as TransactionIconMed } from "./transaction-icon-med.svg";
+export { ReactComponent as TransactionIconSuc } from "./transaction-icon-med-suc.svg";
 
 export { ReactComponent as Physical } from "./physical.svg";
 export { ReactComponent as Barcode } from "./bar-code.svg";

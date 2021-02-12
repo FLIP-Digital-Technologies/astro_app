@@ -13,22 +13,26 @@ const WithdrawInitial = ({ setIsModalVisible, isModalVisible }) => {
   );
   return (
     <React.Fragment>
-      <WithDrawModalPersonal
-        showCloseAction={() => {
-          setOpenWithdrawal(false);
-          setIsModalVisible(true);
-        }}
-        isModalVisible={openWithdrawal}
-        setIsModalVisible={setOpenWithdrawal}
-      />
-      <WithDrawModal3rd
-        showCloseAction={() => {
-          setOpenThirdPartyWithdrawal(false);
-          setIsModalVisible(true);
-        }}
-        isModalVisible={openThirdPartyWithdrawal}
-        setIsModalVisible={setOpenThirdPartyWithdrawal}
-      />
+      {openWithdrawal && (
+        <WithDrawModalPersonal
+          showCloseAction={() => {
+            setOpenWithdrawal(false);
+            setIsModalVisible(true);
+          }}
+          isModalVisible={openWithdrawal}
+          setIsModalVisible={setOpenWithdrawal}
+        />
+      )}
+      {openThirdPartyWithdrawal && (
+        <WithDrawModal3rd
+          showCloseAction={() => {
+            setOpenThirdPartyWithdrawal(false);
+            setIsModalVisible(true);
+          }}
+          isModalVisible={openThirdPartyWithdrawal}
+          setIsModalVisible={setOpenThirdPartyWithdrawal}
+        />
+      )}
       <ModalWrapper
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
@@ -44,7 +48,7 @@ const WithdrawInitial = ({ setIsModalVisible, isModalVisible }) => {
             setIsModalVisible(false);
           }}
         >
-          <span>Withdraw to personal account</span> <ArrowRight />
+          <span>Withdraw to saved account</span> <ArrowRight />
         </div>
         <div
           className={styles.lnkButton}

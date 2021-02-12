@@ -12,7 +12,7 @@ const service = axios.create({
 const key = KEY;
 
 // Config
-const ENTRY_ROUTE = "/auth/login";
+const ENTRY_ROUTE = "/signin";
 const TOKEN_PAYLOAD_KEY = "x-auth-token";
 const PUBLIC_REQUEST_KEY = "public-request";
 
@@ -55,13 +55,7 @@ service.interceptors.response.use(
     };
     console.log(error.response);
     // Remove token and redirect
-    if (error.response.status === 400 || error.response.status === 403) {
-      notificationParam.message = "Authentication Fail";
-      notificationParam.description = "Please login again";
-      localStorage.removeItem(AUTH_TOKEN);
-      // history.push(ENTRY_ROUTE)
-      window.location.reload();
-    } else if (error.response.status === 404) {
+    if (error.response.status === 404) {
       notificationParam.message = "Not Found";
       notificationParam.description = error.response.data.message;
     } else if (error.response.status === 500) {

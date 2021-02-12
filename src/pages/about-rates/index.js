@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { LandingLayout } from "../../components/layout";
 import Select from "../../components/select";
 import Button from "../../components/button";
-import { MidRocket, MidChart, MidMoney } from "../../assets/svg";
 
 import styles from "../styles.module.scss";
 

@@ -1,6 +1,6 @@
-import fetch from './FetchInterceptor'
+import fetch from "./FetchInterceptor";
 
-const paymentService = {}
+const paymentService = {};
 
 paymentService.initialPayment = function (params, payload) {
   // {
@@ -12,35 +12,35 @@ paymentService.initialPayment = function (params, payload) {
   data.amount = payload.amount;
   return fetch({
     url: `/api/payments/inwards/${params.userId}`,
-    method: 'post',
-    data: data
-  })
-}
+    method: "post",
+    data: data,
+  });
+};
 
 paymentService.cancelPayment = function (params) {
   return fetch({
     url: `/api/payments/inwards/${params.userId}/${params.transactionId}/cancel`,
-    method: 'put'
-  })
-}
+    method: "put",
+  });
+};
 
 paymentService.getPaymentDetails = function (params) {
   return fetch({
     url: `/api/payments/inwards/${params.userId}/${params.transactionId}`,
-    method: 'get'
-  })
-}
+    method: "get",
+  });
+};
 
 paymentService.getAllPaymentByUser = function (params) {
   return fetch({
     url: `/api/payments/inwards/${params.userId}`,
-    method: 'get',
+    method: "get",
     params: {
       currency: params.currency || "NGN",
-      // skip: params.skip || 0,
-      // limit: params.limit || 10
-    }
-  })
-}
+      skip: params.skip,
+      limit: params.limit,
+    },
+  });
+};
 
-export default paymentService
+export default paymentService;

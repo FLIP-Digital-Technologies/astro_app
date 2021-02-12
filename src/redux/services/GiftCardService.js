@@ -1,13 +1,16 @@
-import fetch from './FetchInterceptor'
+import fetch from "./FetchInterceptor";
 
-const giftCardService = {}
+const giftCardService = {};
 
 giftCardService.getGiftCardCodes = function (params) {
   return fetch({
-    url: `/api/transactions/cards/${params.cardCode || 'all'}`,
-    method: 'get'
-  })
-}
+    url: `/api/transactions/cards/${params.cardCode || "all"}`,
+    method: "get",
+    headers: {
+      "public-request": "true",
+    },
+  });
+};
 
 giftCardService.initialSellGiftCard = function (params, payload) {
   // {
@@ -23,36 +26,37 @@ giftCardService.initialSellGiftCard = function (params, payload) {
   data.cardCode = payload.cardCode;
   data.imageURLs = payload.imageURLs;
   data.quantity = payload.quantity;
+  data.referenceCurrency = payload.referenceCurrency;
   return fetch({
     url: `/api/transactions/cards/${params.userId}/sell`,
-    method: 'post',
-    data: data
-  })
-}
+    method: "post",
+    data: data,
+  });
+};
 
 giftCardService.cancelSellGiftCardTransaction = function (params) {
   return fetch({
     url: `/api/transactions/cards/${params.userId}/${params.transactionId}/cancel`,
-    method: 'put'
-  })
-}
+    method: "put",
+  });
+};
 
 giftCardService.getTransactionDetails = function (params) {
   return fetch({
     url: `/api/transactions/cards/${params.userId}/${params.transactionId}`,
-    method: 'get'
-  })
-}
+    method: "get",
+  });
+};
 
 giftCardService.getTransactionHistory = function (params) {
   return fetch({
     url: `/api/transactions/cards/${params.userId}/history`,
-    method: 'get',
-    // params: {
-    //   skip: params.skip | 0,
-    //   limit: params.limit | 10
-    // }
-  })
-}
+    method: "get",
+    params: {
+      skip: params.skip,
+      limit: params.limit,
+    },
+  });
+};
 
-export default giftCardService
+export default giftCardService;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Input from "../../components/input";
 import Select from "../../components/select";
 import styles from "../styles.module.scss";
-import { BitcoinInput } from "../../assets/svg";
+// import { BitcoinInput } from "../../assets/svg";
 import {
   Money,
   countryOptions,

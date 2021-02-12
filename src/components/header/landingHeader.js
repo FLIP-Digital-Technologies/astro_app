@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory, Link, useLocation } from "react-router-dom";
-import { LogoNav, LogogBlack } from "../../assets/svg";
+import { LogoNav } from "../../assets/svg";
 import Button from "../button";
 import styles from "./style.module.scss";
 

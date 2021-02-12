@@ -2,161 +2,160 @@ import * as actionTypes from "../constants";
 import giftCardService from "../services/GiftCardService";
 // import { history } from "../store";
 
-
-const GetGiftCardCodes = data => async dispatch => {
+const GetGiftCardCodes = (data) => async (dispatch) => {
   dispatch({
     type: actionTypes.GET_CARD_CODES_PENDING,
-  })
+  });
 
   await giftCardService
     .getGiftCardCodes(data)
     .then((response) => {
       dispatch({
         type: actionTypes.GET_CARD_CODES_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.GET_CARD_CODES_FAILED,
-        payload: err
+        payload: err,
       });
     });
-    return;
-}
+  return;
+};
 
-export const getGiftCardCodes = data => dispatch => {
+export const getGiftCardCodes = (data) => (dispatch) => {
   dispatch(GetGiftCardCodes(data));
 };
 
-const InitialGiftCardSale = data => async dispatch => {
+const InitialGiftCardSale = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.INITIATE_SELL_GIFTCARD_PENDING,
-  })
+  });
 
   await giftCardService
-    .initialSellGiftCard({userId}, data)
+    .initialSellGiftCard({ userId }, data)
     .then((response) => {
       dispatch({
         type: actionTypes.INITIATE_SELL_GIFTCARD_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.INITIATE_SELL_GIFTCARD_FAILED,
-        payload: err
+        payload: err,
       });
     });
-}
+};
 
-export const initialGiftCardSale = data => dispatch => {
+export const initialGiftCardSale = (data) => (dispatch) => {
   dispatch(InitialGiftCardSale(data));
 };
 
-const CancelGiftCardSale = data => async dispatch => {
+const CancelGiftCardSale = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.CANCEL_SELL_GIFTCARD_TRANSACTION_PENDING,
-  })
+  });
 
   await giftCardService
-    .cancelSellGiftCardTransaction({...data, userId})
+    .cancelSellGiftCardTransaction({ ...data, userId })
     .then((response) => {
       dispatch({
         type: actionTypes.CANCEL_SELL_GIFTCARD_TRANSACTION_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.CANCEL_SELL_GIFTCARD_TRANSACTION_FAILED,
-        payload: err
+        payload: err,
       });
     });
-}
+};
 
-export const cancelGiftCardSale = data => dispatch => {
+export const cancelGiftCardSale = (data) => (dispatch) => {
   dispatch(CancelGiftCardSale(data));
 };
 
-const GetGiftCardTransaction = data => async dispatch => {
+const GetGiftCardTransaction = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.GET_TRANSACTION_DETAILS_GIFTCARD_PENDING,
-  })
+  });
 
   await giftCardService
-    .getTransactionDetails({...data, userId})
+    .getTransactionDetails({ ...data, userId })
     .then((response) => {
       dispatch({
         type: actionTypes.GET_TRANSACTION_DETAILS_GIFTCARD_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.GET_TRANSACTION_DETAILS_GIFTCARD_FAILED,
-        payload: err
+        payload: err,
       });
     });
-}
+};
 
-export const getGiftCardTransaction = data => dispatch => {
+export const getGiftCardTransaction = (data) => (dispatch) => {
   dispatch(GetGiftCardTransaction(data));
 };
 
-const GetGiftCardTransactionHistory = data => async dispatch => {
+const GetGiftCardTransactionHistory = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.GET_TRANSACTIONS_HISTORY_GIFTCARD_PENDING,
-  })
+  });
 
-  console.log(data)
+  console.log(data);
   await giftCardService
-    .getTransactionHistory({...data, userId})
+    .getTransactionHistory({ ...data, userId })
     .then((response) => {
       dispatch({
         type: actionTypes.GET_TRANSACTIONS_HISTORY_GIFTCARD_SUCCESS,
         payload: response.data,
-        new: data.new
+        new: data.new,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.GET_TRANSACTIONS_HISTORY_GIFTCARD_FAILED,
-        payload: err
+        payload: err,
       });
     });
-}
+};
 
-export const getGiftCardTransactionHistory = data => dispatch => {
+export const getGiftCardTransactionHistory = (data) => (dispatch) => {
   dispatch(GetGiftCardTransactionHistory(data));
 };
 
-const GetLastGiftCardTransactionHistory = data => async dispatch => {
+const GetLastGiftCardTransactionHistory = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.GET_LAST_TRANSACTIONS_HISTORY_GIFTCARD_PENDING,
-  })
+  });
 
   await giftCardService
-    .getTransactionHistory({...data, userId})
+    .getTransactionHistory({ ...data, userId })
     .then((response) => {
       dispatch({
         type: actionTypes.GET_LAST_TRANSACTIONS_HISTORY_GIFTCARD_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.GET_LAST_TRANSACTIONS_HISTORY_GIFTCARD_FAILED,
-        payload: err
+        payload: err,
       });
     });
-}
+};
 
-export const getLastGiftCardTransactionHistory = data => dispatch => {
+export const getLastGiftCardTransactionHistory = (data) => (dispatch) => {
   dispatch(GetLastGiftCardTransactionHistory(data));
 };

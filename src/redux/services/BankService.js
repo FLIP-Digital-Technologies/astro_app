@@ -1,16 +1,26 @@
-import fetch from './FetchInterceptor'
+import fetch from "./FetchInterceptor";
 
-const bankService = {}
+const bankService = {};
 
 bankService.getCountryBankList = function (params) {
   return fetch({
-    url: `/api/misc/get-banks`,
-    method: 'get',
+    url: `/api/misc/get-banks/${params.country}`,
+    method: "get",
     headers: {
       "public-request": "true",
     },
-  })
-}
+  });
+};
+
+bankService.getCountryBranchList = function (params) {
+  return fetch({
+    url: `/api/misc/get-bank-branches/${params.id}`,
+    method: "get",
+    headers: {
+      "public-request": "true",
+    },
+  });
+};
 
 bankService.validateBankAccountDetails = function (payload) {
   // {
@@ -21,13 +31,13 @@ bankService.validateBankAccountDetails = function (payload) {
   data.accountNumber = payload.accountNumber;
   data.bankCode = payload.bankCode;
   return fetch({
-    url: '/api/misc/verify-bank-details',
-    method: 'post',
+    url: "/api/misc/verify-bank-details",
+    method: "post",
     data: data,
     headers: {
       "public-request": "true",
     },
-  })
-}
+  });
+};
 
-export default bankService
+export default bankService;

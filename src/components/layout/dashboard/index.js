@@ -3,14 +3,12 @@ import { connect } from "react-redux";
 import { Layout, Menu } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import {
-  LogoWhite,
   CaretDown,
   Profile,
   Power,
-  Contact,
   LogoNav,
 } from "../../../assets/svg";
-import { navigation, generateRoute } from "./data";
+import { navigation } from "./data";
 import { history } from "../../../redux/store";
 
 import styles from "./styles.module.scss";
@@ -20,7 +18,7 @@ const { Header, Content, Sider } = Layout;
 
 function Toggle() {
   return (
-    <span role="img" aria-label="bars" class="anticon anticon-bars">
+    <span role="img" aria-label="bars" className="anticon anticon-bars">
       <svg
         viewBox="0 0 1024 1024"
         focusable="false"
@@ -150,7 +148,6 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
                   </div>
                 )}
               </div>
-              <img src={require("../../../assets/svg/logo.svg")} alt="hgj" />
             </div>
           </div>
         </Header>

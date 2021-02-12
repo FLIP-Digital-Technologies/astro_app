@@ -18,6 +18,7 @@ import {
 import {
   getBankListByCountry,
   verifyBankAccountDetails,
+  getBankBranchByID,
 } from "../../redux/actions/bank";
 
 const Profile = ({
@@ -33,11 +34,13 @@ const Profile = ({
   removeUserBankDetails,
   bankList,
   changePassword,
+  getBankBranchList,
+  branchList,
 }) => {
   useEffect(() => {
     getCurrentUser();
     getUserBankDetails();
-    getBankList();
+    // getBankList();
     getBalance();
     // eslint-disable-next-line
   }, []);
@@ -47,6 +50,9 @@ const Profile = ({
     bvn: "",
     accountName: "",
     bankName: "",
+    currency: "GH",
+    bankBranchCode: "",
+    bankBranchName: "",
   };
 
   const [state, setState] = useState(INITIAL_STATE);
@@ -71,6 +77,19 @@ const Profile = ({
     }
   }, [state.bankCode, state.accountNumber, verifyBankAccount]);
   useEffect(() => {
+    if (branchList && branchList.length === 1) {
+      console.log({
+        bankBranchName: branchList && branchList[0].branch_name,
+        bankBranchCode: branchList && branchList[0].branch_code,
+      });
+      setState((state) => ({
+        ...state,
+        bankBranchName: branchList && branchList[0].branch_name,
+        bankBranchCode: branchList && branchList[0].branch_code,
+      }));
+    }
+  }, [branchList]);
+  useEffect(() => {
     console.log("vhjhk", bankName);
     if (bankName && bankName.accountName) {
       setState((state) => ({
@@ -84,11 +103,19 @@ const Profile = ({
     if (e) {
       e.preventDefault();
     }
-    submitBankDetails(state);
+    submitBankDetails({
+      ...state,
+      currency: state.currency === "GH" ? "GHS" : "NGN",
+    });
   };
   const handleBankCode = (value) => {
     handleChange({ target: { name: "bankCode", value: value.split(",")[0] } });
     handleChange({ target: { name: "bankName", value: value.split(",")[1] } });
+    handleChange({ target: { name: "accountName", value: "" } });
+    handleChange({ target: { name: "accountNumber", value: "" } });
+    handleChange({ target: { name: "accountNumber", value: "" } });
+    handleChange({ target: { name: "bankBranchCode", value: "" } });
+    if (state.currency === "GH") getBankBranchList({ id: value.split(",")[2] });
   };
   const handleDelAccount = (id) => {
     removeUserBankDetails({ bankAccountId: id });
@@ -101,25 +128,7 @@ const Profile = ({
   };
   return (
     <DashboardLayout bg="#fff">
-      <span className={styles.gitcard__top__title}>Settings </span>
-      <div className={styles.profile}>
-        {/* <div className={styles.profileEdit}>
-          <Edit />
-          <span>Edit Profile</span>
-        </div> */}
-        {/* <div className={styles.profileWarning}> 
-          <div className={styles.profileWarningLeft}>
-            <div className={styles.profileWarningLeftTop}>
-              <Warning />
-              <span>Verify Email</span>
-            </div>
-            <span className={styles.profileWarningLeftSub}>
-              <span className={styles.link}> Open Gmail </span> to access the
-              link sent to mail@gmail.com
-            </span>
-          </div>
-          <div className={styles.profileWarningRight}>Resend Email</div>
-        </div>*/}
+      <div className={styles.profile} style={{ margin: 0 }}>
         <div className={styles.profilePersonal}>
           <div
             className={styles.profileSection}
@@ -129,71 +138,23 @@ const Profile = ({
               <span className={styles.main}>Basic Information</span>
             </div>
           </div>
-          {/* <div className={styles.profilePersonalTop}>
-            <div className={styles.profilePersonalTopLeft}>JD</div>
-            <div className={styles.profilePersonalTopRight}>
-              <span className={styles.main}>Upload Profile picture</span>
-              <span className={styles.sub}>
-                Supported file format: PNG, JPG.
-              </span>
-              <span className={styles.link}>Upload</span>
-            </div>
-          </div> */}
-          <div className={styles.profilePersonalEntry}>
+          <div className={styles.profilePersonalEntry} style={{lineHeight: 18, wordWrap: "break-word"}}>
             <span>Email</span>
             <span>{user && user.email}</span>
           </div>
-          <div className={styles.profilePersonalEntry}>
+          <div className={styles.profilePersonalEntry} style={{lineHeight: 18, wordWrap: "break-word"}}>
             <span>Name</span>
             <span>{`${user && user.firstName} ${user && user.lastName}`}</span>
           </div>
-          <div className={styles.profilePersonalEntry}>
+          <div className={styles.profilePersonalEntry} style={{lineHeight: 18, wordWrap: "break-word"}}>
             <span>Password</span>
             <span>*********</span>
           </div>
-        </div>
-        {/* <div className={styles.profileTwoFactor}>
-          <div className={styles.profileSection}>
-            <div className={styles.profileSectionLeft}>
-              <span className={styles.main}>Two Step Authentication</span>
-              <span className={styles.sub}>
-                Enable two step authentication and keep your account extra
-                secure
-              </span>
-            </div>
-            <div className={styles.profileSectionRight}>Enable</div>
+          <div className={styles.profilePersonalEntry} style={{lineHeight: 18, wordWrap: "break-word"}}>
+            <span>Referral Code</span>
+            <span>{(user && user.referralCode) || "---"}</span>
           </div>
         </div>
-        <div className={styles.profilePreference}>
-          <div className={styles.profileSection}>
-            <div className={styles.profileSectionLeft}>
-              <span className={styles.main}>Email Preferences</span>
-              <span className={styles.sub}>
-                Manage the email alerts you wish to receive
-              </span>
-            </div>
-          </div>
-          <div className={styles.profilePreferenceContent}>
-            <div className={styles.profilePreferenceContentEntry}>
-              <div className={styles.profilePreferenceContentEntryCheck} />
-              <div className={styles.profilePreferenceContentEntryText}>
-                <span className={styles.main}>Successful Payments</span>
-                <span className={styles.sub}>
-                  Receive alerts on every completed transaction
-                </span>
-              </div>
-            </div>
-            <div className={styles.profilePreferenceContentEntry}>
-              <div className={styles.profilePreferenceContentEntryCheck} />
-              <div className={styles.profilePreferenceContentEntryText}>
-                <span className={styles.main}>Login Attempt</span>
-                <span className={styles.sub}>
-                  Receive alerts on every login session/attempt
-                </span>
-              </div>
-            </div>
-          </div>
-        </div> */}
         <div className={styles.profileBank}>
           <div className={styles.profileSection}>
             <div className={styles.profileSectionLeft}>
@@ -250,6 +211,31 @@ const Profile = ({
             className={styles.profileBankContent}
           >
             <Select
+              labelClass={styles.profileBankInputLabel}
+              className={styles.profileBankInput}
+              label="Select currency"
+              value={state.currency}
+              onSelect={(value) => {
+                setState((state) => ({
+                  ...state,
+                  currency: value,
+                  accountNumber: "",
+                  bankCode: "",
+                  bvn: "",
+                  accountName: "",
+                  bankName: "",
+                  bankBranchCode: "",
+                  bankBranchName: "",
+                }));
+                getBankList({ country: value });
+              }}
+              name="select payment currency"
+              options={[
+                { render: "NGN", value: "NG" },
+                { render: "GHS", value: "GH" },
+              ]}
+            />
+            <Select
               name="bankCode"
               labelClass={styles.profileBankInputLabel}
               className={styles.profileBankInput}
@@ -258,10 +244,34 @@ const Profile = ({
               label="Bank Name"
               placeholder="Select your bank"
               options={bankList?.map((i) => ({
-                value: `${i.code},${i.name}`,
+                value: `${i.code},${i.name},${i.id}`,
                 render: i.name,
               }))}
             />
+            {state.currency === "GH" && (
+              <Select
+                name="bankBranchName"
+                labelClass={styles.profileBankInputLabel}
+                className={styles.profileBankInput}
+                value={`${state.bankBranchCode},${state.bankBranchName}`}
+                onSelect={(value) => {
+                  setState((state) => ({
+                    ...state,
+                    bankBranchName: value.split(",")[1],
+                    bankBranchCode: value.split(",")[0],
+                  }));
+                }}
+                label="Bank Branch"
+                placeholder="Select your bank branch"
+                options={
+                  branchList &&
+                  branchList?.map((i) => ({
+                    value: `${i.branch_code},${i.branch_name}`,
+                    render: i.branch_name,
+                  }))
+                }
+              />
+            )}
             <Input
               name="accountNumber"
               value={state.accountNumber}
@@ -284,19 +294,21 @@ const Profile = ({
               readOnly={true}
               disabled
             />
-            <Input
-              name="bvn"
-              value={state.bvn}
-              onChange={handleChange}
-              label="BVN"
-              type="number"
-              maxLength="11"
-              pattern="\d{11}$"
-              placeholder="Enter 10 digit BVN"
-              hint="We cannot gain entry into your account"
-              labelClass={styles.profileBankInputLabel}
-              className={styles.profileBankInput}
-            />
+            {state.currency === "NG" && (
+              <Input
+                name="bvn"
+                value={state.bvn}
+                onChange={handleChange}
+                label="BVN"
+                type="number"
+                maxLength="11"
+                pattern="\d{11}$"
+                placeholder="Enter 11 digit BVN"
+                hint="We cannot gain entry into your account"
+                labelClass={styles.profileBankInputLabel}
+                className={styles.profileBankInput}
+              />
+            )}
             <div className={styles.btnPair}>
               <Button
                 disabled={
@@ -359,6 +371,7 @@ const Profile = ({
 const mapStateToProps = (state) => ({
   user: state.user.user,
   balance: state.btc.balance,
+  branchList: state.bank.bankBranchList,
   bankList: state.bank.bankList,
   bankName: state.bank.bankDetails,
   bankAccounts: state.bank.bankAccounts,
@@ -371,8 +384,11 @@ const mapDispatchToProps = (dispatch) => ({
   getUserBankDetails: () => {
     dispatch(getUserBankAccount());
   },
-  getBankList: () => {
-    dispatch(getBankListByCountry());
+  getBankBranchList: (data) => {
+    dispatch(getBankBranchByID(data));
+  },
+  getBankList: (data) => {
+    dispatch(getBankListByCountry(data));
   },
   getBalance: () => {
     dispatch(getBTCWalletDetails());

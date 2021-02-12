@@ -1,31 +1,31 @@
-import fetch from './FetchInterceptor'
+import fetch from "./FetchInterceptor";
 
-const generalService = {}
+const generalService = {};
 
 generalService.checkHealth = function () {
   return fetch({
-    url: '/api/health',
-    method: 'get',
+    url: "/api/health",
+    method: "get",
     headers: {
       "public-request": "true",
     },
-  })
-}
+  });
+};
 
 generalService.getUserDetails = function (params) {
   return fetch({
-    url: '/api/user-account/' + params.userId,
-    method: 'get'
-  })
-}
+    url: "/api/user-account/" + params.userId,
+    method: "get",
+  });
+};
 
 generalService.updateUserDetails = function (params, data) {
   return fetch({
-    url: '/api/user-account/' + params.userId,
-    method: 'put',
-    data: data
-  })
-}
+    url: "/api/user-account/" + params.userId,
+    method: "put",
+    data: data,
+  });
+};
 
 generalService.setTransactionPin = function (params, payload) {
   // {
@@ -35,10 +35,10 @@ generalService.setTransactionPin = function (params, payload) {
   data.pin = payload.pin;
   return fetch({
     url: `/api/user-account/${params.userId}/transaction-pin`,
-    method: 'put',
-    data: data
-  })
-}
+    method: "put",
+    data: data,
+  });
+};
 
 generalService.resetTransactionPin = function (params, payload) {
   // {
@@ -48,10 +48,10 @@ generalService.resetTransactionPin = function (params, payload) {
   data.pin = payload.pin;
   return fetch({
     url: `/api/user-account/${params.userId}/transaction-pin`,
-    method: 'post',
-    data: data
-  })
-}
+    method: "post",
+    data: data,
+  });
+};
 
 generalService.completeTransactionPinReset = function (params, payload) {
   // {
@@ -63,10 +63,10 @@ generalService.completeTransactionPinReset = function (params, payload) {
   data.newPin = payload.newPin;
   return fetch({
     url: `/api/user-account/${params.userId}/complete-pin-reset`,
-    method: 'put',
-    data: data
-  })
-}
+    method: "put",
+    data: data,
+  });
+};
 
 generalService.addBankAccount = function (params, payload) {
   // {
@@ -81,26 +81,30 @@ generalService.addBankAccount = function (params, payload) {
   data.accountName = payload.accountName;
   data.bankCode = payload.bankCode;
   data.bankName = payload.bankName;
-  data.currency =  "NGN";
+  data.currency = "NGN";
   return fetch({
     url: `/api/user-account/${params.userId}/bank-accounts`,
-    method: 'post',
-    data: data
-  })
-}
+    method: "post",
+    data: data,
+  });
+};
 
 generalService.getBankDetails = function (params) {
   return fetch({
-    url: '/api/user-account/' + params.userId + '/bank-accounts?currency=NGN',
-    method: 'get'
-  })
-}
+    url: "/api/user-account/" + params.userId + "/bank-accounts",
+    method: "get",
+  });
+};
 
 generalService.removeBankDetails = function (params) {
   return fetch({
-    url: '/api/user-account/' + params.userId + '/bank-accounts/' + params.bankAccountId,
-    method: 'delete'
-  })
-}
+    url:
+      "/api/user-account/" +
+      params.userId +
+      "/bank-accounts/" +
+      params.bankAccountId,
+    method: "delete",
+  });
+};
 
-export default generalService
+export default generalService;

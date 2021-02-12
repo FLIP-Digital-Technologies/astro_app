@@ -4,9 +4,6 @@ import Button from "../../components/button";
 import Input from "../../components/input";
 import Select from "../../components/select";
 import { DashboardLayout } from "../../components/layout";
-import { ArrowLeftOutlined, BarChartOutlined } from "@ant-design/icons";
-import { BitcoinInput } from "../../assets/svg";
-import { SellSection, BuySection } from "./components";
 import styles from "../styles.module.scss";
 import {
   getBTCCurrentMarketTicker,
@@ -14,12 +11,11 @@ import {
 } from "../../redux/actions/btc";
 
 const Airtime = ({ getBTCRates, balance, btcRates, buyCoins, buyBTC }) => {
-  const [state, setState] = useState({
+  const [state] = useState({
     btc: 0,
     usd: 0,
     ngn: 0,
   });
-  const [isBuy, setIsBuy] = useState(true);
   React.useEffect(() => {
     getBTCRates();
   }, [getBTCRates]);

@@ -6,9 +6,11 @@ import btcReducer from "./btc";
 import giftCardReducers from "./giftcard";
 import withdrawalReducer from "./withdrawal";
 import paymentReducer from "./payment";
+import billPaymentReducer from "./billPayment";
+import pairTwoPairReducer from "./pairTwoPair";
 // main reducers
 
-const rootReducer = history =>
+const rootReducer = (history) =>
   combineReducers({
     router: connectRouter(history),
     user: authReducer,
@@ -16,7 +18,9 @@ const rootReducer = history =>
     btc: btcReducer,
     giftCard: giftCardReducers,
     withdrawals: withdrawalReducer,
-    payment: paymentReducer
+    payment: paymentReducer,
+    billPayment: billPaymentReducer,
+    pairTwoPair: pairTwoPairReducer,
     // your reducer here
   });
 

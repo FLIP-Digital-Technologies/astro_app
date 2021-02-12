@@ -11,7 +11,7 @@ import {
   SignUp,
   Verification,
   Landing,
-  About,
+  // About,
   AboutRates,
 } from "./pages";
 import { PrivateRoute } from "./utils/PrivateRoute";

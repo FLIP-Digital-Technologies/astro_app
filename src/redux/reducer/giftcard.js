@@ -1,5 +1,5 @@
 import { notification } from "antd";
-// import { joinArray } from "../../utils/helper";
+// // import { joinArray } from "../../utils/helper";
 import * as actionTypes from "../constants";
 
 const initState = {
@@ -9,97 +9,134 @@ const initState = {
   latestGiftCardTransaction: null,
   giftCardList: null,
   sellGiftCard: false,
+  giftCardDetails: null,
   sellGiftCardDetails: null,
   GiftCardTransaction: {
     transactions: [],
-    meta: {}
-  }
-}
+    meta: {},
+  },
+};
 const key = actionTypes.KEY;
 
 const giftCardReducers = (state = initState, action) => {
-	switch (action.type) {
+  switch (action.type) {
     case actionTypes.INITIATE_SELL_GIFTCARD_PENDING:
       notification.info({
         message: "Loading.....",
+        duration: 0,
         description: "Selling Gift Card",
         key,
-      })
+      });
       return {
         ...state,
         sellGiftCard: false,
         sellGiftCardDetails: null,
         loading: true,
         error: null,
-      }
+      };
     case actionTypes.GET_TRANSACTIONS_HISTORY_GIFTCARD_PENDING:
       return {
         ...state,
         loading: true,
         error: null,
-      }
-    case actionTypes.GET_CARD_CODES_PENDING:
+      };
+    case actionTypes.GET_TRANSACTION_DETAILS_GIFTCARD_PENDING:
       notification.info({
         message: "Loading.....",
-        description: "Getting Gift Cards",
+        duration: 0,
         key,
-      })
+      });
       return {
         ...state,
         loading: true,
         error: null,
-      }
+        giftCardDetails: null,
+      };
+    case actionTypes.GET_CARD_CODES_PENDING:
+      notification.info({
+        message: "Loading.....",
+        duration: 0,
+        description: "Getting Gift Cards",
+        key,
+      });
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
     case actionTypes.GET_LAST_TRANSACTIONS_HISTORY_GIFTCARD_PENDING:
       return {
         ...state,
         loading: true,
         error: null,
-      }
+      };
     case actionTypes.GET_LAST_TRANSACTIONS_HISTORY_GIFTCARD_SUCCESS:
-      return{
+      return {
         ...state,
         latestGiftCardTransaction: action.payload,
         loading: false,
         error: null,
-      }
+      };
     case actionTypes.INITIATE_SELL_GIFTCARD_SUCCESS:
       notification.success({
         message: "Successful",
         description: "Successful Sold GiftCard.",
         key,
-      })
-      return{
+      });
+      return {
         ...state,
         sellGiftCard: true,
         sellGiftCardDetails: action.payload,
         loading: false,
         error: null,
-      }
+      };
     case actionTypes.GET_TRANSACTIONS_HISTORY_GIFTCARD_SUCCESS:
-      return{
+      return {
         ...state,
         GiftCardTransaction: {
-          transactions:  action.payload.transactions,
+          transactions: action.payload.transactions,
           meta: action.payload.meta,
         },
         loading: false,
         error: null,
-      }
+      };
+    case actionTypes.GET_TRANSACTION_DETAILS_GIFTCARD_SUCCESS:
+      notification.success({
+        message: "Successful",
+        description: "Successful Fetch GiftCard transaction",
+        key,
+      });
+      return {
+        ...state,
+        giftCardDetails: action.payload.transaction,
+        loading: false,
+        error: null,
+      };
     case actionTypes.GET_CARD_CODES_SUCCESS:
       notification.success({
         message: "Successful",
         description: "Successfully Fetched Gift Cards",
         key,
-      })
-      return{
+      });
+      return {
         ...state,
         giftCardList: action.payload.cardRateDetails,
         loading: false,
         error: null,
-      }
-		default:
-			return state;
-	}
-}
+      };
+    case actionTypes.INITIATE_SELL_GIFTCARD_FAILED:
+    case actionTypes.GET_TRANSACTIONS_HISTORY_GIFTCARD_FAILED:
+    case actionTypes.GET_TRANSACTION_DETAILS_GIFTCARD_FAILED:
+    case actionTypes.GET_CARD_CODES_FAILED:
+    case actionTypes.GET_LAST_TRANSACTIONS_HISTORY_GIFTCARD_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
 
 export default giftCardReducers;

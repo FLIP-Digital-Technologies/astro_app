@@ -1,6 +1,6 @@
-import fetch from './FetchInterceptor';
+import fetch from "./FetchInterceptor";
 
-const withdrawalsService = {}
+const withdrawalsService = {};
 
 withdrawalsService.initialWithdrawalRequest = function (params, data) {
   // {
@@ -8,41 +8,47 @@ withdrawalsService.initialWithdrawalRequest = function (params, data) {
   //   "bankAccountId": "851d92fa-cf9d-46dc-355d-c4f5bfd60ab8",
   //   "currency": "NGN"
   // }
-  let payload;
-  payload.amount = data.amount;
-  payload.bankAccountId = data.bankAccountId;
-  payload.currency = data.currency;
+  let payload = {};
+  if (data.bankAccount) {
+    payload.amount = Number(data.amount);
+    payload.save = data.save;
+    payload.bankAccount = data.bankAccount;
+  } else {
+    payload.amount = Number(data.amount);
+    payload.bankAccountId = data.bankAccountId;
+    payload.currency = data.currency;
+  }
 
   return fetch({
     url: `/api/payments/outwards/${params.userId}`,
-    method: 'post',
+    method: "post",
     data: payload,
-  })
-}
+  });
+};
 
 withdrawalsService.cancelWithdrawalRequest = function (params, data) {
   return fetch({
     url: `/api/payments/outwards/${params.userId}/${params.transactionId}/cancel`,
-    method: 'put',
-  })
-}
+    method: "put",
+  });
+};
 
 withdrawalsService.getWithdrawalRequestDetails = function (params) {
   return fetch({
     url: `/api/payments/outwards/${params.userId}/${params.transactionId}`,
-    method: 'get'
-  })
-}
+    method: "get",
+  });
+};
 
 withdrawalsService.getWithdrawalRequestByUser = function (params) {
   return fetch({
-    url: `/api/payments/outwards/${params.userId}?currency=NGN`,
-    method: 'get',
+    url: `/api/payments/outwards/${params.userId}`,
+    method: "get",
     params: {
       skip: params.skip | 0,
-      limit: params.limit | 10
-    }
-  })
-}
+      limit: params.limit | 10,
+    },
+  });
+};
 
-export default withdrawalsService
+export default withdrawalsService;

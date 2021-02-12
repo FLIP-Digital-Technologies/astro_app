@@ -40,7 +40,7 @@ const WalletIndex = ({
   React.useEffect(() => {
     getCurrentUser();
     getUserBankDetails();
-    getBankList();
+    // getBankList();
     getBalance();
     getLatestBTCTrans({ skip: 0, limit: 5 });
     getLatestGiftCardTrans({ skip: 0, limit: 5 });

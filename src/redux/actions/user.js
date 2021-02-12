@@ -5,218 +5,219 @@ import generalService from "../services/GeneralService";
 
 const key = actionTypes.KEY;
 
-const GetUserDetailsById = () => async dispatch => {
+const GetUserDetailsById = () => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.GET_USER_DETAILS_BY_ID_PENDING,
-  })
+  });
 
   await generalService
-    .getUserDetails({userId})
+    .getUserDetails({ userId })
     .then((response) => {
       dispatch({
         type: actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.GET_USER_DETAILS_BY_ID_FAILED,
-        payload: err
+        payload: err,
       });
     });
   return;
-}// done
+}; // done
 
-export const getUserDetailsById = () => dispatch => {
+export const getUserDetailsById = () => (dispatch) => {
   dispatch(GetUserDetailsById());
-};// done
+}; // done
 
-const UpdateUserDetails = data => async dispatch => {
+const UpdateUserDetails = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.UPDATE_USER_DETAILS_PENDING,
-  })
+  });
 
   await generalService
-    .updateUserDetails({userId}, data)
+    .updateUserDetails({ userId }, data)
     .then((response) => {
       dispatch({
         type: actionTypes.UPDATE_USER_DETAILS_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
       notification.success({
         message: "Successful updated user details.",
         key,
-      })
-      dispatch(getUserDetailsById())
+      });
+      dispatch(getUserDetailsById());
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.UPDATE_USER_DETAILS_FAILED,
-        payload: err
+        payload: err,
       });
     });
-    return;
-}
+  return;
+};
 
-export const updateUserDetails = data => dispatch => {
+export const updateUserDetails = (data) => (dispatch) => {
   dispatch(UpdateUserDetails(data));
 };
 
-const SetTransactionPin = data => async dispatch => {
+const SetTransactionPin = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.SET_TRANSACTION_PIN_PENDING,
-  })
+  });
 
   await generalService
-    .setTransactionPin({userId}, data)
+    .setTransactionPin({ userId }, data)
     .then((response) => {
       dispatch({
         type: actionTypes.SET_TRANSACTION_PIN_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.SET_TRANSACTION_PIN_FAILED,
-        payload: err
+        payload: err,
       });
     });
-}
+};
 
-export const setTransactionPin = data => dispatch => {
+export const setTransactionPin = (data) => (dispatch) => {
   dispatch(SetTransactionPin(data));
 };
 
-const ResetTransactionPin = data => async dispatch => {
+const ResetTransactionPin = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.RESET_TRANSACTION_PIN_PENDING,
-  })
+  });
 
   await generalService
-    .resetTransactionPin({userId}, data)
+    .resetTransactionPin({ userId }, data)
     .then((response) => {
       dispatch({
         type: actionTypes.RESET_TRANSACTION_PIN_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.RESET_TRANSACTION_PIN_FAILED,
-        payload: err
+        payload: err,
       });
     });
-}
+};
 
-export const resetTransactionPin = data => dispatch => {
+export const resetTransactionPin = (data) => (dispatch) => {
   dispatch(ResetTransactionPin(data));
 };
 
-const CompleteResetTransactionPin = data => async dispatch => {
+const CompleteResetTransactionPin = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.COMPLETE_RESET_TRANSACTION_PIN_PENDING,
-  })
+  });
 
   await generalService
-    .completeTransactionPinReset({userId}, data)
+    .completeTransactionPinReset({ userId }, data)
     .then((response) => {
       dispatch({
         type: actionTypes.COMPLETE_RESET_TRANSACTION_PIN_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.COMPLETE_RESET_TRANSACTION_PIN_FAILED,
-        payload: err
+        payload: err,
       });
     });
-}
+};
 
-export const completeResetTransactionPin = data => dispatch => {
+export const completeResetTransactionPin = (data) => (dispatch) => {
   dispatch(CompleteResetTransactionPin(data));
 };
 
-const AddUserBankAccount = data => async dispatch => {
+const AddUserBankAccount = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.ADD_BANK_ACCOUNT_PENDING,
-  })
+  });
 
   await generalService
-    .addBankAccount({userId}, data)
+    .addBankAccount({ userId }, data)
     .then((response) => {
       dispatch({
         type: actionTypes.ADD_BANK_ACCOUNT_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
-      dispatch(getUserBankAccount())
+      dispatch(getUserBankAccount());
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.ADD_BANK_ACCOUNT_FAILED,
-        payload: err
+        payload: err,
       });
     });
-}
+};
 
-export const addUserBankAccount = data => dispatch => {
+export const addUserBankAccount = (data) => (dispatch) => {
   dispatch(AddUserBankAccount(data));
 };
 
-const GetUserBankAccount = () => async dispatch => {
+const GetUserBankAccount = () => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.GET_BANK_ACCOUNT_PENDING,
-  })
+  });
 
   await generalService
-    .getBankDetails({userId})
+    .getBankDetails({ userId })
     .then((response) => {
       dispatch({
         type: actionTypes.GET_BANK_ACCOUNT_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.GET_BANK_ACCOUNT_FAILED,
-        payload: err
+        payload: err,
       });
     });
-}
+};
 
-export const getUserBankAccount = () => dispatch => {
+export const getUserBankAccount = () => (dispatch) => {
   dispatch(GetUserBankAccount());
 };
 
-const RemoveUserBankAccount = data => async dispatch => {
+const RemoveUserBankAccount = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.DEL_BANK_ACCOUNT_PENDING,
-  })
+  });
 
   await generalService
-    .removeBankDetails({...data, userId})
+    .removeBankDetails({ ...data, userId })
     .then((response) => {
       dispatch({
         type: actionTypes.DEL_BANK_ACCOUNT_SUCCESS,
-        payload: response.data
+        payload: response.data,
       });
+      dispatch(getUserBankAccount());
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch({
         type: actionTypes.DEL_BANK_ACCOUNT_FAILED,
-        payload: err
+        payload: err,
       });
     });
-}
+};
 
-export const removeUserBankAccount = data => dispatch => {
+export const removeUserBankAccount = (data) => (dispatch) => {
   dispatch(RemoveUserBankAccount(data));
 };

@@ -2,7 +2,7 @@ import React from "react";
 import ModalWrapper from "./index";
 import styles from "./styles.module.scss";
 import { connect } from "react-redux";
-import Clipboard from 'react-clipboard.js';
+import Clipboard from "react-clipboard.js";
 import { Copy } from "../../assets/svg";
 import { QRCode, Money } from "../../utils/helper";
 import {
@@ -14,7 +14,7 @@ import { notification } from "antd";
 const SCanSell = ({
   btcRates,
   getBTCRates,
-  btcWalletAddress =  "",
+  btcWalletAddress = "",
   receiveBTC,
   error = false,
   setIsModalVisible,
@@ -40,8 +40,19 @@ const SCanSell = ({
           {QRCode({ text: btcWalletAddress, size: 300 })}
         </div>
         <div className={styles.copy}>
-          <span><small>{btcWalletAddress}</small></span>
-          <Clipboard component="div" data-clipboard-text={btcWalletAddress} onSuccess={() => notification.success({message: "BTC address copied", duration: 3})}>
+          <span>
+            <small>{btcWalletAddress}</small>
+          </span>
+          <Clipboard
+            component="div"
+            data-clipboard-text={btcWalletAddress}
+            onSuccess={() =>
+              notification.success({
+                message: "BTC address copied",
+                duration: 3,
+              })
+            }
+          >
             <Copy />
           </Clipboard>
         </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Hero, Rocket } from "../../assets/svg";
+// import { Hero, Rocket } from "../../assets/svg";
 import { LandingLayout } from "../../components/layout";
 import Button from "../../components/button";
 import styles from "../styles.module.scss";

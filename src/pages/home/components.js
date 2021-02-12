@@ -1,11 +1,17 @@
-import React from "react";
-import { Area, Tooltip, AreaChart } from "recharts";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+// import { Area, Tooltip, AreaChart } from "recharts";
 import Input from "../../components/input";
 import Select from "../../components/select";
 import Button from "../../components/button";
 import { ArrowRight } from "../../assets/svg";
 import styles from "../styles.module.scss";
 import { Money } from "../../utils/helper";
+import {
+  getCurrentFiatTransferRate,
+  initialBTCP2PTransferByUser,
+  initialFiatP2PByUser,
+} from "../../redux/actions/pairTwoPair";
 
 export const TopUpCard = ({ curr = "", bal = 0, currency, topUpAction }) => {
   return (
@@ -23,139 +29,106 @@ export const TopUpCard = ({ curr = "", bal = 0, currency, topUpAction }) => {
   );
 };
 
-const getIntroOfPage = (label) => {
-  if (label === "Page A") {
-    return "Page A is about men's clothing";
-  }
-  if (label === "Page B") {
-    return "Page B is about women's dress";
-  }
-  if (label === "Page C") {
-    return "Page C is about women's bag";
-  }
-  if (label === "Page D") {
-    return "Page D is about household goods";
-  }
-  if (label === "Page E") {
-    return "Page E is about food";
-  }
-  if (label === "Page F") {
-    return "Page F is about baby food";
-  }
-};
-
-const CustomTooltip = ({ active, payload, label }) => {
-  if (active) {
-    return (
-      <div style={{ backgroundColor: "#232323", padding: 10, color: "#fff" }}>
-        <p className="label">{`${label} : ${payload[0].value}`}</p>
-        <p className="intro">{getIntroOfPage(label)}</p>
-        <p className="desc">Anything you want can be displayed here.</p>
-      </div>
-    );
-  }
-
-  return null;
-};
-
-export const ActivityChart = () => {
-  const data = [
-    { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
-    { name: "Page B", uv: 4000, pv: 2400, amt: 2210 },
-    { name: "Page C", uv: 4000, pv: 2400, amt: 2290 },
-    { name: "Page D", uv: 4000, pv: 2400, amt: 2000 },
-    { name: "Page E", uv: 4000, pv: 2400, amt: 2181 },
-    { name: "Page F", uv: 4000, pv: 2400, amt: 2500 },
-    { name: "Page G", uv: 4000, pv: 2400, amt: 2100 },
-  ];
-  return (
-    <div className={styles.activity}>
-      <span>Wallet Activity Summary</span>
-      <AreaChart
-        height={65}
-        width={500}
-        data={data}
-        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-      >
-        <defs>
-          {/* <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="5%" stopColor="#A3F2FD" stopOpacity={0.8} />
-          <stop offset="95%" stopColor="#A3F2FD" stopOpacity={0} />
-        </linearGradient> */}
-          <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#A3F2FD" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#A3F2FD" stopOpacity={0} />
-          </linearGradient>
-        </defs>
-        <Tooltip position={{ y: -70 }} content={<CustomTooltip />} />
-        <Area
-          type="monotone"
-          dataKey="pv"
-          stroke="null"
-          fillOpacity={1}
-          fill="url(#colorPv)"
-        />
-      </AreaChart>
-    </div>
-  );
-};
-
-export const AirtimeFlyout = ({ state, setState }) => {
+export const DiscoFlyout = ({
+  state,
+  setState,
+  getBillPaymentCategory,
+  BillPaymentCategory = [],
+  loading,
+  buyAirtime = () => {},
+}) => {
+  const handleAirtime = () => {
+    let payload = {
+      referenceCurrency: state.currency === "ng" ? "NGN" : "GHS",
+      amount: state.amount,
+      customerNumber: state.customerNumber,
+      itemCode: state.itemCode,
+    };
+    buyAirtime(`discos-${state.currency}`, payload);
+  };
   return (
     <div>
       <div className={styles.airttime}>
         <Select
           labelClass={styles.largeMarginLabel}
-          label="Select provider"
-          value={state.ngn}
-          name="ngn"
-          placeholder="Sealect a provider"
-          options={[]}
-        />
-        <Select
-          labelClass={styles.largeMarginLabel}
           label="Select currency"
-          value={state.ngn}
+          value={state.currency}
+          onSelect={(value) => {
+            setState((state) => ({
+              ...state,
+              currency: value,
+              itemCode: "",
+              amount: 0,
+              fee: 0,
+              customerNumber: "",
+            }));
+            getBillPaymentCategory({ billCategory: `discos-${value}` });
+          }}
           name="select payment currency"
-          placeholder="₦5000"
-          options={[]}
+          options={[
+            { render: "NGN", value: "ng" },
+            // { render: "GHS", value: "gh" },
+          ]}
         />
-        <Input
-          labelClass={styles.largeMarginLabel}
-          label="Amount"
-          value={state.usd}
-          name="usd"
-          placeholder="e.g ₦200"
-        />
-        {/* <Input
-          labelClass={styles.largeMarginLabel}
-          label="Amount in NGN"
-          value={state.ngn}
-          name="ngn"
-          placeholder="₦5000"
-          hint="@500/usd"
-        />
-
-        <Select
-          labelClass={styles.largeMarginLabel}
-          label="Amount in NGN"
-          value={state.ngn}
-          name="ngn"
-          placeholder="₦5000"
-          hint="@500/usd"
-          options={[]}
-        />
-
-        <Select
-          labelClass={styles.largeMarginLabel}
-          label="Amount in NGN"
-          value={state.ngn}
-          name="ngn"
-          placeholder="₦5000"
-          hint="@500/usd"
-          options={[]}
-        /> */}
-        <Button loading={true} className={styles.airttime__button} form="full">
+        {state.currency && (
+          <Select
+            labelClass={styles.largeMarginLabel}
+            label="Select Disco"
+            value={state.itemCode}
+            onSelect={(value) => {
+              setState((state) => ({
+                ...state,
+                itemCode: value.split(".")[0],
+                fee: value.split(".")[1],
+                amount: 0,
+                customerNumber: "",
+              }));
+            }}
+            placeholder="Select Disco"
+            options={
+              BillPaymentCategory &&
+              BillPaymentCategory.data &&
+              BillPaymentCategory.data.map((item) => ({
+                render: item.name,
+                value: `${item.item_code}.${item.fee}`,
+              }))
+            }
+          />
+        )}
+        {state.itemCode && (
+          <React.Fragment>
+            <Input
+              labelClass={styles.largeMarginLabel}
+              label="Meter Number"
+              value={state.customerNumber}
+              name="Customer Meter Number"
+              onChange={(e) =>
+                setState((state) => ({
+                  ...state,
+                  customerNumber: e.target.value,
+                }))
+              }
+            />
+            <Input
+              labelClass={styles.largeMarginLabel}
+              label="Amount"
+              value={state.amount}
+              name="amount"
+              onChange={(e) =>
+                setState((state) => ({ ...state, amount: e.target.value }))
+              }
+              hint={`Fee:  ${Money(state.fee, "NGN")}`}
+            />
+          </React.Fragment>
+        )}
+        <Button
+          loading={
+            loading || !state.currency || !state.itemCode || !state.amount
+          }
+          className={styles.airttime__button}
+          onClick={handleAirtime}
+          form="full"
+        >
           Proceed
         </Button>
       </div>
@@ -163,16 +136,421 @@ export const AirtimeFlyout = ({ state, setState }) => {
   );
 };
 
-export const FundFlyout = ({ state, setState }) => {
+export const InternetFlyout = ({
+  state,
+  setState,
+  getBillPaymentCategory,
+  BillPaymentCategory = [],
+  loading,
+  buyAirtime = () => {},
+}) => {
+  const handleAirtime = () => {
+    let payload = {
+      referenceCurrency: state.currency === "ng" ? "NGN" : "GHS",
+      customerNumber: state.customerNumber,
+      amount: state.amount,
+      itemCode: state.plan,
+    };
+    buyAirtime(`data-${state.itemCode}`, payload);
+  };
+  return (
+    <div>
+      <div className={styles.airttime}>
+        <Select
+          labelClass={styles.largeMarginLabel}
+          label="Select currency"
+          value={state.currency}
+          onSelect={(value) => {
+            setState((state) => ({
+              ...state,
+              currency: value,
+              itemCode: "",
+              customerNumber: "",
+              amount: 0,
+              plan: "",
+            }));
+          }}
+          name="select payment currency"
+          options={[
+            { render: "NGN", value: "ng" },
+            // { render: "GHS", value: "gh" },
+          ]}
+        />
+        {state.currency && (
+          <Select
+            labelClass={styles.largeMarginLabel}
+            label="Select provider"
+            value={state.itemCode}
+            onSelect={(value) => {
+              setState((state) => ({
+                ...state,
+                itemCode: value,
+                customerNumber: "",
+                amount: 0,
+                plan: "",
+              }));
+              getBillPaymentCategory({ billCategory: `data-${value}` });
+            }}
+            placeholder="Sealect a provider"
+            options={[
+              { render: "MTN", value: "mtn" },
+              { render: "Glo", value: "glo" },
+              { render: "9Mobile", value: "9mobile" },
+              { render: "Airtel", value: "airtel" },
+            ]}
+          />
+        )}
+        {state.itemCode && (
+          <Select
+            labelClass={styles.largeMarginLabel}
+            label="Select Plan"
+            value={`${state.plan}.${state.amount}`}
+            onSelect={(value) => {
+              setState((state) => ({
+                ...state,
+                plan: value.split(".")[0],
+                customerNumber: "",
+                amount: value.split(".")[1],
+              }));
+            }}
+            placeholder="Select a Plan"
+            options={
+              BillPaymentCategory &&
+              BillPaymentCategory.data &&
+              BillPaymentCategory.data.map((item) => ({
+                render: item.biller_name,
+                value: `${item.item_code}.${item.amount}`,
+              }))
+            }
+          />
+        )}
+        {state.plan && (
+          <React.Fragment>
+            <Input
+              labelClass={styles.largeMarginLabel}
+              label="Phone Number"
+              value={state.customerNumber}
+              name="Customer Phone Number"
+              placeholder="+23***********"
+              minlength={"14"}
+              maxlength={14}
+              type="tel"
+              onChange={(e) =>
+                setState((state) => ({
+                  ...state,
+                  customerNumber: e.target.value,
+                }))
+              }
+            />
+            <Input
+              labelClass={styles.largeMarginLabel}
+              label="Amount"
+              value={state.amount}
+              readOnly={true}
+              name="amount"
+              onChange={(e) =>
+                setState((state) => ({ ...state, amount: e.target.value }))
+              }
+            />
+          </React.Fragment>
+        )}
+        <Button
+          loading={
+            loading ||
+            !state.currency ||
+            !state.customerNumber ||
+            !state.itemCode ||
+            !state.amount
+          }
+          className={styles.airttime__button}
+          onClick={handleAirtime}
+          form="full"
+        >
+          Proceed
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export const CableFlyout = ({
+  state,
+  setState,
+  getBillPaymentCategory,
+  BillPaymentCategory = [],
+  loading,
+  buyAirtime = () => {},
+}) => {
+  const handleAirtime = () => {
+    let payload = {
+      referenceCurrency: state.currency === "ng" ? "NGN" : "GHS",
+      customerNumber: state.customerNumber,
+      amount: state.amount,
+      itemCode: state.itemCode,
+    };
+    buyAirtime(`airtime-${state.currency}`, payload);
+  };
+  return (
+    <div>
+      <div className={styles.airttime}>
+        <Select
+          labelClass={styles.largeMarginLabel}
+          label="Select currency"
+          value={state.currency}
+          onSelect={(value) => {
+            setState((state) => ({
+              ...state,
+              currency: value,
+              plan: "",
+              itemCode: "",
+              customerNumber: "",
+              amount: 0,
+            }));
+          }}
+          name="select payment currency"
+          options={[
+            { render: "NGN", value: "ng" },
+            { render: "GHS", value: "gh" },
+          ]}
+        />
+        {state.currency && (
+          <Select
+            labelClass={styles.largeMarginLabel}
+            label="Select Cable TV"
+            value={state.plan}
+            onSelect={(value) => {
+              setState((state) => ({
+                ...state,
+                plan: value,
+                itemCode: "",
+                customerNumber: "",
+                amount: 0,
+              }));
+              getBillPaymentCategory({ billCategory: value });
+            }}
+            placeholder="Sealect Cable TV"
+            options={
+              state.currency === "ng"
+                ? [
+                    { render: "DSTV", value: "dstv-ng" },
+                    { render: "Gotv", value: "gotv" },
+                    { render: "Startimes", value: "startimes" },
+                  ]
+                : [{ render: "DSTV", value: "dstv-gh" }]
+            }
+          />
+        )}
+        {state.plan && (
+          <Select
+            labelClass={styles.largeMarginLabel}
+            label="Select Plan"
+            value={state.itemCode}
+            onSelect={(value) => {
+              setState((state) => ({
+                ...state,
+                itemCode: value.split(".")[0],
+                fee: value.split(".")[1],
+                amount: 0,
+                customerNumber: "",
+              }));
+            }}
+            placeholder="Select Plan"
+            options={
+              BillPaymentCategory &&
+              BillPaymentCategory.data &&
+              BillPaymentCategory.data.map((item) => ({
+                render: item.name,
+                value: `${item.item_code}.${item.fee}`,
+              }))
+            }
+          />
+        )}
+        {state.itemCode && (
+          <React.Fragment>
+            <Input
+              labelClass={styles.largeMarginLabel}
+              label="Smart Card Number"
+              value={state.customerNumber}
+              name="Customer Smart Card Number"
+              onChange={(e) =>
+                setState((state) => ({
+                  ...state,
+                  customerNumber: e.target.value,
+                }))
+              }
+            />
+            <Input
+              labelClass={styles.largeMarginLabel}
+              label="Amount"
+              value={state.amount}
+              name="amount"
+              onChange={(e) =>
+                setState((state) => ({ ...state, amount: e.target.value }))
+              }
+            />
+          </React.Fragment>
+        )}
+        <Button
+          loading={
+            loading ||
+            !state.currency ||
+            !state.customerNumber ||
+            !state.itemCode ||
+            !state.amount
+          }
+          className={styles.airttime__button}
+          onClick={handleAirtime}
+          form="full"
+        >
+          Proceed
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export const AirtimeFlyout = ({
+  state,
+  setState,
+  getBillPaymentCategory,
+  BillPaymentCategory = [],
+  loading,
+  buyAirtime = () => {},
+}) => {
+  const handleAirtime = () => {
+    let payload = {
+      referenceCurrency: state.currency === "ng" ? "NGN" : "GHS",
+      customerNumber: state.customerNumber,
+      amount: state.amount,
+      itemCode: state.itemCode,
+    };
+    buyAirtime(`airtime-${state.currency}`, payload);
+    setState({});
+  };
+  return (
+    <div>
+      <div className={styles.airttime}>
+        <Select
+          labelClass={styles.largeMarginLabel}
+          label="Select currency"
+          value={state.currency}
+          onSelect={(value) => {
+            setState((state) => ({
+              ...state,
+              currency: value,
+              itemCode: "",
+              customerNumber: "",
+              amount: 0,
+            }));
+            if (value === "gh")
+              getBillPaymentCategory({ billCategory: `airtime-${value}` });
+          }}
+          name="select payment currency"
+          options={[
+            { render: "NGN", value: "ng" },
+            { render: "GHS", value: "gh" },
+          ]}
+        />
+        {state.currency && (
+          <Select
+            labelClass={styles.largeMarginLabel}
+            label="Select provider"
+            value={state.itemCode}
+            onSelect={(value) => {
+              setState((state) => ({
+                ...state,
+                itemCode: value,
+                customerNumber: "",
+                amount: 0,
+              }));
+            }}
+            placeholder="Sealect a provider"
+            options={
+              state.currency === "ng"
+                ? [
+                    { render: "MTN", value: "mtn" },
+                    { render: "Glo", value: "glo" },
+                    { render: "9Mobile", value: "9mobile" },
+                    { render: "Airtel", value: "airtel" },
+                  ]
+                : BillPaymentCategory &&
+                  BillPaymentCategory.data &&
+                  BillPaymentCategory.data.map((item) => ({
+                    render: item.name,
+                    value: item.item_code,
+                  }))
+            }
+          />
+        )}
+        {state.itemCode && (
+          <React.Fragment>
+            <Input
+              labelClass={styles.largeMarginLabel}
+              label="Phone Number"
+              value={state.customerNumber}
+              name="Customer Phone Number"
+              placeholder="+23***********"
+              minlength={"14"}
+              maxlength={14}
+              type="tel"
+              onChange={(e) =>
+                setState((state) => ({
+                  ...state,
+                  customerNumber: e.target.value,
+                }))
+              }
+            />
+            <Input
+              labelClass={styles.largeMarginLabel}
+              label="Amount"
+              value={state.amount}
+              name="amount"
+              onChange={(e) =>
+                setState((state) => ({ ...state, amount: e.target.value }))
+              }
+            />
+          </React.Fragment>
+        )}
+        <Button
+          loading={
+            loading ||
+            !state.currency ||
+            !state.customerNumber ||
+            !state.itemCode ||
+            !state.amount
+          }
+          className={styles.airttime__button}
+          onClick={handleAirtime}
+          form="full"
+        >
+          Proceed
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export const FundFlyout = ({
+  state,
+  setState,
+  Fund,
+  loading,
+  setOpenModal,
+}) => {
+  const handleDeposit = () => {
+    Fund(state);
+    setOpenModal(false);
+    setState({});
+  };
   return (
     <div>
       <div className={styles.airttime}>
         <Select
           labelClass={styles.largeMarginLabel}
           label="Select wallet"
-          value={state.wallet}
+          value={state.currency}
           onSelect={(value) =>
-            setState((state) => ({ ...state, wallet: value }))
+            setState((state) => ({ ...state, currency: value }))
           }
           name="ngn"
           placeholder="Select a network provider"
@@ -181,51 +559,200 @@ export const FundFlyout = ({ state, setState }) => {
             { render: "GHS wallet", value: "GHS" },
           ]}
         />
-        {state.wallet && (
+        {state.currency && (
           <Input
             labelClass={styles.largeMarginLabel}
-            label={`Amount in ${state.wallet}`}
+            label={`Amount in ${state.currency}`}
             value={state.amount}
-            name="usd"
-            placeholder="e.g $1"
-            hint="@150/usd"
+            name="amount"
             onChange={(e) =>
               setState((state) => ({ ...state, amount: e.target.value }))
             }
           />
         )}
-        {/* <Input
-          labelClass={styles.largeMarginLabel}
-          label="Amount in NGN"
-          value={state.ngn}
-          name="ngn"
-          placeholder="₦5000"
-          hint="@500/usd"
-        />
-
-        <Select
-          labelClass={styles.largeMarginLabel}
-          label="Amount in NGN"
-          value={state.ngn}
-          name="ngn"
-          placeholder="₦5000"
-          hint="@500/usd"
-          options={[]}
-        />
-
-        <Select
-          labelClass={styles.largeMarginLabel}
-          label="Amount in NGN"
-          value={state.ngn}
-          name="ngn"
-          placeholder="₦5000"
-          hint="@500/usd"
-          options={[]}
-        /> */}
-        <Button loading={true} className={styles.airttime__button} form="full">
+        <Button
+          loading={loading || !state.amount || !state.currency}
+          onClick={handleDeposit}
+          className={styles.airttime__button}
+          form="full"
+        >
           Proceed
         </Button>
       </div>
     </div>
   );
 };
+
+const PTwoPFlyout = ({
+  state,
+  setState,
+  setOpenModal,
+  balance,
+  loading,
+  pairTwoPairFiatTicker,
+  pairTwoPairFiat,
+  pairTwoPairFiatDetails,
+  pairTwoPairBTC,
+  pairTwoPairBTCDetails,
+  getFiatP2PRate,
+  initializeBTCPair2PairTransaction,
+  initializeFiatPairTwoPairTransaction,
+}) => {
+  useEffect(() => {
+    getFiatP2PRate();
+  }, [getFiatP2PRate]);
+  const handleP2PTransfer = () => {
+    if (state.referenceCurrency === "BTC") {
+      let data = {};
+      data.amount = state.amount;
+      data.recipientUsername = state.recipientUsername;
+      data.transferNote = state.transferNote;
+      initializeBTCPair2PairTransaction(data);
+    } else {
+      let data = {};
+      data.amount = state.amount;
+      data.recipientUsername = state.recipientUsername;
+      data.referenceCurrency = state.referenceCurrency;
+      data.recipientCurrency = state.recipientCurrency;
+      data.transferNote = state.transferNote;
+      initializeFiatPairTwoPairTransaction(data);
+    }
+    setOpenModal(false);
+    setState({});
+  };
+  return (
+    <div>
+      <div className={styles.airttime}>
+        <Select
+          labelClass={styles.largeMarginLabel}
+          label="Select wallet to transfer from."
+          value={state.referenceCurrency}
+          onSelect={(value) =>
+            setState((state) => ({
+              ...state,
+              referenceCurrency: value,
+              recipientCurrency: "",
+              recipientUsername: "",
+              amount: "",
+              transferNote: "",
+            }))
+          }
+          name="referenceCurrency"
+          placeholder="Select a network provider"
+          options={[
+            { render: "NGN wallet", value: "NGN" },
+            { render: "GHS wallet", value: "GHS" },
+            { render: "BTC wallet", value: "BTC" },
+          ]}
+          hint={
+            state.recipientCurrency &&
+            `
+            Current Balance : ${Money(
+              balance[state.referenceCurrency]?.balance,
+              state.referenceCurrency
+            )}
+          `
+          }
+        />
+        {state.referenceCurrency && (
+          <Select
+            labelClass={styles.largeMarginLabel}
+            label="Select wallet to transfer to."
+            value={state.recipientCurrency}
+            onSelect={(value) =>
+              setState((state) => ({
+                ...state,
+                recipientCurrency: value,
+                recipientUsername: "",
+              }))
+            }
+            name="recipientCurrency"
+            options={
+              state.referenceCurrency === "BTC"
+                ? [{ render: "BTC wallet", value: "BTC" }]
+                : [
+                    { render: "NGN wallet", value: "NGN" },
+                    { render: "GHS wallet", value: "GHS" },
+                  ]
+            }
+          />
+        )}
+        {state.recipientCurrency && (
+          <Input
+            labelClass={styles.largeMarginLabel}
+            label={`Enter Recipient Username or Email`}
+            value={state.recipientUsername}
+            name="recipientUsername"
+            onChange={(e) =>
+              setState((state) => ({
+                ...state,
+                recipientUsername: e.target.value,
+                amount: "",
+              }))
+            }
+          />
+        )}
+        {state.recipientUsername && (
+          <Input
+            labelClass={styles.largeMarginLabel}
+            label={`Amount in ${state.referenceCurrency}`}
+            value={state.amount}
+            name="amount"
+            onChange={(e) =>
+              setState((state) => ({ ...state, amount: e.target.value }))
+            }
+            hint={state.referenceCurrency === "BTC" ? `` : `Transfer Fee`}
+          />
+        )}
+        {state.recipientUsername && (
+          <Input
+            labelClass={styles.largeMarginLabel}
+            label={`Transfer Note(optional)`}
+            value={state.transferNote}
+            name="transferNote"
+            onChange={(e) =>
+              setState((state) => ({ ...state, transferNote: e.target.value }))
+            }
+          />
+        )}
+        <Button
+          loading={
+            loading ||
+            !state.amount ||
+            !state.recipientUsername ||
+            !state.recipientCurrency ||
+            !state.referenceCurrency
+          }
+          onClick={handleP2PTransfer}
+          className={styles.airttime__button}
+          form="full"
+        >
+          Proceed
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+const mapStateToProps = (state) => ({
+  loading: state.pairTwoPair.loading,
+  pairTwoPairFiatTicker: state.pairTwoPair.pairTwoPairFiatTicker,
+  pairTwoPairFiat: state.pairTwoPair.pairTwoPairFiat,
+  pairTwoPairFiatDetails: state.pairTwoPair.pairTwoPairFiatDetails,
+  pairTwoPairBTC: state.pairTwoPair.pairTwoPairBTC,
+  pairTwoPairBTCDetails: state.pairTwoPair.pairTwoPairBTCDetails,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getFiatP2PRate: () => {
+    dispatch(getCurrentFiatTransferRate());
+  },
+  initializeBTCPair2PairTransaction: (data) => {
+    dispatch(initialBTCP2PTransferByUser(data));
+  },
+  initializeFiatPairTwoPairTransaction: (data) => {
+    dispatch(initialFiatP2PByUser(data));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PTwoPFlyout);

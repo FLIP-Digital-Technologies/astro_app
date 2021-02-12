@@ -24,7 +24,7 @@ const Select = ({
 
   const handleSelect = (item) => {
     onSelect(item.value);
-    setDisplay(item.render)
+    setDisplay(item.render);
     setShow(false);
   };
   return (
@@ -36,7 +36,10 @@ const Select = ({
       }}
       className={`${styles.input} ${className}`}
     >
-      <label className={`${styles.input__label} ${labelClass}`}>
+      <label
+        className={`${styles.input__label} ${labelClass}`}
+        style={{ marginTop: 10 }}
+      >
         {label && label}
       </label>
 
@@ -50,7 +53,10 @@ const Select = ({
       >
         {value && (
           <div>
-            {display  || options.find((item) => item.value === value)?.render || "invalid value"}
+            {display ||
+              (options &&
+                options.find((item) => item.value === value)?.render) ||
+              ""}
           </div>
         )}
         <CaretDown
@@ -63,15 +69,16 @@ const Select = ({
 
       {show && (
         <div className={styles.input__optionHoder}>
-          {options.map((item, index) => (
-            <div
-              key={index}
-              onClick={() => handleSelect(item)}
-              className={styles.option}
-            >
-              {item.render}
-            </div>
-          ))}
+          {options &&
+            options.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => handleSelect(item)}
+                className={styles.option}
+              >
+                {item.render}
+              </div>
+            ))}
         </div>
       )}
 

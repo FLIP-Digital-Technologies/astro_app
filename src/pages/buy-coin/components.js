@@ -3,7 +3,6 @@ import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Button from "../../components/button";
 import Input from "../../components/input";
-import { BitcoinInput, NairaInput } from "../../assets/svg";
 import styles from "../styles.module.scss";
 import { Money } from "../../utils/helper";
 import { SuccessfulModal } from "../transactions/components";

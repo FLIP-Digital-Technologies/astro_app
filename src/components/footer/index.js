@@ -1,7 +1,4 @@
 import React from "react";
-import Button from "../button";
-import { Link } from "react-router-dom";
-import { LogoNav, AppleIcon, AndroidIcon } from "../../assets/svg";
 import styles from "./styles.module.scss";
 
 const Footer = () => {

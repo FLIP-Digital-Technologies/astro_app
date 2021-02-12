@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Drawer } from "antd";
-import { PlusOutlined, PhoneOutlined } from "@ant-design/icons";
+import { PlusOutlined, UserSwitchOutlined } from "@ant-design/icons";
 import { DashboardLayout } from "../../components/layout";
-import Table from "../../components/table";
-import Input from "../../components/input";
-import Select from "../../components/select";
-import Button from "../../components/button";
-import { Wave, ArrowRight } from "../../assets/svg";
-import { TopUpCard } from "./components";
 import styles from "../styles.module.scss";
-import Png from "../../assets/png";
 import { history } from "../../redux/store";
 import {
   getBTCWalletDetails,
@@ -23,39 +16,51 @@ import {
 } from "../../redux/actions/user";
 import { getBankListByCountry } from "../../redux/actions/bank";
 import { getLastUserWithdrawalDetails } from "../../redux/actions/withdrawals";
-import { AirtimeFlyout, FundFlyout } from "./components";
+import PTwoPFlyout, { AirtimeFlyout, FundFlyout, } from "./components";
+import { initialPaymentByUser } from "../../redux/actions/payment";
+import ModalWrapper from "../../components/Modals";
+import { getBillPaymentCategory, initialBillPaymentByUser } from "../../redux/actions/billPayment";
+import { Money } from "../../utils/helper";
 
 const Home = ({
   user,
   balance,
-  giftCardTrans,
-  btcTrans,
-  withdrawalTrans,
+  buyAirtime,
+  billLoading,
+  BillPaymentCategory,
   getCurrentUser,
   getUserBankDetails,
-  getBankList,
+  getBillPaymentCategory,
   getBalance,
   getLatestBTCTrans,
   getLatestGiftCardTrans,
   getLatestWithdrawalTrans,
+  Fund,
+  loading,
+  depositMoney,
+  depositMoneyDetails
 }) => {
   const [wallet, setWallet] = useState("NGN");
   const [renderBalance, setRenderBalance] = useState("0");
   const [showAirtime, setShowAirtime] = useState(false);
   const [showFund, setShowFund] = useState(false);
+  const [showPTWOP, setShowPTWOP] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
+  const [dataPair, setDataPair] = useState({});
   const [state, setState] = useState({});
+  const [AirtimeState, setAirtimeState] = useState({});
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!balance) return;
     if (!wallet) return;
-    setRenderBalance(balance[wallet]?.balance || 0);
+    setRenderBalance(wallet !== "BTC" ? Money(balance[wallet]?.balance, wallet) : balance[wallet]?.balance || 0);
   });
 
   useEffect(() => {
     getCurrentUser();
     getUserBankDetails();
-    getBankList();
     getBalance();
     getLatestBTCTrans({ skip: 0, limit: 5 });
     getLatestGiftCardTrans({ skip: 0, limit: 5 });
@@ -64,44 +69,72 @@ const Home = ({
   }, []);
   return (
     <DashboardLayout>
+      {openModal && depositMoneyDetails && (
+        <ModalWrapper
+          className={styles.scanSell__body}
+          style={{ height: 800, width: 300 }}
+          isModalVisible={depositMoney ? openModal : false}
+          setIsModalVisible={() => {
+            setOpenModal(false);
+            setShowFund(false);
+            setState({})
+          }}
+        >
+          <iframe
+            id="frame"
+            height="800"
+            style={{
+              border: "none",
+              boxShadow: "none",
+              width: "100%",
+              paddingTop: 40,
+            }}
+            title="payment"
+            src={depositMoneyDetails && depositMoneyDetails.fw_paymentLink}
+          ></iframe>
+        </ModalWrapper>
+      )}
       <span className={styles.gitcard__top__title}>Home </span>
       {showAirtime && (
         <Drawer
           title="Airtime purchase"
           width={400}
           placement="right"
-          onClose={() => setShowAirtime(false)}
+          onClose={() => {setShowAirtime(false); setAirtimeState({})}}
           visible={showAirtime}
         >
-          <AirtimeFlyout state={state} setState={setState} />
+          <AirtimeFlyout BillPaymentCategory={BillPaymentCategory} buyAirtime={buyAirtime} loading={billLoading} getBillPaymentCategory={getBillPaymentCategory} state={AirtimeState} setState={setAirtimeState} />
         </Drawer>
       )}
 
+      {showPTWOP && (
+        <Drawer
+          title="Pair 2 Pair (p2p) Transfer"
+          placement="right"
+          width={400}
+          onClose={() => {setShowPTWOP(false); setDataPair({})}}
+          visible={showPTWOP}
+        >
+          <PTwoPFlyout setOpenModal={setShowPTWOP} balance={balance} state={dataPair} setState={setDataPair} />
+        </Drawer>
+      )}
       {showFund && (
         <Drawer
           title="Fund wallet"
           placement="right"
           width={400}
-          onClose={() => setShowFund(false)}
+          onClose={() => {setShowFund(false); setState({})}}
           visible={showFund}
         >
-          <FundFlyout state={state} setState={setState} />
+          <FundFlyout state={state} setState={setState} Fund={Fund} loading={loading} setOpenModal={setOpenModal} />
         </Drawer>
       )}
       <div className={styles.home}>
         <div className={styles.home__welcome}>
-          {/* <div className={styles.home__welcome__top}>
-            <Wave />
-            <span>Hi {`${user && user.firstName}`}</span>
-          </div> */}
-          {/* <div className={styles.home__welcome__sub}>
-            Keep track of your activity and transacations,here
-          </div> */}
           <div className={styles.home__top}>
             <div className={styles.balances}>
               <span className={styles.balances__title}>Wallet Balance</span>
               <div className={styles.balances__value}>
-                {wallet !== "BTC" && <span>{wallet}</span>}{" "}
                 <span>{renderBalance}</span>{" "}
                 {wallet === "BTC" && <span>{wallet}</span>}
               </div>
@@ -135,14 +168,38 @@ const Home = ({
             <div onClick={() => setShowFund(true)} className={styles.fund}>
               <div className={styles.fund__image}>
                 <div>
-                  <PlusOutlined />
+                  <PlusOutlined style={{fontSize: 23}} />
                 </div>
               </div>
-              <span className={styles.fund__text}>Fu-nd Wallet</span>
+              <span className={styles.fund__text}>Fund Wallet</span>
+            </div>
+            <div onClick={() => setShowPTWOP(true)} className={styles.fund}>
+              <div className={styles.fund__image}>
+                <div>
+                  <UserSwitchOutlined style={{fontSize: 23}} />
+                </div>
+              </div>
+              <span className={styles.fund__text}>P2P Trade</span>
             </div>
           </div>
           <div className={styles.quick}>
-            <div className={styles.quick__holder}>
+            <div className={styles.quick__holder} style={{flexWrap: "wrap"}}>
+              <div className={styles.quick__trade}>
+                <div className={styles.quick__trade__image}>
+                  <img
+                    src="https://via.placeholder.com/60.png"
+                    alt="amazon"
+                    className={styles.card__image}
+                  />
+                </div>
+                <span className={styles.quick__trade__text}>Withdrawal</span>
+                <div
+                  onClick={() => history.push("/app/giftcard")}
+                  className={styles.quick__trade__btn}
+                >
+                  Cash Out
+                </div>
+              </div>
               <div className={styles.quick__trade}>
                 <div className={styles.quick__trade__image}>
                   <img
@@ -177,28 +234,42 @@ const Home = ({
               </div>
             </div>
             <div className={styles.quick__holder}>
-              <div
-                onClick={() => setShowAirtime(true)}
-                className={`${styles.actionBtn} ${styles.quickBtn}`}
-              >
-                <div>
-                  <PhoneOutlined rotate={90} />
+              <div className={styles.quick__trade}>
+                <div className={styles.quick__trade__image}>
+                  <img
+                    src="https://via.placeholder.com/60.png"
+                    alt="amazon"
+                    className={styles.card__image}
+                  />
                 </div>
-                <span>Buy Airtime</span>
+                <span className={styles.quick__trade__text}>Buy Airtime</span>
+                <div
+                  onClick={() => setShowAirtime(true)}
+                  className={styles.quick__trade__btn}
+                >
+                  Buy
+                </div>
               </div>
-              <div
-                onClick={() => history.push("/app/bills")}
-                className={`${styles.actionBtn} ${styles.quickBtn}`}
-              >
-                <div>
-                  <img src="https://via.placeholder.com/20.png" alt="bill" />
+              <div className={styles.quick__trade}>
+                <div className={styles.quick__trade__image}>
+                  <img
+                    src="https://via.placeholder.com/60.png"
+                    alt="amazon"
+                    className={styles.card__image}
+                  />
                 </div>
-                <span>Pay a Bill</span>
+                <span className={styles.quick__trade__text}>Pay a Bill</span>
+                <div
+                  onClick={() => history.push("/app/bills")}
+                  className={styles.quick__trade__btn}
+                >
+                  Pay
+                </div>
               </div>
             </div>
           </div>
 
-          <div className={styles.transactionHistory}>
+          {/* <div className={styles.transactionHistory}>
             <span className={styles.transactionHistory__title}>
               Transactions History
             </span>
@@ -298,106 +369,8 @@ const Home = ({
                 </div>
               </div>
             </div>
-          </div>
-          {/* <div className={styles.home__welcome__details}>
-            <TopUpCard
-              curr="Naira"
-              currency="NGN"
-              topUpAction={() => history.push("/app/wallet/naira")}
-              bal={balance && balance.NGN && balance.NGN.balance}
-            />
-            <TopUpCard
-              curr="BTC"
-              currency="BTC"
-              topUpAction={() => history.push("/app/wallet/btc")}
-              bal={balance && balance.BTC && balance.BTC.balance}
-            />
-            <ActivityChart />
-          </div> */}
-
-          {/* <div className={styles.quickAction}>
-            <h2 className={styles.quickAction__title}>Quick Actions</h2>
-            <div className={styles.quickAction__list}>
-              <div
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push("/app/giftcard")}
-                className={styles.card}
-              >
-                <div className={styles.card__image__holder}>
-                  <img
-                    src={Png.Amazon}
-                    alt="amazon"
-                    className={styles.card__image}
-                  />
-                </div>
-                <div className={styles.card__footer}>
-                  <span>Trade giftcards</span> <ArrowRight />
-                </div>
-              </div>
-              <div
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push("/app/coin/buy")}
-                className={styles.card}
-              >
-                <div className={styles.card__image__holder}>
-                  <img
-                    src={Png.Bitcoin}
-                    alt="amazon"
-                    className={styles.card__image}
-                  />
-                </div>
-                <div className={styles.card__footer}>
-                  <span>Buy Coins</span> <ArrowRight />
-                </div>
-              </div>
-              <div
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push("/app/coin/sell")}
-                className={styles.card}
-              >
-                <div className={styles.card__image__holder}>
-                  <img
-                    src={Png.Bitcoin}
-                    alt="amazon"
-                    className={styles.card__image}
-                  />
-                </div>
-
-                <div className={styles.card__footer}>
-                  <span>Sell Coins</span> <ArrowRight />
-                </div>
-              </div>
-            
-            </div>
-          </div> */}
-
-          {/* <div>
-            <Table
-              type={"BTC"}
-              keys={["createdAt", "amount", "transactionType", "status"]}
-              data={btcTrans && btcTrans.transactions}
-              onClickActionEmpty={() => history.push("/app/wallet/btc")}
-            />
-          </div>
-          <div>
-            <Table
-              type={"GiftCard"}
-              keys={["createdAt", "amount", "cardCode", "status"]}
-              data={giftCardTrans && giftCardTrans.transactions}
-              onClickActionEmpty={() => history.push("/app/wallet/naira")}
-            />
-          </div>
-          <div>
-            <Table
-              type={"Withdrawal"}
-              keys={["createdAt", "amount", "bankAccount", "status"]}
-              data={withdrawalTrans && withdrawalTrans.transactions}
-              action={false}
-            />
           </div> */}
         </div>
-        {/* quick action */}
-        {/* recent transaction */}
       </div>
     </DashboardLayout>
   );
@@ -409,9 +382,17 @@ const mapStateToProps = (state) => ({
   btcTrans: state.btc.latestBTCTransaction,
   giftCardTrans: state.giftCard.latestGiftCardTransaction,
   withdrawalTrans: state.giftCard.latestWithdrawalTransaction,
+  loading: state.payment.loading,
+  depositMoney: state.payment.depositMoney,
+  depositMoneyDetails: state.payment.depositMoneyDetails,
+  BillPaymentCategory: state.billPayment.BillPaymentCategory,
+  billLoading: state.billPayment.loading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  Fund: (data) => {
+    dispatch(initialPaymentByUser(data));
+  },
   getCurrentUser: () => {
     dispatch(getUserDetailsById());
   },
@@ -433,6 +414,12 @@ const mapDispatchToProps = (dispatch) => ({
   getLatestWithdrawalTrans: (data) => {
     dispatch(getLastUserWithdrawalDetails(data));
   },
+  getBillPaymentCategory: (data) =>  {
+    dispatch(getBillPaymentCategory(data));
+  },
+  buyAirtime: (billCategory, data) => {
+    dispatch(initialBillPaymentByUser(billCategory, data))
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

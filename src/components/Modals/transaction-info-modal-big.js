@@ -1,54 +1,325 @@
 import React from "react";
+import { Image } from "antd";
 import ModalWrapper from "./index";
 import styles from "./styles.module.scss";
-import { ArrowRight, Cancel, TransactionIconMed } from "../../assets/svg";
-import Button from "../button";
+import {
+  TransactionIconMed,
+  TransactionIconSuc,
+  TransactionIconBig,
+} from "../../assets/svg";
+import { date, Money } from "../../utils/helper";
 
-const TransactionModalBig = ({ type }) => {
+export const TransactionModalBillPayment = ({
+  type,
+  setIsModalVisible,
+  isModalVisible,
+  dateData,
+  amount,
+  status,
+  reference,
+  title = "Deposit",
+  rate,
+  transactionFee,
+  id,
+  referenceCurrency,
+  details,
+}) => {
   return (
-    <ModalWrapper className={styles.withdrawInitial} showClose="no" showCancel>
+    <ModalWrapper
+      isModalVisible={isModalVisible}
+      setIsModalVisible={setIsModalVisible}
+      className={styles.withdrawInitial}
+      showClose="no"
+      showCancel
+    >
       <div className={styles.transactionBig}>
         <div className={styles.transactionBig__tag}>
-          <span>Transaction</span> <span> #1234 </span>
+          {title}
         </div>
         <div className={styles.transactionBig__top}>
           <div className={styles.transactionBig__top__left}>
             <div className={`${styles.badge} ${styles[type]}`}>
-              <TransactionIconMed />
+              {status === "INITIATED" && <TransactionIconBig />}
+              {status === "SUCCESSFUL" && <TransactionIconSuc />}
+              {status === "FAILED" && <TransactionIconMed />}
+              {status === "CANCELLED" && <TransactionIconMed />}
             </div>
             <div className={styles.text}>
-              <div className={`${styles.title} ${styles.main}`}>Deposit</div>
-              <div className={`${styles.sub}`}>Nov 12, 2020</div>
+              <div className={`${styles.title} ${styles.main}`}>{details && details.serviceName}</div>
+              <div className={`${styles.sub}`}>{date(dateData)}</div>
             </div>
           </div>
-          <div className={`${styles.status} ${styles.pending}`}>Pending</div>
+          <div className={`${styles.status} ${styles[status]}`}>{status}</div>
         </div>
-        <div lassName={styles.transactionBig__main}>
+        <div className={styles.transactionBig__main}>
+          <div
+            className={styles.transactionBig__main__holder}
+            style={{ flexDirection: "column", alignItems: "flex-start" }}
+          >
+            <div className={styles.transactionBig__main__content}>
+              <span>Reference ID</span> <span>{reference}</span>
+            </div>
+          </div>
+          <div
+            className={styles.transactionBig__main__holder}
+            style={{ flexDirection: "column", alignItems: "flex-start" }}
+          >
+            <div className={styles.transactionBig__main__content}>
+              <span>Service Name</span> <span>{details && details.serviceName}</span>
+            </div>
+          </div>
+          <div className={styles.transactionBig__main__holder}>
+            <div className={styles.transactionBig__main__content}>
+              <span>Number</span> <span>{details && details.servicedNumber}</span>
+            </div>
+          </div>
+          <div className={styles.transactionBig__main__holder}>
+            <div className={styles.transactionBig__main__content}>
+              <span>Amount Paid</span> <span>{Money(amount, referenceCurrency)}</span>
+            </div>
+          </div>
+          <div className={styles.transactionBig__main__holder}>
+            <div className={styles.transactionBig__main__content}>
+              <span>Transaction Fee</span> <span>{Money(transactionFee, referenceCurrency)}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ModalWrapper>
+  );
+};
+
+const TransactionModalBig = ({
+  type,
+  setIsModalVisible,
+  isModalVisible,
+  dateData,
+  amount,
+  status,
+  reference,
+  title = "Deposit",
+  rate,
+  Qua,
+  id,
+  cardCode,
+  images = [],
+}) => {
+  return (
+    <ModalWrapper
+      isModalVisible={isModalVisible}
+      setIsModalVisible={setIsModalVisible}
+      className={styles.withdrawInitial}
+      showClose="no"
+      showCancel
+    >
+      <div className={styles.transactionBig}>
+        <div className={styles.transactionBig__tag}>
+          {/* <span>Transaction</span> <span> #{id} </span> */}
+        </div>
+        <div className={styles.transactionBig__top}>
+          <div className={styles.transactionBig__top__left}>
+            <div className={`${styles.badge} ${styles[type]}`}>
+              {status === "SUBMITTED" && <TransactionIconBig />}
+              {status === "APPROVED" && <TransactionIconSuc />}
+              {status === "DECLINED" && <TransactionIconMed />}
+              {status === "CANCELLED" && <TransactionIconMed />}
+            </div>
+            <div className={styles.text}>
+              <div className={`${styles.title} ${styles.main}`}>{title}</div>
+              <div className={`${styles.sub}`}>{date(dateData)}</div>
+            </div>
+          </div>
+          <div className={`${styles.status} ${styles[status]}`}>{status}</div>
+        </div>
+        <div className={styles.transactionBig__main}>
+          <div className={styles.transactionBig__main__heading}>
+            Transaction Info
+          </div>
+          <div
+            className={styles.transactionBig__main__holder}
+            style={{ flexDirection: "column", alignItems: "flex-start" }}
+          >
+            <div className={styles.transactionBig__main__content}>
+              <span>Reference ID</span> <span>{reference}</span>
+            </div>
+            <div className={styles.transactionBig__main__content}>
+              <span>Transaction Rate</span> <span>{Money(rate, "NGN")}/$</span>
+            </div>
+          </div>
+          <div className={styles.transactionBig__main__holder}>
+            <div className={styles.transactionBig__main__content}>
+              <span>Amount Paid</span> <span>{Money(amount, "NGN")}</span>
+            </div>
+            <div className={styles.transactionBig__main__content}>
+              <span>Quantity</span> <span>{Qua}</span>
+            </div>
+          </div>
+          <div className={styles.transactionBig__main__holder}>
+            <div className={styles.transactionBig__main__content}>
+              <span>Card Traded</span>
+              <span>{cardCode && cardCode.replace(".", "-")}</span>
+            </div>
+          </div>
+          <div className={styles.transactionBig__main__holder}>
+            <div
+              className={styles.transactionBig__main__content}
+              style={{ width: "100%" }}
+            >
+              <span>Images</span>
+              <div
+                style={{ width: "100%", overflowX: "auto", display: "flex" }}
+              >
+                {images.map((i, index) => (
+                  <Image
+                    style={{ width: 150, height: 200, margin: 15 }}
+                    key={index}
+                    src={i}
+                    alt={`card-${index}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ModalWrapper>
+  );
+};
+
+export const TransactionModalBTC = ({
+  type,
+  status,
+  transactionType,
+  reference,
+  rate,
+  amount,
+  address,
+  dateData,
+  quidaxTransactionId,
+  txid,
+  transactionFee,
+  setIsModalVisible,
+  isModalVisible,
+}) => {
+  return (
+    <ModalWrapper
+      isModalVisible={isModalVisible}
+      setIsModalVisible={setIsModalVisible}
+      className={styles.withdrawInitial}
+      showClose="no"
+      showCancel
+    >
+      <div className={styles.transactionBig}>
+        <div className={styles.transactionBig__tag}>
+          <span>Transaction</span> <span> #{quidaxTransactionId} </span>
+        </div>
+        <div className={styles.transactionBig__top}>
+          <div className={styles.transactionBig__top__left}>
+            <div className={`${styles.badge} ${styles[type]}`}>
+              {status === "SUBMITTED" && (
+                <TransactionIconBig
+                  style={
+                    transactionType !== "BUY"
+                      ? { transform: "rotate(180deg)" }
+                      : {}
+                  }
+                />
+              )}
+              {status === "DONE" && (
+                <TransactionIconSuc
+                  style={
+                    transactionType !== "BUY"
+                      ? { transform: "rotate(180deg)" }
+                      : {}
+                  }
+                />
+              )}
+              {status === "FAILED" && (
+                <TransactionIconMed
+                  style={
+                    transactionType !== "BUY"
+                      ? { transform: "rotate(180deg)" }
+                      : {}
+                  }
+                />
+              )}
+              {status === "CANCELLED" && (
+                <TransactionIconMed
+                  style={
+                    transactionType !== "BUY"
+                      ? { transform: "rotate(180deg)" }
+                      : {}
+                  }
+                />
+              )}
+            </div>
+            <div className={styles.text}>
+              <div className={`${styles.title} ${styles.main}`}>
+                BTC Transaction
+              </div>
+              <div className={`${styles.sub}`}>{date(dateData)}</div>
+            </div>
+          </div>
+          <div className={`${styles.status} ${styles[status]} `}>{status}</div>
+        </div>
+        <div className={styles.transactionBig__main}>
           <div className={styles.transactionBig__main__heading}>
             Transaction Info
           </div>
           <div className={styles.transactionBig__main__holder}>
             <div className={styles.transactionBig__main__content}>
-              <span>Reference ID</span> <span>WEB-123</span>
-            </div>
-            <div className={styles.transactionBig__main__content}>
-              <span>Transaction Rate</span> <span>₦450/$</span>
+              <span>Reference ID</span> <span>{reference}</span>
             </div>
           </div>
           <div className={styles.transactionBig__main__holder}>
             <div className={styles.transactionBig__main__content}>
-              <span>Amount Paid</span> <span>₦120</span>
+              <span>Amount Paid</span> <span>{amount} BTC</span>
             </div>
             <div className={styles.transactionBig__main__content}>
-              <span>Amount In Dollar</span> <span>$120</span>
+              <span>Transaction Rate</span> <span>{Money(rate, "NGN")}/$</span>
+            </div>
+            <div className={styles.transactionBig__main__content}>
+              <span>Transaction Type</span> <span>{transactionType}</span>
             </div>
           </div>
           <div className={styles.transactionBig__main__holder}>
             <div className={styles.transactionBig__main__content}>
-              <span>Wallet Address</span>
-              <span>5632d59452s2s2s2a5w896e123x</span>
+              <span>Transaction fee</span> <span>{transactionFee} BTC</span>
+            </div>
+            <div className={styles.transactionBig__main__content}>
+              <span>Type</span> <span>{type}</span>
             </div>
           </div>
+          {address && (
+            <div className={styles.transactionBig__main__holder}>
+              <div className={styles.transactionBig__main__content}>
+                <span>Wallet Address</span>
+                <span>{address}</span>
+              </div>
+            </div>
+          )}
+          {txid && (
+            <div className={styles.transactionBig__main__holder}>
+              <div
+                style={{ width: "100%" }}
+                className={styles.transactionBig__main__content}
+              >
+                <span>Transaction Hash</span>
+                <div
+                  style={{ overflow: "auto", width: "100%" }}
+                  className={styles.transactionBig__main__content}
+                >
+                  <a
+                    href={`https://www.blockchain.com/btc/tx/${txid}`}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <span>{txid}</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </ModalWrapper>
