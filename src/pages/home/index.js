@@ -232,8 +232,6 @@ const Home = ({
                   Trade
                 </div>
               </div>
-            </div>
-            <div className={styles.quick__holder}>
               <div className={styles.quick__trade}>
                 <div className={styles.quick__trade__image}>
                   <img
