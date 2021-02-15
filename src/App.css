@@ -87,6 +87,10 @@ body {
   /* min-width: 300px; */
 }
 
+.anticon .anticon-menu svg {
+  fill: #fff !important;
+}
+
 @media only screen and (max-width: 500px) {
   .ant-drawer-content-wrapper {
     width: 100% !important;

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory, Link, useLocation } from "react-router-dom";
+import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 import { LogoNav } from "../../assets/svg";
 import Button from "../button";
 import styles from "./style.module.scss";
 
 const LandingHeader = ({ form, type }) => {
+  const [show, setShow] = useState(false);
   let location = useLocation();
   const { pathname } = location;
   const history = useHistory();
@@ -18,8 +20,21 @@ const LandingHeader = ({ form, type }) => {
         </Link>
       </div>
 
-      <div className={styles.landingHeaderLeftLinks}>
-        <div className={styles.landingHeaderLeftLinks}>
+      <div onClick={() => setShow(true)} className={styles.Hamburger}>
+        <MenuOutlined style={{ color: "#fff", fontSize: "24px" }} />
+      </div>
+
+      <div
+        className={`${styles.landingHeaderLeftLinks} ${
+          show && styles.mobile__nav
+        }`}
+      >
+        <div onClick={() => setShow(false)} className={styles.closeMemu}>
+          <CloseOutlined
+            style={{ color: "#fff", fontSize: "30px", marginBottom: "30px" }}
+          />
+        </div>
+        <div className={`${styles.landingHeaderLeftLinks} ${styles.links}`}>
           <div
             className={`${styles.landingHeaderLeftLinksItem}  ${
               form === "white" && styles.rev
