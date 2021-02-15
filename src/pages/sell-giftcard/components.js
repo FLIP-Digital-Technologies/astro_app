@@ -385,10 +385,6 @@ export const GiftCardForm = ({
     setOpen(true);
   };
 
-  const showModal = () => {
-    setOpenTerm(true);
-  };
-
   const handleOk = () => {
     setOpenTerm(false);
   };
