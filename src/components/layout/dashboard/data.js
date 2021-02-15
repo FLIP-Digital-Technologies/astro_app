@@ -10,7 +10,7 @@ import {
   // RateIcon,
   ArrowLeft,
   Settings,
-  Logout,
+  // Logout,
 } from "../../../assets/svg";
 import {
   TransactionOutlined,
@@ -18,24 +18,26 @@ import {
 
 export const Routes = {
   BTC: "/app/btc",
-  giftcard: "/app/giftcard",
+  sellgiftcard: "/app/sell-giftcard",
+  buygiftcard: "/app/buy-giftcard",
   airtime: "/app/airtime",
   bills: "/app/bills",
   transactions: "/app/transactions",
   settings: "/app/settings",
   onBoarding: "/app/onboarding",
   home: "/app",
-  profile: "/app/profile",
+  // profile: "/app/profile",
 };
 
 export const navigation = [
   { Icon: Home, Name: "Home", route: Routes.home },
-  { Icon: GiftCard, Name: "Cards", route: Routes.giftcard },
+  { Icon: GiftCard, Name: "Sell Gift Cards", route: Routes.sellgiftcard },
+  { Icon: GiftCard, Name: "Buy Gift Cards", route: Routes.buygiftcard },
   { Icon: Coin, Name: "Bitcoin", route: Routes.BTC },
   { Icon: TransactionOutlined, Name: "Transactions", route: Routes.transactions },
   { Icon: Transactions, Name: "Bills", route: Routes.bills },
   { Icon: Settings, Name: "Setting", route: Routes.settings },
-  { Icon: Logout, Name: "Log out", route: "" },
+  // { Icon: Logout, Name: "Log out", route: "" },
 ];
 
 const Goback = ({ route, name }) => {
@@ -58,7 +60,10 @@ export const generateRoute = (path) => {
     case Routes.wallet:
       return "Wallet";
 
-    case Routes.giftcard:
+    case Routes.buygiftcard:
+      return "Buy Giftcards";
+
+    case Routes.sellgiftcard:
       return "Sell Giftcards";
 
     case Routes.transactions:

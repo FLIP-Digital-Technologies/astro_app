@@ -11,10 +11,12 @@ import {
   BTCTradesTab,
   BillPaymentTab,
   PTwoPTab,
+  BuyGiftCardTab,
 } from "./components";
 import TransactionModalBig, {
   TransactionModalBTC,
   TransactionModalBillPayment,
+  TransactionModalBuyGiftCard,
 } from "../../components/Modals/transaction-info-modal-big";
 import TransactionModal from "../../components/Modals/transaction-info-modal";
 import {
@@ -41,6 +43,10 @@ import {
   getAllUserFiatP2PTransferDetails,
   getFiatP2PTransferById,
 } from "../../redux/actions/pairTwoPair";
+import {
+  getAllBuyCardTransaction,
+  getBuyCardTransaction,
+} from "../../redux/actions/buyGiftCard";
 
 const Transactions = ({
   btcTrans,
@@ -67,13 +73,19 @@ const Transactions = ({
   viewBTCTrans,
   viewBillPaymentTrans,
   viewP2PTrans,
+  getBuyGiftCardTrans,
+  getBuyGiftCardTransById,
+  BuyGiftCardTrans,
+  viewBuyGiftCardTrans,
 }) => {
   const [depositTransDetails, setDepositTransDetails] = React.useState(false);
   const [btcTransDetails, setBtcTransDetails] = React.useState(false);
   const [giftCardTransDetails, setGiftCardTransDetails] = React.useState(false);
-  const [billPaymentDetails, setBillPaymentDetails] = React.useState(true);
+  const [billPaymentDetails, setBillPaymentDetails] = React.useState(false);
+  const [buyGiftCardDetails, setBuyGiftCardDetails] = React.useState(false);
   const [
-    pairTwoPairFiatTransDetails,
+    ,
+    // pairTwoPairFiatTransDetails,
     setPairTwoPairFiatTransDetails,
   ] = React.useState(true);
   const [withdrawalTransDetails, setWithdrawalTransDetails] = React.useState(
@@ -86,6 +98,22 @@ const Transactions = ({
   return (
     <DashboardLayout>
       <span className={styles.gitcard__top__title}>Transactions</span>
+      {viewBuyGiftCardTrans && (
+        <TransactionModalBuyGiftCard
+          dateData={viewBuyGiftCardTrans.createdAt}
+          amount={viewBuyGiftCardTrans.amount}
+          status={viewBuyGiftCardTrans.status}
+          cardValue={viewBuyGiftCardTrans?.cardDetails?.cardValue}
+          reference={viewBuyGiftCardTrans.reference}
+          referenceCurrency={viewBuyGiftCardTrans.referenceCurrency}
+          quan={viewBuyGiftCardTrans?.cardDetails?.quantity}
+          setIsModalVisible={setBuyGiftCardDetails}
+          isModalVisible={buyGiftCardDetails}
+          cardCurrency={viewBuyGiftCardTrans?.cardDetails?.cardCurrency}
+          cardSlug={viewBuyGiftCardTrans.cardSlug}
+          estimatedUSDValue={viewBuyGiftCardTrans?.cardDetails?.estimatedUSDValue}
+        />
+      )}
       {viewDepositTrans && (
         <TransactionModal
           title={"Deposit"}
@@ -233,7 +261,7 @@ const Transactions = ({
             <TabPane
               tab={
                 <div className={styles.transactions__tab__item}>
-                  <span>GiftCard Trades</span>
+                  <span>Sell GiftCard Trades</span>
                 </div>
               }
               key="5"
@@ -250,10 +278,27 @@ const Transactions = ({
             <TabPane
               tab={
                 <div className={styles.transactions__tab__item}>
-                  <span>P2P Transactions</span>
+                  <span>Buy GiftCard Trades</span>
                 </div>
               }
               key="6"
+            >
+              <BuyGiftCardTab
+                fetchTrans={getBuyGiftCardTrans}
+                transaction={BuyGiftCardTrans}
+                handleAction={(id) => {
+                  getBuyGiftCardTransById({ transactionId: id });
+                  setBuyGiftCardDetails(true);
+                }}
+              />
+            </TabPane>
+            <TabPane
+              tab={
+                <div className={styles.transactions__tab__item}>
+                  <span>P2P Transactions</span>
+                </div>
+              }
+              key="7"
             >
               <PTwoPTab
                 fetchTrans={getP2PTrans}
@@ -278,6 +323,7 @@ const mapStateToProps = (state) => ({
   btcTrans: state.btc.BTCTransaction,
   giftCardTrans: state.giftCard.GiftCardTransaction,
   BillPaymentTrans: state.billPayment.BillPaymentTransaction,
+  BuyGiftCardTrans: state.buyGiftCard.buyGiftCardTransaction,
   pairTwoPairFiatTrans: state.pairTwoPair.pairTwoPairFiatTransaction,
   withdrawalTrans: state.withdrawals.WithdrawalTransaction,
   depositTransaction: state.payment.DepositTransaction,
@@ -287,6 +333,7 @@ const mapStateToProps = (state) => ({
   viewWithdrawalTrans: state.withdrawals.withdrawalDetails,
   viewDepositTrans: state.payment.depositTransactionDetails,
   viewBillPaymentTrans: state.billPayment.billPaymentDetails,
+  viewBuyGiftCardTrans: state.buyGiftCard.buyGiftCardTransactionDetails,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -307,6 +354,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getP2PTrans: (data) => {
     dispatch(getAllUserFiatP2PTransferDetails(data));
+  },
+  getBuyGiftCardTrans: (data) => {
+    dispatch(getAllBuyCardTransaction(data));
+  },
+  getBuyGiftCardTransById: (data) => {
+    dispatch(getBuyCardTransaction(data));
   },
   getP2PTransById: (data) => {
     dispatch(getFiatP2PTransferById(data));

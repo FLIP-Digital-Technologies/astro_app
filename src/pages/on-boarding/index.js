@@ -10,7 +10,11 @@ import {
   updateUserDetails,
 } from "../../redux/actions/user";
 import { changePassword } from "../../redux/actions/Auths";
-import { verifyBankAccountDetails } from "../../redux/actions/bank";
+import {
+  getBankListByCountry,
+  verifyBankAccountDetails,
+  getBankBranchByID,
+} from "../../redux/actions/bank";
 import { history } from "../../redux/store";
 
 const OnBoarding = (props) => {
@@ -27,10 +31,10 @@ const OnBoarding = (props) => {
     }
   }, [props.addedBankDetails, setActiveKey]);
   React.useEffect(() => {
-    if(props.updatedTransactionPin){
-      history.push("/app")
+    if (props.updatedTransactionPin) {
+      history.push("/app");
     }
-  }, [props.updatedTransactionPin, setActiveKey])
+  }, [props.updatedTransactionPin, setActiveKey]);
   function callback(key) {
     setActiveKey(key);
   }
@@ -42,19 +46,17 @@ const OnBoarding = (props) => {
           <TabPane
             tab={
               <div className={styles.onboarding__tab}>
-                <span>1.</span>
-                <span>STEP 1 (Complete your profile)</span>
+                <span>STEP 1 - Complete your profile</span>
               </div>
             }
             key="1"
           >
-            <Step1 user={props.user} submitForm={props.submitUserDetails} />
+            <Step1 user={props.user} submitForm={props.submitUserDetails} {...{...props}} />
           </TabPane>
           <TabPane
             tab={
               <div className={styles.onboarding__tab}>
-                <span>2.</span>
-                <span>STEP2 (Add bank account)</span>
+                <span>STEP2 - Add bank account</span>
               </div>
             }
             key="2"
@@ -65,18 +67,18 @@ const OnBoarding = (props) => {
               verifyBankAccount={props.verifyBankAccount}
               bankName={props.bankName}
               submitForm={props.submitBankDetails}
+              {...{...props}} 
             />
           </TabPane>
           <TabPane
             tab={
               <div className={styles.onboarding__tab}>
-                <span>3.</span>
-                <span>STEP 3 (Security)</span>
+                <span>STEP 3 - Security</span>
               </div>
             }
             key="3"
           >
-            <Step3 user={props.user} submitForm={props.submitPin} />
+            <Step3 user={props.user} submitForm={props.submitPin}  {...{...props}}  />
           </TabPane>
         </Tabs>
       </div>
@@ -108,6 +110,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   verifyBankAccount: (data) => {
     dispatch(verifyBankAccountDetails(data));
+  },
+  getBankBranchList: (data) => {
+    dispatch(getBankBranchByID(data));
+  },
+  getBankList: (data) => {
+    dispatch(getBankListByCountry(data));
   },
 });
 

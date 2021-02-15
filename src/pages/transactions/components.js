@@ -6,6 +6,122 @@ import styles from "../styles.module.scss";
 import Button from "../../components/button";
 import { date } from "../../utils/helper";
 
+export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
+  const [loading, setLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: transaction && transaction.meta && transaction.meta.limit,
+    total: transaction && transaction.meta && transaction.meta.count,
+  });
+  React.useEffect(() => {
+    setPagination((pagination) => ({
+      current: pagination.current,
+      pageSize: transaction && transaction.meta && transaction.meta.limit,
+      total: transaction && transaction.meta && transaction.meta.count,
+    }));
+    setLoading(false);
+  }, [transaction]);
+
+  React.useEffect(() => {
+    fetchTrans({ skip: 0, limit: 10 });
+    // eslint-disable-next-line
+  }, []);
+
+  const handleTableChange = (pagination, filters, sorter) => {
+    fetch({
+      pagination,
+    });
+  };
+
+  const columns = [
+    {
+      title: "Date",
+      dataIndex: "createdAt",
+      render: (createdAt) => `${date(createdAt)}`,
+    },
+    {
+      title: "Reference",
+      dataIndex: "reference",
+    },
+    {
+      title: "Card Ordered",
+      dataIndex: "cardSlug",
+      render: (cardSlug, rec) => (
+        <div>
+        <p>
+          Ordered: {cardSlug.replace("-", " ").replace("_", " ")}
+          <br/>
+          Quantity: {rec.cardDetails && rec.cardDetails.quantity}
+        </p>
+        </div>
+      ),
+    },
+    {
+      title: "Card Amount | USD Amount",
+      dataIndex: "cardDetails",
+      render: (cardDetails) => (
+        <p>
+          {cardDetails && cardDetails.cardCurrency}
+          {cardDetails && cardDetails.cardValue} | USD 
+          {cardDetails && cardDetails.estimatedUSDValue.amount}
+        </p>
+      ),
+    },
+    {
+      title: "Wallet",
+      dataIndex: "referenceCurrency"
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+    },
+    {
+      title: "Action",
+      dataIndex: "id",
+      key: "x",
+      render: (id) => (
+        <p style={{ cursor: "pointer" }} onClick={() => handleAction(id)}>
+          View Details
+        </p>
+      ),
+    },
+  ];
+
+  const fetch = async (params = {}) => {
+    setLoading(true);
+    await fetchTrans({
+      skip: (params.pagination.current - 1) * params.pagination.pageSize,
+      limit: params.pagination.pageSize,
+    });
+    setPagination({
+      ...params.pagination,
+      total: transaction.meta && transaction.meta.count,
+    });
+  };
+  return (
+    <div style={{ overflowX: "auto" }}>
+      {transaction &&
+      transaction.transactions &&
+      transaction.transactions.length > 0 ? (
+        <Table
+          columns={columns}
+          // rowKey={(record) => record.login.uuid}
+          dataSource={transaction.transactions}
+          pagination={{
+            current: pagination.current,
+            pageSize: pagination.pageSize,
+            total: transaction.meta && transaction.meta.count,
+          }}
+          loading={loading}
+          onChange={handleTableChange}
+        />
+      ) : (
+        <EmptyEntryWithTitle title="P2P Transaction" />
+      )}
+    </div>
+  );
+};
+
 export const PTwoPTab = ({ fetchTrans, transaction, handleAction }) => {
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
@@ -149,7 +265,7 @@ export const BillPaymentTab = ({ fetchTrans, transaction, handleAction }) => {
     },
     {
       title: "Reference",
-      dataIndex: "trxReference",
+      dataIndex: "reference",
     },
     {
       title: "Bill Payed For",
@@ -712,16 +828,6 @@ export const EmptyEntryWithTitle = ({
         <span className={styles.transactions__empty__content__text}>
           No {title} here, yet
         </span>
-        {action && (
-          <div
-            className={styles.transactions__empty__content__info}
-            style={{ cursor: "pointer" }}
-            onClick={onClick}
-          >
-            <span>{actionText}</span>
-            <ArrowRight />
-          </div>
-        )}
       </div>
     </div>
   );

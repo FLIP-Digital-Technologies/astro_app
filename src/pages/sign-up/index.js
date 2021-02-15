@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { AuthHeader } from "../../components/header";
@@ -13,7 +13,14 @@ const SignUp = (props) => {
   const [password, handlePassword] = useState("");
   const [firstName, handleFirstName] = useState("");
   const [lastName, handleLastName] = useState("");
+  const [username, handleUsername] = useState("");
+  const [referralCode, handleReferralCode] = useState("");
   const [confirmPassword, handleConfirmPassword] = useState("");
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const referralCode = url.searchParams.get("referralCode"); // TODO: hhjj
+    handleReferralCode(referralCode || "");
+  }, [])
 
   const history = useHistory();
 
@@ -27,12 +34,24 @@ const SignUp = (props) => {
       });
       return;
     }
-    props.submitRegister({
-      email,
-      password,
-      firstName,
-      lastName,
-    });
+    if(referralCode){
+      props.submitRegister({
+        referralCode,
+        email,
+        password,
+        firstName,
+        lastName,
+        username
+      });
+    } else {
+      props.submitRegister({
+        email,
+        password,
+        firstName,
+        lastName,
+        username
+      });
+    }
   };
   return (
     <div>
@@ -63,9 +82,20 @@ const SignUp = (props) => {
           <Input
             className={styles.auth__content__input__body}
             inputClass={styles.auth__content__input}
+            placeholder="Username"
+            value={username}
+            onChange={(e) => handleUsername(e.target.value)}
+            required={true}
+            label="Username"
+          />
+          <Input
+            className={styles.auth__content__input__body}
+            inputClass={styles.auth__content__input}
             placeholder="Email"
             onChange={(e) => handleEmail(e.target.value)}
             required={true}
+            name="email"
+            id="email"
             value={email}
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
             type="email"
@@ -98,17 +128,35 @@ const SignUp = (props) => {
             type="password"
             label="Confirm password"
           />
-          <div className={styles.auth__content__terms}>
+          <Input
+            className={styles.auth__content__input__body}
+            inputClass={styles.auth__content__input}
+            placeholder="Referral Code"
+            onChange={(e) => handleReferralCode(e.target.value)}
+            required={false}
+            value={referralCode}
+            type="text"
+            label="Referral Code"
+          />
+          {/* <div className={styles.auth__content__terms}>
             <span>By proceeding, you agree to </span>
             <span className={styles.auth__content__terms__link}>
               Flip's terms and conditions
             </span>
-          </div>
+          </div> */}
           <Button
             className={styles.auth__content__button}
             form="full"
             text="Sign Up"
             type="submit"
+            disabled={
+              !email ||
+              !password ||
+              !firstName ||
+              !lastName ||
+              !username ||
+              props.loading
+            }
           />
 
           <div
@@ -126,7 +174,9 @@ const SignUp = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  loading: state.user.loading,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   submitRegister: (data) => {

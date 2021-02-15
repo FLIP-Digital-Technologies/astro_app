@@ -190,14 +190,12 @@ export const changePassword = (data) => (dispatch) => {
   dispatch(ChangePassword(data));
 };
 
-const ResetPassword = () => async (dispatch) => {
-  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+const ResetPassword = (data) => async (dispatch) => {
   dispatch({
     type: actionTypes.RESET_USER_PASSWORD_PENDING,
   });
-
   await authService
-    .resetPassword({ userId })
+    .resetPassword(data)
     .then((response) => {
       dispatch({
         type: actionTypes.RESET_USER_PASSWORD_SUCCESS,
@@ -212,8 +210,8 @@ const ResetPassword = () => async (dispatch) => {
     });
 };
 
-export const resetPassword = () => (dispatch) => {
-  dispatch(ResetPassword());
+export const resetPassword = (data) => (dispatch) => {
+  dispatch(ResetPassword(data));
 };
 
 const CompleteResetPassword = (data) => async (dispatch) => {

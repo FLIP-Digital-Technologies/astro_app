@@ -83,7 +83,7 @@ body {
 }
 
 .ant-drawer-content-wrapper {
-  width: 500px !important;
+  width: 500px;
   /* min-width: 300px; */
 }
 

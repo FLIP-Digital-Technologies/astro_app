@@ -9,6 +9,87 @@ import {
 } from "../../assets/svg";
 import { date, Money } from "../../utils/helper";
 
+export const TransactionModalBuyGiftCard = ({
+  type,
+  setIsModalVisible,
+  isModalVisible,
+  dateData,
+  cardValue,
+  status,
+  reference,
+  title = "Buy Gift Card Transaction",
+  referenceCurrency,
+  quan,
+  cardCurrency,
+  cardSlug,
+  estimatedUSDValue
+}) => {
+  return (
+    <ModalWrapper
+      isModalVisible={isModalVisible}
+      setIsModalVisible={setIsModalVisible}
+      className={styles.withdrawInitial}
+      showClose="no"
+      showCancel
+    >
+      <div className={styles.transactionBig}>
+        <div className={styles.transactionBig__tag}>
+          {title}
+        </div>
+        <div className={styles.transactionBig__top}>
+          <div className={styles.transactionBig__top__left}>
+            <div className={`${styles.badge} ${styles[type]}`}>
+              {status === "SUBMITTED" && <TransactionIconBig />}
+              {status === "APPROVED" && <TransactionIconSuc />}
+              {status === "DECLINED" && <TransactionIconMed />}
+              {status === "CANCELLED" && <TransactionIconMed />}
+            </div>
+            <div className={styles.text}>
+              <div className={`${styles.title} ${styles.main}`}>{cardSlug && cardSlug.replace("-", " ").replace("_", " ")}</div>
+              <div className={`${styles.sub}`}>{date(dateData)}</div>
+            </div>
+          </div>
+          <div className={`${styles.status} ${styles[status]}`}>{status}</div>
+        </div>
+        <div className={styles.transactionBig__main}>
+          <div
+            className={styles.transactionBig__main__holder}
+            style={{ flexDirection: "column", alignItems: "flex-start" }}
+          >
+            <div className={styles.transactionBig__main__content}>
+              <span>Reference ID</span> <span>{reference}</span>
+            </div>
+          </div>
+          <div
+            className={styles.transactionBig__main__holder}
+            style={{ flexDirection: "column", alignItems: "flex-start" }}
+          >
+            <div className={styles.transactionBig__main__content}>
+              <span>Wallet Used</span> <span>{referenceCurrency}</span>
+            </div>
+          </div>
+          <h4>Card Details</h4>
+          <div className={styles.transactionBig__main__holder}>
+            <div className={styles.transactionBig__main__content}>
+              <span>Card Value</span> <span>{cardCurrency} {cardValue}</span>
+            </div>
+          </div>
+          <div className={styles.transactionBig__main__holder}>
+            <div className={styles.transactionBig__main__content}>
+              <span>USD Price</span> <span> {Money(estimatedUSDValue.amount, "USD")}</span>
+            </div>
+          </div>
+          <div className={styles.transactionBig__main__holder}>
+            <div className={styles.transactionBig__main__content}>
+              <span>Quantity</span> <span>{quan}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ModalWrapper>
+  );
+};
+
 export const TransactionModalBillPayment = ({
   type,
   setIsModalVisible,

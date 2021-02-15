@@ -81,7 +81,7 @@ generalService.addBankAccount = function (params, payload) {
   data.accountName = payload.accountName;
   data.bankCode = payload.bankCode;
   data.bankName = payload.bankName;
-  data.currency = "NGN";
+  data.currency = payload.currency;
   return fetch({
     url: `/api/user-account/${params.userId}/bank-accounts`,
     method: "post",

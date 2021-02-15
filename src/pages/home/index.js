@@ -19,6 +19,7 @@ import { getLastUserWithdrawalDetails } from "../../redux/actions/withdrawals";
 import PTwoPFlyout, { AirtimeFlyout, FundFlyout, } from "./components";
 import { initialPaymentByUser } from "../../redux/actions/payment";
 import ModalWrapper from "../../components/Modals";
+import WithdrawInitial from "../../components/Modals/withdraw-modal-Initial";
 import { getBillPaymentCategory, initialBillPaymentByUser } from "../../redux/actions/billPayment";
 import { Money } from "../../utils/helper";
 
@@ -46,6 +47,7 @@ const Home = ({
   const [showFund, setShowFund] = useState(false);
   const [showPTWOP, setShowPTWOP] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [openWithdrawal, setOpenWithdrawal] = useState(false);
 
   const [dataPair, setDataPair] = useState({});
   const [state, setState] = useState({});
@@ -69,6 +71,10 @@ const Home = ({
   }, []);
   return (
     <DashboardLayout>
+      <WithdrawInitial
+        setIsModalVisible={setOpenWithdrawal}
+        isModalVisible={openWithdrawal}
+      />
       {openModal && depositMoneyDetails && (
         <ModalWrapper
           className={styles.scanSell__body}
@@ -183,191 +189,54 @@ const Home = ({
             </div>
           </div>
           <div className={styles.quick}>
-            <div className={styles.quick__holder} style={{flexWrap: "wrap"}}>
-              <div className={styles.quick__trade}>
-                <div className={styles.quick__trade__image}>
-                  <img
-                    src="https://via.placeholder.com/60.png"
-                    alt="amazon"
-                    className={styles.card__image}
-                  />
+            <div className={styles.quick__holder} style={{width: "100%", flexWrap: "wrap"}}>
+              <div
+                onClick={() => setOpenWithdrawal(true)}
+                className={`${styles.actionBtn} ${styles.quickBtn}`}
+              >
+                <div>
+                  <img src="https://via.placeholder.com/20.png" alt="Withdrawal" />
                 </div>
-                <span className={styles.quick__trade__text}>Withdrawal</span>
-                <div
-                  onClick={() => history.push("/app/giftcard")}
-                  className={styles.quick__trade__btn}
-                >
-                  Cash Out
-                </div>
+                <span>Withdrawal</span>
               </div>
-              <div className={styles.quick__trade}>
-                <div className={styles.quick__trade__image}>
-                  <img
-                    src="https://via.placeholder.com/60.png"
-                    alt="amazon"
-                    className={styles.card__image}
-                  />
+              <div
+                onClick={() => history.push("/app/sell-giftcard")}
+                className={`${styles.actionBtn} ${styles.quickBtn}`}
+              >
+                <div>
+                  <img src="https://via.placeholder.com/20.png" alt="GiftCard" />
                 </div>
-                <span className={styles.quick__trade__text}>GiftCard</span>
-                <div
-                  onClick={() => history.push("/app/giftcard")}
-                  className={styles.quick__trade__btn}
-                >
-                  Trade
-                </div>
+                <span>Sell GiftCard</span>
               </div>
-              <div className={styles.quick__trade}>
-                <div className={styles.quick__trade__image}>
-                  <img
-                    src="https://via.placeholder.com/60.png"
-                    alt="amazon"
-                    className={styles.card__image}
-                  />
+              <div
+                onClick={() => history.push("/app/btc")}
+                className={`${styles.actionBtn} ${styles.quickBtn}`}
+              >
+                <div>
+                  <img src="https://via.placeholder.com/20.png" alt="Bitcoin" />
                 </div>
-                <span className={styles.quick__trade__text}>Bitcoin</span>
-                <div
-                  onClick={() => history.push("/app/btc")}
-                  className={styles.quick__trade__btn}
-                >
-                  Trade
-                </div>
+                <span>Bitcoin</span>
               </div>
-              <div className={styles.quick__trade}>
-                <div className={styles.quick__trade__image}>
-                  <img
-                    src="https://via.placeholder.com/60.png"
-                    alt="amazon"
-                    className={styles.card__image}
-                  />
+              <div
+                onClick={() => setShowAirtime(true)}
+                className={`${styles.actionBtn} ${styles.quickBtn}`}
+              >
+                <div>
+                  <img src="https://via.placeholder.com/20.png" alt="Airtime" />
                 </div>
-                <span className={styles.quick__trade__text}>Buy Airtime</span>
-                <div
-                  onClick={() => setShowAirtime(true)}
-                  className={styles.quick__trade__btn}
-                >
-                  Buy
-                </div>
+                <span>Buy Airtime</span>
               </div>
-              <div className={styles.quick__trade}>
-                <div className={styles.quick__trade__image}>
-                  <img
-                    src="https://via.placeholder.com/60.png"
-                    alt="amazon"
-                    className={styles.card__image}
-                  />
+              <div
+                onClick={() => history.push("/app/bills")}
+                className={`${styles.actionBtn} ${styles.quickBtn}`}
+              >
+                <div>
+                  <img src="https://via.placeholder.com/20.png" alt="Airtime" />
                 </div>
-                <span className={styles.quick__trade__text}>Pay a Bill</span>
-                <div
-                  onClick={() => history.push("/app/bills")}
-                  className={styles.quick__trade__btn}
-                >
-                  Pay
-                </div>
+                <span>Bill Payments</span>
               </div>
             </div>
           </div>
-
-          {/* <div className={styles.transactionHistory}>
-            <span className={styles.transactionHistory__title}>
-              Transactions History
-            </span>
-            <div className={styles.transactionHistory__content}>
-              <div className={styles.transactionHistory__content__column}>
-                <div className={styles.transactionHistory__item}>
-                  <div className={styles.transactionHistory__item__image}>
-                    <img src="https://via.placeholder.com/20.png" alt="bill" />
-                  </div>
-                  <div className={styles.transactionHistory__item__text}>
-                    <span
-                      className={styles.transactionHistory__item__text__mian}
-                    >
-                      iTunes
-                    </span>
-                    <span
-                      className={styles.transactionHistory__item__text__sub}
-                    >
-                      01/09/2020
-                    </span>
-                  </div>
-                  <div
-                    className={styles.transactionHistory__item__separator}
-                  ></div>
-                  <div className={styles.transactionHistory__item__amount}>
-                    $250.00
-                  </div>
-                </div>
-                <div className={styles.transactionHistory__item}>
-                  <div className={styles.transactionHistory__item__image}>
-                    <img src="https://via.placeholder.com/20.png" alt="bill" />
-                  </div>
-                  <div className={styles.transactionHistory__item__text}>
-                    <span
-                      className={styles.transactionHistory__item__text__mian}
-                    >
-                      iTunes
-                    </span>
-                    <span
-                      className={styles.transactionHistory__item__text__sub}
-                    >
-                      01/09/2020
-                    </span>
-                  </div>
-                  <div
-                    className={styles.transactionHistory__item__separator}
-                  ></div>
-                  <div className={styles.transactionHistory__item__amount}>
-                    $250.00
-                  </div>
-                </div>
-                <div className={styles.transactionHistory__item}>
-                  <div className={styles.transactionHistory__item__image}>
-                    <img src="https://via.placeholder.com/20.png" alt="bill" />
-                  </div>
-                  <div className={styles.transactionHistory__item__text}>
-                    <span
-                      className={styles.transactionHistory__item__text__mian}
-                    >
-                      iTunes
-                    </span>
-                    <span
-                      className={styles.transactionHistory__item__text__sub}
-                    >
-                      01/09/2020
-                    </span>
-                  </div>
-                  <div
-                    className={styles.transactionHistory__item__separator}
-                  ></div>
-                  <div className={styles.transactionHistory__item__amount}>
-                    $250.00
-                  </div>
-                </div>
-                <div className={styles.transactionHistory__item}>
-                  <div className={styles.transactionHistory__item__image}>
-                    <img src="https://via.placeholder.com/20.png" alt="bill" />
-                  </div>
-                  <div className={styles.transactionHistory__item__text}>
-                    <span
-                      className={styles.transactionHistory__item__text__mian}
-                    >
-                      iTunes
-                    </span>
-                    <span
-                      className={styles.transactionHistory__item__text__sub}
-                    >
-                      01/09/2020
-                    </span>
-                  </div>
-                  <div
-                    className={styles.transactionHistory__item__separator}
-                  ></div>
-                  <div className={styles.transactionHistory__item__amount}>
-                    $250.00
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
         </div>
       </div>
     </DashboardLayout>

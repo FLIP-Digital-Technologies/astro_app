@@ -8,6 +8,7 @@ import withdrawalReducer from "./withdrawal";
 import paymentReducer from "./payment";
 import billPaymentReducer from "./billPayment";
 import pairTwoPairReducer from "./pairTwoPair";
+import buyGiftCardReducer from "./buyGiftCard";
 // main reducers
 
 const rootReducer = (history) =>
@@ -21,6 +22,7 @@ const rootReducer = (history) =>
     payment: paymentReducer,
     billPayment: billPaymentReducer,
     pairTwoPair: pairTwoPairReducer,
+    buyGiftCard: buyGiftCardReducer,
     // your reducer here
   });
 

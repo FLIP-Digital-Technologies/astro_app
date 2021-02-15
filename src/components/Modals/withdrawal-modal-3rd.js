@@ -1,77 +1,154 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { Modal } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import ModalWrapper from "./index";
 import styles from "./styles.module.scss";
 import Input from "../input";
 import Select from "../select";
 import Button from "../button";
-import { verifyBankAccountDetails } from "../../redux/actions/bank";
+import * as actionTypes from "../../redux/constants";
+import { Money } from "../../utils/helper";
+import {
+  getBankListByCountry,
+  verifyBankAccountDetails,
+  getBankBranchByID,
+} from "../../redux/actions/bank";
 import { initialWithdrawalByUser } from "../../redux/actions/withdrawals";
+import generalService from "../../redux/services/GeneralService";
+import fetch from "../../redux/services/FetchInterceptor";
+
+const { confirm } = Modal;
 
 const WithDrawModal3rd = ({
   setIsModalVisible,
   isModalVisible,
   showCloseAction,
+  loading,
   bankList,
   verifyBankAccount,
   bankName,
+  getBankBranchList,
+  branchList,
+  getBankList,
   submitBankDetails,
-  loading,
 }) => {
-  const [state, setState] = React.useState({
-    amount: "",
-    save: false,
-    narration: "",
-  });
-  const [bankAccount, setBankAccount] = React.useState({
-    bankCode: "",
+  const INITIAL_STATE = {
     accountNumber: "",
+    bankCode: "",
+    bvn: "",
     accountName: "",
     bankName: "",
-  });
-  const handleChange = ({ target: { name, value } }) => {
-    setState((state) => ({ ...state, [name]: value }));
-  };
-  const handleBankDetailsChange = ({ target: { name, value } }) => {
-    setBankAccount((bankAccount) => ({ ...bankAccount, [name]: value }));
-  };
-  const handleBankCode = (value) => {
-    handleBankDetailsChange({
-      target: { name: "bankCode", value: value.split(",")[0] },
-    });
-    handleBankDetailsChange({
-      target: { name: "bankName", value: value.split(",")[1] },
-    });
+    currency: "",
+    bankBranchCode: "",
+    bankBranchName: "",
   };
 
-  useEffect(() => {
-    if (bankAccount.bankCode && bankAccount.accountNumber.length === 10) {
-      verifyBankAccount({
-        bankCode: bankAccount.bankCode,
-        accountNumber: bankAccount.accountNumber,
+  const [state, setState] = useState(INITIAL_STATE);
+  const [acc, setAcc] = React.useState({
+    bankAccountId: "",
+    narration: "",
+    amount: "",
+    pin: "",
+    currency: "",
+  });
+  const [fee, setFee] = React.useState(0);
+  React.useEffect(() => {
+    if (state.currency && acc.amount && acc.amount >= 500) {
+      setFee(0)
+      function api() {
+        return fetch({
+          url: `/api/payments/outwards/get-transaction-fee`,
+          method: "get",
+          params: {
+            amount: acc.amount,
+            currency: state.currency === "NG" ? "NGN" : "GHS",
+          },
+        });
+      }
+      api().then((res) => {
+        setFee(res.data.fee);
       });
     }
-  }, [bankAccount.bankCode, bankAccount.accountNumber, verifyBankAccount]);
+  }, [state.currency, acc.amount]);
+
   useEffect(() => {
-    if (
-      bankAccount.bankCode &&
-      bankAccount.accountNumber.length === 10 &&
-      bankName &&
-      bankName.accountName
-    ) {
-      setBankAccount((bankAccount) => ({
-        ...bankAccount,
+    if (state.bankCode && state.accountNumber.length === 10) {
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: state.accountNumber,
+      });
+    }
+  }, [state.bankCode, state.accountNumber, verifyBankAccount]);
+  useEffect(() => {
+    if (branchList && branchList.length === 1) {
+      setState((state) => ({
+        ...state,
+        bankBranchName: branchList && branchList[0].branch_name,
+        bankBranchCode: branchList && branchList[0].branch_code,
+      }));
+    }
+  }, [branchList]);
+  useEffect(() => {
+    if (bankName && bankName.accountName) {
+      setState((state) => ({
+        ...state,
         accountName: bankName && bankName.accountName,
       }));
     }
-    // eslint-disable-next-line
   }, [bankName]);
 
-  const handleSubmit = () => {
-    let data = { bankAccount, ...state };
-    submitBankDetails(data);
+  const handleChange = ({ target: { name, value } }) => {
+    setState((state) => ({ ...state, [name]: value }));
   };
 
+  const handleBankCode = (value) => {
+    handleChange({ target: { name: "bankCode", value: value.split(",")[0] } });
+    handleChange({ target: { name: "bankName", value: value.split(",")[1] } });
+    handleChange({ target: { name: "accountName", value: "" } });
+    handleChange({ target: { name: "accountNumber", value: "" } });
+    handleChange({ target: { name: "accountNumber", value: "" } });
+    handleChange({ target: { name: "bankBranchCode", value: "" } });
+    if (state.currency === "GH") getBankBranchList({ id: value.split(",")[2] });
+  };
+
+  const handleFormSubmit = (e) => {
+    const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+    if (e) {
+      e.preventDefault();
+    }
+    // {
+    //   "accountNumber": "0217712602",
+    //   "accountName": "BELLO MUBARAK AYOBAMI",
+    //   "bankCode": "058",
+    //   "bankName": "Guaranty Trust Bank",
+    //   "currency": "NGN"
+    // }
+    let data = {};
+    data.accountNumber = state.accountNumber;
+    data.accountName = state.accountName;
+    data.bankCode = state.bankCode;
+    data.bankName = state.bankName;
+    data.currency = state.currency === "NG" ? "NGN" : "GHS";
+    generalService
+      .addBankAccount({userId}, data)
+      .then(res => {
+        const {bankAccount} = res.data;
+        setAcc((acc) => ({...acc, bankAccountId: bankAccount.id, currency: state.currency}) )
+        confirm({
+          title: `Withdrawing ${Money(acc.amount, "NGN")}`,
+          icon: <ExclamationCircleOutlined style={{ color: "#19a9de" }} />,
+          content: `Confirm the withdrawal of ${Money(acc.amount, "NGN")} into ${
+            data.accountName
+          } ${data.accountNumber} ${data.bankName}`,
+          onOk() {
+            return submitBankDetails({ ...acc, bankAccountId: bankAccount.id, currency: state.currency === "NG" ? "NGN" : "GHS" });
+          },
+          onCancel() {},
+        });
+      })
+  };
+  
   return (
     <ModalWrapper
       showCloseAction={showCloseAction}
@@ -80,41 +157,35 @@ const WithDrawModal3rd = ({
       className={styles.slimModal}
     >
       <div className={styles.title}>Withdraw to 3rd party account</div>
-      <Input
-        className={styles.input}
-        onChange={handleChange}
-        type="text"
-        value={state.narration}
-        label="Narration"
-        name="narration"
-        placeholder="Enter narration here"
-      />
-      <Input
-        className={styles.input}
-        onChange={handleChange}
-        type="number"
-        min={500}
-        name="amount"
-        value={state.amount}
-        label="Withdrawal amount"
-        placeholder="Enter amount here"
-      />
-      <Input
-        name="accountNumber"
-        value={bankAccount.accountNumber}
-        onChange={handleBankDetailsChange}
-        className={styles.input}
-        label="Account Number"
-        placeholder="e.g 01236548"
-        pattern="\d{10}$"
-        maxLength="10"
-        hint="Please ensure to input the correct account number"
+      <Select
+        labelClass={styles.profileBankInputLabel}
+        className={styles.profileBankInput}
+        label="Select currency"
+        value={state.currency}
+        onSelect={(value) => {
+          setState((state) => ({
+            ...state,
+            currency: value,
+            accountNumber: "",
+            bankCode: "",
+            bvn: "",
+            accountName: "",
+            bankName: "",
+            bankBranchCode: "",
+            bankBranchName: "",
+          }));
+          getBankList({ country: value });
+        }}
+        name="select payment currency"
+        options={[
+          { render: "NGN", value: "NG" },
+          { render: "GHS", value: "GH" },
+        ]}
       />
       <Select
         name="bankCode"
-        value={bankAccount.bankCode}
+        value={state.bankCode}
         onSelect={(value) => handleBankCode(value)}
-        className={styles.input}
         label="Bank"
         placeholder="Select your bank"
         options={bankList?.map((i) => ({
@@ -122,33 +193,88 @@ const WithDrawModal3rd = ({
           render: i.name,
         }))}
       />
+      {state.currency === "GH" && (
+        <Select
+          name="bankBranchName"
+          labelClass={styles.profileBankInputLabel}
+          className={styles.profileBankInput}
+          value={`${state.bankBranchCode},${state.bankBranchName}`}
+          onSelect={(value) => {
+            setState((state) => ({
+              ...state,
+              bankBranchName: value.split(",")[1],
+              bankBranchCode: value.split(",")[0],
+            }));
+          }}
+          label="Bank Branch"
+          placeholder="Select your bank branch"
+          options={
+            branchList &&
+            branchList?.map((i) => ({
+              value: `${i.branch_code},${i.branch_name}`,
+              render: i.branch_name,
+            }))
+          }
+        />
+      )}
+      <Input
+        name="accountNumber"
+        value={state.accountNumber}
+        onChange={handleChange}
+        label="Account Number"
+        placeholder="e.g 01236548"
+        pattern="\d{10}$"
+        maxLength="10"
+        hint="Please ensure to input the correct account number"
+      />
       <Input
         name="accountName"
-        className={styles.input}
-        value={bankAccount.accountName}
-        onChange={handleBankDetailsChange}
+        value={state.accountName}
+        onChange={handleChange}
         label="Account Name"
         placeholder="Enter your account name"
         readOnly={true}
         disabled
       />
       <Input
-        className={styles.input}
-        onChange={(e) =>
-          setState((state) => ({ ...state, save: e.target.checked }))
+        className={styles.largeMarginLabel}
+        label="Withdrawal amount"
+        placeholder="Enter amount here"
+        type="number"
+        value={acc.amount}
+        min={500}
+        onChange={(e) => setAcc({ ...acc, amount: e.target.value })}
+        hint={state.currency && acc.amount ?
+          <span>
+            You will be charged <strong>{Money(fee, state.currency === "NG" ? "NGN" : "GHS" || "")}</strong> for this withdrawal.
+          </span> : null
         }
-        type="checkbox"
-        value={state.save}
-        label="Save this details."
-        name="save"
+      />
+      <Input
+        className={styles.largeMarginLabel}
+        label="Narration"
+        placeholder="Enter narration here"
+        type="text"
+        value={acc.narration}
+        onChange={(e) => setAcc({ ...acc, narration: e.target.value })}
+      />
+      <Input
+        className={styles.largeMarginLabel}
+        label="Enter Transaction Pin"
+        placeholder="Enter Transaction Pin"
+        type="password"
+        maxlength={4}
+        value={acc.pin}
+        onChange={(e) => setAcc({ ...acc, pin: e.target.value })}
       />
       <Button
-        onClick={() => handleSubmit()}
+        onClick={() => handleFormSubmit()}
         disabled={
-          !bankAccount.accountNumber ||
-          !bankAccount.accountName ||
-          !bankAccount.bankCode ||
-          state.amount < 500 ||
+          !state.accountNumber ||
+          !state.accountName ||
+          !state.bankCode ||
+          acc.amount < 500 ||
+          !fee ||
           loading
         }
         className={styles.button}
@@ -163,6 +289,7 @@ const mapStateToProps = (state) => ({
   loading: state.withdrawals.loading,
   bankList: state.bank.bankList,
   bankName: state.bank.bankDetails,
+  bankLink: state.bank.bankList,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -171,6 +298,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   submitBankDetails: (data) => {
     dispatch(initialWithdrawalByUser(data));
+  },
+  getBankBranchList: (data) => {
+    dispatch(getBankBranchByID(data));
+  },
+  getBankList: (data) => {
+    dispatch(getBankListByCountry(data));
   },
 });
 

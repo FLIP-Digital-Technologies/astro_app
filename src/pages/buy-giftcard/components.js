@@ -9,18 +9,12 @@ import * as SVG from "../../assets/svg";
 import { SuccessfulModal } from "../transactions/components";
 import {
   countryOptions,
+  cardOptions,
   processImageToCloudinary,
 } from "../../utils/helper";
 import { history } from "../../redux/store";
 
 import styles from "../styles.module.scss";
-
-const getHumanForm = (name) =>
-  name
-    .replace("-", " ")
-    .split(" ")
-    .map((word) => `${word[0].toUpperCase()}${word.slice(1)}`)
-    .join(" ");
 
 export const GiftCardForm = ({
   active,
@@ -35,7 +29,7 @@ export const GiftCardForm = ({
     number: 1,
     total: 0,
     file: [],
-    wallet: "",
+    wallet: "ng"
   };
 
   const [details, setDetails] = useState(INITIAL_STATE);
@@ -119,18 +113,11 @@ export const GiftCardForm = ({
       {open && soldGiftCard && (
         <SuccessfulModal title={"Sold"} onClick={() => history.push("/app")} />
       )}
-      <div className={styles.gitcard__form__holder} style={{alignItems: "flex-start"}}>
+      <div className={styles.gitcard__form__holder}>
         <div onClick={handleBack} className={styles.gitcard__form__link}>
           <SVG.ArrowLeft /> Giftcard
         </div>
-        <div
-          className={styles.gitcard__form__body__image}
-          style={{
-            border: "1px solid #805b5b26",
-            boxShadow: "-3px 4px 20px #00000026",
-            position: "relative"
-          }}
-        >
+        <div className={styles.gitcard__form__body__image}>
           <active.Image />
         </div>
       </div>
@@ -138,9 +125,7 @@ export const GiftCardForm = ({
       <div className={styles.gitcard__form__body}>
         <div className={styles.gitcard__form__body__holder}>
           <div className={styles.gitcard__form__left}>
-            <h3>{active.displayName}</h3>
-            <br />
-            <div style={{ marginBottom: 20 }}>
+            <div style={{marginBottom: 20}}>
               <Select
                 options={[
                   { render: "NGN wallet", value: "NGN" },
@@ -153,8 +138,8 @@ export const GiftCardForm = ({
                 labelClass={styles.label}
               />
             </div>
-            <br />
-            <div style={{ marginBottom: 20 }}>
+            <br/>
+            <div style={{marginBottom: 20}}>
               <Select
                 options={countryOptions.filter((i) => {
                   return (
@@ -170,27 +155,17 @@ export const GiftCardForm = ({
                 labelClass={styles.label}
               />
             </div>
-            <br />
-            <div style={{ marginBottom: 20 }}>
+            <br/>
+            <div style={{marginBottom: 20}}>
               <Select
-                options={
-                  active[details.country.toLowerCase()] &&
-                  active[details.country.toLowerCase()].map((i) => ({
-                    value: i[0],
-                    name: getHumanForm(i[0]),
-                    render: (
-                      <div
-                        className={styles.countryOption}
-                        style={{ display: "flex", alignItems: "center" }}
-                      >
-                        <SVG.CardTypePhysical />
-                        <span style={{ marginLeft: 10 }}>
-                          {getHumanForm(i[0])}
-                        </span>
-                      </div>
-                    ),
-                  }))
-                }
+                options={cardOptions.filter((i) => {
+                  return (
+                    details.country.toLowerCase() &&
+                    active[details.country.toLowerCase()].filter((ki) =>
+                      i.value.toLowerCase().includes(ki[0])
+                    ).length > 0
+                  );
+                })}
                 value={details.cardType}
                 onSelect={onCardTypeChange}
                 className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
@@ -198,7 +173,7 @@ export const GiftCardForm = ({
                 labelClass={styles.label}
               />
             </div>
-            <br />
+            <br/>
             <div>
               <Input
                 label="Card value"
@@ -213,7 +188,7 @@ export const GiftCardForm = ({
                 disabled={!rate}
               />
             </div>
-            <br />
+            <br/>
             <div>
               <Input
                 className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
@@ -225,10 +200,8 @@ export const GiftCardForm = ({
                 type="number"
               />
             </div>
-            <div className={styles.gitcard__form__upload}>
-              {progress && (
-                <span>{progress ? `uploading ${progress}%` : ""}</span>
-              )}
+              <div className={styles.gitcard__form__upload}>
+              {progress && <span>{progress ? `uploading ${progress}%` : ""}</span>}
               {progress && <Progress percent={progress} status="active" />}
               <Upload handleFile={onHandleFile} />
               {details.file.length > 0 && (
@@ -254,17 +227,11 @@ export const GiftCardForm = ({
             <div className={styles.gitcard__form__info}>
               <h3>Info</h3>
               <div>
-                <strong>Rate</strong>&emsp;
-                <span>
-                  {rate && rate.rate && rate.rate[details.wallet]}{" "}
-                  {details && details.wallet}
-                </span>
+                <strong>Rate</strong>&emsp;<span>{rate && rate.rate && rate.rate[details.wallet]} {details && details.wallet}</span>
               </div>
               <div>
                 <strong>Value</strong>&emsp;
-                <span>
-                  {details && details.wallet} {details.total}
-                </span>
+                <span>{details && details.wallet} {details.total}</span>
               </div>
             </div>
             <Button

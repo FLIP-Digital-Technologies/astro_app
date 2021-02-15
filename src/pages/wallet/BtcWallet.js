@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { DashboardLayout } from "../../components/layout";
 import Table from "../../components/table";
@@ -21,23 +21,32 @@ const Wallet = ({ balance, user, btcRates, btcTrans }) => {
   return (
     <DashboardLayout>
       <div>
-        <SCanSell setIsModalVisible={setOpenReceive}  isModalVisible={openReceive} />
+        <SCanSell
+          setIsModalVisible={setOpenReceive}
+          isModalVisible={openReceive}
+        />
         <div className={styles.walletBtc}>
           <WalletCard
             walletName="BTC Wallet"
             handleVie={() => {}}
-            name={`${user && user.lastName} ${user && user.firstName}`}
+            name={`${(user && user.lastName) || `-`} ${
+              (user && user.firstName) || `-`
+            }`}
             amount={Money(
               (balance && balance.BTC && balance.BTC.balance) || 0,
               "BTC"
             )}
             action={false}
-            rate={btcRates && btcRates.tickers && btcRates.tickers.btcusd.sell}
+            rate={btcRates && btcRates.tickers && btcRates.tickers.BTCUSD.sell}
           />
 
           <div className={styles.btnHolder}>
             <Button onClick={() => goTo("/send")} text="Send" form="full" />
-            <Button text="Receive" form="full" onClick={() => setOpenReceive(true)} />
+            <Button
+              text="Receive"
+              form="full"
+              onClick={() => setOpenReceive(true)}
+            />
           </div>
           <div className={styles.btnHolder}>
             <Button

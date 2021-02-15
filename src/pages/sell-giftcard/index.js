@@ -12,6 +12,10 @@ import {
 import { EmptyEntryWithTitle } from "../transactions/components";
 import { sortData, cardList } from "../../utils/helper";
 
+const getHumanForm = (name) => (
+  name.replace("-", " ").split(" ").map(word => `${word[0].toUpperCase()}${word.slice(1,)}`).join(" ")
+)
+
 const SellGiftcard = (props) => {
   let b = props.giftCardList;
   let list = sortData(b);
@@ -27,7 +31,7 @@ const SellGiftcard = (props) => {
       let name = data[0];
       a.name = name;
       a.Image = C.Image;
-      a.displayName = cardList[item].name;
+      a.displayName = getHumanForm(item);
       a[name] = Object(data[1]).map((key) => ({
         name: key[0],
         [key[0]]: key[1],
@@ -41,8 +45,7 @@ const SellGiftcard = (props) => {
     return (
       <div onClick={handleClick} className={styles.gitcard__content__card}>
         <div className={styles.holder}>{C && C.Image && <C.Image />}</div>
-
-        {(cardList[item] && cardList[item].name) || null}
+        {getHumanForm(item) || null}
       </div>
     );
   };

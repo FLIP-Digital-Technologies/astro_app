@@ -1,17 +1,28 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
+import { Modal } from "antd";
 import { AuthHeader } from "../../components/header";
 import Input from "../../components/input";
 import Button from "../../components/button";
 import styles from "../styles.module.scss";
-import { loginUser } from "../../redux/actions/Auths";
+import { loginUser, resetPassword } from "../../redux/actions/Auths";
 
 const SignIn = (props) => {
+  const history = useHistory();
+  const [resetEmail, handleResetEmail] = useState("");
   const [email, handleEmail] = useState("");
   const [password, handlePassword] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [switchReset, setSwitch] = useState(true);
 
-  const history = useHistory();
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const login = (e) => {
     if (e) {
@@ -22,8 +33,85 @@ const SignIn = (props) => {
       password,
     });
   };
+
+  const resetPassword = (e) => {
+    props.ResetPasswordViaEmail({
+      email: resetEmail,
+    });
+    setSwitch(false)
+  };
   return (
     <div>
+      <Modal
+        footer={null}
+        title="Reset Password"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+      >
+        {switchReset ? (
+          <div>
+            <Input
+              className={styles.auth__content__input__body}
+              inputClass={styles.auth__content__input}
+              placeholder="Email"
+              onChange={(e) => handleResetEmail(e.target.value)}
+              value={resetEmail}
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
+              type="email"
+              required={true}
+              label="Please enter your registered email."
+            />
+            <Button
+              className={styles.auth__content__button}
+              form="full"
+              onClick={(e) => resetPassword(e)}
+              text="Submit"
+            />
+          </div>
+        ) : (
+          <div>
+            <Input
+              className={styles.auth__content__input__body}
+              inputClass={styles.auth__content__input}
+              placeholder="Email"
+              onChange={(e) => handleResetEmail(e.target.value)}
+              value={resetEmail}
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
+              type="email"
+              required={true}
+              label="Please enter your registered email."
+            />
+            <Input
+              className={styles.auth__content__input__body}
+              inputClass={styles.auth__content__input}
+              placeholder="Email"
+              onChange={(e) => handleResetEmail(e.target.value)}
+              value={resetEmail}
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
+              type="email"
+              required={true}
+              label="Please enter your registered email."
+            />
+            <Input
+              className={styles.auth__content__input__body}
+              inputClass={styles.auth__content__input}
+              placeholder="Email"
+              onChange={(e) => handleResetEmail(e.target.value)}
+              value={resetEmail}
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
+              type="email"
+              required={true}
+              label="Please enter your registered email."
+            />
+            <Button
+              className={styles.auth__content__button}
+              form="full"
+              onClick={(e) => resetPassword(e)}
+              text="Submit"
+            />
+          </div>
+        )}
+      </Modal>
       <AuthHeader form="signin">
         <form className={styles.auth__content} onSubmit={(e) => login(e)}>
           <h2 className={styles.auth__content__title}>Welcome back!</h2>
@@ -52,7 +140,7 @@ const SignIn = (props) => {
             required={true}
             label="Password"
           />
-          <div className={styles.auth__content__forgot}>Forgot Password?</div>
+          <div  onClick={showModal} style={{cursor: "pointer"}} className={styles.auth__content__forgot}>Forgot Password?</div>
           <Button
             className={styles.auth__content__button}
             form="full"
@@ -79,6 +167,9 @@ const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch) => ({
   submitLogin: (data) => {
     dispatch(loginUser(data));
+  },
+  ResetPasswordViaEmail: (data) => {
+    dispatch(resetPassword(data));
   },
 });
 

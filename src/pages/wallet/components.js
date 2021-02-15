@@ -54,13 +54,13 @@ export const SendSection = ({ balance, rates, state, setState }) => {
     if (name === "btc") {
       btc = value;
       ngn = ticker && ticker.btcngn.sell * value;
-      // usd = ticker && ticker.tickers.btcusd.sell * value;
+      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
       usd = 26000 * value;
       setState((state) => ({ ...state, btc, usd, ngn }));
     } else if (name === "ngn") {
       ngn = value;
       btc = value / (ticker && ticker.btcngn.sell);
-      // usd = ticker && ticker.tickers.btcusd.sell * value;
+      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
       usd = 26000 * btc;
       setState((state) => ({ ...state, btc, usd, ngn }));
     } else if (name === "usd") {
@@ -109,7 +109,7 @@ export const SendSection = ({ balance, rates, state, setState }) => {
           name="btc"
           onChange={handleChange}
           hint={`Current rate ${
-            rates && rates.tickers && Money(rates.tickers.btcngn.sell, "NGN")
+            rates && rates.tickers && Money(rates.tickers.BTCNGN.sell, "NGN")
           } / BTC`}
           hintClass={styles.largeMarginHint}
           placeholder=""

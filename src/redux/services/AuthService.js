@@ -4,18 +4,21 @@ const authService = {};
 
 authService.createAccount = function (payload) {
   // {
-  //   "email": "wathik.liker@iel.pw",
-  //   "firstName": "Wathik",
-  //   "lastName": "Liker",
-  //   "country": "NGN",
-  //   "password": "passwordwl"
+  //   "email": "ass.orboobs@cuffa.com",
+  //   "firstName": "Ass",
+  //   "lastName": "Orboobs",
+  //   "password": "passwordao",
+  //   "username": "assplusboobsequalslife",
+  //   "referralCode": "VnpJrP",
+  //   "phoneNumber": ""
   // }
-  let data = {};
+  let data = {...payload};
   data.email = payload.email;
   data.firstName = payload.firstName;
   data.lastName = payload.lastName;
-  data.country = payload.country || "NGN";
+  data.country = payload.country || "";
   data.password = payload.password;
+  data.username = payload.username;
   return fetch({
     url: "/api/user-account",
     method: "post",
@@ -95,10 +98,16 @@ authService.changePassword = function (params, payload) {
   });
 };
 
-authService.resetPassword = function (params) {
+authService.resetPassword = function (data) {
   return fetch({
-    url: `/api/user-account/${params.userId}/reset-password`,
+    url: `/api/user-account/reset-password`,
     method: "post",
+    headers: {
+      "public-request": "true",
+    },
+    data: {
+      email: data.email,
+    }
   });
 };
 

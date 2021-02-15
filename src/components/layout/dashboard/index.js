@@ -4,12 +4,12 @@ import { Layout, Menu } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import {
   CaretDown,
-  Profile,
+  // Profile,
   Power,
   LogoNav,
 } from "../../../assets/svg";
 import { navigation } from "./data";
-import { history } from "../../../redux/store";
+// import { history } from "../../../redux/store";
 
 import styles from "./styles.module.scss";
 import { logOutUser } from "../../../redux/actions/Auths";
@@ -108,11 +108,11 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
                 onClick={() => setShowDropDown(!showDropDown)}
               >
                 <div className={styles.header__right__avatar}>{`${
-                  user && user.firstName[0]
-                } ${user && user.lastName[0]}`}</div>
+                  (user && user.firstName[0]) || `-`
+                } ${(user && user.lastName[0]) || `-`}`}</div>
                 <div className={styles.header__right__name}>{`${
-                  user && user.firstName
-                } ${user && user.lastName}`}</div>
+                  (user && user.firstName) || `-`
+                } ${(user && user.lastName) || `-`}`}</div>
                 <CaretDown />
                 {showDropDown && (
                   <div
@@ -125,16 +125,6 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
                       zIndex: 9,
                     }}
                   >
-                    <div
-                      style={{
-                        padding: "0px 15px",
-                        backgroundColor: "#fff",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => history.push("/app/profile")}
-                    >
-                      <Profile /> <span>Profile</span>
-                    </div>
                     <div
                       style={{
                         padding: "0px 15px",

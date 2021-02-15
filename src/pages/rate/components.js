@@ -30,13 +30,13 @@ export const RateSelector = ({
     if (name === "btc") {
       btc = value;
       ngn = ticker && ticker.btcngn.buy * value;
-      // usd = ticker && ticker.tickers.btcusd.buy * value;
+      // usd = ticker && ticker.tickers.BTCUSD.buy * value;
       usd = 26000 * value;
       setState((state) => ({ ...state, btc, usd, ngn }));
     } else if (name === "ngn") {
       ngn = value;
       btc = value / (ticker && ticker.btcngn.buy);
-      // usd = ticker && ticker.tickers.btcusd.buy * value;
+      // usd = ticker && ticker.tickers.BTCUSD.buy * value;
       usd = 26000 * btc;
       setState((state) => ({ ...state, btc, usd, ngn }));
     } else if (name === "usd") {
@@ -57,13 +57,13 @@ export const RateSelector = ({
     if (name === "btc") {
       btc = value;
       ngn = ticker && ticker.btcngn.sell * value;
-      // usd = ticker && ticker.tickers.btcusd.sell * value;
+      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
       usd = 26000 * value;
       setState((state) => ({ ...state, btc, usd, ngn }));
     } else if (name === "ngn") {
       ngn = value;
       btc = value / (ticker && ticker.btcngn.sell);
-      // usd = ticker && ticker.tickers.btcusd.sell * value;
+      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
       usd = 26000 * btc;
       setState((state) => ({ ...state, btc, usd, ngn }));
     } else if (name === "usd") {
@@ -158,7 +158,7 @@ export const RateSelector = ({
             value={state.btc}
             name="btc"
             onChange={handleChange}
-            // hint={`Current rate ${rates && rates.tickers && Money(rates.tickers.btcusd.buy, "USD")} / BTC`}
+            // hint={`Current rate ${rates && rates.tickers && Money(rates.tickers.BTCUSD.buy, "USD")} / BTC`}
             hintClass={styles.largeMarginHint}
             placeholder="e.g 0.000011"
           /> */}
@@ -179,7 +179,7 @@ export const RateSelector = ({
             name="ngn"
             onChange={handleChange}
             placeholder="₦5000"
-            // hint={`Current rate ${rates && rates.tickers && Money(rates.tickers.btcngn.buy, "NGN")} / BTC`}
+            // hint={`Current rate ${rates && rates.tickers && Money(rates.tickers.BTCNGN.buy, "NGN")} / BTC`}
           />
         </div>
       ) : (
@@ -203,7 +203,7 @@ export const RateSelector = ({
                 value={state.btc}
                 name="btc"
                 onChange={handleSellChange}
-                // hint={`Current rate ${rates && rates.tickers && Money(rates.tickers.btcusd.buy, "USD")} / BTC`}
+                // hint={`Current rate ${rates && rates.tickers && Money(rates.tickers.BTCUSD.buy, "USD")} / BTC`}
                 hintClass={styles.largeMarginHint}
                 placeholder="e.g 0.000011"
               />
@@ -224,7 +224,7 @@ export const RateSelector = ({
                 name="ngn"
                 onChange={handleSellChange}
                 placeholder="₦5000"
-                // hint={`Current rate ${rates && rates.tickers && Money(rates.tickers.btcngn.buy, "NGN")} / BTC`}
+                // hint={`Current rate ${rates && rates.tickers && Money(rates.tickers.BTCNGN.buy, "NGN")} / BTC`}
               />
             </>
           ) : (
@@ -295,7 +295,7 @@ export const RateDetails = ({ state, meta, isBuy, rates }) => {
           <div className={styles.rate__details__list__item}>
             <span className={styles.main}>Rate</span>
             <span className={`${styles.sub} `}>{` ${
-              rates && rates.tickers && Money(rates.tickers.btcngn.buy, "NGN")
+              rates && rates.tickers && Money(rates.tickers.BTCNGN.buy, "NGN")
             } / BTC`}</span>
           </div>
         </div>

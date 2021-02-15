@@ -10,11 +10,18 @@ const initState = {
   updatedUser: false,
   updatedUserBank: false,
   updatedTransactionPin: false,
+  userReferral: null,
+  userReferralTransaction: {
+    referrals: [],
+    meta: {},
+  },
 };
 const key = actionTypes.KEY;
 
 const authReducer = (state = initState, action) => {
   switch (action.type) {
+    case actionTypes.GET_USER_REFERRALS_PENDING:
+    case actionTypes.REDEEM_USER_REFERRAL_PENDING:
     case actionTypes.LOGIN_PENDING:
     case actionTypes.REGISTER_PENDING:
     case actionTypes.VERIFY_EMAIL_OTP_PENDING:
@@ -137,6 +144,34 @@ const authReducer = (state = initState, action) => {
         loading: false,
         error: null,
       };
+    case actionTypes.REDEEM_USER_REFERRAL_SUCCESS:
+      notification.success({
+        message: "Successful",
+        description: "Redeemed referral bonus successfully",
+        key,
+      });
+      return {
+        ...state,
+        userReferral: action.payload,
+        loading: false,
+        error: null,
+      };
+    case actionTypes.GET_USER_REFERRALS_SUCCESS:
+      notification.success({
+        message: "Successful",
+        key,
+      });
+      return {
+        ...state,
+        userReferralTransaction: {
+          transactions: action.payload.referrals,
+          meta: action.payload.meta,
+        },
+        loading: false,
+        error: null,
+      };
+    case actionTypes.GET_USER_REFERRALS_FAILED:
+    case actionTypes.REDEEM_USER_REFERRAL_FAILED:
     case actionTypes.LOGIN_FAILED:
     case actionTypes.REGISTER_FAILED:
     case actionTypes.VERIFY_EMAIL_OTP_FAILED:

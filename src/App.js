@@ -13,9 +13,9 @@ import {
   Rate,
   OnBoarding,
   Coin,
-  Profile,
+  // Profile,
   BTC,
-  // Airtime,
+  BuyGiftCard,
   Bills,
   Settings,
 } from "./pages";
@@ -46,8 +46,11 @@ function App(props) {
       <Route path="/app/onboarding">
         <OnBoarding />
       </Route>
-      <Route path="/app/giftcard">
+      <Route path="/app/sell-giftcard">
         <SellGiftcard />
+      </Route>
+      <Route path="/app/buy-giftcard">
+        <BuyGiftCard />
       </Route>
       <Route path="/app/rate">
         <Rate />
@@ -61,9 +64,9 @@ function App(props) {
       <Route path="/app/transactions">
         <Transactions />
       </Route>
-      <Route path="/app/profile">
+      {/* <Route path="/app/profile">
         <Profile />
-      </Route>
+      </Route> */}
       <Route path="/app/bills">
         <Bills />
       </Route>

@@ -28,31 +28,31 @@ export const BuySection = ({
     let btc, ngn, usd, ghs;
     if (name === "btc") {
       btc = value;
-      ngn = ticker && ticker.btcngn.buy * value;
-      // usd = ticker && ticker.tickers.btcusd.buy * value;
+      ngn = ticker && ticker.BTCNGN.buy * value;
+      // usd = ticker && ticker.tickers.BTCUSD.buy * value;
       usd = 26000 * value;
-      ghs = ticker && ticker.btcghs.buy * value;
+      ghs = ticker && ticker.BTCGHS.buy * value;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ngn") {
       ngn = value;
-      btc = value / (ticker && ticker.btcngn.buy);
-      // usd = ticker && ticker.tickers.btcusd.buy * value;
+      btc = value / (ticker && ticker.BTCNGN.buy);
+      // usd = ticker && ticker.tickers.BTCUSD.buy * value;
       usd = 26000 * btc;
-      ghs = ticker && ticker.btcghs.buy * btc;
+      ghs = ticker && ticker.BTCGHS.buy * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "usd") {
       usd = value;
-      // btc = value / (ticker && ticker.btcusd.buy);
+      // btc = value / (ticker && ticker.BTCUSD.buy);
       btc = value / 26000;
-      ngn = ticker && ticker.btcngn.buy * btc;
-      ghs = ticker && ticker.btcghs.buy * btc;
+      ngn = ticker && ticker.BTCNGN.buy * btc;
+      ghs = ticker && ticker.BTCGHS.buy * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ghs") {
       ghs = value;
-      btc = value / (ticker && ticker.btcghs.buy);
-      // usd = ticker && ticker.tickers.btcusd.buy * value;
+      btc = value / (ticker && ticker.BTCGHS.buy);
+      // usd = ticker && ticker.tickers.BTCUSD.buy * value;
       usd = 26000 * btc;
-      ngn = ticker && ticker.btcngn.buy * btc;
+      ngn = ticker && ticker.BTCNGN.buy * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     }
     if (!value) {
@@ -135,7 +135,7 @@ export const BuySection = ({
             name="btc"
             onChange={handleChange}
             hint={`Current rate ${
-              rates && rates.tickers && Money(rates.tickers.btcusd.buy, "USD")
+              rates && rates.tickers && Money(rates.tickers.BTCUSD.buy, "USD")
             } / BTC`}
             placeholder="e.g 0.000011"
           />
@@ -154,7 +154,7 @@ export const BuySection = ({
             label="Amount in NGN"
             value={state.ngn}
             hint={`Current rate ${
-              rates && rates.tickers && Money(rates.tickers.btcngn.buy, "USD")
+              rates && rates.tickers && Money(rates.tickers.BTCNGN.buy, "USD")
             } / BTC`}
             name="ngn"
             onChange={handleChange}
@@ -164,7 +164,7 @@ export const BuySection = ({
             label="Amount in GHC"
             value={state.ghs}
             hint={`Current rate ${
-              rates && rates.tickers && Money(rates.tickers.btcghs.buy, "USD")
+              rates && rates.tickers && Money(rates.tickers.BTCGHS.buy, "USD")
             } / BTC`}
             name="ghs"
             onChange={handleChange}
@@ -201,31 +201,31 @@ export const SellSection = ({
     let btc, ngn, usd, ghs;
     if (name === "btc") {
       btc = value;
-      ngn = ticker && ticker.btcngn.sell * value;
-      // usd = ticker && ticker.tickers.btcusd.sell * value;
+      ngn = ticker && ticker.BTCNGN.sell * value;
+      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
       usd = 26000 * value;
-      ghs = ticker && ticker.btcghs.sell * value;
+      ghs = ticker && ticker.BTCGHS.sell * value;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ngn") {
       ngn = value;
-      btc = value / (ticker && ticker.btcngn.sell);
-      // usd = ticker && ticker.tickers.btcusd.sell * value;
+      btc = value / (ticker && ticker.BTCNGN.sell);
+      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
       usd = 26000 * btc;
-      ghs = (ticker && ticker.btcghs.sell) * btc;
+      ghs = (ticker && ticker.BTCGHS.sell) * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "usd") {
       usd = value;
-      // btc = value / (ticker && ticker.btcusd.sell);
+      // btc = value / (ticker && ticker.BTCUSD.sell);
       btc = value / 26000;
-      ngn = ticker && ticker.btcngn.sell * btc;
-      ghs = ticker && ticker.btcghs.sell * btc;
+      ngn = ticker && ticker.BTCNGN.sell * btc;
+      ghs = ticker && ticker.BTCGHS.sell * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ghs") {
       ghs = value;
-      btc = value / (ticker && ticker.btcghs.sell);
-      // usd = ticker && ticker.tickers.btcusd.sell * value;
+      btc = value / (ticker && ticker.BTCGHS.sell);
+      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
       usd = 26000 * btc;
-      ngn = ticker && ticker.btcngn.sell * btc;
+      ngn = ticker && ticker.BTCNGN.sell * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     }
     if (!value) {
@@ -314,7 +314,7 @@ export const SellSection = ({
             name="btc"
             onChange={handleChange}
             hint={`Current rate ${
-              rates && rates.tickers && Money(rates.tickers.btcusd.sell, "USD")
+              rates && rates.tickers && Money(rates.tickers.BTCUSD.sell, "USD")
             } / BTC`}
             hintClass={styles.largeMarginHint}
             placeholder="e.g 0.000011"
@@ -333,7 +333,7 @@ export const SellSection = ({
             label="Amount in NGN"
             value={state.ngn}
             hint={`Current rate ${
-              rates && rates.tickers && Money(rates.tickers.btcngn.sell, "USD")
+              rates && rates.tickers && Money(rates.tickers.BTCNGN.sell, "USD")
             } / BTC`}
             name="ngn"
             onChange={handleChange}
@@ -343,7 +343,7 @@ export const SellSection = ({
             label="Amount in GHC"
             value={state.ghs}
             hint={`Current rate ${
-              rates && rates.tickers && Money(rates.tickers.btcghs.sell, "USD")
+              rates && rates.tickers && Money(rates.tickers.BTCGHS.sell, "USD")
             } / BTC`}
             name="ghs"
             onChange={handleChange}
@@ -380,31 +380,31 @@ export const SendSection = ({
     let btc, ngn, usd, ghs;
     if (name === "btc") {
       btc = value;
-      ngn = ticker && ticker.btcngn.sell * value;
-      // usd = ticker && ticker.tickers.btcusd.sell * value;
+      ngn = ticker && ticker.BTCNGN.sell * value;
+      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
       usd = 26000 * value;
-      ghs = ticker && ticker.btcghs.sell * value;
+      ghs = ticker && ticker.BTCGHS.sell * value;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ngn") {
       ngn = value;
-      btc = value / (ticker && ticker.btcngn.sell);
-      // usd = ticker && ticker.tickers.btcusd.sell * value;
+      btc = value / (ticker && ticker.BTCNGN.sell);
+      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
       usd = 26000 * btc;
-      ghs = value / (ticker && ticker.btcghs.sell);
+      ghs = value / (ticker && ticker.BTCGHS.sell);
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "usd") {
       usd = value;
-      // btc = value / (ticker && ticker.btcusd.sell);
+      // btc = value / (ticker && ticker.BTCUSD.sell);
       btc = value / 26000;
-      ngn = ticker && ticker.btcngn.sell * btc;
-      ghs = ticker && ticker.btcghs.sell * btc;
+      ngn = ticker && ticker.BTCNGN.sell * btc;
+      ghs = ticker && ticker.BTCGHS.sell * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ghs") {
       ghs = value;
-      btc = value / (ticker && ticker.btcghs.sell);
-      // usd = ticker && ticker.tickers.btcusd.sell * value;
+      btc = value / (ticker && ticker.BTCGHS.sell);
+      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
       usd = 26000 * btc;
-      ngn = ticker && ticker.btcngn.sell * btc;
+      ngn = ticker && ticker.BTCNGN.sell * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     }
     if (!value) {
@@ -485,7 +485,7 @@ export const SendSection = ({
           name="btc"
           onChange={handleChange}
           hint={`Current rate ${
-            rates && rates.tickers && Money(rates.tickers.btcngn.sell, "NGN")
+            rates && rates.tickers && Money(rates.tickers.BTCNGN.sell, "NGN")
           } / BTC`}
           hintClass={styles.largeMarginHint}
           placeholder=""
@@ -505,7 +505,7 @@ export const SendSection = ({
           label="Amount in NGN"
           value={state.ngn}
           hint={`Current rate ${
-            rates && rates.tickers && Money(rates.tickers.btcngn.sell, "USD")
+            rates && rates.tickers && Money(rates.tickers.BTCNGN.sell, "USD")
           } / BTC`}
           name="ngn"
           onChange={handleChange}
@@ -515,7 +515,7 @@ export const SendSection = ({
           label="Amount in GHC"
           value={state.ghs}
           hint={`Current rate ${
-            rates && rates.tickers && Money(rates.tickers.btcghs.sell, "USD")
+            rates && rates.tickers && Money(rates.tickers.BTCGHS.sell, "USD")
           } / BTC`}
           name="ghs"
           onChange={handleChange}
@@ -578,7 +578,7 @@ export const RecieveSection = ({
           <div className={styles.info}>
             Current exchange rate:{" "}
             {Money(
-              (btcRates && btcRates.tickers && btcRates.tickers.btcngn.sell) ||
+              (btcRates && btcRates.tickers && btcRates.tickers.BTCNGN.sell) ||
                 0,
               "NGN"
             )}

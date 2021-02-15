@@ -36,7 +36,7 @@ paymentService.getAllPaymentByUser = function (params) {
     url: `/api/payments/inwards/${params.userId}`,
     method: "get",
     params: {
-      currency: params.currency || "NGN",
+      currency: params.currency,
       skip: params.skip,
       limit: params.limit,
     },

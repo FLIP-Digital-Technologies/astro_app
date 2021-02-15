@@ -539,8 +539,7 @@ export const FundFlyout = ({
 }) => {
   const handleDeposit = () => {
     Fund(state);
-    setOpenModal(false);
-    setState({});
+    setOpenModal(true);
   };
   return (
     <div>
@@ -617,8 +616,8 @@ const PTwoPFlyout = ({
       data.transferNote = state.transferNote;
       initializeFiatPairTwoPairTransaction(data);
     }
-    setOpenModal(false);
-    setState({});
+    // setOpenModal(false);
+    // setState({});
   };
   return (
     <div>
@@ -691,7 +690,7 @@ const PTwoPFlyout = ({
               }))
             }
           />
-        )}
+        )}{console.log(pairTwoPairFiatTicker)}
         {state.recipientUsername && (
           <Input
             labelClass={styles.largeMarginLabel}
@@ -701,7 +700,7 @@ const PTwoPFlyout = ({
             onChange={(e) =>
               setState((state) => ({ ...state, amount: e.target.value }))
             }
-            hint={state.referenceCurrency === "BTC" ? `` : `Transfer Fee`}
+            hint={state.referenceCurrency === "BTC" ? `` : <p>Estimated Total amount Recipient will receive: <strong>{`${Money(pairTwoPairFiatTicker?.tickers[`${state.referenceCurrency}${state.recipientCurrency}`] * state.amount, state.recipientCurrency)}`}</strong> </p>}
           />
         )}
         {state.recipientUsername && (

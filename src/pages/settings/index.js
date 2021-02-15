@@ -14,12 +14,130 @@ import {
   getUserDetailsById,
   addUserBankAccount,
   removeUserBankAccount,
+  getUserReferrals,
+  redeemUserReferralBonus,
 } from "../../redux/actions/user";
 import {
   getBankListByCountry,
   verifyBankAccountDetails,
   getBankBranchByID,
 } from "../../redux/actions/bank";
+import { Table, Tag, Popconfirm } from "antd";
+import { date, Money } from "../../utils/helper";
+import { EmptyEntryWithTitle } from "../transactions/components";
+
+export const ReferralTable = ({ fetchTrans, transaction, handleAction }) => {
+  const [loading, setLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: transaction && transaction.meta && transaction.meta.limit,
+    total: transaction && transaction.meta && transaction.meta.count,
+  });
+  React.useEffect(() => {
+    setPagination((pagination) => ({
+      current: pagination.current,
+      pageSize: transaction && transaction.meta && transaction.meta.limit,
+      total: transaction && transaction.meta && transaction.meta.count,
+    }));
+    setLoading(false);
+  }, [transaction]);
+
+  React.useEffect(() => {
+    fetchTrans({ skip: 0, limit: 10 });
+    // eslint-disable-next-line
+  }, []);
+
+  const handleTableChange = (pagination, filters, sorter) => {
+    fetch({
+      pagination,
+    });
+  };
+
+  const columns = [
+    {
+      title: "Date",
+      dataIndex: "createdAt",
+      render: (createdAt) => `${date(createdAt)}`,
+    },
+    {
+      title: "Bonus Amount",
+      dataIndex: "bonus",
+      key: "x",
+      render: (bonus) => <p>{Money(bonus.amount, bonus.currency)}</p>,
+    },
+    {
+      title: "Redeemed",
+      dataIndex: "bonusRedeemed",
+      key: "x",
+      render: (bonusRedeemed) => (
+        <Tag color={bonusRedeemed ? "green" : "geekblue"}>
+          {bonusRedeemed ? "Yes" : "No"}
+        </Tag>
+      ),
+    },
+    {
+      title: "Date Redeemed",
+      dataIndex: "dateRedeemed",
+      render: (dateRedeemed) => `${date(dateRedeemed)}`,
+    },
+    {
+      title: "Friend Referred",
+      dataIndex: "userReferred",
+      render: (userReferred) =>
+        `${userReferred && userReferred.lastName} ${
+          userReferred && userReferred.firstName
+        }`,
+    },
+    {
+      title: "Action",
+      dataIndex: "id",
+      key: "x",
+      render: (id, rec) => (
+        <Popconfirm
+          disabled={rec.bonusRedeemed}
+          title="You are about to redeem this bonus?"
+          onConfirm={() => handleAction(id)}
+        >
+          {rec.bonusRedeemed ? "Bonus already Redeemed" : "Redeem Bonus"}
+        </Popconfirm>
+      ),
+    },
+  ];
+
+  const fetch = async (params = {}) => {
+    setLoading(true);
+    await fetchTrans({
+      skip: (params.pagination.current - 1) * params.pagination.pageSize,
+      limit: params.pagination.pageSize,
+    });
+    setPagination({
+      ...params.pagination,
+      total: transaction.meta && transaction.meta.count,
+    });
+  };
+  return (
+    <div style={{ overflowX: "auto" }}>
+      {transaction &&
+      transaction.transactions &&
+      transaction.transactions.length > 0 ? (
+        <Table
+          columns={columns}
+          // rowKey={(record) => record.login.uuid}
+          dataSource={transaction.transactions}
+          pagination={{
+            current: pagination.current,
+            pageSize: pagination.pageSize,
+            total: transaction.meta && transaction.meta.count,
+          }}
+          loading={loading}
+          onChange={handleTableChange}
+        />
+      ) : (
+        <EmptyEntryWithTitle title="Referrals" />
+      )}
+    </div>
+  );
+};
 
 const Profile = ({
   user,
@@ -36,6 +154,9 @@ const Profile = ({
   changePassword,
   getBankBranchList,
   branchList,
+  getUserReferrals,
+  redeemReferralBonus,
+  userReferralTransaction,
 }) => {
   useEffect(() => {
     getCurrentUser();
@@ -78,10 +199,6 @@ const Profile = ({
   }, [state.bankCode, state.accountNumber, verifyBankAccount]);
   useEffect(() => {
     if (branchList && branchList.length === 1) {
-      console.log({
-        bankBranchName: branchList && branchList[0].branch_name,
-        bankBranchCode: branchList && branchList[0].branch_code,
-      });
       setState((state) => ({
         ...state,
         bankBranchName: branchList && branchList[0].branch_name,
@@ -90,7 +207,6 @@ const Profile = ({
     }
   }, [branchList]);
   useEffect(() => {
-    console.log("vhjhk", bankName);
     if (bankName && bankName.accountName) {
       setState((state) => ({
         ...state,
@@ -138,19 +254,33 @@ const Profile = ({
               <span className={styles.main}>Basic Information</span>
             </div>
           </div>
-          <div className={styles.profilePersonalEntry} style={{lineHeight: 18, wordWrap: "break-word"}}>
+          <div
+            className={styles.profilePersonalEntry}
+            style={{ lineHeight: 18, wordWrap: "break-word" }}
+          >
             <span>Email</span>
             <span>{user && user.email}</span>
           </div>
-          <div className={styles.profilePersonalEntry} style={{lineHeight: 18, wordWrap: "break-word"}}>
+          <div
+            className={styles.profilePersonalEntry}
+            style={{ lineHeight: 18, wordWrap: "break-word" }}
+          >
             <span>Name</span>
-            <span>{`${user && user.firstName} ${user && user.lastName}`}</span>
+            <span>{`${(user && user.firstName) || `-`} ${
+              (user && user.lastName) || `-`
+            }`}</span>
           </div>
-          <div className={styles.profilePersonalEntry} style={{lineHeight: 18, wordWrap: "break-word"}}>
+          <div
+            className={styles.profilePersonalEntry}
+            style={{ lineHeight: 18, wordWrap: "break-word" }}
+          >
             <span>Password</span>
             <span>*********</span>
           </div>
-          <div className={styles.profilePersonalEntry} style={{lineHeight: 18, wordWrap: "break-word"}}>
+          <div
+            className={styles.profilePersonalEntry}
+            style={{ lineHeight: 18, wordWrap: "break-word" }}
+          >
             <span>Referral Code</span>
             <span>{(user && user.referralCode) || "---"}</span>
           </div>
@@ -164,9 +294,9 @@ const Profile = ({
           </div>
           <div
             className={styles.profileBankContent}
-            style={{ maxHeight: 500, overflowY: "auto" }}
+            style={{ maxHeight: 540, overflowY: "auto" }}
           >
-            {bankAccounts &&
+            {bankAccounts && bankAccounts.length > 0 ? (
               bankAccounts.map((item, index) => (
                 <div
                   key={index}
@@ -197,7 +327,10 @@ const Profile = ({
                     text="Delete Bank Account"
                   />
                 </div>
-              ))}
+              ))
+            ) : (
+              <EmptyEntryWithTitle title="Bank Account" />
+            )}
           </div>
           <div className={styles.profileSection}>
             <div className={styles.profileSectionLeft}>
@@ -294,7 +427,7 @@ const Profile = ({
               readOnly={true}
               disabled
             />
-            {state.currency === "NG" && (
+            {/* {state.currency === "NG" && (
               <Input
                 name="bvn"
                 value={state.bvn}
@@ -308,7 +441,7 @@ const Profile = ({
                 labelClass={styles.profileBankInputLabel}
                 className={styles.profileBankInput}
               />
-            )}
+            )} */}
             <div className={styles.btnPair}>
               <Button
                 disabled={
@@ -320,6 +453,21 @@ const Profile = ({
               />
             </div>
           </form>
+        </div>
+        <div className={styles.profileBank}>
+          <div className={styles.profileSection}>
+            <div className={styles.profileSectionLeft}>
+              <span className={styles.main}>Referral</span>
+              <span className={styles.sub}>Redeem Your Referrals</span>
+            </div>
+          </div>
+          <ReferralTable
+            fetchTrans={getUserReferrals}
+            transaction={userReferralTransaction}
+            handleAction={(id) => {
+              redeemReferralBonus({ referralId: id });
+            }}
+          />
         </div>
         <div className={styles.profileSecurity}>
           <div className={styles.profileSection}>
@@ -375,6 +523,7 @@ const mapStateToProps = (state) => ({
   bankList: state.bank.bankList,
   bankName: state.bank.bankDetails,
   bankAccounts: state.bank.bankAccounts,
+  UserReferrals: state.user.userReferralTransaction,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -404,6 +553,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   changePassword: (data) => {
     dispatch(changePassword(data));
+  },
+  getUserReferrals: (data) => {
+    dispatch(getUserReferrals(data));
+  },
+  redeemReferralBonus: (data) => {
+    dispatch(redeemUserReferralBonus(data));
   },
 });
 

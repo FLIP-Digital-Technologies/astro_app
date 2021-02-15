@@ -60,7 +60,7 @@ const SCanSell = ({
         <div className={styles.info}>
           Current exchange rate:{" "}
           {Money(
-            (btcRates && btcRates.tickers && btcRates.tickers.btcngn.sell) || 0,
+            (btcRates && btcRates.tickers && btcRates.tickers.BTCNGN.sell) || 0,
             "NGN"
           )}
           /1BTC

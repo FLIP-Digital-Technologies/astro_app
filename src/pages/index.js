@@ -1,5 +1,6 @@
 export { default as Home } from "./home";
 export { default as OnBoarding } from "./on-boarding";
+export { default as BuyGiftCard } from "./buy-giftcard";
 export { default as SellGiftcard } from "./sell-giftcard";
 export { default as Wallet } from "./wallet";
 export { default as Transactions } from "./transactions";

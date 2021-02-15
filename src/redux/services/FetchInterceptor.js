@@ -6,7 +6,7 @@ import { notification } from "antd";
 import "antd/dist/antd.css";
 
 const service = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: "https://efefc506c94c.ngrok.io/",
   timeout: 60000,
 });
 const key = KEY;

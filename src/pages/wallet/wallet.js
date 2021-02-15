@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { DashboardLayout } from "../../components/layout";
 import Table from "../../components/table";
@@ -15,14 +15,27 @@ import styles from "../styles.module.scss";
 import DepositModal from "../../components/Modals/deposit-modal";
 import WithdrawInitial from "../../components/Modals/withdraw-modal-Initial";
 
-const Wallet = ({ balance, user, btcRates, withdrawalTrans, depositTransaction, btcTrans }) => {
+const Wallet = ({
+  balance,
+  user,
+  btcRates,
+  withdrawalTrans,
+  depositTransaction,
+  btcTrans,
+}) => {
   const [openDeposit, setOpenDeposit] = useState(false);
   const [openWithdrawal, setOpenWithdrawal] = useState(false);
   const history = useHistory();
   return (
     <DashboardLayout>
-      <DepositModal setIsModalVisible={setOpenDeposit}  isModalVisible={openDeposit} />
-      <WithdrawInitial setIsModalVisible={setOpenWithdrawal}  isModalVisible={openWithdrawal} />
+      <DepositModal
+        setIsModalVisible={setOpenDeposit}
+        isModalVisible={openDeposit}
+      />
+      <WithdrawInitial
+        setIsModalVisible={setOpenWithdrawal}
+        isModalVisible={openWithdrawal}
+      />
       <div className={styles.walletPage}>
         <div className={styles.walletPage__top}>
           <div className={styles.walletPage__top__left}>
@@ -31,7 +44,9 @@ const Wallet = ({ balance, user, btcRates, withdrawalTrans, depositTransaction, 
               handleView={() => {
                 history.push("/app/wallet/naira");
               }}
-              name={`${user && user.lastName} ${user && user.firstName}`}
+              name={`${(user && user.lastName) || `-`} ${
+                (user && user.firstName) || `-`
+              }`}
               amount={Money(
                 (balance && balance.NGN && balance.NGN.balance) || 0,
                 "NGN"
@@ -42,17 +57,19 @@ const Wallet = ({ balance, user, btcRates, withdrawalTrans, depositTransaction, 
               handleView={() => {
                 history.push("/app/wallet/btc");
               }}
-              name={`${user && user.lastName} ${user && user.firstName}`}
+              name={`${(user && user.lastName) || `-`} ${
+                (user && user.firstName) || `-`
+              }`}
               amount={Money(
                 (balance && balance.BTC && balance.BTC.balance) || 0,
                 "BTC"
               )}
               rate={
-                btcRates && btcRates.tickers && btcRates.tickers.btcusd.sell
+                btcRates && btcRates.tickers && btcRates.tickers.BTCUSD.sell
               }
             />
           </div>
-          <div style={{paddingRight: 10}}>
+          <div style={{ paddingRight: 10 }}>
             <h3 className={styles.action__title}>Quick Actions</h3>
             <div
               className={styles.action}
@@ -65,7 +82,10 @@ const Wallet = ({ balance, user, btcRates, withdrawalTrans, depositTransaction, 
             <div className={styles.action} onClick={() => setOpenDeposit(true)}>
               <NairaAction /> <span>Top Up NGN Wallet</span> <ArrowRight />
             </div>
-            <div className={styles.action} onClick={() => setOpenWithdrawal(true)}>
+            <div
+              className={styles.action}
+              onClick={() => setOpenWithdrawal(true)}
+            >
               <WithdrawalAction /> <span>Withdraw</span> <ArrowRight />
             </div>
           </div>

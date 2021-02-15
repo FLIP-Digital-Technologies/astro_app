@@ -10,6 +10,7 @@ import Button from "../button";
 import { getUserBankAccount } from "../../redux/actions/user";
 import { initialWithdrawalByUser } from "../../redux/actions/withdrawals";
 import { Money } from "../../utils/helper";
+import fetch from "../../redux/services/FetchInterceptor";
 
 const { confirm } = Modal;
 
@@ -26,11 +27,32 @@ const WithDrawModalPersonal = ({
     getUserBankDetails();
     // eslint-disable-next-line
   }, []);
+  const [fee, setFee] = React.useState(0);
   const [acc, setAcc] = React.useState({
     bankAccountId: "",
     narration: "",
     amount: "",
+    currency: "",
+    pin: "",
   });
+  React.useEffect(() => {
+    if (acc.currency && acc.amount && acc.amount >= 500) {
+      function api() {
+        setFee(0)
+        return fetch({
+          url: `/api/payments/outwards/get-transaction-fee`,
+          method: "get",
+          params: {
+            amount: acc.amount,
+            currency: acc.currency,
+          },
+        });
+      }
+      api().then((res) => {
+        setFee(res.data.fee);
+      });
+    }
+  }, [acc.currency, acc.amount]);
 
   const showPromiseConfirm = () => {
     const data =
@@ -56,7 +78,7 @@ const WithDrawModalPersonal = ({
       isModalVisible={isModalVisible}
       setIsModalVisible={setIsModalVisible}
     >
-      <div className={styles.title}>Withdraw to personal account</div>
+      <div className={styles.title}>Withdraw</div>
       <Select
         options={
           bankAccounts &&
@@ -67,11 +89,44 @@ const WithDrawModalPersonal = ({
         }
         value={acc.bankAccountId}
         onSelect={(e) => setAcc({ ...acc, bankAccountId: e })}
-        className={styles.input}
+        className={styles.largeMarginLabel}
         label="Select Account to Transfer to"
       />
+      <Select
+        labelClass={styles.largeMarginLabel}
+        label="Select currency"
+        value={acc.currency}
+        onSelect={(value) => {
+          setAcc((acc) => ({
+            ...acc,
+            currency: value,
+            pin: "",
+            narration: "",
+            amount: 0,
+          }));
+        }}
+        name="select payment currency"
+        options={[
+          { render: "NGN", value: "NGN" },
+          { render: "GHS", value: "GHS" },
+        ]}
+      />
       <Input
-        className={styles.input}
+        className={styles.largeMarginLabel}
+        label="Withdrawal amount"
+        placeholder="Enter amount here"
+        type="number"
+        value={acc.amount}
+        min={500}
+        onChange={(e) => setAcc({ ...acc, amount: e.target.value, pin: "", narration: "" })}
+        hint={acc.currency && acc.amount ?
+          <span>
+            You will be charged <strong>{Money(fee, acc.currency || "")}</strong> for this withdrawal.
+          </span> : null
+        }
+      />
+      <Input
+        className={styles.largeMarginLabel}
         label="Narration"
         placeholder="Enter narration here"
         type="text"
@@ -79,19 +134,19 @@ const WithDrawModalPersonal = ({
         onChange={(e) => setAcc({ ...acc, narration: e.target.value })}
       />
       <Input
-        className={styles.input}
-        label="Withdrawal amount"
-        placeholder="Enter amount here"
-        type="number"
-        value={acc.amount}
-        min={500}
-        onChange={(e) => setAcc({ ...acc, amount: e.target.value })}
+        className={styles.largeMarginLabel}
+        label="Enter Transaction Pin"
+        placeholder="Enter Transaction Pin"
+        type="password"
+        maxlength={4}
+        value={acc.pin}
+        onChange={(e) => setAcc({ ...acc, pin: e.target.value })}
       />
       <Button
         onClick={() => showPromiseConfirm()}
         className={styles.button}
         disabled={
-          !acc.bankAccountId || !acc.amount || acc.amount < 500 || loading
+          !acc.bankAccountId || !acc.pin || !acc.amount || acc.amount < 500 || loading || !fee
         }
         text="Withdraw"
         form="full"

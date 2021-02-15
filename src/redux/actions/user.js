@@ -1,6 +1,7 @@
 import { notification } from "antd";
 import * as actionTypes from "../constants";
 import generalService from "../services/GeneralService";
+import referralService from "../services/Referral";
 // import { history } from "../store";
 
 const key = actionTypes.KEY;
@@ -220,4 +221,56 @@ const RemoveUserBankAccount = (data) => async (dispatch) => {
 
 export const removeUserBankAccount = (data) => (dispatch) => {
   dispatch(RemoveUserBankAccount(data));
+};
+
+const RedeemUserReferralBonus = (data) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.REDEEM_USER_REFERRAL_PENDING,
+  });
+
+  await referralService
+    .redeemUserReferralBonus({...data, userId})
+    .then((response) => {
+      dispatch({
+        type: actionTypes.REDEEM_USER_REFERRAL_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.REDEEM_USER_REFERRAL_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const redeemUserReferralBonus = (data) => (dispatch) => {
+  dispatch(RedeemUserReferralBonus(data));
+};
+
+const GetUserReferrals = (data) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.GET_USER_REFERRALS_PENDING,
+  });
+
+  await referralService
+    .getUserReferrals({...data, userId})
+    .then((response) => {
+      dispatch({
+        type: actionTypes.GET_USER_REFERRALS_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.GET_USER_REFERRALS_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const getUserReferrals = (data) => (dispatch) => {
+  dispatch(GetUserReferrals(data));
 };

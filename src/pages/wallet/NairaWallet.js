@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { DashboardLayout } from "../../components/layout";
 import Table from "../../components/table";
 import { WalletCard } from "./components";
@@ -14,24 +14,40 @@ const Wallet = ({ balance, user, withdrawalTrans, depositTransaction }) => {
   const [openWithdrawal, setOpenWithdrawal] = useState(false);
   return (
     <DashboardLayout>
-      <DepositModal setIsModalVisible={setOpenDeposit}  isModalVisible={openDeposit} />
-      <WithdrawInitial setIsModalVisible={setOpenWithdrawal}  isModalVisible={openWithdrawal} />
+      <DepositModal
+        setIsModalVisible={setOpenDeposit}
+        isModalVisible={openDeposit}
+      />
+      <WithdrawInitial
+        setIsModalVisible={setOpenWithdrawal}
+        isModalVisible={openWithdrawal}
+      />
       <div>
         <div className={styles.walletBtc}>
           <WalletCard
             action={false}
             walletName="Naira Wallet"
             handleView={() => {}}
-            name={`${user && user.lastName} ${user && user.firstName}`}
+            name={`${(user && user.lastName) || `-`} ${
+              (user && user.firstName) || `-`
+            }`}
             amount={Money(
-                (balance && balance.NGN && balance.NGN.balance) || 0,
-                "NGN"
-              )}
+              (balance && balance.NGN && balance.NGN.balance) || 0,
+              "NGN"
+            )}
           />
 
           <div className={styles.btnHolder}>
-            <Button text="Withdraw" form="full" onClick={() => setOpenWithdrawal(true)} />
-            <Button text="Deposit" form="full" onClick={() => setOpenDeposit(true)} />
+            <Button
+              text="Withdraw"
+              form="full"
+              onClick={() => setOpenWithdrawal(true)}
+            />
+            <Button
+              text="Deposit"
+              form="full"
+              onClick={() => setOpenDeposit(true)}
+            />
           </div>
         </div>
         <div>
@@ -43,7 +59,7 @@ const Wallet = ({ balance, user, withdrawalTrans, depositTransaction }) => {
           />
         </div>
         <div>
-          <Table 
+          <Table
             type={"Withdrawal"}
             action={false}
             keys={["createdAt", "amount", "bankAccount", "status"]}

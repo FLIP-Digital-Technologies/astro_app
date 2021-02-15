@@ -11,12 +11,11 @@ export const Step1 = ({ user, submitForm }) => {
     lastName: (user && user.lastName) || "",
     email: (user && user.email) || "",
     phoneNumber: (user && user.phoneNumber) || "",
-    country: "Nigeria",
-    city: "",
-    address: "",
+    country: "NGN",
+    username: (user && user.username) || "",
   };
   useEffect(() => {
-    setState(INITIAL_STATE)
+    setState(INITIAL_STATE);
     // eslint-disable-next-line
   }, [user]);
   const [state, setState] = useState(INITIAL_STATE);
@@ -25,20 +24,17 @@ export const Step1 = ({ user, submitForm }) => {
   };
 
   const handleFormSubmit = (e) => {
-    if (e){
+    if (e) {
       e.preventDefault();
     }
     submitForm(state);
-  }
+  };
 
   return (
-    <form onSubmit={e => handleFormSubmit(e)} className={styles.onboarding__content}>{console.log(user, state)}
-      <div className={styles.onboarding__image}>
-        <div className={styles.onboarding__image__avavtar}>{`${user && user.firstName[0]} ${user && user.lastName[0]}`}</div>
-        <div className={styles.onboarding__image__upload}>
-          Add Account Photo
-        </div>
-      </div>
+    <form
+      onSubmit={(e) => handleFormSubmit(e)}
+      className={styles.onboarding__content}
+    >
       <div className={styles.onboarding__section}>
         <h2 className={styles.onboarding__title}> Personal Information</h2>
         <div className={styles.onboarding__inputList1}>
@@ -59,7 +55,7 @@ export const Step1 = ({ user, submitForm }) => {
             required={true}
           />
         </div>
-        <div className={styles.onboarding__inputList2}>
+        <div className={styles.onboarding__inputList1}>
           <Input
             name="email"
             value={state.email}
@@ -77,62 +73,70 @@ export const Step1 = ({ user, submitForm }) => {
             value={state.phoneNumber}
             onChange={handleChange}
             type="tel"
-            pattern="^[0]\d{10}$"
+            pattern="^[0-9+]{14}$"
             label="Phone Number"
             placeholder="Enter a valid Phone number"
-            errorMessage="phone number should be the right format. e.g. 0908XXXXXXX"
+            errorMessage="phone number should be the right format. e.g. +234908XXXXXXX"
             required={true}
           />
         </div>
-      </div>
-
-      <div className={styles.onboarding__section}>
-        <h2 className={styles.onboarding__title}>Address</h2>
-        <div className={styles.onboarding__inputList1}>
-          <Input
-            name="country"
-            value={state.country}
-            onChange={handleChange}
-            label="Country"
-            placeholder="Nigeria"
-          />
-          <Input
-            name="city"
-            value={state.city}
-            onChange={handleChange}
-            label="City"
-            placeholder="Lagos"
-          />
-        </div>
         <div
-          className={`${styles.onboarding__inputList2} ${styles.onboarding__inputListSub}`}
+          className={styles.onboarding__inputList2}
         >
           <Input
-            name="address"
-            value={state.address}
+            name="username"
+            value={state.username}
             onChange={handleChange}
-            label="Street Address"
-            placeholder="Enter address here"
-            type="address"
+            type="text"
+            label="Username"
+            required={true}
+            readOnly
+          />
+          <Select
+            value={state.country}
+            onSelect={(value) =>
+              handleChange({ target: { name: "country", value } })
+            }
+            name="country"
+            label="Country"
+            placeholder="Nigeria"
+            options={[
+              { render: "Nigeria", value: "NGN" },
+              { render: "Ghana", value: "GHS" },
+            ]}
           />
         </div>
       </div>
-
       <div className={styles.btnPair}>
         <Button text="Save" type="submit" form="full" />{" "}
-        <Button text="Cancel" onClick={() => history.push("/app")} form="outline" />
+        <Button
+          text="Cancel"
+          onClick={() => history.push("/app")}
+          form="outline"
+        />
       </div>
     </form>
   );
 };
 
-export const Step2 = ({bankList, verifyBankAccount, bankName, submitForm}) => {
+export const Step2 = ({
+  bankList,
+  verifyBankAccount,
+  bankName,
+  submitForm,
+  getBankBranchList,
+  branchList,
+  getBankList,
+}) => {
   const INITIAL_STATE = {
     accountNumber: "",
     bankCode: "",
     bvn: "",
     accountName: "",
-    bankName: ""
+    bankName: "",
+    currency: "GH",
+    bankBranchCode: "",
+    bankBranchName: "",
   };
 
   const [state, setState] = useState(INITIAL_STATE);
@@ -141,35 +145,132 @@ export const Step2 = ({bankList, verifyBankAccount, bankName, submitForm}) => {
   };
 
   useEffect(() => {
-    if(state.bankCode && state.accountNumber.length === 10){
+    if (state.bankCode && state.accountNumber.length === 10) {
       verifyBankAccount({
         bankCode: state.bankCode,
-        accountNumber: state.accountNumber
-      })
+        accountNumber: state.accountNumber,
+      });
     }
   }, [state.bankCode, state.accountNumber, verifyBankAccount]);
   useEffect(() => {
-    if(bankName && bankName.accountName){
-      setState((state) => ({ ...state, accountName: bankName && bankName.accountName }))
+    if (branchList && branchList.length === 1) {
+      setState((state) => ({
+        ...state,
+        bankBranchName: branchList && branchList[0].branch_name,
+        bankBranchCode: branchList && branchList[0].branch_code,
+      }));
+    }
+  }, [branchList]);
+  useEffect(() => {
+    if (bankName && bankName.accountName) {
+      setState((state) => ({
+        ...state,
+        accountName: bankName && bankName.accountName,
+      }));
     }
   }, [bankName]);
 
   const handleFormSubmit = (e) => {
-    if (e){
+    if (e) {
       e.preventDefault();
     }
-    submitForm(state);
-  }
-  const handleBankCode  = (value) => {
-    handleChange({target: {name: "bankCode",  value: value.split(",")[0]}})
-    handleChange({target: {name: "bankName",  value: value.split(",")[1]}})
-  }
+    submitForm({
+      ...state,
+      currency: state.currency === "GH" ? "GHS" : "NGN",
+    });
+  };
+
+  const handleBankCode = (value) => {
+    handleChange({ target: { name: "bankCode", value: value.split(",")[0] } });
+    handleChange({ target: { name: "bankName", value: value.split(",")[1] } });
+    handleChange({ target: { name: "accountName", value: "" } });
+    handleChange({ target: { name: "accountNumber", value: "" } });
+    handleChange({ target: { name: "accountNumber", value: "" } });
+    handleChange({ target: { name: "bankBranchCode", value: "" } });
+    if (state.currency === "GH") getBankBranchList({ id: value.split(",")[2] });
+  };
 
   return (
-    <form onSubmit={e => handleFormSubmit(e)} className={styles.onboarding__content__extra_margin}>
+    <form
+      onSubmit={(e) => handleFormSubmit(e)}
+      className={styles.onboarding__content__extra_margin}
+    >
       <div className={styles.onboarding__section}>
         <h2 className={styles.onboarding__title}>Bank Account Details</h2>
         <div className={styles.onboarding__inputList1}>
+          <Select
+            labelClass={styles.profileBankInputLabel}
+            className={styles.profileBankInput}
+            label="Select currency"
+            value={state.currency}
+            onSelect={(value) => {
+              setState((state) => ({
+                ...state,
+                currency: value,
+                accountNumber: "",
+                bankCode: "",
+                bvn: "",
+                accountName: "",
+                bankName: "",
+                bankBranchCode: "",
+                bankBranchName: "",
+              }));
+              getBankList({ country: value });
+            }}
+            name="select payment currency"
+            options={[
+              { render: "NGN", value: "NG" },
+              { render: "GHS", value: "GH" },
+            ]}
+          />
+          <Select
+            name="bankCode"
+            value={state.bankCode}
+            onSelect={(value) => handleBankCode(value)}
+            label="Bank"
+            placeholder="Select your bank"
+            options={bankList?.map((i) => ({
+              value: `${i.code},${i.name}`,
+              render: i.name,
+            }))}
+          />
+        </div>
+        <div className={styles.onboarding__inputList1}>
+          {state.currency === "GH" && (
+            <Select
+              name="bankBranchName"
+              labelClass={styles.profileBankInputLabel}
+              className={styles.profileBankInput}
+              value={`${state.bankBranchCode},${state.bankBranchName}`}
+              onSelect={(value) => {
+                setState((state) => ({
+                  ...state,
+                  bankBranchName: value.split(",")[1],
+                  bankBranchCode: value.split(",")[0],
+                }));
+              }}
+              label="Bank Branch"
+              placeholder="Select your bank branch"
+              options={
+                branchList &&
+                branchList?.map((i) => ({
+                  value: `${i.branch_code},${i.branch_name}`,
+                  render: i.branch_name,
+                }))
+              }
+            />
+          )}
+          {/* <Input
+            name="bvn"
+            value={state.bvn}
+            onChange={handleChange}
+            label="BVN"
+            type="number"
+            maxLength="11"
+            pattern="\d{11}$"
+            placeholder="Enter 10 digit BVN"
+            hint="We cannot gain entry into your account"
+          /> */}
           <Input
             name="accountNumber"
             value={state.accountNumber}
@@ -180,68 +281,70 @@ export const Step2 = ({bankList, verifyBankAccount, bankName, submitForm}) => {
             maxLength="10"
             hint="Please ensure to input the correct account number"
           />
-          <Select
-            name="bankCode"
-            value={state.bankCode}
-            onSelect={(value) => handleBankCode(value)}
-            label="Bank"
-            placeholder="Select your bank"
-            options={
-              bankList?.map(i => ({
-                value: `${i.code},${i.name}`,
-                render: i.name
-              }))
-            }
-          />
+          {state.currency === "NG" && (
+            <Input
+              name="accountName"
+              value={state.accountName}
+              onChange={handleChange}
+              label="Account Name"
+              placeholder="Enter your account name"
+              readOnly={true}
+              disabled
+            />
+          )}
         </div>
         <div className={styles.onboarding__inputList2}>
-          <Input
-            name="bvn"
-            value={state.bvn}
-            onChange={handleChange}
-            label="BVN"
-            type="number"
-            maxLength="11"
-            pattern="\d{11}$"
-            placeholder="Enter 10 digit BVN"
-            hint="We cannot gain entry into your account"
-          />
-          <Input
-            name="accountName"
-            value={state.accountName}
-            onChange={handleChange}
-            label="Account Name"
-            placeholder="Enter your account name"
-            readOnly={true}
-            disabled
-          />
+          {state.currency === "GH" && (
+            <Input
+              name="accountName"
+              value={state.accountName}
+              onChange={handleChange}
+              label="Account Name"
+              placeholder="Enter your account name"
+              readOnly={true}
+              disabled
+            />
+          )}
         </div>
       </div>
       <div className={styles.btnPair}>
         <Button text="Save" type="submit" form="full" />{" "}
-        <Button text="Cancel" onClick={() => history.push("/app")} form="outline" />
+        <Button
+          text="Cancel"
+          onClick={() => history.push("/app")}
+          form="outline"
+          disabled={
+            !state.currency ||
+            !state.customerNumber ||
+            !state.itemCode ||
+            !state.amount
+          }
+        />
       </div>
     </form>
   );
 };
 
-export const Step3 = ({submitForm}) => {
+export const Step3 = ({ submitForm }) => {
   const INITIAL_STATE = {
-    pin: ""
+    pin: "",
   };
   const [state, setState] = useState(INITIAL_STATE);
   const handleChange = ({ target: { name, value } }) => {
     setState((state) => ({ ...state, [name]: value }));
   };
   const handleFormSubmit = (e) => {
-    if (e){
+    if (e) {
       e.preventDefault();
     }
     submitForm(state);
-  }
+  };
 
   return (
-    <form onSubmit={e => handleFormSubmit(e)} className={styles.onboarding__content__extra_margin}>
+    <form
+      onSubmit={(e) => handleFormSubmit(e)}
+      className={styles.onboarding__content__extra_margin}
+    >
       <div className={styles.onboarding__section}>
         <h2 className={styles.onboarding__title}>Set Transaction Pin</h2>
         <div className={styles.onboarding__inputList1}>
@@ -262,7 +365,11 @@ export const Step3 = ({submitForm}) => {
       </div>
       <div className={styles.btnPair}>
         <Button text="Save" type="submit" form="full" />{" "}
-        <Button text="Cancel" onClick={() => history.push("/app")} form="outline" />
+        <Button
+          text="Cancel"
+          onClick={() => history.push("/app")}
+          form="outline"
+        />
       </div>
     </form>
   );
