@@ -38,17 +38,9 @@ const LandingHeader = ({ form, type }) => {
           <div
             className={`${styles.landingHeaderLeftLinksItem}  ${
               form === "white" && styles.rev
-            } ${pathname === "/rates" && styles.active}`}
+            }  ${pathname === "/rates" && styles.active}`}
           >
-            About
-          </div>
-
-          <div
-            className={`${styles.landingHeaderLeftLinksItem}  ${
-              form === "white" && styles.rev
-            }  ${pathname === "/about" && styles.active}`}
-          >
-            Get Help
+            Rates
           </div>
         </div>
         {type === "signup" || !type ? (
