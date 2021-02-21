@@ -39,6 +39,7 @@ const LandingHeader = ({ form, type }) => {
             className={`${styles.landingHeaderLeftLinksItem}  ${
               form === "white" && styles.rev
             }  ${pathname === "/rates" && styles.active}`}
+            onClick={() => history.push("/rates")}
           >
             Rates
           </div>

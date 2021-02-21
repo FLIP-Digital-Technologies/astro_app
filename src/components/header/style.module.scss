@@ -156,6 +156,12 @@
         margin-bottom: 0;
       }
 
+      @include sm {
+        margin-right: 0px;
+        padding: 15px;
+        padding-bottom: 30px;
+      }
+
       &.rev {
         background-color: #004578;
       }
@@ -166,6 +172,13 @@
       margin-right: 12px;
       border: 1px solid;
       color: #004578;
+      height: 43px;
+
+      @include sm {
+        margin-right: 0px;
+        padding: 15px;
+        padding-bottom: 30px;
+      }
     }
   }
 }
