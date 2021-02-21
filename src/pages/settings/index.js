@@ -281,8 +281,23 @@ const Profile = ({
             className={styles.profilePersonalEntry}
             style={{ lineHeight: 18, wordWrap: "break-word" }}
           >
-            <span>Referral Code</span>
-            <span>{(user && user.referralCode) || "---"}</span>
+            <span>Referral Code</span>code
+            <span>
+              <small>{(user && user.referralCode) || "---"}</small>
+              <Clipboard
+                style={{ padding: 8 }}
+                component="div"
+                data-clipboard-text={`${window && window.location && window.location.origin}/signup?code=${user && user.referralCode}`}
+                onSuccess={() =>
+                  notification.success({
+                    message: "copied",
+                    duration: 1,
+                  })
+                }
+              >
+                <Copy title="copy referral link" />
+              </Clipboard>
+            </span>
           </div>
         </div>
         <div className={styles.profileBank}>

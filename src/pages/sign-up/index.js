@@ -18,7 +18,7 @@ const SignUp = (props) => {
   const [confirmPassword, handleConfirmPassword] = useState("");
   useEffect(() => {
     const url = new URL(window.location.href);
-    const referralCode = url.searchParams.get("referralCode"); // TODO: hhjj
+    const referralCode = url.searchParams.get("code"); // TODO: hhjj
     handleReferralCode(referralCode || "");
   }, [])
 
