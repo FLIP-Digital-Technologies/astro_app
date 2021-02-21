@@ -68,7 +68,7 @@ const SignUp = (props) => {
             value={firstName}
             onChange={(e) => handleFirstName(e.target.value)}
             required={true}
-            label="Firstname"
+            label="First name"
           />
           <Input
             className={styles.auth__content__input__body}
@@ -136,7 +136,7 @@ const SignUp = (props) => {
             required={false}
             value={referralCode}
             type="text"
-            label="Referral Code"
+            label="Referral code"
           />
           {/* <div className={styles.auth__content__terms}>
             <span>By proceeding, you agree to </span>
