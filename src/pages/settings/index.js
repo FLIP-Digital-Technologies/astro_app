@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import Clipboard from "react-clipboard.js";
 import Input from "../../components/input";
 import Select from "../../components/select";
 import Button from "../../components/button";
 import { DashboardLayout } from "../../components/layout";
-// import { Edit } from "../../assets/svg";
+import { Copy } from "../../assets/svg";
 import styles from "../styles.module.scss";
 
 import { changePassword } from "../../redux/actions/Auths";
@@ -22,7 +23,7 @@ import {
   verifyBankAccountDetails,
   getBankBranchByID,
 } from "../../redux/actions/bank";
-import { Table, Tag, Popconfirm } from "antd";
+import { Table, Tag, Popconfirm, notification } from "antd";
 import { date, Money } from "../../utils/helper";
 import { EmptyEntryWithTitle } from "../transactions/components";
 
