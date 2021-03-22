@@ -1752,7 +1752,7 @@
     }
 
     @include xl {
-      padding: 0 16%;
+      padding: 0 11%;
       justify-content: space-around;
     }
     @include sm {
@@ -1765,7 +1765,7 @@
       height: 500px;
 
       @include sm {
-        width: 30%;
+        width: 55%;
         min-width: auto;
         height: auto;
         margin: 30px auto 20px;
@@ -1775,7 +1775,7 @@
     @include sm {
       flex-direction: column;
       height: fit-content;
-      padding: 0 40px;
+      padding: 0px;
       margin-bottom: 40px;
     }
     // clip-path: polygon(0% 0%, 0% 100%, 100% 85%, 100% 0%);
@@ -1789,7 +1789,7 @@
       @include sm {
         flex-direction: column;
         height: fit-content;
-        padding: 0 40px;
+        padding: 0px;
         margin-bottom: 100px;
         clip-path: none;
         margin-top: 0;
@@ -1862,7 +1862,7 @@
       }
 
       .sub {
-        font-size: 24px;
+        font-size: 23px;
         line-height: 28px;
 
         color: #000000;
