@@ -111,18 +111,23 @@ authService.resetPassword = function (data) {
   });
 };
 
-authService.completePasswordReset = function (params, payload) {
+authService.completePasswordReset = function (payload) {
   // {
   //   "resetCode": "028251",
-  //   "newPassword": "Try-Guessing-this123."
+  //   "newPassword": "Try-Guessing-this123.",
+  //   "email": "user@email.com",
   // }
   let data = {};
   data.resetCode = payload.resetCode;
   data.newPassword = payload.newPassword;
+  data.email = payload.email;
   return fetch({
-    url: `/api/user-account/${params.userId}/complete-password-reset`,
+    url: `/api/user-account/complete-password-reset`,
     method: "put",
     data: data,
+    headers: {
+      "public-request": "true",
+    },
   });
 };
 

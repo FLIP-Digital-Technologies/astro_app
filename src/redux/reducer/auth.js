@@ -170,6 +170,17 @@ const authReducer = (state = initState, action) => {
         loading: false,
         error: null,
       };
+    case actionTypes.COMPLETE_RESET_USER_PASSWORD_SUCCESS:
+      notification.success({
+        message: "Successful",
+        description: "You can now Login with your new password.",
+        key,
+      });
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
     case actionTypes.GET_USER_REFERRALS_FAILED:
     case actionTypes.REDEEM_USER_REFERRAL_FAILED:
     case actionTypes.LOGIN_FAILED:

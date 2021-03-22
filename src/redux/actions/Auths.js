@@ -215,13 +215,12 @@ export const resetPassword = (data) => (dispatch) => {
 };
 
 const CompleteResetPassword = (data) => async (dispatch) => {
-  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.COMPLETE_RESET_USER_PASSWORD_PENDING,
   });
 
   await authService
-    .completePasswordReset({ userId }, data)
+    .completePasswordReset(data)
     .then((response) => {
       dispatch({
         type: actionTypes.COMPLETE_RESET_USER_PASSWORD_SUCCESS,

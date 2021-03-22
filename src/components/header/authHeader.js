@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./style.module.scss";
 import LandingHeader from "./landingHeader";
+import AuthBG from "../../assets/svg/authbg.svg";
 
 const AuthHeader = ({ form, children }) => {
   return (
@@ -30,7 +31,7 @@ const AuthHeader = ({ form, children }) => {
         <div className={styles.auth__left}>
           <img
             className={styles.auth__left__image}
-            src="https://via.placeholder.com/500X500.png"
+            src={AuthBG}
             alt=""
           />
         </div>

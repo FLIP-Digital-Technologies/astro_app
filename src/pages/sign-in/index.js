@@ -6,13 +6,15 @@ import { AuthHeader } from "../../components/header";
 import Input from "../../components/input";
 import Button from "../../components/button";
 import styles from "../styles.module.scss";
-import { loginUser, resetPassword } from "../../redux/actions/Auths";
+import { loginUser, resetPassword, completeResetPassword } from "../../redux/actions/Auths";
 
 const SignIn = (props) => {
   const history = useHistory();
+  const [resetCode, setResetCode] = useState("");
   const [resetEmail, handleResetEmail] = useState("");
   const [email, handleEmail] = useState("");
   const [password, handlePassword] = useState("");
+  const [newPassword, handleNewPassword] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [switchReset, setSwitch] = useState(true);
 
@@ -40,6 +42,17 @@ const SignIn = (props) => {
     });
     setSwitch(false)
   };
+
+  const completeResetPassword = (e) => {
+    props.completeResetPassword({
+      email: resetEmail,
+      resetCode,
+      newPassword
+    });
+    handleCancel();
+    setSwitch(true);
+  };
+
   return (
     <div>
       <Modal
@@ -56,8 +69,8 @@ const SignIn = (props) => {
               placeholder="Email"
               onChange={(e) => handleResetEmail(e.target.value)}
               value={resetEmail}
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
               type="email"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
               required={true}
               label="Please enter your registered email."
             />
@@ -73,40 +86,27 @@ const SignIn = (props) => {
             <Input
               className={styles.auth__content__input__body}
               inputClass={styles.auth__content__input}
-              placeholder="Email"
-              onChange={(e) => handleResetEmail(e.target.value)}
-              value={resetEmail}
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
-              type="email"
+              placeholder="123456"
+              onChange={(e) => setResetCode(e.target.value)}
+              value={resetCode}
+              type="number"
               required={true}
-              label="Please enter your registered email."
+              label="Please enter the OTP sent to your email."
             />
             <Input
               className={styles.auth__content__input__body}
               inputClass={styles.auth__content__input}
-              placeholder="Email"
-              onChange={(e) => handleResetEmail(e.target.value)}
-              value={resetEmail}
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
-              type="email"
+              placeholder="New Password"
+              onChange={(e) => handleNewPassword(e.target.value)}
+              value={newPassword}
+              type="password"
               required={true}
-              label="Please enter your registered email."
-            />
-            <Input
-              className={styles.auth__content__input__body}
-              inputClass={styles.auth__content__input}
-              placeholder="Email"
-              onChange={(e) => handleResetEmail(e.target.value)}
-              value={resetEmail}
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
-              type="email"
-              required={true}
-              label="Please enter your registered email."
+              label="New Password"
             />
             <Button
               className={styles.auth__content__button}
               form="full"
-              onClick={(e) => resetPassword(e)}
+              onClick={(e) => completeResetPassword(e)}
               text="Submit"
             />
           </div>
@@ -170,6 +170,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   ResetPasswordViaEmail: (data) => {
     dispatch(resetPassword(data));
+  },
+  completeResetPassword: (data) => {
+    dispatch(completeResetPassword(data));
   },
 });
 
