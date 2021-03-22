@@ -5,6 +5,7 @@ import { LandingLayout } from "../../components/layout";
 import Button from "../../components/button";
 import styles from "../styles.module.scss";
 import { Middle, Cards, Hands, Customer } from "./components";
+import LandOne from "../../assets/svg/landing-one.svg";
 
 const Landing = () => {
   return (
@@ -14,7 +15,7 @@ const Landing = () => {
           {/* <Hero /> */}
           <div className={styles.landing__top__content}>
             <div className={styles.title}>
-              Best place to trade your Gift Cards and Bitcoins easily!
+              Exchange digital assets with EASE and Confidence
             </div>
             <Link to="/signin">
               <Button className={styles.button} text="Trade Now!" form="full" />
@@ -22,7 +23,7 @@ const Landing = () => {
           </div>
           <div className={styles.landing__top__image}>
             <img
-              src="https://via.placeholder.com/500X700.png"
+              src={LandOne}
               alt="placeholder"
             />
           </div>

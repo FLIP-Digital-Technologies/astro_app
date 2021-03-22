@@ -33,8 +33,33 @@ const Footer = () => {
               <div className={styles.link}>Contact Us</div>
             </Link>
           </div> */}
-          <div>
-            <div className={styles.link}>All Rights Reserved. Flip 2020</div>
+          <div style={{ textAlign: "center" }}>
+            <div className={styles.link} style={{display: "flex", justifyContent: "center"}}>
+              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://twitter.com/FlipAfrika">
+                <i class="fab text-dark fa-twitter"></i>
+              </a>
+              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://web.facebook.com/FlipAfrika">
+                <i class="fab text-dark fa-facebook"></i>
+              </a>
+              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://www.instagram.com/FlipAfrika">
+                <i class="fab text-dark fa-instagram"></i>
+              </a>
+            </div>
+            <div style={{marginBottom: 8}} className={styles.link}>
+              <a
+                style={{ color: "white" }}
+                href="mailto:support@Flipafrika.com"
+              >
+                Email Us: support@Flipafrika.com
+              </a>
+            </div>
+            <div className={styles.link}>
+              <address>Lagos Address - Magodo Lagos</address>
+              <address>Accra Address - 2,Anumansa street, accra ghana.</address>
+            </div>
+            <div className={styles.link}>
+              <p>All Rights Reserved. Flip 2020</p>
+            </div>
           </div>
         </div>
         {/* <div className={styles.right}></div> */}

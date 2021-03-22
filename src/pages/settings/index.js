@@ -282,8 +282,8 @@ const Profile = ({
             className={styles.profilePersonalEntry}
             style={{ lineHeight: 18, wordWrap: "break-word" }}
           >
-            <span>Referral Code</span>code
-            <span>
+            <span>Referral Code</span>
+            <span style={{display: "flex", alignItems: "center"}}>
               <small>{(user && user.referralCode) || "---"}</small>
               <Clipboard
                 style={{ padding: 8 }}

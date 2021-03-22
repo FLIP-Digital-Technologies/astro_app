@@ -226,7 +226,8 @@ const BuyGiftCard = (props) => {
                         }}
                       >
                         <strong>
-                          {item.name} {item.outOfStock ? "Out Of Stock" : ""}
+                          <p>{item.name}</p>
+                          {item.outOfStock ? "Out Of Stock" : ""}
                         </strong>
                       </p>
                     </Card>

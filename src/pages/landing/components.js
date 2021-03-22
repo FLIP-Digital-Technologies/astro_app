@@ -16,6 +16,8 @@ import "./style.css";
 // } from "../../assets/svg";
 import Button from "../../components/button";
 import styles from "../styles.module.scss";
+import Ease from "../../assets/svg/flip.svg"
+import HappyFace from "../../assets/svg/happy.svg"
 
 export const Middle = () => {
   return (
@@ -24,7 +26,7 @@ export const Middle = () => {
       <div className={styles.stepHolder}>
         <div className={styles.step}>
           <div className={styles.step__icon}>
-            <img src="https://via.placeholder.com/50.png" alt="placeholder" />{" "}
+            <i class="fas fa-fighter-jet"></i>{" "}
           </div>
           <div className={styles.step__text}>
             <div className={styles.step__title}>Fast</div>
@@ -36,7 +38,7 @@ export const Middle = () => {
 
         <div className={styles.step}>
           <div className={styles.step__icon}>
-            <img src="https://via.placeholder.com/50.png" alt="placeholder" />{" "}
+            <i class="far fa-handshake"></i>{" "}
           </div>
           <div className={styles.step__text}>
             <div className={styles.step__title}>Trusted</div>
@@ -48,7 +50,7 @@ export const Middle = () => {
 
         <div className={styles.step}>
           <div className={styles.step__icon}>
-            <img src="https://via.placeholder.com/50.png" alt="placeholder" />{" "}
+            <i class="fas fa-user-shield"></i>{" "}
           </div>
           <div className={styles.step__text}>
             <div className={styles.step__title}>Secure</div>
@@ -67,7 +69,7 @@ export const Cards = () => {
     <div className={styles.landing__cards}>
       <img
         className={styles.landing__cards__image}
-        src="https://via.placeholder.com/500X700.png"
+        src={Ease}
         alt="placeholder"
       />
       <div className={styles.content}>
@@ -78,7 +80,8 @@ export const Cards = () => {
           Trade your Gift Cards without stress!
         </div>
         <div className={styles.sub}>
-          You can trade with us and get paid instantly!
+          FlipAfrika (FLIP) is an ecommerce brand registered in Nigeria(FLIP digital services) Ghana (FLIP digital technologies).
+          Primarily focused on providing payment solutions and trust worthy exchange services to young africans locally and in the diaspora.
         </div>
 
         <Link to="/signin">
@@ -94,14 +97,36 @@ export const Hands = () => {
     <div className={`${styles.landing__cards} ${styles.rev}`}>
       <img
         className={styles.landing__cards__image}
-        src="https://via.placeholder.com/500X700.png"
+        src={HappyFace}
         alt="placeholder"
       />
       <div className={`${styles.content} ${styles.rev}`}>
         <div className={styles.title}>Get the best value for your Bitcoins</div>
-        <div className={styles.sub}>
-          You can trade with us and get paid instantly!
+        <div className={styles.sub} style={{marginBottom: 13}}>
+          <i class="fas fa-circle" style={{color: "#00519e"}}></i>{" "}
+          Trade Gift cards (Buy and sell)
         </div>
+        <div className={styles.sub} style={{marginBottom: 13}}>
+          <i class="fas fa-circle" style={{color: "#00519e"}}></i>{" "}
+          Trade Bitcoins (Buy and Sell)
+        </div>
+        <div className={styles.sub} style={{marginBottom: 13}}>
+          <i class="fas fa-circle" style={{color: "#00519e"}}></i>{" "}
+          Free and secure crypto wallets
+        </div>
+        <div className={styles.sub} style={{marginBottom: 13}}>
+          <i class="fas fa-circle" style={{color: "#00519e"}}></i>{" "}
+          Free Naira and Cedis wallets
+        </div>
+        <div className={styles.sub} style={{marginBottom: 13}}>
+          <i class="fas fa-circle" style={{color: "#00519e"}}></i>{" "}
+          Send money ( peer to peer )
+        </div>
+        <div className={styles.sub} style={{marginBottom: 13}}>
+          <i class="fas fa-circle" style={{color: "#00519e"}}></i>{" "}
+          Pay bills
+        </div>
+        <br />
         <Link to="/signin">
           <Button className={styles.button} text="Trade Now!" form="full" />
         </Link>
@@ -122,37 +147,44 @@ export const Customer = () => {
         interval={6100}
       >
         <div>
-          <img src="https://via.placeholder.com/60.png" alt="" />
+          <img src="https://joeschmoe.io/api/v1/AnthonyLamptey" alt="" />
           <div className="myCarousel">
-            <h3>Shirley Fultz</h3>
-            <h4>Designer</h4>
+            <h3>Anthony Lamptey</h3>
+            <h4>Accra Ghana</h4>
             <p>
-              It's freeing to be able to catch up on customized news and not be
-              distracted by a social media element on the same site
+              Even a child in kindergarten can successfully initiate and complete any trade on FLIP platform. Thats how easy it is to use FLIP.
             </p>
           </div>
         </div>
 
         <div>
-          <img src="https://via.placeholder.com/60.png" alt="" />
+          <img src="https://joeschmoe.io/api/v1/Lordstrings" alt="" />
           <div className="myCarousel">
-            <h3>Daniel Keystone</h3>
-            <h4>Designer</h4>
+            <h3>Lordstrings</h3>
+            <h4>Ibadan Nigeria</h4>
             <p>
-              The simple and intuitive design makes it easy for me use. I highly
-              recommend Fetch to my peers.
+              I dont get stranded with FLIP app, i just come online and get my stuff done, trade and pay bills, easy as it sounds
             </p>
           </div>
         </div>
 
         <div>
-          <img src="https://via.placeholder.com/60.png" alt="" />
+          <img src="https://joeschmoe.io/api/v1/Kwakuwiereko" alt="" />
           <div className="myCarousel">
-            <h3>Theo Sorel</h3>
-            <h4>Designer</h4>
+            <h3>Kwaku wiereko</h3>
+            <h4>Kumasi Ghana</h4>
             <p>
-              I enjoy catching up with Fetch on my laptop, or on my phone when
-              I'm on the go!
+            First of its Nigerians trade and get paid without stress, likewise Ghanians, its a great time to be alive.
+            </p>
+          </div>
+        </div>
+        <div>
+          <img src="https://joeschmoe.io/api/v1/OgunyemiMoses" alt="" />
+          <div className="myCarousel">
+            <h3>Ogunyemi Moses</h3>
+            <h4>Abuja Nigeria</h4>
+            <p>
+            I Can trade confidently with my eyes closed on FLIP. i trust Flip that  Much
             </p>
           </div>
         </div>
