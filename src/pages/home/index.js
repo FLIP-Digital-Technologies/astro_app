@@ -195,7 +195,7 @@ const Home = ({
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
                 <div>
-                  <img src="https://via.placeholder.com/20.png" alt="Withdrawal" />
+                  <i class="fas fa-wallet"></i>
                 </div>
                 <span>Withdrawal</span>
               </div>
@@ -204,7 +204,7 @@ const Home = ({
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
                 <div>
-                  <img src="https://via.placeholder.com/20.png" alt="GiftCard" />
+                  <i class="fas fa-gift"></i>
                 </div>
                 <span>Sell GiftCard</span>
               </div>
@@ -213,7 +213,7 @@ const Home = ({
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
                 <div>
-                  <img src="https://via.placeholder.com/20.png" alt="Bitcoin" />
+                  <i class="fab fa-btc"></i>
                 </div>
                 <span>Bitcoin</span>
               </div>
@@ -222,7 +222,7 @@ const Home = ({
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
                 <div>
-                  <img src="https://via.placeholder.com/20.png" alt="Airtime" />
+                  <i class="far fa-credit-card"></i>
                 </div>
                 <span>Buy Airtime</span>
               </div>
@@ -231,7 +231,7 @@ const Home = ({
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
                 <div>
-                  <img src="https://via.placeholder.com/20.png" alt="Airtime" />
+                  <i class="fas fa-file-invoice-dollar"></i>
                 </div>
                 <span>Bill Payments</span>
               </div>

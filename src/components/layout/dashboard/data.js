@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import {
   Home,
-  Coin,
+  // Coin,
   GiftCard,
   // Wallet,
   Transactions,
@@ -31,9 +31,9 @@ export const Routes = {
 
 export const navigation = [
   { Icon: Home, Name: "Home", route: Routes.home },
-  { Icon: GiftCard, Name: "Sell Gift Cards", route: Routes.sellgiftcard },
+  { Icon: () => <i class="fas fa-gift" style={{marginRight: 14}}></i>, Name: "Sell Gift Cards", route: Routes.sellgiftcard },
   { Icon: GiftCard, Name: "Buy Gift Cards", route: Routes.buygiftcard },
-  { Icon: Coin, Name: "Bitcoin", route: Routes.BTC },
+  { Icon: () => <i class="fab fa-btc" style={{marginRight: 14}}></i>, Name: "Bitcoin", route: Routes.BTC },
   { Icon: TransactionOutlined, Name: "Transactions", route: Routes.transactions },
   { Icon: Transactions, Name: "Bills", route: Routes.bills },
   { Icon: Settings, Name: "Setting", route: Routes.settings },
