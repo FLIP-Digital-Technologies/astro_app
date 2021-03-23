@@ -4,7 +4,7 @@ import { TransactionIcon, Eye, ArrowRight } from "../../assets/svg";
 import { Modal } from "antd";
 import styles from "../styles.module.scss";
 import Button from "../../components/button";
-import { date } from "../../utils/helper";
+import { date, Money } from "../../utils/helper";
 
 export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
   const [loading, setLoading] = useState(false);
@@ -156,24 +156,34 @@ export const PTwoPTab = ({ fetchTrans, transaction, handleAction }) => {
       render: (createdAt) => `${date(createdAt)}`,
     },
     {
-      title: "Amount",
-      dataIndex: "amount",
+      title: "Rate",
+      dataIndex: "rate",
+      render: (rate) => (
+        <p>
+          The {rate.quote} transfer at {rate.value}
+        </p>
+      ),
     },
     {
       title: "Reference",
-      dataIndex: "trxReference",
+      dataIndex: "reference",
     },
     {
-      title: "Bill Payed For",
-      dataIndex: "details",
-      render: (details) => (
+      title: "Amount Sent",
+      dataIndex: "amountSent",
+      render: (amountSent) => (
         <p>
-          {details && details.serviceName}
+          {Money(amountSent && amountSent.value, amountSent && amountSent.currency)}
         </p>
       ),
     },{
-      title: "Currency",
-      dataIndex: "referenceCurrency"
+      title: "Amount Received",
+      dataIndex: "amountReceived",
+      render: (amountReceived) => (
+        <p>
+          {Money(amountReceived && amountReceived.value, amountReceived && amountReceived.currency)}
+        </p>
+      ),
     },
     {
       title: "Status",

@@ -104,7 +104,7 @@ const pairTwoPairReducer = (state = initState, action) => {
       });
       return {
         ...state,
-        pairTwoPairFiatTransactionDetails: action.payload.transaction,
+        pairTwoPairFiatTransactionDetails: action.payload,
         loading: false,
         error: null,
       };
@@ -117,7 +117,7 @@ const pairTwoPairReducer = (state = initState, action) => {
       return {
         ...state,
         pairTwoPairFiat: true,
-        pairTwoPairFiatDetails: action.payload.transaction,
+        pairTwoPairFiatDetails: action.payload,
         loading: false,
         error: null,
       };

@@ -12,6 +12,14 @@ import {
   initialBTCP2PTransferByUser,
   initialFiatP2PByUser,
 } from "../../redux/actions/pairTwoPair";
+import {
+  getBTCWalletDetails,
+} from "../../redux/actions/btc";
+
+function validateEmail(email) {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
 
 export const TopUpCard = ({ curr = "", bal = 0, currency, topUpAction }) => {
   return (
@@ -596,24 +604,50 @@ const PTwoPFlyout = ({
   getFiatP2PRate,
   initializeBTCPair2PairTransaction,
   initializeFiatPairTwoPairTransaction,
+  getCurrentUserBal,
 }) => {
   useEffect(() => {
     getFiatP2PRate();
   }, [getFiatP2PRate]);
+  useEffect(() => {
+    if(pairTwoPairBTC && state.amount){
+      setState({});
+      setOpenModal(false);
+      getCurrentUserBal();
+    }
+    // eslint-disable-next-line
+  }, [pairTwoPairBTCDetails]);
+  useEffect(() => {
+    if(pairTwoPairFiat && state.amount){
+      setState({});
+      setOpenModal(false);
+      getCurrentUserBal();
+    }
+    // eslint-disable-next-line
+  }, [pairTwoPairFiatDetails]);
+
   const handleP2PTransfer = () => {
     if (state.referenceCurrency === "BTC") {
       let data = {};
       data.amount = state.amount;
-      data.recipientUsername = state.recipientUsername;
+      if (validateEmail(state.recipientUsername)) {
+        data.recipientEmail = state.recipientUsername;
+      } else {
+        data.recipientUsername = state.recipientUsername;
+      }
       data.transferNote = state.transferNote;
       initializeBTCPair2PairTransaction(data);
     } else {
       let data = {};
       data.amount = state.amount;
-      data.recipientUsername = state.recipientUsername;
       data.referenceCurrency = state.referenceCurrency;
       data.recipientCurrency = state.recipientCurrency;
       data.transferNote = state.transferNote;
+      if (validateEmail(state.recipientUsername)) {
+        data.recipientEmail = state.recipientUsername;
+      } else {
+        data.recipientUsername = state.recipientUsername;
+      }
       initializeFiatPairTwoPairTransaction(data);
     }
     // setOpenModal(false);
@@ -644,8 +678,13 @@ const PTwoPFlyout = ({
             { render: "BTC wallet", value: "BTC" },
           ]}
           hint={
-            state.recipientCurrency &&
-            `
+            state.recipientCurrency && state.referenceCurrency === "BTC"
+              ? `
+            Current Balance : ${
+              balance[state.referenceCurrency]?.balanceMoney
+            } BTC
+          `
+              : `
             Current Balance : ${Money(
               balance[state.referenceCurrency]?.balance,
               state.referenceCurrency
@@ -690,7 +729,7 @@ const PTwoPFlyout = ({
               }))
             }
           />
-        )}{console.log(pairTwoPairFiatTicker)}
+        )}
         {state.recipientUsername && (
           <Input
             labelClass={styles.largeMarginLabel}
@@ -700,7 +739,21 @@ const PTwoPFlyout = ({
             onChange={(e) =>
               setState((state) => ({ ...state, amount: e.target.value }))
             }
-            hint={state.referenceCurrency === "BTC" ? `` : <p>Estimated Total amount Recipient will receive: <strong>{`${Money(pairTwoPairFiatTicker?.tickers[`${state.referenceCurrency}${state.recipientCurrency}`] * state.amount, state.recipientCurrency)}`}</strong> </p>}
+            hint={
+              state.referenceCurrency === "BTC" ? (
+                ``
+              ) : (
+                <p>
+                  Estimated Total amount Recipient will receive:{" "}
+                  <strong>{`${Money(
+                    pairTwoPairFiatTicker?.tickers[
+                      `${state.referenceCurrency}${state.recipientCurrency}`
+                    ] * state.amount,
+                    state.recipientCurrency
+                  )}`}</strong>{" "}
+                </p>
+              )
+            }
           />
         )}
         {state.recipientUsername && (
@@ -751,6 +804,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   initializeFiatPairTwoPairTransaction: (data) => {
     dispatch(initialFiatP2PByUser(data));
+  },
+  getCurrentUserBal: () => {
+    dispatch(getBTCWalletDetails());
   },
 });
 

@@ -407,4 +407,69 @@ export const TransactionModalBTC = ({
   );
 };
 
+export const TransactionModalP2P = ({
+  status,
+  reference,
+  rate,
+  dateData,
+  amountReceived,
+  amountSent,
+  transferNote,
+  setIsModalVisible,
+  isModalVisible,
+}) => {
+  return (
+    <ModalWrapper
+      isModalVisible={isModalVisible}
+      setIsModalVisible={setIsModalVisible}
+      className={styles.withdrawInitial}
+      showClose="no"
+      showCancel
+    >
+      <div className={styles.transactionBig}>
+        <div className={styles.transactionBig__tag}>
+          {/* <span>Transaction</span> <span> #{quidaxTransactionId} </span> */}
+        </div>
+        <div className={styles.transactionBig__top}>
+          <div className={styles.transactionBig__top__left}>
+            <div className={styles.text}>
+              <div className={`${styles.title} ${styles.main}`}>
+                P2P Transaction
+              </div>
+              <div className={`${styles.sub}`}>{date(dateData)}</div>
+            </div>
+          </div>
+          <div className={`${styles.status} ${styles[status]} `}>{status}</div>
+        </div>
+        <div className={styles.transactionBig__main}>
+          <div className={styles.transactionBig__main__heading}>
+            Transaction Info
+          </div>
+          <div className={styles.transactionBig__main__holder}>
+            <div className={styles.transactionBig__main__content}>
+              <span>Reference ID</span> <span>{reference}</span>
+            </div>
+          </div>
+          <div className={styles.transactionBig__main__holder}>
+            <div className={styles.transactionBig__main__content}>
+              <span>Amount Sent</span> <span>{amountSent}</span>
+            </div>
+            <div className={styles.transactionBig__main__content}>
+              <span>Amount Received</span> <span>{amountReceived}</span>
+            </div>
+            <div className={styles.transactionBig__main__content}>
+              <span>Transaction Rate</span> <span>{rate}</span>
+            </div>
+          </div>
+          <div className={styles.transactionBig__main__holder}>
+            <div className={styles.transactionBig__main__content}>
+              <span>Transfer Note</span> <span>{transferNote}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ModalWrapper>
+  );
+};
+
 export default TransactionModalBig;

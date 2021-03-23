@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Tabs } from "antd";
 import { DashboardLayout } from "../../components/layout";
 // import { TableSort } from "../../assets/svg";
+import { Money } from "../../utils/helper";
 import styles from "../styles.module.scss";
 import {
   DepositsTab,
@@ -17,6 +18,7 @@ import TransactionModalBig, {
   TransactionModalBTC,
   TransactionModalBillPayment,
   TransactionModalBuyGiftCard,
+  TransactionModalP2P
 } from "../../components/Modals/transaction-info-modal-big";
 import TransactionModal from "../../components/Modals/transaction-info-modal";
 import {
@@ -84,10 +86,9 @@ const Transactions = ({
   const [billPaymentDetails, setBillPaymentDetails] = React.useState(false);
   const [buyGiftCardDetails, setBuyGiftCardDetails] = React.useState(false);
   const [
-    ,
-    // pairTwoPairFiatTransDetails,
+    pairTwoPairFiatTransDetails,
     setPairTwoPairFiatTransDetails,
-  ] = React.useState(true);
+  ] = React.useState(false);
   const [withdrawalTransDetails, setWithdrawalTransDetails] = React.useState(
     false
   );
@@ -98,6 +99,19 @@ const Transactions = ({
   return (
     <DashboardLayout>
       <span className={styles.gitcard__top__title}>Transactions</span>
+      {viewP2PTrans && (
+        <TransactionModalP2P
+          dateData={viewP2PTrans.createdAt}
+          amountSent={Money(viewP2PTrans?.amountSent?.value, viewP2PTrans?.amountSent?.currency)}
+          amountReceived={Money(viewP2PTrans?.amountReceived?.value, viewP2PTrans?.amountReceived?.currency)}
+          status={viewP2PTrans.status}
+          reference={viewP2PTrans.reference}
+          rate={`${viewP2PTrans.rate.quote} transfer at ${viewP2PTrans.rate.value}`}
+          transferNote={viewP2PTrans?.transferNote}
+          setIsModalVisible={setPairTwoPairFiatTransDetails}
+          isModalVisible={pairTwoPairFiatTransDetails}
+        />
+      )}
       {viewBuyGiftCardTrans && (
         <TransactionModalBuyGiftCard
           dateData={viewBuyGiftCardTrans.createdAt}
@@ -327,7 +341,7 @@ const mapStateToProps = (state) => ({
   pairTwoPairFiatTrans: state.pairTwoPair.pairTwoPairFiatTransaction,
   withdrawalTrans: state.withdrawals.WithdrawalTransaction,
   depositTransaction: state.payment.DepositTransaction,
-  viewP2PTrans: state.pairTwoPair.pairTwoPairFiatTransactionDetails,
+  viewP2PTrans: state.pairTwoPair.pairTwoPairFiatTransactionDetails && state.pairTwoPair.pairTwoPairFiatTransactionDetails.transaction,
   viewBTCTrans: state.btc.btcDetails,
   viewGiftCardTrans: state.giftCard.giftCardDetails,
   viewWithdrawalTrans: state.withdrawals.withdrawalDetails,
