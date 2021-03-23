@@ -258,7 +258,6 @@ const BuyGiftCard = (props) => {
                 maxWidth: 900,
               }}
             >
-              {console.log(props.buyGiftCardDetails)}
               <Title level={3}>
                 {props?.buyGiftCardDetails?.name}{" "}
                 ({props?.buyGiftCardDetails?.currency})

@@ -37,7 +37,7 @@ const SellGiftcard = (props) => {
         [key[0]]: key[1],
       }));
       Object(data[1]).map((key) => (a[key[0]] = key[1]));
-      console.log(a);
+      // console.log(a);
       setActive(a);
     };
 

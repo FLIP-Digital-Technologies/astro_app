@@ -72,7 +72,7 @@ const LoginUser = (data) => async (dispatch) => {
       localStorage.setItem(actionTypes.AUTH_TOKEN_ID, response.data.user.id);
       localStorage.setItem("type", response.data.user.type);
       localStorage.setItem("type", response.data.user.type);
-      console.log(response.data.token);
+      // console.log(response.data.token);
       if (response.data.user.type === "NEW_USER") {
         history.push("/verification");
       } else {

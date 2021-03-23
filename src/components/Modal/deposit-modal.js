@@ -50,7 +50,6 @@ const DepositModal = ({
         className={styles.slimModal}
       >
         <div className={styles.title}>Make a deposit</div>
-        {console.log(isModalVisible, openModal)}
         <Input
           className={styles.input}
           label="Amount"

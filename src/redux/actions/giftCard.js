@@ -112,7 +112,6 @@ const GetGiftCardTransactionHistory = (data) => async (dispatch) => {
     type: actionTypes.GET_TRANSACTIONS_HISTORY_GIFTCARD_PENDING,
   });
 
-  console.log(data);
   await giftCardService
     .getTransactionHistory({ ...data, userId })
     .then((response) => {
