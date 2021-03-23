@@ -43,9 +43,15 @@ const BuyCoin = ({
   });
   const [mode, setMode] = useState("buy");
   React.useEffect(() => {
+    const interval = setInterval(async () => {
+      getBTCRates();
+    }, 60000);
+    return () => clearInterval(interval);
+  }, [getBTCRates]);
+  React.useEffect(() => {
     receiveBTC();
     getBTCRates();
-  }, [getBTCRates, receiveBTC]);
+  }, [receiveBTC, getBTCRates]);
   return (
     <DashboardLayout>
       <span className={styles.gitcard__top__title}>Bitcoin</span>

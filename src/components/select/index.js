@@ -70,7 +70,7 @@ const Select = ({
       {show && (
         <div className={styles.input__optionHoder}>
           {options &&
-            options.map((item, index) => (
+            options.filter(i => i.hasOwnProperty("disabled") ? !i.disabled : true ).map((item, index) => (
               <div
                 key={index}
                 onClick={() => handleSelect(item)}

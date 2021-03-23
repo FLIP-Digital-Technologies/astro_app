@@ -51,7 +51,7 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
         onBreakpoint={(broken) => {
           setShowSideBar(broken);
         }}
-        width={300}
+        width={230}
         style={{
           overflow: "auto",
           height: "100vh",

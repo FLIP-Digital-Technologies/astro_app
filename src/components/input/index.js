@@ -20,6 +20,7 @@ const Input = ({
   minlength,
   maxlength,
   style = {},
+  disabled,
   ...prop
 }) => {
   const textInput = useRef(null);
@@ -69,6 +70,7 @@ const Input = ({
           minLength={minlength}
           maxLength={maxlength}
           style={style}
+          disabled={disabled}
           {...prop}
           placeholder={placeholder ? placeholder : ""}
           className={`${

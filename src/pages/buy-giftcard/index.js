@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
-import { Row, Col, Card, Drawer, Typography } from "antd";
+import { Row, Col, Card, Drawer, Typography, Badge } from "antd";
 import { useHistory, useLocation } from "react-router-dom";
 import _ from "lodash";
 
@@ -181,56 +181,56 @@ const BuyGiftCard = (props) => {
                     lg={8}
                     xl={6}
                     className="gutter-row"
-                    span={6}
                     style={{ marginBottom: 20 }}
                   >
-                    <Card
-                      hoverable
-                      bordered={false}
-                      onClick={
-                        item?.outOfStock
-                          ? () => {}
-                          : () => {
-                              props.getSingleCard({ card: item.slug });
-                              history.push(`${pathname}?slug=${item.slug}`);
-                              setActive(true);
+                    <Badge.Ribbon color={item.outOfStock ? "#f50" : ""} text={item.outOfStock ? "Out Of Stock" : "Available"}>
+                      <Card
+                        hoverable
+                        bordered={false}
+                        onClick={
+                          item?.outOfStock
+                            ? () => {}
+                            : () => {
+                                props.getSingleCard({ card: item.slug });
+                                history.push(`${pathname}?slug=${item.slug}`);
+                                setActive(true);
+                              }
+                        }
+                        style={{ width: "100%", border: "1px solid #00000026" }}
+                        cover={
+                          <img
+                            alt={"card" + key}
+                            style={
+                              item.logoNoMargin
+                                ? {
+                                    width: "100%",
+                                    height: 200,
+                                    backgroundColor: item.logoBackground,
+                                  }
+                                : {
+                                    width: "100%",
+                                    height: 200,
+                                    padding: "30px",
+                                    backgroundColor: item.logoBackground,
+                                  }
                             }
-                      }
-                      style={{ width: "100%", border: "1px solid #00000026" }}
-                      cover={
-                        <img
-                          alt={"card" + key}
-                          style={
-                            item.logoNoMargin
-                              ? {
-                                  width: "100%",
-                                  height: 200,
-                                  backgroundColor: item.logoBackground,
-                                }
-                              : {
-                                  width: "100%",
-                                  height: 200,
-                                  padding: "30px",
-                                  backgroundColor: item.logoBackground,
-                                }
-                          }
-                          src={getImgUrl(item)}
-                        />
-                      }
-                    >
-                      <p
-                        style={{
-                          margin: 0,
-                          textAlign: "center",
-                          fontSize: "1.3em",
-                        }}
+                            src={getImgUrl(item)}
+                          />
+                        }
                       >
-                        <strong>
-                          <p>{item.name}</p>
-                          {item.outOfStock ? "Out Of Stock" : ""}
-                        </strong>
-                      </p>
-                    </Card>
+                        <p
+                          style={{
+                            margin: 0,
+                            textAlign: "center",
+                            fontSize: "1.3em",
+                          }}
+                        >
+                          <strong>
+                            <p>{item.name}</p>
+                          </strong>
+                        </p>
+                      </Card>
+                    </Badge.Ribbon>
                   </Col>
                 );
               })
@@ -261,7 +261,7 @@ const BuyGiftCard = (props) => {
               {console.log(props.buyGiftCardDetails)}
               <Title level={3}>
                 {props?.buyGiftCardDetails?.name}{" "}
-                {props?.buyGiftCardDetails?.currency}
+                ({props?.buyGiftCardDetails?.currency})
               </Title>
               <img
                 alt={"card"}

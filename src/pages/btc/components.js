@@ -29,29 +29,29 @@ export const BuySection = ({
     if (name === "btc") {
       btc = value;
       ngn = ticker && ticker.BTCNGN.buy * value;
-      // usd = ticker && ticker.tickers.BTCUSD.buy * value;
-      usd = 26000 * value;
+      usd = ticker && ticker.tickers.BTCUSD.buy * value;
+      // usd = 26000 * value;
       ghs = ticker && ticker.BTCGHS.buy * value;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ngn") {
       ngn = value;
       btc = value / (ticker && ticker.BTCNGN.buy);
-      // usd = ticker && ticker.tickers.BTCUSD.buy * value;
-      usd = 26000 * btc;
+      usd = ticker && ticker.tickers.BTCUSD.buy * value;
+      // usd = 26000 * btc;
       ghs = ticker && ticker.BTCGHS.buy * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "usd") {
       usd = value;
-      // btc = value / (ticker && ticker.BTCUSD.buy);
-      btc = value / 26000;
+      btc = value / (ticker && ticker.BTCUSD.buy);
+      // btc = value / 26000;
       ngn = ticker && ticker.BTCNGN.buy * btc;
       ghs = ticker && ticker.BTCGHS.buy * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ghs") {
       ghs = value;
       btc = value / (ticker && ticker.BTCGHS.buy);
-      // usd = ticker && ticker.tickers.BTCUSD.buy * value;
-      usd = 26000 * btc;
+      usd = ticker && ticker.tickers.BTCUSD.buy * value;
+      // usd = 26000 * btc;
       ngn = ticker && ticker.BTCNGN.buy * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     }
@@ -118,8 +118,8 @@ export const BuySection = ({
             setState((state) => ({ ...state, wallet: value }))
           }
           options={[
-            { render: "NGN wallet", value: "NGN" },
-            { render: "GHS wallet", value: "GHS" },
+            { render: "NGN wallet", value: "NGN", disabled: rates?.availability?.buy?.value },
+            { render: "GHS wallet", value: "GHS", disabled: rates?.availability?.buy?.value },
           ]}
           hint={`Current Balance ${
             balance &&
@@ -202,29 +202,29 @@ export const SellSection = ({
     if (name === "btc") {
       btc = value;
       ngn = ticker && ticker.BTCNGN.sell * value;
-      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
-      usd = 26000 * value;
+      usd = ticker && ticker.tickers.BTCUSD.sell * value;
+      // usd = 26000 * value;
       ghs = ticker && ticker.BTCGHS.sell * value;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ngn") {
       ngn = value;
       btc = value / (ticker && ticker.BTCNGN.sell);
-      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
-      usd = 26000 * btc;
+      usd = ticker && ticker.tickers.BTCUSD.sell * value;
+      // usd = 26000 * btc;
       ghs = (ticker && ticker.BTCGHS.sell) * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "usd") {
       usd = value;
-      // btc = value / (ticker && ticker.BTCUSD.sell);
-      btc = value / 26000;
+      btc = value / (ticker && ticker.BTCUSD.sell);
+      // btc = value / 26000;
       ngn = ticker && ticker.BTCNGN.sell * btc;
       ghs = ticker && ticker.BTCGHS.sell * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ghs") {
       ghs = value;
       btc = value / (ticker && ticker.BTCGHS.sell);
-      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
-      usd = 26000 * btc;
+      usd = ticker && ticker.tickers.BTCUSD.sell * value;
+      // usd = 26000 * btc;
       ngn = ticker && ticker.BTCNGN.sell * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     }
@@ -296,8 +296,8 @@ export const SellSection = ({
             setState((state) => ({ ...state, wallet: value }))
           }
           options={[
-            { render: "NGN wallet", value: "NGN" },
-            { render: "GHS wallet", value: "GHS" },
+            { render: "NGN wallet", value: "NGN", disabled: rates?.availability?.sell?.value },
+            { render: "GHS wallet", value: "GHS", disabled: rates?.availability?.sell?.value },
           ]}
           hint={`Current Balance ${
             balance &&
@@ -381,29 +381,29 @@ export const SendSection = ({
     if (name === "btc") {
       btc = value;
       ngn = ticker && ticker.BTCNGN.sell * value;
-      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
-      usd = 26000 * value;
+      usd = ticker && ticker.tickers.BTCUSD.sell * value;
+      // usd = 26000 * value;
       ghs = ticker && ticker.BTCGHS.sell * value;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ngn") {
       ngn = value;
       btc = value / (ticker && ticker.BTCNGN.sell);
-      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
-      usd = 26000 * btc;
+      usd = ticker && ticker.tickers.BTCUSD.sell * value;
+      // usd = 26000 * btc;
       ghs = value / (ticker && ticker.BTCGHS.sell);
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "usd") {
       usd = value;
-      // btc = value / (ticker && ticker.BTCUSD.sell);
-      btc = value / 26000;
+      btc = value / (ticker && ticker.BTCUSD.sell);
+      // btc = value / 26000;
       ngn = ticker && ticker.BTCNGN.sell * btc;
       ghs = ticker && ticker.BTCGHS.sell * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ghs") {
       ghs = value;
       btc = value / (ticker && ticker.BTCGHS.sell);
-      // usd = ticker && ticker.tickers.BTCUSD.sell * value;
-      usd = 26000 * btc;
+      usd = ticker && ticker.tickers.BTCUSD.sell * value;
+      // usd = 26000 * btc;
       ngn = ticker && ticker.BTCNGN.sell * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     }

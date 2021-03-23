@@ -52,12 +52,12 @@ export const getBTCWalletDetails = () => (dispatch) => {
   dispatch(GetBTCWalletDetails());
 }; // done
 
-const GetBTCCurrentMarketTicker = () => async (dispatch) => {
+const GetBTCCurrentMarketTicker = (data) => async (dispatch) => {
   dispatch({
     type: actionTypes.GET_CURRENT_MARKET_TICKERS_PENDING,
   });
 
-  await BTCTransactionServices.getCurrentMarketTicker()
+  await BTCTransactionServices.getCurrentMarketTicker(data)
     .then((response) => {
       dispatch({
         type: actionTypes.GET_CURRENT_MARKET_TICKERS_SUCCESS,
@@ -73,8 +73,8 @@ const GetBTCCurrentMarketTicker = () => async (dispatch) => {
   return;
 }; // done
 
-export const getBTCCurrentMarketTicker = () => (dispatch) => {
-  dispatch(GetBTCCurrentMarketTicker());
+export const getBTCCurrentMarketTicker = (data) => (dispatch) => {
+  dispatch(GetBTCCurrentMarketTicker(data));
 }; // done
 
 const InitialBTCBuyTransaction = (data) => async (dispatch) => {

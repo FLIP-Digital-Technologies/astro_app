@@ -9,14 +9,50 @@ BTCTransactionServices.getWalletDetails = function (params) {
   });
 };
 
-BTCTransactionServices.getCurrentMarketTicker = function () {
-  return fetch({
-    url: "/api/transactions/btc/tickers",
-    method: "get",
-    headers: {
-      "public-request": "true",
-    },
-  });
+BTCTransactionServices.getCurrentMarketTicker = function (params) {
+  // return fetch({
+  //   url: "/api/transactions/btc/tickers",
+  //   method: "get",
+  //   params: {
+  //     volume: params?.volume || 1
+  //   },
+  //   headers: {
+  //     "public-request": "true",
+  //   },
+  // });
+  return Promise.resolve({
+    "code": 200,
+    "message": "Fetched current market tickers successfully",
+    "data": {
+      "at": "2021-01-31T02:55:42.000Z",
+      "tickers": {
+        "BTCUSD": {
+          "buy": 32000,
+          "sell": 31500
+        },
+        "BTCNGN": {
+          "buy": 15360000,
+          "sell": 14490000
+        },
+        "BTCGHS": {
+          "buy": 192000,
+          "sell": 182700
+        }
+      },
+      "availability": {
+        "buy": {
+          "value": true,
+          "minVolume": 0.0001,
+          "maxVolume": 5
+        },
+        "sell": {
+          "value": true,
+          "minVolume": 0.001,
+          "maxVolume": 5
+        }
+      }
+    }
+  })
 };
 
 BTCTransactionServices.initialBuyBTC = function (params, payload) {
