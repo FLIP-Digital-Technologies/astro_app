@@ -90,7 +90,7 @@ const buyGiftCardReducer = (state = initState, action) => {
     case actionTypes.INITIAL_BUY_GIFT_CARD_SUCCESS:
       notification.success({
         message: "Successful",
-        description: action.payload.message,
+        description: `${action.payload.message}. Please check your mail and transactions tab to monitor the progress.`,
         key,
       });
       return {
