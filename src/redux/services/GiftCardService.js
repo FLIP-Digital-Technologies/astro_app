@@ -25,7 +25,7 @@ giftCardService.initialSellGiftCard = function (params, payload) {
   data.amount = payload.amount;
   data.cardCode = payload.cardCode;
   data.imageURLs = payload.imageURLs;
-  data.quantity = payload.quantity;
+  data.remark = payload.remark;
   data.referenceCurrency = payload.referenceCurrency;
   return fetch({
     url: `/api/transactions/cards/${params.userId}/sell`,

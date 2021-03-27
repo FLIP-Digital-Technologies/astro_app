@@ -90,6 +90,7 @@ const mapStateToProps = (state) => ({
   user: state.user.user,
   updatedUser: state.user.updatedUser,
   bankLink: state.bank.bankList,
+  branchList: state.bank.bankBranchList,
   bankName: state.bank.bankDetails,
   addedBankDetails: state.user.updatedUserBank,
   updatedTransactionPin: state.user.updatedTransactionPin,

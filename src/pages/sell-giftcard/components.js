@@ -256,7 +256,7 @@ const getTerm = (item) => {
           <p>If you need to ask a question, pls reach us via the live chat.</p>
         </div>
       );
-    case "onevailla":
+    case "onevanilla":
       return (
         <div>
           <p>
@@ -464,6 +464,7 @@ export const GiftCardForm = ({
     total: 0,
     file: [],
     wallet: "",
+    remark: "",
   };
 
   const [details, setDetails] = useState(INITIAL_STATE);
@@ -548,6 +549,7 @@ export const GiftCardForm = ({
     );
     const payload = {
       referenceCurrency: details && details.wallet,
+      remark: details.remark,
       imageURLs: resFile,
       amount: details.amount,
       quantity: details.number,
@@ -570,7 +572,7 @@ export const GiftCardForm = ({
   return (
     <div className={styles.gitcard__form}>
       {open && soldGiftCard && (
-        <SuccessfulModal title={"Sold"} onClick={() => history.push("/app")} />
+        <SuccessfulModal title={"Your card has been received, kindly wait 10-15 minutes, check the progress of trade on the 'Transactions' tab"} onClick={() => history.push("/app")} />
       )}
       <Modal
         header={null}
@@ -703,6 +705,17 @@ export const GiftCardForm = ({
                   </ul>
                 </div>
               )}
+            </div>
+            <div>
+              <Input
+                label="Image Remark"
+                placeholder="Enter image remark"
+                value={details.remark}
+                type="text"
+                onChange={(e) => setDetails((details) => ({ ...details, remark: e.target.value }))}
+                labelClass={styles.label}
+                className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
+              />
             </div>
           </div>
 

@@ -240,8 +240,6 @@ export const InternetFlyout = ({
               value={state.customerNumber}
               name="Customer Phone Number"
               placeholder="+23***********"
-              minlength={"14"}
-              maxlength={14}
               type="tel"
               onChange={(e) =>
                 setState((state) => ({
@@ -498,8 +496,6 @@ export const AirtimeFlyout = ({
               value={state.customerNumber}
               name="Customer Phone Number"
               placeholder="+23***********"
-              minlength={"14"}
-              maxlength={14}
               type="tel"
               onChange={(e) =>
                 setState((state) => ({

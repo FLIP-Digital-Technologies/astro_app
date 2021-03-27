@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Clipboard from "react-clipboard.js";
+import { Switch } from "antd";
 import Input from "../../components/input";
 import Select from "../../components/select";
 import Button from "../../components/button";
@@ -172,6 +173,7 @@ const Profile = ({
     bvn: "",
     accountName: "",
     bankName: "",
+    isMobileMoney: false,
     currency: "GH",
     bankBranchCode: "",
     bankBranchName: "",
@@ -191,12 +193,17 @@ const Profile = ({
   };
 
   useEffect(() => {
-    if (state.bankCode && state.accountNumber.length === 10) {
+    if (
+      state.bankCode &&
+      state.accountNumber.length === 10 &&
+      !state.isMobileMoney
+    ) {
       verifyBankAccount({
         bankCode: state.bankCode,
         accountNumber: state.accountNumber,
       });
     }
+    // eslint-disable-next-line
   }, [state.bankCode, state.accountNumber, verifyBankAccount]);
   useEffect(() => {
     if (branchList && branchList.length === 1) {
@@ -225,6 +232,17 @@ const Profile = ({
       currency: state.currency === "GH" ? "GHS" : "NGN",
     });
   };
+
+  const handleMobileMoneyBankCode = (value) => {
+    handleChange({ target: { name: "bankCode", value: value } });
+    handleChange({ target: { name: "bankName", value: "" } });
+    handleChange({ target: { name: "accountName", value: "" } });
+    handleChange({ target: { name: "accountNumber", value: "" } });
+    handleChange({ target: { name: "accountNumber", value: "" } });
+    handleChange({ target: { name: "bankBranchCode", value: "" } });
+    handleChange({ target: { name: "bankBranchName", value: "" } });
+  };
+
   const handleBankCode = (value) => {
     handleChange({ target: { name: "bankCode", value: value.split(",")[0] } });
     handleChange({ target: { name: "bankName", value: value.split(",")[1] } });
@@ -232,6 +250,7 @@ const Profile = ({
     handleChange({ target: { name: "accountNumber", value: "" } });
     handleChange({ target: { name: "accountNumber", value: "" } });
     handleChange({ target: { name: "bankBranchCode", value: "" } });
+    handleChange({ target: { name: "bankBranchName", value: "" } });
     if (state.currency === "GH") getBankBranchList({ id: value.split(",")[2] });
   };
   const handleDelAccount = (id) => {
@@ -257,14 +276,14 @@ const Profile = ({
           </div>
           <div
             className={styles.profilePersonalEntry}
-            style={{ lineHeight: 18, wordWrap: "break-word" }}
+            style={{ lineHeight: 18, wordWrap: "break-word", width: "auto" }}
           >
             <span>Email</span>
             <span>{user && user.email}</span>
           </div>
           <div
             className={styles.profilePersonalEntry}
-            style={{ lineHeight: 18, wordWrap: "break-word" }}
+            style={{ lineHeight: 18, wordWrap: "break-word", width: "auto" }}
           >
             <span>Name</span>
             <span>{`${(user && user.firstName) || `-`} ${
@@ -273,22 +292,24 @@ const Profile = ({
           </div>
           <div
             className={styles.profilePersonalEntry}
-            style={{ lineHeight: 18, wordWrap: "break-word" }}
+            style={{ lineHeight: 18, wordWrap: "break-word", width: "auto" }}
           >
             <span>Password</span>
             <span>*********</span>
           </div>
           <div
             className={styles.profilePersonalEntry}
-            style={{ lineHeight: 18, wordWrap: "break-word" }}
+            style={{ lineHeight: 18, wordWrap: "break-word", width: "auto" }}
           >
             <span>Referral Code</span>
-            <span style={{display: "flex", alignItems: "center"}}>
+            <span style={{ display: "flex", alignItems: "center" }}>
               <small>{(user && user.referralCode) || "---"}</small>
               <Clipboard
                 style={{ padding: 8 }}
                 component="div"
-                data-clipboard-text={`${window && window.location && window.location.origin}/signup?code=${user && user.referralCode}`}
+                data-clipboard-text={`${
+                  window && window.location && window.location.origin
+                }/signup?code=${user && user.referralCode}`}
                 onSuccess={() =>
                   notification.success({
                     message: "copied",
@@ -330,8 +351,14 @@ const Profile = ({
                   <span
                     style={{ width: "100%" }}
                   >{`${item.accountNumber}`}</span>
-                  <span style={{ width: "100%" }}>{`${item.accountName}`}</span>
-                  <span style={{ width: "100%" }}>{`${item.bankName}`}</span>
+                  <span style={{ width: "100%" }}>{`${
+                    item.isMobileMoney
+                      ? "Mobile Money Account"
+                      : item.accountName
+                  }`}</span>
+                  <span style={{ width: "100%" }}>{`${
+                    item.isMobileMoney ? item.bankCode : item.bankName
+                  }`}</span>
                   <Button
                     className={styles.deleteButton}
                     onClick={() => handleDelAccount(item.id)}
@@ -375,6 +402,7 @@ const Profile = ({
                   bankName: "",
                   bankBranchCode: "",
                   bankBranchName: "",
+                  isMobileMoney: false,
                 }));
                 getBankList({ country: value });
               }}
@@ -384,20 +412,75 @@ const Profile = ({
                 { render: "GHS", value: "GH" },
               ]}
             />
-            <Select
-              name="bankCode"
-              labelClass={styles.profileBankInputLabel}
-              className={styles.profileBankInput}
-              value={state.bankCode}
-              onSelect={(value) => handleBankCode(value)}
-              label="Bank Name"
-              placeholder="Select your bank"
-              options={bankList?.map((i) => ({
-                value: `${i.code},${i.name},${i.id}`,
-                render: i.name,
-              }))}
-            />
             {state.currency === "GH" && (
+              <div
+                className={styles.profileBankInput}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  flex: "1 1",
+                  position: "relative",
+                  marginBottom: 15,
+                }}
+              >
+                <label
+                  style={{
+                    fontSize: 14,
+                    color: "#0d0d0b",
+                    fontWeight: "450",
+                    marginBottom: 6,
+                  }}
+                  className={styles.profileBankInputLabel}
+                >
+                  Mobile Money Account
+                </label>
+                <Switch
+                  checked={state.isMobileMoney}
+                  onChange={(value) => {
+                    setState((state) => ({
+                      ...state,
+                      isMobileMoney: value,
+                      bankName: "",
+                      bankBranchCode: "",
+                      bankBranchName: "",
+                      bankCode: "",
+                    }));
+                  }}
+                  checkedChildren="Yes"
+                  unCheckedChildren="No"
+                />
+              </div>
+            )}
+            {state.currency === "NG" && (
+              <Select
+                name="bankCode"
+                labelClass={styles.profileBankInputLabel}
+                className={styles.profileBankInput}
+                value={state.bankCode}
+                onSelect={(value) => handleBankCode(value)}
+                label="Bank Name"
+                placeholder="Select your bank"
+                options={bankList?.map((i) => ({
+                  value: `${i.code},${i.name}`,
+                  render: i.name,
+                }))}
+              />
+            )}
+            {state.currency === "GH" && !state.isMobileMoney && (
+              <Select
+                name="bankCode"
+                className={styles.profileBankInput}
+                value={state.bankCode}
+                onSelect={(value) => handleBankCode(value)}
+                label="Bank"
+                placeholder="Select your bank"
+                options={bankList?.map((i) => ({
+                  value: `${i.code},${i.name},${i.id}`,
+                  render: i.name,
+                }))}
+              />
+            )}
+            {state.currency === "GH" && !state.isMobileMoney && (
               <Select
                 name="bankBranchName"
                 labelClass={styles.profileBankInputLabel}
@@ -421,6 +504,22 @@ const Profile = ({
                 }
               />
             )}
+            {state.currency === "GH" && state.isMobileMoney && (
+              <Select
+                name="bankCode"
+                className={styles.profileBankInput}
+                value={state.bankCode}
+                onSelect={(value) => handleMobileMoneyBankCode(value)}
+                label="Bank"
+                placeholder="Select your bank"
+                options={[
+                  { render: "MTN", value: "MTN" },
+                  { render: "AIRTEL", value: "AIRTEL" },
+                  { render: "TIGO", value: "TIGO" },
+                  { render: "VODAFONE", value: "VODAFONE" },
+                ]}
+              />
+            )}
             <Input
               name="accountNumber"
               value={state.accountNumber}
@@ -432,17 +531,32 @@ const Profile = ({
               labelClass={styles.profileBankInputLabel}
               className={styles.profileBankInput}
             />
-            <Input
-              name="accountName"
-              value={state.accountName}
-              labelClass={styles.profileBankInputLabel}
-              className={styles.profileBankInput}
-              onChange={handleChange}
-              label="Account Name"
-              placeholder="Enter your account name"
-              readOnly={true}
-              disabled
-            />
+            {state.currency === "GH" && !state.isMobileMoney && (
+              <Input
+                name="accountName"
+                value={state.accountName}
+                labelClass={styles.profileBankInputLabel}
+                className={styles.profileBankInput}
+                onChange={handleChange}
+                label="Account Name"
+                placeholder="Enter your account name"
+                readOnly={true}
+                disabled
+              />
+            )}
+            {state.currency === "NG" && (
+              <Input
+                name="accountName"
+                value={state.accountName}
+                labelClass={styles.profileBankInputLabel}
+                className={styles.profileBankInput}
+                onChange={handleChange}
+                label="Account Name"
+                placeholder="Enter your account name"
+                readOnly={true}
+                disabled
+              />
+            )}
             {/* {state.currency === "NG" && (
               <Input
                 name="bvn"
@@ -461,7 +575,7 @@ const Profile = ({
             <div className={styles.btnPair}>
               <Button
                 disabled={
-                  !state.accountNumber || !state.accountName || !state.bankCode
+                  !state.accountNumber || !state.currency || !state.bankCode
                 }
                 text="Save"
                 type="submit"

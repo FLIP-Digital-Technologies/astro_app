@@ -160,7 +160,7 @@ const Transactions = ({
         <TransactionModalBig
           title="Gift Card"
           rate={viewGiftCardTrans.rate.amount}
-          Qua={viewGiftCardTrans.quantity}
+          Qua={viewGiftCardTrans.comments}
           id={viewGiftCardTrans.id}
           cardCode={viewGiftCardTrans.cardCode}
           images={viewGiftCardTrans.images}

@@ -752,7 +752,7 @@ export const SuccessfulModal = ({
           >
             <span
               className={styles.transactions__empty__content__text}
-              style={{ color: "#012169", fontWeight: "bold" }}
+              style={{ color: "#012169", fontWeight: "bold", textAlign: "center" }}
             >
               {title}
             </span>

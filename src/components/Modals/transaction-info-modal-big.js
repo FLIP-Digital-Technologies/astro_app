@@ -232,7 +232,7 @@ const TransactionModalBig = ({
               <span>Amount Paid</span> <span>{Money(amount, "NGN")}</span>
             </div>
             <div className={styles.transactionBig__main__content}>
-              <span>Quantity</span> <span>{Qua}</span>
+              <span>Comment</span> <span>{Qua}</span>
             </div>
           </div>
           <div className={styles.transactionBig__main__holder}>

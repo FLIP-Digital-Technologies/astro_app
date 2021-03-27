@@ -82,6 +82,7 @@ generalService.addBankAccount = function (params, payload) {
   data.bankCode = payload.bankCode;
   data.bankName = payload.bankName;
   data.currency = payload.currency;
+  data.isMobileMoney = payload.isMobileMoney;
   return fetch({
     url: `/api/user-account/${params.userId}/bank-accounts`,
     method: "post",

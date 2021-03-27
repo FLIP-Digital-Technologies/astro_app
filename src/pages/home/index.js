@@ -179,25 +179,25 @@ const Home = ({
               </div>
               <span className={styles.fund__text}>Fund Wallet</span>
             </div>
-            <div onClick={() => setShowPTWOP(true)} className={styles.fund}>
+            <div onClick={() => setOpenWithdrawal(true)} className={styles.fund}>
               <div className={styles.fund__image}>
                 <div>
-                  <UserSwitchOutlined style={{fontSize: 23}} />
+                  <i class="fas fa-wallet text-white" style={{fontSize: 22, color: "#ffffff"}} />
                 </div>
               </div>
-              <span className={styles.fund__text}>P2P Trade</span>
+              <span className={styles.fund__text}>Withdrawal</span>
             </div>
           </div>
           <div className={styles.quick}>
             <div className={styles.quick__holder} style={{width: "100%", flexWrap: "wrap"}}>
               <div
-                onClick={() => setOpenWithdrawal(true)}
+                onClick={() => setShowPTWOP(true)}
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
                 <div>
-                  <i class="fas fa-wallet"></i>
+                  <UserSwitchOutlined />
                 </div>
-                <span>Withdrawal</span>
+                <span style={{textAlign: "center"}}>send money via P2P</span>
               </div>
               <div
                 onClick={() => history.push("/app/sell-giftcard")}
