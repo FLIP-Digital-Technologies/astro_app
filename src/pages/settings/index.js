@@ -174,7 +174,7 @@ const Profile = ({
     accountName: "",
     bankName: "",
     isMobileMoney: false,
-    currency: "GH",
+    currency: "",
     bankBranchCode: "",
     bankBranchName: "",
   };
@@ -510,7 +510,7 @@ const Profile = ({
                 className={styles.profileBankInput}
                 value={state.bankCode}
                 onSelect={(value) => handleMobileMoneyBankCode(value)}
-                label="Bank"
+                label="Mobile Network"
                 placeholder="Select your bank"
                 options={[
                   { render: "MTN", value: "MTN" },
@@ -520,17 +520,32 @@ const Profile = ({
                 ]}
               />
             )}
-            <Input
-              name="accountNumber"
-              value={state.accountNumber}
-              onChange={handleChange}
-              label="Account Number"
-              placeholder="e.g 01236548"
-              pattern="\d{10}$"
-              maxLength="10"
-              labelClass={styles.profileBankInputLabel}
-              className={styles.profileBankInput}
-            />
+            {state.currency && !state.isMobileMoney && (
+              <Input
+                name="accountNumber"
+                value={state.accountNumber}
+                labelClass={styles.profileBankInputLabel}
+                className={styles.profileBankInput}
+                onChange={handleChange}
+                label="Account Number"
+                placeholder="e.g 01236548"
+                maxLength="10"
+                hint="Please ensure to input the correct account number"
+              />
+            )}
+            {state.isMobileMoney && (
+              <Input
+                name="accountNumber"
+                value={state.accountNumber}
+                labelClass={styles.profileBankInputLabel}
+                className={styles.profileBankInput}
+                onChange={handleChange}
+                label="Mobile Number"
+                placeholder="e.g 01236548"
+                maxLength="10"
+                hint="Please ensure to input the correct account number"
+              />
+            )}
             {state.currency === "GH" && !state.isMobileMoney && (
               <Input
                 name="accountName"
