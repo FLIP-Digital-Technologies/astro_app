@@ -20,7 +20,7 @@ buyGiftCardService.initialBuy = function (params, payload) {
   data.quantity = payload.quantity;
   data.isCustom = payload.isCustom;
   data.referenceCurrency = payload.referenceCurrency;
-  data.referralId = payload.referralId;
+  data.email = payload.email;
   return fetch({
     url: `/api/transactions/buy-cards/${params.userId}`,
     method: "post",

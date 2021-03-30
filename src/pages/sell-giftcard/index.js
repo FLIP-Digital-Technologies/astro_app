@@ -95,6 +95,7 @@ const SellGiftcard = (props) => {
             handleBack={() => setActive(null)}
             SellGiftCard={props.SellGiftCard}
             active={active}
+            loading={props.loading}
           />
         )}
       </div>
@@ -103,6 +104,7 @@ const SellGiftcard = (props) => {
 };
 
 const mapStateToProps = (state) => ({
+  loading: state.giftCard.loading,
   giftCardList: state.giftCard.giftCardList,
   soldGiftCard: state.giftCard.sellGiftCard,
 });

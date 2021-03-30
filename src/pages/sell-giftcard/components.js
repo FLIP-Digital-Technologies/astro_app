@@ -455,6 +455,7 @@ export const GiftCardForm = ({
   handleBack,
   SellGiftCard,
   soldGiftCard,
+  loading
 }) => {
   const INITIAL_STATE = {
     country: "",
@@ -473,9 +474,19 @@ export const GiftCardForm = ({
   const [open, setOpen] = useState(false);
   const [openTerm, setOpenTerm] = useState(true);
   const [canTrade, SetCanTrade] = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
+
+  React.useEffect(() => {
+    if(rate.rate){
+      setDetails((details) => ({
+        ...details,
+        total: rate.rate[details.wallet] * details.amount,
+      }));
+    }
+  }, [rate, details.wallet, details.country, details.cardType])
 
   const onCountryChange = (value) => {
-    setDetails((details) => ({ ...details, country: value, cardType: "" }));
+    setDetails((details) => ({ ...details, country: value, cardType: "", amount: 0 }));
   };
 
   const onCardTypeChange = (value) => {
@@ -499,14 +510,14 @@ export const GiftCardForm = ({
         value.includes(i[0])
       )[0][1]
     );
-    setDetails((details) => ({ ...details, cardType: value }));
+    setDetails((details) => ({ ...details, cardType: value, amount: 0 }));
   };
 
   const onAmountChange = (value) => {
     setDetails((details) => ({
       ...details,
       amount: value,
-      total: rate.rate.NGN * value,
+      total: rate.rate[details.wallet] * value,
     }));
   };
 
@@ -523,7 +534,7 @@ export const GiftCardForm = ({
   };
 
   const onWalletChange = (value) => {
-    setDetails((details) => ({ ...details, wallet: value }));
+    setDetails((details) => ({ ...details, wallet: value, country: "", cardType: "", amount: 0 }));
   };
 
   const handleDelete = (index) => {
@@ -533,6 +544,7 @@ export const GiftCardForm = ({
   };
 
   const handleSubmit = async () => {
+    setUploadLoading(true);
     if (details.file.length === 0) {
       return;
     }
@@ -559,6 +571,7 @@ export const GiftCardForm = ({
     };
     await SellGiftCard(payload);
     setOpen(true);
+    setUploadLoading(false)
   };
 
   const handleOk = () => {
@@ -636,7 +649,7 @@ export const GiftCardForm = ({
                 value={details.country}
                 onSelect={onCountryChange}
                 className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
-                label="Select Country"
+                label="Select Currency"
                 labelClass={styles.label}
               />
             </div>
@@ -717,8 +730,9 @@ export const GiftCardForm = ({
                 className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
               />
             </div>
+            <br />
+            <br />
           </div>
-
           <div className={styles.gitcard__form__right}>
             <div className={styles.gitcard__form__info}>
               <h3>Info</h3>
@@ -746,7 +760,9 @@ export const GiftCardForm = ({
                 !details.total ||
                 !details.cardType ||
                 !details.country ||
-                !canTrade
+                loading ||
+                !canTrade ||
+                uploadLoading
               }
               onClick={() => handleSubmit()}
             />

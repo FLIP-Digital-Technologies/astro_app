@@ -104,7 +104,7 @@ const Home = ({
       {showAirtime && (
         <Drawer
           title="Airtime purchase"
-          width={400}
+          width={350}
           placement="right"
           onClose={() => {setShowAirtime(false); setAirtimeState({})}}
           visible={showAirtime}
@@ -117,7 +117,7 @@ const Home = ({
         <Drawer
           title="Pair 2 Pair (p2p) Transfer"
           placement="right"
-          width={400}
+          width={350}
           onClose={() => {setShowPTWOP(false); setDataPair({})}}
           visible={showPTWOP}
         >
@@ -128,7 +128,7 @@ const Home = ({
         <Drawer
           title="Fund wallet"
           placement="right"
-          width={400}
+          width={350}
           onClose={() => {setShowFund(false); setState({})}}
           visible={showFund}
         >
@@ -197,7 +197,7 @@ const Home = ({
                 <div>
                   <UserSwitchOutlined />
                 </div>
-                <span style={{textAlign: "center"}}>send money via P2P</span>
+                <span style={{textAlign: "center", lineHeight: 1}}>send money via P2P</span>
               </div>
               <div
                 onClick={() => history.push("/app/sell-giftcard")}

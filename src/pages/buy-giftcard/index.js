@@ -8,9 +8,11 @@ import { DashboardLayout } from "../../components/layout";
 import Button from "../../components/button";
 import Select from "../../components/select";
 import Input from "../../components/input";
-// import { GiftCardForm } from "./components";
 import styles from "../styles.module.scss";
-import { EmptyEntryWithTitle } from "../transactions/components";
+import {
+  EmptyEntryWithTitle,
+  SuccessfulModal,
+} from "../transactions/components";
 import {
   getBuyCardsByCountries,
   getBuyCardsBySearch,
@@ -40,6 +42,7 @@ const BuyGiftCard = (props) => {
   const { pathname } = location;
   const history = useHistory();
   const [active, setActive] = useState(null);
+  const [open, setOpen] = useState(false);
   const [state, setState] = useState({
     country: "usa",
     searchQuery: "",
@@ -70,17 +73,27 @@ const BuyGiftCard = (props) => {
       cardSlug: props?.buyGiftCardDetails?.slug,
       cardCurrency: props?.buyGiftCardDetails?.currency,
       cardValue: card.cardValue,
+      email: card.email,
       amount: card.amount === "null" ? null : card.amount,
       quantity: card.quantity,
       isCustom: false,
       referenceCurrency: card.referenceCurrency,
     };
     await props.buyGiftCard(payload);
+    setOpen(true);
     setActive(false);
-    setCard({})
+    setCard({});
   };
   return (
     <DashboardLayout>
+      {open && props.initBuyGiftCardTransaction && (
+        <SuccessfulModal
+          title={
+            `Your ${props?.buyGiftCardDetails?.name} (${props?.buyGiftCardDetails?.currency}) card purchase has been received. Please check your mail and the 'Transactions' tab for trade progress.`
+          }
+          onClick={() => history.push("/app")}
+        />
+      )}
       <div className={styles.gitcard}>
         <div style={{ marginLeft: 20, marginRight: 20 }}>
           <div>
@@ -183,7 +196,10 @@ const BuyGiftCard = (props) => {
                     className="gutter-row"
                     style={{ marginBottom: 20 }}
                   >
-                    <Badge.Ribbon color={item.outOfStock ? "#f50" : ""} text={item.outOfStock ? "Out Of Stock" : "Available"}>
+                    <Badge.Ribbon
+                      color={item.outOfStock ? "#f50" : ""}
+                      text={item.outOfStock ? "Out Of Stock" : "Available"}
+                    >
                       <Card
                         hoverable
                         bordered={false}
@@ -259,8 +275,8 @@ const BuyGiftCard = (props) => {
               }}
             >
               <Title level={3}>
-                {props?.buyGiftCardDetails?.name}{" "}
-                ({props?.buyGiftCardDetails?.currency})
+                {props?.buyGiftCardDetails?.name} (
+                {props?.buyGiftCardDetails?.currency})
               </Title>
               <img
                 alt={"card"}
@@ -324,6 +340,20 @@ const BuyGiftCard = (props) => {
                   }}
                   type="number"
                 />
+                <Input
+                  className={`${styles.input}`}
+                  value={card.email}
+                  label="Email"
+                  placeholder="Enter the email to send gift card to"
+                  labelClass={styles.largeMarginLabel}
+                  onChange={(e) => {
+                    setCard((card) => ({
+                      ...card,
+                      email: e.target.value,
+                    }));
+                  }}
+                  type="email"
+                />
                 <Select
                   labelClass={styles.largeMarginLabel}
                   hintClass={styles.largeMarginHint}
@@ -370,6 +400,7 @@ const mapStateToProps = (state) => ({
   buyCardCountries: state.buyGiftCard.buyCardCountries,
   buyGiftCards: state.buyGiftCard.buyGiftCards,
   buyGiftCardDetails: state.buyGiftCard.buyGiftCardDetails,
+  initBuyGiftCardTransaction: state.buyGiftCard.initBuyGiftCardTransaction,
 });
 
 const mapDispatchToProps = (dispatch) => ({
