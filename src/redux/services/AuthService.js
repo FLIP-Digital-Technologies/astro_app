@@ -38,7 +38,7 @@ authService.loginAccount = function (payload) {
   data.email = payload.email;
   data.password = payload.password;
   return fetch({
-    url: "/api/log-in",
+    url: "/api/user-account/log-in",
     method: "post",
     data: data,
     headers: {
