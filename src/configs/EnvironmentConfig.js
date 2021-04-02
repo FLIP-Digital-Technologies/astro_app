@@ -10,6 +10,10 @@ const test = {
   API_ENDPOINT_URL: "https://myflipapp-297309.uc.r.appspot.com/",
 };
 
+const stage = {
+  API_ENDPOINT_URL: "https://myflipapp-297309.uc.r.appspot.com/",
+};
+
 const getEnv = () => {
   switch (process.env.NODE_ENV) {
     case "development":
@@ -18,6 +22,8 @@ const getEnv = () => {
       return prod;
     case "test":
       return test;
+    case "staging":
+      return stage;
     default:
       break;
   }
