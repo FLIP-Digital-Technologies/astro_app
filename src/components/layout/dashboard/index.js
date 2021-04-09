@@ -123,6 +123,7 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
                       right: 20,
                       boxShadow: "4px 19px 20px 5px #cecece",
                       zIndex: 9,
+                      
                     }}
                   >
                     <div
@@ -130,6 +131,8 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
                         padding: "0px 15px",
                         backgroundColor: "#fff",
                         cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
                       }}
                       onClick={() => logout()}
                     >

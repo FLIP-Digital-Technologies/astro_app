@@ -36,7 +36,7 @@ export const navigation = [
   { Icon: () => <i class="fab fa-btc" style={{marginRight: 14}}></i>, Name: "Bitcoin", route: Routes.BTC },
   { Icon: TransactionOutlined, Name: "Transactions", route: Routes.transactions },
   { Icon: Transactions, Name: "Bills", route: Routes.bills },
-  { Icon: Settings, Name: "Setting", route: Routes.settings },
+  { Icon: Settings, Name: "Settings", route: Routes.settings },
   // { Icon: Logout, Name: "Log out", route: "" },
 ];
 

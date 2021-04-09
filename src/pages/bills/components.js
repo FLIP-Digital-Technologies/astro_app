@@ -22,6 +22,7 @@ const Flyout = ({
       placement="right"
       onClose={state?.close}
       visible={state?.show}
+      width={500}
     >
       {state?.title === "Airtime" && (
         <AirtimeFlyout

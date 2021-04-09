@@ -231,6 +231,21 @@ const Profile = ({
       ...state,
       currency: state.currency === "GH" ? "GHS" : "NGN",
     });
+    setTimeout(() => {
+      setState((state) => ({
+        ...state,
+        currency: "",
+        accountNumber: "",
+        bankCode: "",
+        bvn: "",
+        accountName: "",
+        bankName: "",
+        bankBranchCode: "",
+        bankBranchName: "",
+        isMobileMoney: false,
+      }));
+    }, 2000);
+    
   };
 
   const handleMobileMoneyBankCode = (value) => {
@@ -626,7 +641,7 @@ const Profile = ({
             className={styles.profileSecurityContent}
           >
             <Input
-              placeholder="e.g Access Bank"
+              placeholder="Password"
               label="Current Password"
               name="currentPassword"
               onChange={handlePasswordChange}
@@ -639,7 +654,7 @@ const Profile = ({
               className={styles.input}
             />
             <Input
-              placeholder="e.g Access Bank"
+              placeholder="Password"
               label="New Password"
               name="newPassword"
               onChange={handlePasswordChange}

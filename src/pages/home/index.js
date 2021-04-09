@@ -97,6 +97,7 @@ const Home = ({
             }}
             title="payment"
             src={depositMoneyDetails && depositMoneyDetails.fw_paymentLink}
+            // src={"https://www.w3schools.com"}
           ></iframe>
         </ModalWrapper>
       )}

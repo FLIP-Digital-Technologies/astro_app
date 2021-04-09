@@ -59,6 +59,7 @@ const Select = ({
               ""}
           </div>
         )}
+        {!value && <div>{display || placeholder}</div>}
         <CaretDown
           className={`${show && styles.open} ${styles.caret}`}
           onClick={() => {
@@ -68,17 +69,21 @@ const Select = ({
       </div>
 
       {show && (
-        <div className={styles.input__optionHoder}>
+        <div className={[styles.input__optionHoder]}>
           {options &&
-            options.filter(i => i.hasOwnProperty("disabled") ? !i.disabled : true ).map((item, index) => (
-              <div
-                key={index}
-                onClick={() => handleSelect(item)}
-                className={styles.option}
-              >
-                {item.render}
-              </div>
-            ))}
+            options
+              .filter((i) =>
+                i.hasOwnProperty("disabled") ? !i.disabled : true
+              )
+              .map((item, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleSelect(item)}
+                  className={styles.option}
+                >
+                  {item.render}
+                </div>
+              ))}
         </div>
       )}
 

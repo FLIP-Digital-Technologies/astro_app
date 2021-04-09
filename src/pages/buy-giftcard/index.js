@@ -163,10 +163,10 @@ const BuyGiftCard = (props) => {
                       value: item.value,
                       render: (
                         <div
-                          className={styles.countryOption}
+                          // className={styles.countryOption}
                           style={{ display: "flex", alignItems: "center" }}
                         >
-                          <span>
+                          <span style={{flex:1}}>
                             {item.icon}&emsp;{item.label}
                           </span>
                         </div>

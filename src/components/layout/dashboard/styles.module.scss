@@ -82,8 +82,10 @@
   background-color: #fff;
   right: 0;
   top: 0;
-  width: 173px;
-  height: 108px;
+  flex-direction: column;
+  flex-grow: 1;
+  display: flex;
+  
 }
 
 span.anticon.anticon-bars {
