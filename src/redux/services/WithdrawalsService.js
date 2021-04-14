@@ -20,7 +20,7 @@ withdrawalsService.initialWithdrawalRequest = function (params, data) {
   }
 
   return fetch({
-    url: `/api/payments/outwards/${params.userId}`,
+    url: `/payments/outwards/${params.userId}`,
     method: "post",
     data: payload,
   });
@@ -28,25 +28,25 @@ withdrawalsService.initialWithdrawalRequest = function (params, data) {
 
 withdrawalsService.cancelWithdrawalRequest = function (params, data) {
   return fetch({
-    url: `/api/payments/outwards/${params.userId}/${params.transactionId}/cancel`,
-    method: "put",
+    url: `/payments/outwards/${params.userId}/${params.transactionId}`,
+    method: "delete",
   });
 };
 
 withdrawalsService.getWithdrawalRequestDetails = function (params) {
   return fetch({
-    url: `/api/payments/outwards/${params.userId}/${params.transactionId}`,
+    url: `/payments/outwards/${params.userId}/${params.transactionId}`,
     method: "get",
   });
 };
 
 withdrawalsService.getWithdrawalRequestByUser = function (params) {
   return fetch({
-    url: `/api/payments/outwards/${params.userId}`,
+    url: `/payments/outwards/${params.userId}`,
     method: "get",
     params: {
-      skip: params.skip | 0,
-      limit: params.limit | 10,
+      page: params.skip | 1,
+      per_page: params.limit | 10,
     },
   });
 };

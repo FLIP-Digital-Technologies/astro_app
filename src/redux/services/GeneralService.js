@@ -4,7 +4,27 @@ const generalService = {};
 
 generalService.checkHealth = function () {
   return fetch({
-    url: "/api/health",
+    url: "/health",
+    method: "get",
+    headers: {
+      "public-request": "true",
+    },
+  });
+};
+
+generalService.getFiatCurrency = function () {
+  return fetch({
+    url: "/misc/fiat-currencies",
+    method: "get",
+    headers: {
+      "public-request": "true",
+    },
+  });
+};
+
+generalService.getCryptoCurrency = function () {
+  return fetch({
+    url: "/misc/crypto-currencies",
     method: "get",
     headers: {
       "public-request": "true",
@@ -21,7 +41,7 @@ generalService.getUserDetails = function (params) {
 
 generalService.updateUserDetails = function (params, data) {
   return fetch({
-    url: "/api/user-account/" + params.userId,
+    url: "/user-account/" + params.userId,
     method: "put",
     data: data,
   });
@@ -34,7 +54,7 @@ generalService.setTransactionPin = function (params, payload) {
   let data = {};
   data.pin = payload.pin;
   return fetch({
-    url: `/api/user-account/${params.userId}/transaction-pin`,
+    url: `/user-account/${params.userId}/transaction-pin`,
     method: "put",
     data: data,
   });
@@ -47,7 +67,7 @@ generalService.resetTransactionPin = function (params, payload) {
   let data = {};
   data.pin = payload.pin;
   return fetch({
-    url: `/api/user-account/${params.userId}/transaction-pin`,
+    url: `/user-account/${params.userId}/reset-pin`,
     method: "post",
     data: data,
   });
@@ -62,7 +82,7 @@ generalService.completeTransactionPinReset = function (params, payload) {
   data.resetCode = payload.resetCode;
   data.newPin = payload.newPin;
   return fetch({
-    url: `/api/user-account/${params.userId}/complete-pin-reset`,
+    url: `/user-account/${params.userId}/complete-pin-reset`,
     method: "put",
     data: data,
   });
@@ -81,10 +101,10 @@ generalService.addBankAccount = function (params, payload) {
   data.accountName = payload.accountName;
   data.bankCode = payload.bankCode;
   data.bankName = payload.bankName;
-  data.currency = payload.currency;
+  data.currencyId = payload.currency === "NGN" ? 1: 2;
   data.isMobileMoney = payload.isMobileMoney;
   return fetch({
-    url: `/api/user-account/${params.userId}/bank-accounts`,
+    url: `/user-account/${params.userId}/bank-accounts`,
     method: "post",
     data: data,
   });
@@ -92,7 +112,7 @@ generalService.addBankAccount = function (params, payload) {
 
 generalService.getBankDetails = function (params) {
   return fetch({
-    url: "/api/user-account/" + params.userId + "/bank-accounts",
+    url: "/user-account/" + params.userId + "/bank-accounts",
     method: "get",
   });
 };
@@ -100,7 +120,7 @@ generalService.getBankDetails = function (params) {
 generalService.removeBankDetails = function (params) {
   return fetch({
     url:
-      "/api/user-account/" +
+      "/user-account/" +
       params.userId +
       "/bank-accounts/" +
       params.bankAccountId,

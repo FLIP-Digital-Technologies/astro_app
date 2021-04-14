@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import "./App.css";
-import { getUserBankAccount, getUserDetailsById } from "./redux/actions/user";
+import { getUserBankAccount } from "./redux/actions/user";
 import { getBankListByCountry } from "./redux/actions/bank";
 
 import {
@@ -25,6 +25,7 @@ import {
 } from "./redux/actions/btc";
 import { getLastGiftCardTransactionHistory } from "./redux/actions/giftCard";
 import { getAllUserPaymentDetails } from "./redux/actions/payment";
+import { GetUserDetails } from "./redux/actions/Auths";
 
 function App(props) {
   useEffect(() => {
@@ -81,7 +82,7 @@ const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => ({
   getCurrentUser: () => {
-    dispatch(getUserDetailsById());
+    dispatch(GetUserDetails());
   },
   getUserBankDetails: () => {
     dispatch(getUserBankAccount());

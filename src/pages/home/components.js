@@ -12,9 +12,8 @@ import {
   initialBTCP2PTransferByUser,
   initialFiatP2PByUser,
 } from "../../redux/actions/pairTwoPair";
-import {
-  getBTCWalletDetails,
-} from "../../redux/actions/btc";
+import { getBTCWalletDetails } from "../../redux/actions/btc";
+import { getFiatCurrencies } from "../../redux/actions/Auths";
 
 function validateEmail(email) {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -43,16 +42,20 @@ export const DiscoFlyout = ({
   getBillPaymentCategory,
   BillPaymentCategory = [],
   loading,
+  fiatCurrency,
   buyAirtime = () => {},
 }) => {
   const handleAirtime = () => {
     let payload = {
-      referenceCurrency: state.currency === "ng" ? "NGN" : "GHS",
+      currencyId: state.currencyId,
       amount: state.amount,
       customerNumber: state.customerNumber,
       itemCode: state.itemCode,
     };
-    buyAirtime(`discos-${state.currency}`, payload);
+    buyAirtime(
+      `discos-${state.currency.toLowerCase().substring(0, 2)}`,
+      payload
+    );
   };
   return (
     <div>
@@ -64,21 +67,32 @@ export const DiscoFlyout = ({
           onSelect={(value) => {
             setState((state) => ({
               ...state,
-              currency: value,
+              currency: value.code,
+              currencyId:value._id,
               itemCode: "",
               amount: 0,
               fee: 0,
               customerNumber: "",
             }));
-            getBillPaymentCategory({ billCategory: `discos-${value}` });
+            if (value === "NGN") {
+              getBillPaymentCategory({
+                billCategory: `discos-${value.code.toLowerCase().substring(0, 2)}`,
+              });
+            } else {
+              BillPaymentCategory = [];
+            }
           }}
           name="select payment currency"
-          options={[
-            { render: "NGN", value: "ng" },
-            // { render: "GHS", value: "gh" },
-          ]}
+          options={fiatCurrency.map((item) => ({
+            render: item.name,
+            value: {
+              code:item.code,
+            _id:item.id
+            },
+            _id: item.id,
+          }))}
         />
-        {state.currency && (
+        {state.currency in { NGN: "0" } && (
           <Select
             labelClass={styles.largeMarginLabel}
             label="Select Disco"
@@ -150,11 +164,12 @@ export const InternetFlyout = ({
   getBillPaymentCategory,
   BillPaymentCategory = [],
   loading,
+  fiatCurrency,
   buyAirtime = () => {},
 }) => {
   const handleAirtime = () => {
     let payload = {
-      referenceCurrency: state.currency === "ng" ? "NGN" : "GHS",
+      currencyId: state.currencyId,
       customerNumber: state.customerNumber,
       amount: state.amount,
       itemCode: state.plan,
@@ -171,7 +186,8 @@ export const InternetFlyout = ({
           onSelect={(value) => {
             setState((state) => ({
               ...state,
-              currency: value,
+              currency: value.code,
+              currencyId:value._id,
               itemCode: "",
               customerNumber: "",
               amount: 0,
@@ -179,12 +195,20 @@ export const InternetFlyout = ({
             }));
           }}
           name="select payment currency"
-          options={[
-            { render: "NGN", value: "ng" },
-            // { render: "GHS", value: "gh" },
-          ]}
+          // options={[
+          //   { render: "NGN", value: "ng" },
+          //   // { render: "GHS", value: "gh" },
+          // ]}
+          options={fiatCurrency.map((item) => ({
+            render: item.name,
+            value: {
+              code: item.code,
+            _id:item.id
+            },
+            _id: item.id,
+          }))}
         />
-        {state.currency && (
+        {state.currency in { NGN: "0" } && (
           <Select
             labelClass={styles.largeMarginLabel}
             label="Select provider"
@@ -285,16 +309,20 @@ export const CableFlyout = ({
   getBillPaymentCategory,
   BillPaymentCategory = [],
   loading,
+  fiatCurrency,
   buyAirtime = () => {},
 }) => {
   const handleAirtime = () => {
     let payload = {
-      referenceCurrency: state.currency === "ng" ? "NGN" : "GHS",
+      currencyId: state.currencyId,
       customerNumber: state.customerNumber,
       amount: state.amount,
       itemCode: state.itemCode,
     };
-    buyAirtime(`airtime-${state.currency}`, payload);
+    buyAirtime(
+      `airtime-${state.currency.toLowerCase().substring(0, 2)}`,
+      payload
+    );
   };
   return (
     <div>
@@ -306,7 +334,8 @@ export const CableFlyout = ({
           onSelect={(value) => {
             setState((state) => ({
               ...state,
-              currency: value,
+              currency: value.code,
+              currencyId:value._id,
               plan: "",
               itemCode: "",
               customerNumber: "",
@@ -314,12 +343,20 @@ export const CableFlyout = ({
             }));
           }}
           name="select payment currency"
-          options={[
-            { render: "NGN", value: "ng" },
-            { render: "GHS", value: "gh" },
-          ]}
+          // options={[
+          //   { render: "NGN", value: "ng" },
+          //   { render: "GHS", value: "gh" },
+          // ]}
+          options={fiatCurrency.map((item) => ({
+            render: item.name,
+            value: {
+              code: item.code,
+              _id: item.id,
+            },
+            _id: item.id,
+          }))}
         />
-        {state.currency && (
+        {state.currency in { NGN: "0", GHS: "1" } && (
           <Select
             labelClass={styles.largeMarginLabel}
             label="Select Cable TV"
@@ -336,7 +373,7 @@ export const CableFlyout = ({
             }}
             placeholder="Sealect Cable TV"
             options={
-              state.currency === "ng"
+              state.currency === "NGN"
                 ? [
                     { render: "DSTV", value: "dstv-ng" },
                     { render: "Gotv", value: "gotv" },
@@ -421,16 +458,20 @@ export const AirtimeFlyout = ({
   getBillPaymentCategory,
   BillPaymentCategory = [],
   loading,
+  fiatCurrency,
   buyAirtime = () => {},
 }) => {
   const handleAirtime = () => {
     let payload = {
-      referenceCurrency: state.currency === "ng" ? "NGN" : "GHS",
+      currencyId: state.currencyId,
       customerNumber: state.customerNumber,
       amount: state.amount,
       itemCode: state.itemCode,
     };
-    buyAirtime(`airtime-${state.currency}`, payload);
+    buyAirtime(
+      `airtime-${state.currency.toLowerCase().substring(0, 2)}`,
+      payload
+    );
     setState({});
   };
   return (
@@ -443,21 +484,35 @@ export const AirtimeFlyout = ({
           onSelect={(value) => {
             setState((state) => ({
               ...state,
-              currency: value,
+              currency: value.code,
+              currencyId: value._id,
               itemCode: "",
               customerNumber: "",
               amount: 0,
             }));
-            if (value === "gh")
-              getBillPaymentCategory({ billCategory: `airtime-${value}` });
+            if (value.code === "GHS") {
+              getBillPaymentCategory({
+                billCategory: `airtime-${value.code
+                  .toLowerCase()
+                  .substring(0, 2)}`,
+              });
+            }
           }}
           name="select payment currency"
-          options={[
-            { render: "NGN", value: "ng" },
-            { render: "GHS", value: "gh" },
-          ]}
+          // options={[
+          //   { render: "NGN", value: "ng" },
+          //   { render: "GHS", value: "gh" },
+          // ]}
+          options={fiatCurrency.map((item) => ({
+            render: item.name,
+            value: {
+              code: item.code,
+              _id: item.id,
+            },
+            _id: item.id,
+          }))}
         />
-        {state.currency && (
+        {state.currency in { NGN: "0", GHS: "1" } && (
           <Select
             labelClass={styles.largeMarginLabel}
             label="Select provider"
@@ -472,7 +527,7 @@ export const AirtimeFlyout = ({
             }}
             placeholder="Sealect a provider"
             options={
-              state.currency === "ng"
+              state.currency === "NGN"
                 ? [
                     { render: "MTN", value: "mtn" },
                     { render: "Glo", value: "glo" },
@@ -606,7 +661,7 @@ const PTwoPFlyout = ({
     getFiatP2PRate();
   }, [getFiatP2PRate]);
   useEffect(() => {
-    if(pairTwoPairBTC && state.amount){
+    if (pairTwoPairBTC && state.amount) {
       setState({});
       setOpenModal(false);
       getCurrentUserBal();
@@ -614,7 +669,7 @@ const PTwoPFlyout = ({
     // eslint-disable-next-line
   }, [pairTwoPairBTCDetails]);
   useEffect(() => {
-    if(pairTwoPairFiat && state.amount){
+    if (pairTwoPairFiat && state.amount) {
       setState({});
       setOpenModal(false);
       getCurrentUserBal();
@@ -803,6 +858,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getCurrentUserBal: () => {
     dispatch(getBTCWalletDetails());
+  },
+  getMainFiatCurrency: () => {
+    dispatch(getFiatCurrencies());
   },
 });
 

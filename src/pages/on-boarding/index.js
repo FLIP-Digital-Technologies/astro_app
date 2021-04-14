@@ -9,7 +9,7 @@ import {
   setTransactionPin,
   updateUserDetails,
 } from "../../redux/actions/user";
-import { changePassword } from "../../redux/actions/Auths";
+import { changePassword, getFiatCurrencies } from "../../redux/actions/Auths";
 import {
   getBankListByCountry,
   verifyBankAccountDetails,
@@ -20,6 +20,11 @@ import { history } from "../../redux/store";
 const OnBoarding = (props) => {
   const { TabPane } = Tabs;
   const [activeKey, setActiveKey] = useState("1");
+
+  React.useEffect(() => {
+    props.getMainFiatCurrency()
+    // eslint-disable-next-line
+  }, [])
   React.useEffect(() => {
     if (props.updatedUser) {
       setActiveKey("2");
@@ -66,6 +71,7 @@ const OnBoarding = (props) => {
               bankList={props.bankLink}
               verifyBankAccount={props.verifyBankAccount}
               bankName={props.bankName}
+              fiatCurrency={props.fiatCurrency}
               submitForm={props.submitBankDetails}
               {...{...props}} 
             />
@@ -88,6 +94,7 @@ const OnBoarding = (props) => {
 
 const mapStateToProps = (state) => ({
   user: state.user.user,
+  fiatCurrency:state.user.fiatCurrency,
   updatedUser: state.user.updatedUser,
   bankLink: state.bank.bankList,
   branchList: state.bank.bankBranchList,
@@ -118,6 +125,9 @@ const mapDispatchToProps = (dispatch) => ({
   getBankList: (data) => {
     dispatch(getBankListByCountry(data));
   },
+  getMainFiatCurrency:() => {
+    dispatch(getFiatCurrencies())
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OnBoarding);

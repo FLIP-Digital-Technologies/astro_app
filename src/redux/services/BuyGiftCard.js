@@ -22,7 +22,7 @@ buyGiftCardService.initialBuy = function (params, payload) {
   data.referenceCurrency = payload.referenceCurrency;
   data.email = payload.email;
   return fetch({
-    url: `/api/transactions/buy-cards/${params.userId}`,
+    url: `/buy-cards/${params.userId}`,
     method: "post",
     data: data,
   });
@@ -30,14 +30,14 @@ buyGiftCardService.initialBuy = function (params, payload) {
 
 buyGiftCardService.getBuyCardsByCountries = function () {
   return fetch({
-    url: `/api/transactions/buy-cards/search/get-countries`,
+    url: `/buy-cards/search/countries`,
     method: "get"
   });
 };
 
 buyGiftCardService.getBuyCardsBySearch = function (params) {
   return fetch({
-    url: `/api/transactions/buy-cards/search`,
+    url: `/buy-cards/search`,
     method: "get",
     params: {
       country: params.country,
@@ -48,28 +48,28 @@ buyGiftCardService.getBuyCardsBySearch = function (params) {
 
 buyGiftCardService.getBuyCardsCardDetail = function (params) {
   return fetch({
-    url: `/api/transactions/buy-cards/search/${params.card}`,
+    url: `/buy-cards/search/${params.card}`,
     method: "get",
   });
 };
 
 buyGiftCardService.getBuyCardTransaction = function (params) {
   return fetch({
-    url: `/api/transactions/buy-cards/${params.userId}/${params.transactionId}`,
+    url: `/buy-cards/${params.userId}/${params.transactionId}`,
     method: "get",
   });
 };
 
 buyGiftCardService.cancelBuyCardTransaction = function (params) {
   return fetch({
-    url: `/api/transactions/buy-cards/${params.userId}/${params.transactionId}/cancel`,
-    method: "put",
+    url: `/buy-cards/${params.userId}/${params.transactionId}`,
+    method: "delete",
   });
 };
 
 buyGiftCardService.getAllBuyCardsTransactions = function (params) {
   return fetch({
-    url: `/api/transactions/buy-cards/${params.userId}/history`,
+    url: `/buy-cards/${params.userId}`,
     method: "get",
     params: {
       skip: params.skip,

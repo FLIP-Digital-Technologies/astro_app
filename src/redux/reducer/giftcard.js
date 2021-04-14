@@ -7,8 +7,9 @@ const initState = {
   error: null,
   balance: null,
   latestGiftCardTransaction: null,
-  giftCardList: null,
+  giftCardList: [],
   sellGiftCard: false,
+  cardDetails:{},
   giftCardDetails: null,
   sellGiftCardDetails: null,
   GiftCardTransaction: {
@@ -31,6 +32,17 @@ const giftCardReducers = (state = initState, action) => {
         ...state,
         sellGiftCard: false,
         sellGiftCardDetails: null,
+        loading: true,
+        error: null,
+      };
+    case actionTypes.GET_CARD_DETAILS_PENDING:
+      notification.info({
+        message: "Loading.....",
+        duration: 0,
+        key,
+      });
+      return {
+        ...state,
         loading: true,
         error: null,
       };
@@ -120,10 +132,23 @@ const giftCardReducers = (state = initState, action) => {
       });
       return {
         ...state,
-        giftCardList: action.payload.cardRateDetails,
+        giftCardList: action.payload.cards,
         loading: false,
         error: null,
       };
+    case actionTypes.GET_CARD_DETAILS_SUCCESS:
+      notification.success({
+        message: "Successful",
+        description: "Successfully Fetched Card Details",
+        key,
+      });
+      return {
+        ...state,
+        cardDetails: action.payload.cardRateDetails,
+        loading: false,
+        error: null,
+      };
+    case actionTypes.GET_CARD_DETAILS_FAILED:
     case actionTypes.INITIATE_SELL_GIFTCARD_FAILED:
     case actionTypes.GET_TRANSACTIONS_HISTORY_GIFTCARD_FAILED:
     case actionTypes.GET_TRANSACTION_DETAILS_GIFTCARD_FAILED:

@@ -60,7 +60,7 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
           backgroundColor: "#00519e",
         }}
       >
-        {/* <LogoWhite className={styles.logo} /> */}
+        
         <div className={styles.logo}>
           <LogoNav />
         </div>
@@ -99,20 +99,21 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
               >
                 <Toggle />
               </div>
-              {/* {generateRoute(pathname)} */}
+             
             </div>
             <div className={styles.header__right}>
-              {/* <Bell /> */}
+              
               <div
                 style={{ display: "flex", alignItems: "center" }}
                 onClick={() => setShowDropDown(!showDropDown)}
               >
+                {console.log('user mi', user)}
                 <div className={styles.header__right__avatar}>{`${
-                  (user && user.firstName[0]) || `-`
-                } ${(user && user.lastName[0]) || `-`}`}</div>
+                  (user && user.Profile.first_name[0].toUpperCase()) || `-`
+                } ${(user && user.Profile.last_name[0].toUpperCase()) || `-`}`}</div>
                 <div className={styles.header__right__name}>{`${
-                  (user && user.firstName) || `-`
-                } ${(user && user.lastName) || `-`}`}</div>
+                  (user && user.Profile.first_name) || `-`
+                } ${(user && user.Profile.last_name) || `-`}`}</div>
                 <CaretDown />
                 {showDropDown && (
                   <div

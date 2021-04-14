@@ -85,9 +85,9 @@ const Input = ({
       <div style={{ display: "flex", flexDirection: "column" }}>
         {validate && (
           <>
-            <span className="ant-typography ant-typography-danger">
+            {/* <span className="ant-typography ant-typography-danger">
               {textInput.current.validationMessage}
-            </span>
+            </span> */}
             <span className="ant-typography ant-typography-danger">
               {errorMessage}
             </span>

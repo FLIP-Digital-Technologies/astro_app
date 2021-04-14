@@ -10,6 +10,7 @@ const GetGiftCardCodes = (data) => async (dispatch) => {
   await giftCardService
     .getGiftCardCodes(data)
     .then((response) => {
+      console.log('gifts card', response)
       dispatch({
         type: actionTypes.GET_CARD_CODES_SUCCESS,
         payload: response.data,
@@ -26,6 +27,33 @@ const GetGiftCardCodes = (data) => async (dispatch) => {
 
 export const getGiftCardCodes = (data) => (dispatch) => {
   dispatch(GetGiftCardCodes(data));
+};
+
+const GetGiftCardDetails = (data) => async (dispatch) => {
+  dispatch({
+    type: actionTypes.GET_CARD_DETAILS_PENDING,
+  });
+
+  await giftCardService
+    .getGiftCardCodes(data)
+    .then((response) => {
+      // console.log('gifts card', response)
+      dispatch({
+        type: actionTypes.GET_CARD_DETAILS_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.GET_CARD_DETAILS_FAILED,
+        payload: err,
+      });
+    });
+  return;
+};
+
+export const getGiftCardDetails = (data) => (dispatch) => {
+  dispatch(GetGiftCardDetails(data));
 };
 
 const InitialGiftCardSale = (data) => async (dispatch) => {

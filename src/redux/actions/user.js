@@ -2,36 +2,37 @@ import { notification } from "antd";
 import * as actionTypes from "../constants";
 import generalService from "../services/GeneralService";
 import referralService from "../services/Referral";
+import { GetUserDetails } from "./Auths";
 // import { history } from "../store";
 
 const key = actionTypes.KEY;
 
-const GetUserDetailsById = () => async (dispatch) => {
-  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
-  dispatch({
-    type: actionTypes.GET_USER_DETAILS_BY_ID_PENDING,
-  });
+// const GetUserDetailsById = () => async (dispatch) => {
+//   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+//   dispatch({
+//     type: actionTypes.GET_USER_DETAILS_BY_ID_PENDING,
+//   });
 
-  await generalService
-    .getUserDetails({ userId })
-    .then((response) => {
-      dispatch({
-        type: actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS,
-        payload: response.data,
-      });
-    })
-    .catch((err) => {
-      dispatch({
-        type: actionTypes.GET_USER_DETAILS_BY_ID_FAILED,
-        payload: err,
-      });
-    });
-  return;
-}; // done
+//   await generalService
+//     .getUserDetails({ userId })
+//     .then((response) => {
+//       dispatch({
+//         type: actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS,
+//         payload: response.data,
+//       });
+//     })
+//     .catch((err) => {
+//       dispatch({
+//         type: actionTypes.GET_USER_DETAILS_BY_ID_FAILED,
+//         payload: err,
+//       });
+//     });
+//   return;
+// }; // done
 
-export const getUserDetailsById = () => (dispatch) => {
-  dispatch(GetUserDetailsById());
-}; // done
+// export const getUserDetailsById = () => (dispatch) => {
+//   dispatch(GetUserDetailsById());
+// }; // done
 
 const UpdateUserDetails = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
@@ -50,7 +51,7 @@ const UpdateUserDetails = (data) => async (dispatch) => {
         message: "Successful updated user details.",
         key,
       });
-      dispatch(getUserDetailsById());
+      dispatch(GetUserDetails());
     })
     .catch((err) => {
       dispatch({
@@ -179,6 +180,7 @@ const GetUserBankAccount = () => async (dispatch) => {
   await generalService
     .getBankDetails({ userId })
     .then((response) => {
+      console.log('response', response)
       dispatch({
         type: actionTypes.GET_BANK_ACCOUNT_SUCCESS,
         payload: response.data,

@@ -36,13 +36,14 @@ const Bills = () => {
       <div className={styles.bills}>
         <div className={styles.bills__content}>
           {BILLS &&
-            BILLS.map((item) => (
+            BILLS.map((item, index) => (
               <div
                 onClick={() => {
                   setFormState((state) => ({ ...state, ...item, show: true }));
                   setFormState((state) => ({ ...state, show: true }));
                 }}
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
+                key={index.toString()}
               >
                 <div>
                   <item.Icon />

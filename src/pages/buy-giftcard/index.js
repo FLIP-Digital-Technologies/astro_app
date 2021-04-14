@@ -160,14 +160,14 @@ const BuyGiftCard = (props) => {
                   options={
                     props.buyCardCountries &&
                     props.buyCardCountries.map((item) => ({
-                      value: item.value,
+                      value: item.alpha2,
                       render: (
                         <div
-                          // className={styles.countryOption}
+                          className={styles.countryOption}
                           style={{ display: "flex", alignItems: "center" }}
                         >
-                          <span style={{flex:1}}>
-                            {item.icon}&emsp;{item.label}
+                          <span>
+                            {item.icon}&emsp;{item.name}
                           </span>
                         </div>
                       ),

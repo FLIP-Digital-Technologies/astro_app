@@ -1,8 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Drawer } from "antd";
-import { AirtimeFlyout, CableFlyout, DiscoFlyout, InternetFlyout } from "../home/components";
-import { getBillPaymentCategory, initialBillPaymentByUser } from "../../redux/actions/billPayment";
+import {
+  AirtimeFlyout,
+  CableFlyout,
+  DiscoFlyout,
+  InternetFlyout,
+} from "../home/components";
+import {
+  getBillPaymentCategory,
+  initialBillPaymentByUser,
+} from "../../redux/actions/billPayment";
+import { getFiatCurrencies } from "../../redux/actions/Auths";
 
 const Flyout = ({
   buyAirtime,
@@ -10,7 +19,13 @@ const Flyout = ({
   BillPaymentCategory,
   getBillPaymentCategory,
   state,
+  fiatCurrency,
+  getMainFiatCurrency,
 }) => {
+  useEffect(() => {
+    getMainFiatCurrency()
+    // eslint-disable-next-line
+  }, [])
   const [AirtimeState, setAirtimeState] = useState({});
   const [InternetState, setInternetState] = useState({});
   const [DiscosState, setDiscosState] = useState({});
@@ -32,6 +47,7 @@ const Flyout = ({
           getBillPaymentCategory={getBillPaymentCategory}
           state={AirtimeState}
           setState={setAirtimeState}
+          fiatCurrency={fiatCurrency}
         />
       )}
       {state?.title === "Internet" && (
@@ -42,6 +58,7 @@ const Flyout = ({
           getBillPaymentCategory={getBillPaymentCategory}
           state={InternetState}
           setState={setInternetState}
+          fiatCurrency={fiatCurrency}
         />
       )}
       {state?.title === "Electricity" && (
@@ -52,6 +69,7 @@ const Flyout = ({
           getBillPaymentCategory={getBillPaymentCategory}
           state={DiscosState}
           setState={setDiscosState}
+          fiatCurrency={fiatCurrency}
         />
       )}
       {state?.title === "Cable" && (
@@ -62,6 +80,7 @@ const Flyout = ({
           getBillPaymentCategory={getBillPaymentCategory}
           state={CableState}
           setState={setCableState}
+          fiatCurrency={fiatCurrency}
         />
       )}
     </Drawer>
@@ -70,6 +89,8 @@ const Flyout = ({
 
 const mapStateToProps = (state) => ({
   user: state.user.user,
+  fiatCurrency: state.user.fiatCurrency,
+  cryptoCurrency: state.user.cryptoCurrency,
   balance: state.btc.balance,
   btcTrans: state.btc.latestBTCTransaction,
   giftCardTrans: state.giftCard.latestGiftCardTransaction,
@@ -82,12 +103,15 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getBillPaymentCategory: (data) =>  {
+  getBillPaymentCategory: (data) => {
     dispatch(getBillPaymentCategory(data));
   },
   buyAirtime: (billCategory, data) => {
-    dispatch(initialBillPaymentByUser(billCategory, data))
-  }
+    dispatch(initialBillPaymentByUser(billCategory, data));
+  },
+  getMainFiatCurrency: () => {
+    dispatch(getFiatCurrencies());
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Flyout);

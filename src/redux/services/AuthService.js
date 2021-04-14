@@ -12,15 +12,16 @@ authService.createAccount = function (payload) {
   //   "referralCode": "VnpJrP",
   //   "phoneNumber": ""
   // }
-  let data = {...payload};
+  let data = {};
   data.email = payload.email;
   data.firstName = payload.firstName;
   data.lastName = payload.lastName;
-  data.country = payload.country || "";
+  // data.referralCode = payload.referralCode || "";
   data.password = payload.password;
   data.username = payload.username;
+
   return fetch({
-    url: "/api/user-account",
+    url: "/user-account",
     method: "post",
     data: data,
     headers: {
@@ -38,12 +39,19 @@ authService.loginAccount = function (payload) {
   data.email = payload.email;
   data.password = payload.password;
   return fetch({
-    url: "/api/log-in",
+    url: "/user-account/sign-in",
     method: "post",
     data: data,
     headers: {
       "public-request": "true",
     },
+  });
+};
+
+authService.getUserDetails = function (params) {
+  return fetch({
+    url: `/user-account/${params.userId}`,
+    method: "get",
   });
 };
 
@@ -54,7 +62,7 @@ authService.checkEmailAvailability = function (payload) {
   let data = {};
   data.email = payload.email;
   return fetch({
-    url: "/api/user-account/validate-email",
+    url: "/user-account/validate-email",
     method: "post",
     data: data,
     headers: {
@@ -69,8 +77,9 @@ authService.verifyEmail = function (params, payload) {
   // }
   let data = {};
   data.otpCode = payload.otpCode;
+  data.reference = payload.reference;
   return fetch({
-    url: `/api/user-account/${params.userId}/verify-email`,
+    url: `/user-account/${params.userId}/verify-email-ref`,
     method: "post",
     data: data,
   });
@@ -78,7 +87,7 @@ authService.verifyEmail = function (params, payload) {
 
 authService.resendVerificationCode = function (params) {
   return fetch({
-    url: `/api/user-account/${params.userId}/resend-email-otp`,
+    url: `/user-account/${params.userId}/resend-email-otp`,
     method: "post",
   });
 };
@@ -92,7 +101,7 @@ authService.changePassword = function (params, payload) {
   data.currentPassword = payload.currentPassword;
   data.newPassword = payload.newPassword;
   return fetch({
-    url: `/api/user-account/${params.userId}/password`,
+    url: `/user-account/${params.userId}/password`,
     method: "put",
     data: data,
   });
@@ -100,7 +109,7 @@ authService.changePassword = function (params, payload) {
 
 authService.resetPassword = function (data) {
   return fetch({
-    url: `/api/user-account/reset-password`,
+    url: `/user-account/reset-password`,
     method: "post",
     headers: {
       "public-request": "true",
@@ -121,9 +130,10 @@ authService.completePasswordReset = function (payload) {
   data.resetCode = payload.resetCode;
   data.newPassword = payload.newPassword;
   data.email = payload.email;
+  data.reference = payload.reference;
   return fetch({
-    url: `/api/user-account/complete-password-reset`,
-    method: "put",
+    url: `/user-account/complete-password-reset`,
+    method: "post",
     data: data,
     headers: {
       "public-request": "true",

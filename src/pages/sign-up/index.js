@@ -5,7 +5,10 @@ import { AuthHeader } from "../../components/header";
 import Input from "../../components/input";
 import Button from "../../components/button";
 import styles from "../styles.module.scss";
-import { registerUser } from "../../redux/actions/Auths";
+import {
+  checkEmailAvailability,
+  registerUser,
+} from "../../redux/actions/Auths";
 import { notification } from "antd";
 
 const SignUp = (props) => {
@@ -19,12 +22,12 @@ const SignUp = (props) => {
   useEffect(() => {
     const url = new URL(window.location.href);
     const referralCode = url.searchParams.get("code"); // TODO: hhjj
-    handleReferralCode(referralCode || "");
-  }, [])
+    handleReferralCode(referralCode || " ");
+  }, []);
 
   const history = useHistory();
 
-  const register = (e) => {
+  const register = async (e) => {
     if (e) {
       e.preventDefault();
     }
@@ -34,23 +37,25 @@ const SignUp = (props) => {
       });
       return;
     }
+    // console.log("resulted", result2);
+
     if(referralCode){
-      props.submitRegister({
+      props.checkEmailAvailable({ 
         referralCode,
         email,
         password,
         firstName,
         lastName,
         username
-      });
+      })
     } else {
-      props.submitRegister({
+      props.checkEmailAvailable({
         email,
         password,
         firstName,
         lastName,
         username
-      });
+      })
     }
   };
   return (
@@ -148,6 +153,7 @@ const SignUp = (props) => {
             className={styles.auth__content__button}
             form="full"
             text="Sign Up"
+            // onClick={(e) => register(e)}
             type="submit"
             disabled={
               !email ||
@@ -181,6 +187,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   submitRegister: (data) => {
     dispatch(registerUser(data));
+  },
+  checkEmailAvailable: (data) => {
+    dispatch(checkEmailAvailability(data));
   },
 });
 

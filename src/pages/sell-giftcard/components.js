@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Progress, Modal, notification } from "antd";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import Input from "../../components/input";
@@ -11,6 +11,8 @@ import { countryOptions, processImageToCloudinary } from "../../utils/helper";
 import { history } from "../../redux/store";
 
 import styles from "../styles.module.scss";
+import { connect } from "react-redux";
+import { getGiftCardCodes, getGiftCardDetails, initialGiftCardSale } from "../../redux/actions/giftCard";
 
 const getHumanForm = (name) =>
   name
@@ -450,12 +452,14 @@ const getTerm = (item) => {
   }
 };
 
-export const GiftCardForm = ({
+const GiftCardForm = ({
   active,
   handleBack,
   SellGiftCard,
   soldGiftCard,
-  loading
+  loading,
+  getCardDetails,
+  cardDetails
 }) => {
   const INITIAL_STATE = {
     country: "",
@@ -475,6 +479,11 @@ export const GiftCardForm = ({
   const [openTerm, setOpenTerm] = useState(true);
   const [canTrade, SetCanTrade] = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false);
+
+  useEffect(() => {
+    getCardDetails({cardCode:active.uid})
+    // eslint-disable-next-line
+  }, [])
 
   React.useEffect(() => {
     if(rate.rate){
@@ -587,6 +596,7 @@ export const GiftCardForm = ({
       {open && soldGiftCard && (
         <SuccessfulModal title={"Your card has been received, kindly wait 10-15 minutes, check the progress of trade on the 'Transactions' tab"} onClick={() => history.push("/app")} />
       )}
+      {console.log('details',cardDetails)}
       <Modal
         header={null}
         footer={null}
@@ -612,7 +622,7 @@ export const GiftCardForm = ({
             position: "relative",
           }}
         >
-          <active.Image />
+          <img src={active.image} height="151.692" width="241" alt="card" />
         </div>
       </div>
 
@@ -638,7 +648,7 @@ export const GiftCardForm = ({
             </div>
             <br />
             <div style={{ marginBottom: 20 }}>
-              <Select
+              {/* <Select
                 options={countryOptions.filter((i) => {
                   return (
                     active[active.name].filter((ki) =>
@@ -651,7 +661,7 @@ export const GiftCardForm = ({
                 className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
                 label="Select Currency"
                 labelClass={styles.label}
-              />
+              /> */}
             </div>
             <br />
             <div style={{ marginBottom: 20 }}>
@@ -772,3 +782,22 @@ export const GiftCardForm = ({
     </div>
   );
 };
+
+const mapStateToProps = (state) => ({
+  // loading: state.giftCard.loading,
+  cardDetails: state.giftCard.cardDetails,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getCards: (data) => {
+    dispatch(getGiftCardCodes(data));
+  },
+  SellGiftCard: (data) => {
+    dispatch(initialGiftCardSale(data));
+  },
+  getCardDetails: (data) => {
+    dispatch(getGiftCardDetails(data));
+  }
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(GiftCardForm)

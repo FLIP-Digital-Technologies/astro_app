@@ -8,8 +8,8 @@ import { Switch } from "antd";
 
 export const Step1 = ({ user, submitForm }) => {
   const INITIAL_STATE = {
-    firstName: (user && user.firstName) || "",
-    lastName: (user && user.lastName) || "",
+    firstName: (user && user.Profile.first_name) || "",
+    lastName: (user && user.Profile.last_name) || "",
     email: (user && user.email) || "",
     phoneNumber: (user && user.phoneNumber) || "",
     country: "NGN",
@@ -88,7 +88,7 @@ export const Step1 = ({ user, submitForm }) => {
             type="text"
             label="Username"
             required={true}
-            readOnly
+            // readOnly
           />
           <Select
             value={state.country}
@@ -97,7 +97,7 @@ export const Step1 = ({ user, submitForm }) => {
             }
             name="country"
             label="Country"
-            placeholder="Nigeria"
+            placeholder="Country"
             options={[
               { render: "Nigeria", value: "NGN" },
               { render: "Ghana", value: "GHS" },
@@ -125,6 +125,7 @@ export const Step2 = ({
   getBankBranchList,
   branchList,
   getBankList,
+  fiatCurrency,
 }) => {
   const INITIAL_STATE = {
     accountNumber: "",
@@ -217,7 +218,7 @@ export const Step2 = ({
             onSelect={(value) => {
               setState((state) => ({
                 ...state,
-                currency: value,
+                currency: value.code.substring(0,2),
                 accountNumber: "",
                 bankCode: "",
                 bvn: "",
@@ -227,13 +228,21 @@ export const Step2 = ({
                 bankBranchName: "",
                 isMobileMoney: false,
               }));
-              getBankList({ country: value });
+              getBankList({ country: value.code.substring(0,2) });
             }}
             name="select payment currency"
-            options={[
-              { render: "NGN", value: "NG" },
-              { render: "GHS", value: "GH" },
-            ]}
+            // options={[
+            //   { render: "NGN", value: "NG" },
+            //   { render: "GHS", value: "GH" },
+            // ]}
+            options={fiatCurrency.map((item) => ({
+              render: item.name,
+              value: {
+                code:item.code,
+              _id:item.id
+              },
+              _id: item.id,
+            }))}
           />
           {state.currency === "GH" && (
             <div
