@@ -12,10 +12,10 @@ billPayment.initialBillPayment = function (params, payload) {
   let data = {};
   data.customerNumber = payload.customerNumber;
   data.amount = payload.amount;
-  data.referenceCurrency = payload.referenceCurrency;
+  data.currencyId = payload.currencyId;
   data.itemCode = payload.itemCode;
   return fetch({
-    url: `/api/transactions/bills/${params.userId}/${params.billCategory}`,
+    url: `/bills/${params.userId}/${params.billCategory}`,
     method: "post",
     data: data,
   });
@@ -23,25 +23,25 @@ billPayment.initialBillPayment = function (params, payload) {
 
 billPayment.getBillPaymentCategory = function (params) {
   return fetch({
-    url: `/api/transactions/bills/${params.billCategory}`,
+    url: `/bills/${params.billCategory}`,
     method: "get",
   });
 };
 
 billPayment.getBillPaymentTransactionDetail = function (params) {
   return fetch({
-    url: `/api/transactions/bills/${params.userId}/${params.transactionId}`,
+    url: `/bills/${params.userId}/${params.transactionId}`,
     method: "get",
   });
 };
 
 billPayment.getAllBillPaymentTransactionByUser = function (params) {
   return fetch({
-    url: `/api/transactions/bills/${params.userId}/history`,
+    url: `/bills/${params.userId}/history`,
     method: "get",
     params: {
-      skip: params.skip,
-      limit: params.limit,
+      page: params.skip || 1,
+      per_page: params.limit,
     },
   });
 };

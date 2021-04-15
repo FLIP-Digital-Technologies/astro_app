@@ -4,7 +4,7 @@ const bankService = {};
 
 bankService.getCountryBankList = function (params) {
   return fetch({
-    url: `/api/misc/get-banks/${params.country}`,
+    url: `/misc/get-banks/${params.country}`,
     method: "get",
     headers: {
       "public-request": "true",
@@ -14,7 +14,7 @@ bankService.getCountryBankList = function (params) {
 
 bankService.getCountryBranchList = function (params) {
   return fetch({
-    url: `/api/misc/get-bank-branches/${params.id}`,
+    url: `/misc/get-bank-branches/${params.id}`,
     method: "get",
     headers: {
       "public-request": "true",
@@ -31,7 +31,7 @@ bankService.validateBankAccountDetails = function (payload) {
   data.accountNumber = payload.accountNumber;
   data.bankCode = payload.bankCode;
   return fetch({
-    url: "/api/misc/verify-bank-details",
+    url: "/misc/verify-bank-details",
     method: "post",
     data: data,
     headers: {

@@ -4,7 +4,7 @@ const BTCTransactionServices = {};
 
 BTCTransactionServices.getWalletDetails = function (params) {
   return fetch({
-    url: `/api/wallets/${params.userId}`,
+    url: `/user-account/${params.userId}/fetch-wallets`,
     method: "get",
   });
 };

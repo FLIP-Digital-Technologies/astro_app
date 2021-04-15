@@ -12,7 +12,6 @@ import {
 import { getLastGiftCardTransactionHistory } from "../../redux/actions/giftCard";
 import {
   getUserBankAccount,
-  getUserDetailsById,
 } from "../../redux/actions/user";
 import { getBankListByCountry } from "../../redux/actions/bank";
 import { getLastUserWithdrawalDetails } from "../../redux/actions/withdrawals";
@@ -22,6 +21,7 @@ import ModalWrapper from "../../components/Modals";
 import WithdrawInitial from "../../components/Modals/withdraw-modal-Initial";
 import { getBillPaymentCategory, initialBillPaymentByUser } from "../../redux/actions/billPayment";
 import { Money } from "../../utils/helper";
+import { getCryptoCurrencies, getFiatCurrencies, GetUserDetails } from "../../redux/actions/Auths";
 
 const Home = ({
   user,
@@ -39,7 +39,9 @@ const Home = ({
   Fund,
   loading,
   depositMoney,
-  depositMoneyDetails
+  depositMoneyDetails,
+  getMainCryptoCurrency,
+  getMainFiatCurrency
 }) => {
   const [wallet, setWallet] = useState("NGN");
   const [renderBalance, setRenderBalance] = useState("0");
@@ -53,20 +55,48 @@ const Home = ({
   const [state, setState] = useState({});
   const [AirtimeState, setAirtimeState] = useState({});
 
+const getFiatCurrency = (wallet) => {
+  let fiatCurrency = balance.fiatWallets
+  switch (wallet) {
+    case "NGN":
+      return fiatCurrency.length > 0 && fiatCurrency.filter((item)=> item.Currency.code === "NGN")[0].balance
+    case "GHS":
+      return fiatCurrency.length > 0 && fiatCurrency.filter((item)=> item.Currency.code === "GHS")[0].balance
+    default:
+      return 0
+  }
+}
+
+const getCryptoCurrency = (wallet) => {
+  let cryptoCurrency = balance.cryptoWallets
+  switch (wallet) {
+    case "BTC":
+      return cryptoCurrency.length > 0 && cryptoCurrency.filter((item) => item.Currency.code === "BTC")[0].balance
+  
+    default:
+      return 0
+  }
+}
+
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
+
     if (!balance) return;
     if (!wallet) return;
-    setRenderBalance(wallet !== "BTC" ? Money(balance[wallet]?.balance, wallet) : balance[wallet]?.balance || 0);
+    console.log('currency')
+    setRenderBalance(wallet !== "BTC" ? Money(getFiatCurrency(wallet) || 0 , wallet) : getCryptoCurrency(wallet) || 0);
   });
 
   useEffect(() => {
     getCurrentUser();
     getUserBankDetails();
     getBalance();
-    getLatestBTCTrans({ skip: 0, limit: 5 });
-    getLatestGiftCardTrans({ skip: 0, limit: 5 });
-    getLatestWithdrawalTrans({ skip: 0, limit: 5 });
+    getMainCryptoCurrency();
+    getMainFiatCurrency();
+    // getLatestBTCTrans({ skip: 0, limit: 5 });
+    getLatestGiftCardTrans({ skip: 1, limit: 5 });
+    // getLatestWithdrawalTrans({ skip: 0, limit: 5 });
     // eslint-disable-next-line
   }, []);
   return (
@@ -262,13 +292,19 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(initialPaymentByUser(data));
   },
   getCurrentUser: () => {
-    dispatch(getUserDetailsById());
+    dispatch(GetUserDetails());
   },
   getUserBankDetails: () => {
     dispatch(getUserBankAccount());
   },
   getBankList: () => {
     dispatch(getBankListByCountry());
+  },
+  getMainFiatCurrency:() => {
+    dispatch(getFiatCurrencies());
+  },
+  getMainCryptoCurrency: () => {
+    dispatch(getCryptoCurrencies());
   },
   getBalance: () => {
     dispatch(getBTCWalletDetails());

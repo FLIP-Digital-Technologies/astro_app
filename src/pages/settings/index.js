@@ -9,11 +9,10 @@ import { DashboardLayout } from "../../components/layout";
 import { Copy } from "../../assets/svg";
 import styles from "../styles.module.scss";
 
-import { changePassword } from "../../redux/actions/Auths";
+import { changePassword, getCryptoCurrencies, getFiatCurrencies, GetUserDetails } from "../../redux/actions/Auths";
 import { getBTCWalletDetails } from "../../redux/actions/btc";
 import {
   getUserBankAccount,
-  getUserDetailsById,
   addUserBankAccount,
   removeUserBankAccount,
   getUserReferrals,
@@ -159,10 +158,17 @@ const Profile = ({
   getUserReferrals,
   redeemReferralBonus,
   userReferralTransaction,
+  cryptoCurrency,
+  fiatCurrency,
+  getMainFiatCurrency,
+  getMainCryptoCurrency
 }) => {
   useEffect(() => {
     getCurrentUser();
+    console.log('abh',[...fiatCurrency, ...cryptoCurrency])
     getUserBankDetails();
+    getMainFiatCurrency()
+    getMainCryptoCurrency()
     // getBankList();
     getBalance();
     // eslint-disable-next-line
@@ -229,7 +235,7 @@ const Profile = ({
     }
     submitBankDetails({
       ...state,
-      currency: state.currency === "GH" ? "GHS" : "NGN",
+      currencyId: state.currency === "GH" ? 2 : 1,
     });
     setTimeout(() => {
       setState((state) => ({
@@ -301,8 +307,8 @@ const Profile = ({
             style={{ lineHeight: 18, wordWrap: "break-word", width: "auto" }}
           >
             <span>Name</span>
-            <span>{`${(user && user.firstName) || `-`} ${
-              (user && user.lastName) || `-`
+            <span>{`${(user && user.Profile.first_name) || `-`} ${
+              (user && user.Profile.last_name) || `-`
             }`}</span>
           </div>
           <div
@@ -318,7 +324,7 @@ const Profile = ({
           >
             <span>Referral Code</span>
             <span style={{ display: "flex", alignItems: "center" }}>
-              <small>{(user && user.referralCode) || "---"}</small>
+              <small>{(user && user.referral_code) || "---"}</small>
               <Clipboard
                 style={{ padding: 8 }}
                 component="div"
@@ -365,14 +371,14 @@ const Profile = ({
                 >
                   <span
                     style={{ width: "100%" }}
-                  >{`${item.accountNumber}`}</span>
+                  >{`${item.account_number}`}</span>
                   <span style={{ width: "100%" }}>{`${
                     item.isMobileMoney
                       ? "Mobile Money Account"
-                      : item.accountName
+                      : item.account_name
                   }`}</span>
                   <span style={{ width: "100%" }}>{`${
-                    item.isMobileMoney ? item.bankCode : item.bankName
+                    item.isMobileMoney ? item.bank_code : item.bank_name
                   }`}</span>
                   <Button
                     className={styles.deleteButton}
@@ -419,13 +425,19 @@ const Profile = ({
                   bankBranchName: "",
                   isMobileMoney: false,
                 }));
-                getBankList({ country: value });
+                if( value !== "US") {
+                  getBankList({ country: value });
+                }
               }}
               name="select payment currency"
-              options={[
-                { render: "NGN", value: "NG" },
-                { render: "GHS", value: "GH" },
-              ]}
+              options={fiatCurrency.map((item)=> ({
+                render: item.name,
+                value:item.code.substring(0,2)
+              }))}
+              // options={[
+              //   { render: "NGN", value: "NG" },
+              //   { render: "GHS", value: "GH" },
+              // ]}
             />
             {state.currency === "GH" && (
               <div
@@ -640,8 +652,9 @@ const Profile = ({
             onSubmit={handleChangePassword}
             className={styles.profileSecurityContent}
           >
+            
             <Input
-              placeholder="Password"
+              placeholder="Current Password"
               label="Current Password"
               name="currentPassword"
               onChange={handlePasswordChange}
@@ -654,7 +667,7 @@ const Profile = ({
               className={styles.input}
             />
             <Input
-              placeholder="Password"
+              placeholder="New Password"
               label="New Password"
               name="newPassword"
               onChange={handlePasswordChange}
@@ -678,6 +691,8 @@ const Profile = ({
 
 const mapStateToProps = (state) => ({
   user: state.user.user,
+  fiatCurrency:state.user.fiatCurrency,
+  cryptoCurrency:state.user.cryptoCurrency,
   balance: state.btc.balance,
   branchList: state.bank.bankBranchList,
   bankList: state.bank.bankList,
@@ -688,7 +703,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getCurrentUser: () => {
-    dispatch(getUserDetailsById());
+    dispatch(GetUserDetails());
+  },
+  getMainFiatCurrency: () => {
+    dispatch(getFiatCurrencies())
+  },
+  getMainCryptoCurrency: () => {
+    dispatch(getCryptoCurrencies())
   },
   getUserBankDetails: () => {
     dispatch(getUserBankAccount());

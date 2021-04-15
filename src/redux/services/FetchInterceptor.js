@@ -57,13 +57,13 @@ service.interceptors.response.use(
     // Remove token and redirect
     if (error.response.status === 404) {
       notificationParam.message = "Not Found";
-      notificationParam.description = error.response.data.message;
+      // notificationParam.description = error.response.data.message;
     } else if (error.response.status === 500) {
       notificationParam.message = "Internal Server Error";
-      notificationParam.description = error.response.data.message;
+      // notificationParam.description = error.response.data.message;
     } else if (error.response.status === 508) {
       notificationParam.message = "Time Out";
-      notificationParam.description = error.response.data.message;
+      // notificationParam.description = error.response.data.message;
     } else {
       notificationParam.message = error.response.data.message;
     }

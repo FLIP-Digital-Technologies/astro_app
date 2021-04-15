@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import OtpInput from "react-otp-input";
@@ -6,12 +6,27 @@ import { AuthHeader } from "../../components/header";
 import Button from "../../components/button";
 import styles from "../styles.module.scss";
 import {
+  GetUserDetails,
   resendEmailVerificationCode,
   verifyEmailOTP,
 } from "../../redux/actions/Auths";
+import { useHistory } from "react-router";
 
 const VerifyOtp = (props) => {
   const [otp, setOtp] = useState("");
+
+  const history = useHistory()
+
+  useEffect(() => {
+    props.resendOTP()
+    props.getUserInfo()
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
+   
+   console.log('history',history)
+  }, [history])
 
   const login = (e) => {
     if (e) {
@@ -81,6 +96,7 @@ const mapDispatchToProps = (dispatch) => ({
   resendOTP: () => {
     dispatch(resendEmailVerificationCode());
   },
+  getUserInfo: () => dispatch(GetUserDetails())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyOtp);

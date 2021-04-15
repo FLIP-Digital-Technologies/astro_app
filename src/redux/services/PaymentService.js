@@ -11,7 +11,7 @@ paymentService.initialPayment = function (params, payload) {
   data.currency = payload.currency;
   data.amount = payload.amount;
   return fetch({
-    url: `/api/payments/inwards/${params.userId}`,
+    url: `/payments/inwards/${params.userId}`,
     method: "post",
     data: data,
   });
@@ -19,26 +19,27 @@ paymentService.initialPayment = function (params, payload) {
 
 paymentService.cancelPayment = function (params) {
   return fetch({
-    url: `/api/payments/inwards/${params.userId}/${params.transactionId}/cancel`,
-    method: "put",
+    url: `/payments/inwards/${params.userId}/${params.transactionId}`,
+    method: "delete",
   });
 };
 
 paymentService.getPaymentDetails = function (params) {
   return fetch({
-    url: `/api/payments/inwards/${params.userId}/${params.transactionId}`,
+    url: `/payments/inwards/${params.userId}/${params.transactionId}`,
     method: "get",
   });
 };
 
 paymentService.getAllPaymentByUser = function (params) {
   return fetch({
-    url: `/api/payments/inwards/${params.userId}`,
+    url: `/payments/inwards/${params.userId}`,
     method: "get",
     params: {
-      currency: params.currency,
-      skip: params.skip,
-      limit: params.limit,
+      // currency: params.currency,
+      // page: params.skip,
+      page:1,
+      per_page: params.limit,
     },
   });
 };

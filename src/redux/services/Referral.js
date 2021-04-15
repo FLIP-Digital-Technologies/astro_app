@@ -9,7 +9,7 @@ referralService.redeemUserReferralBonus = function (params, payload) {
   let data = {};
   data.referralId = payload.referralId;
   return fetch({
-    url: `/api/user-account/${params.userId}/redeem-referral`,
+    url: `/user-account/${params.userId}/redeem-referral`,
     method: "post",
     data: data,
   });
@@ -17,7 +17,7 @@ referralService.redeemUserReferralBonus = function (params, payload) {
 
 referralService.getUserReferrals = function (params) {
   return fetch({
-    url: `/api/user-account/${params.userId}/referrals`,
+    url: `/user-account/${params.userId}/referrals`,
     method: "get",
     params: {
       skip: params.skip,

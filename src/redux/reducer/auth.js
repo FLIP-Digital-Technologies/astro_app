@@ -11,6 +11,9 @@ const initState = {
   updatedUserBank: false,
   updatedTransactionPin: false,
   userReferral: null,
+  fiatCurrency:[],
+  cryptoCurrency:[],
+  userWallets:{},
   userReferralTransaction: {
     referrals: [],
     meta: {},
@@ -20,6 +23,10 @@ const key = actionTypes.KEY;
 
 const authReducer = (state = initState, action) => {
   switch (action.type) {
+    case actionTypes.CHECK_EMAIL_AVAILABILITY_PENDING:
+    case actionTypes.GET_FIAT_CURRENCY_PENDING:
+    case actionTypes.GET_USER_WALLETS_PENDING:
+    case actionTypes.GET_CRYPTO_CURRENCY_PENDING:
     case actionTypes.GET_USER_REFERRALS_PENDING:
     case actionTypes.REDEEM_USER_REFERRAL_PENDING:
     case actionTypes.LOGIN_PENDING:
@@ -35,6 +42,17 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         loading: true,
+        error: null,
+      };
+    case actionTypes.CHECK_EMAIL_AVAILABILITY_FAILED:
+      notification.warn({
+        message: "Email exists",
+        duration: 0,
+        key,
+      });
+      return {
+        ...state,
+        loading: false,
         error: null,
       };
     case actionTypes.UPDATE_USER_DETAILS_PENDING:
@@ -82,10 +100,54 @@ const authReducer = (state = initState, action) => {
         loading: true,
         error: null,
       };
+    case actionTypes.VERIFY_EMAIL_OTP_SUCCESS:
+      notification.success({
+        message: "Successful",
+        key,
+      });
+      return {
+        ...state,
+        // user: action.payload.user,
+        loading: false,
+        error: null,
+      };
+    case actionTypes.GET_USER_WALLETS_SUCCESS:
+      notification.success({
+        message: "Successful",
+        key,
+      });
+      return {
+        ...state,
+        userWallets: action.payload,
+        loading: false,
+        error: null,
+      };
+    case actionTypes.GET_CRYPTO_CURRENCY_SUCCESS:
+      notification.success({
+        message: "Successful",
+        key,
+      });
+      return {
+        ...state,
+        // user: action.payload.user,
+        loading: false,
+        error: null,
+        cryptoCurrency:action.payload.crypto
+      };
+    case actionTypes.GET_FIAT_CURRENCY_SUCCESS:
+      notification.success({
+        message: "Successful",
+        key,
+      });
+      return {
+        ...state,
+        // user: action.payload.user,
+        loading: false,
+        error: null,
+        fiatCurrency:action.payload.fiat
+      };
     case actionTypes.REGISTER_SUCCESS:
     case actionTypes.LOGIN_SUCCESS:
-    case actionTypes.VERIFY_EMAIL_OTP_SUCCESS:
-    case actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS:
       notification.success({
         message: "Successful",
         key,
@@ -93,6 +155,17 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         user: action.payload.user,
+        loading: false,
+        error: null,
+      };
+    case actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS:
+      notification.success({
+        message: "Successful",
+        key,
+      });
+      return {
+        ...state,
+        user: action.payload,
         loading: false,
         error: null,
       };
@@ -181,6 +254,9 @@ const authReducer = (state = initState, action) => {
         loading: false,
         error: null,
       };
+    case actionTypes.GET_CRYPTO_CURRENCY_FAILED:
+    case actionTypes.GET_FIAT_CURRENCY_FAILED:
+    case actionTypes.GET_USER_WALLETS_FAILED:
     case actionTypes.GET_USER_REFERRALS_FAILED:
     case actionTypes.REDEEM_USER_REFERRAL_FAILED:
     case actionTypes.LOGIN_FAILED:

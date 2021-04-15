@@ -49,6 +49,7 @@ export { ReactComponent as CardItunes } from "./card-itunes.svg";
 
 export { ReactComponent as UsdIcon } from "./usd-icon.svg";
 export { ReactComponent as CardTypePhysical } from "./card-type-physical.svg";
+export { ReactComponent as CardTypeEcode } from "./gift-card.svg"
 
 export { ReactComponent as UploadIcon } from "./upload.svg";
 export { ReactComponent as QRIcon } from "./qr-icon.svg";
