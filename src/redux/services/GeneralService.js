@@ -34,7 +34,7 @@ generalService.getCryptoCurrency = function () {
 
 generalService.getUserDetails = function (params) {
   return fetch({
-    url: "/api/user-account/" + params.userId,
+    url: "/user-account/" + params.userId,
     method: "get",
   });
 };
@@ -44,6 +44,13 @@ generalService.updateUserDetails = function (params, data) {
     url: "/user-account/" + params.userId,
     method: "put",
     data: data,
+  });
+};
+
+generalService.getUserWallets = function (params) {
+  return fetch({
+    url: `/user-account/${params.userId}/fetch-wallets`,
+    method: "get",
   });
 };
 
@@ -105,6 +112,16 @@ generalService.addBankAccount = function (params, payload) {
   data.isMobileMoney = payload.isMobileMoney;
   return fetch({
     url: `/user-account/${params.userId}/bank-accounts`,
+    method: "post",
+    data: data,
+  });
+};
+
+generalService.uploadFile = function (params, payload) {
+  const data = new FormData()
+  data.append('file', payload.file)
+  return fetch({
+    url: `/misc/upload-file`,
     method: "post",
     data: data,
   });

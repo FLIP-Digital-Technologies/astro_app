@@ -351,3 +351,30 @@ const GetCryptoCurrencies = () => async (dispatch) => {
 export const getCryptoCurrencies = (data) => (dispatch) => {
   dispatch(GetCryptoCurrencies(data));
 };
+
+const GetUserWallets = () => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.GET_USER_WALLETS_PENDING,
+  });
+
+  await generalService
+    .getUserWallets({userId})
+    .then((response) => {
+      dispatch({
+        type: actionTypes.GET_USER_WALLETS_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      console.log("errors", err);
+      dispatch({
+        type: actionTypes.GET_USER_WALLETS_FAILED,
+        payload: err,
+      });
+    });
+}; // done
+
+export const getUserWallets = () => (dispatch) => {
+  dispatch(GetUserWallets());
+};

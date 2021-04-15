@@ -7,12 +7,21 @@ import Button from "../../components/button";
 import Upload from "../../components/upload";
 import * as SVG from "../../assets/svg";
 import { SuccessfulModal } from "../transactions/components";
-import { countryOptions, processImageToCloudinary } from "../../utils/helper";
+import {
+  countryOptions,
+  processImageToCloudinary,
+  Money,
+} from "../../utils/helper";
 import { history } from "../../redux/store";
 
 import styles from "../styles.module.scss";
 import { connect } from "react-redux";
-import { getGiftCardCodes, getGiftCardDetails, initialGiftCardSale } from "../../redux/actions/giftCard";
+import {
+  getGiftCardCodes,
+  getGiftCardDetails,
+  initialGiftCardSale,
+  uploadFileToBucket,
+} from "../../redux/actions/giftCard";
 
 const getHumanForm = (name) =>
   name
@@ -459,11 +468,16 @@ const GiftCardForm = ({
   soldGiftCard,
   loading,
   getCardDetails,
-  cardDetails
+  cardDetails,
+  userWallets,
 }) => {
   const INITIAL_STATE = {
     country: "",
+    cardCurrencyId: "",
+    giftCardId: "",
     cardType: "",
+    fiatCurrencyId: "",
+    value: null,
     amount: 0,
     number: 1,
     total: 0,
@@ -471,31 +485,50 @@ const GiftCardForm = ({
     wallet: "",
     remark: "",
   };
+  const INITIAL_STATE2 = {};
 
   const [details, setDetails] = useState(INITIAL_STATE);
+  const [state, setState] = useState(INITIAL_STATE2);
   const [rate, setRate] = useState({});
   const [progress, setProgress] = useState();
   const [open, setOpen] = useState(false);
   const [openTerm, setOpenTerm] = useState(true);
   const [canTrade, SetCanTrade] = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    getCardDetails({cardCode:active.uid})
+    getCardDetails({ cardCode: active.uid });
     // eslint-disable-next-line
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    details && details.cardType && details.cardType == "physical"
+      ? setTotal(details.amount && details.value.physical[details.amount] * details.amount * 670)
+      : details.cardType == "ecode"
+      ? setTotal(details.amount && details.value.ecode[details.amount] * details.amount * 670)
+      : setTotal(0);
+
+    // getCardDetails({ cardCode: active.uid });
+    // eslint-disable-next-line
+  }, [details]);
 
   React.useEffect(() => {
-    if(rate.rate){
+    if (rate.rate) {
       setDetails((details) => ({
         ...details,
         total: rate.rate[details.wallet] * details.amount,
       }));
     }
-  }, [rate, details.wallet, details.country, details.cardType])
+  }, [rate, details.wallet, details.country, details.cardType]);
 
   const onCountryChange = (value) => {
-    setDetails((details) => ({ ...details, country: value, cardType: "", amount: 0 }));
+    setDetails((details) => ({
+      ...details,
+      country: value,
+      cardType: "",
+      amount: "",
+    }));
   };
 
   const onCardTypeChange = (value) => {
@@ -543,7 +576,14 @@ const GiftCardForm = ({
   };
 
   const onWalletChange = (value) => {
-    setDetails((details) => ({ ...details, wallet: value, country: "", cardType: "", amount: 0 }));
+    setDetails((details) => ({
+      ...details,
+      wallet: value.Currency.code,
+      fiatCurrencyId: value.id,
+      country: "",
+      cardType: "",
+      amount: "",
+    }));
   };
 
   const handleDelete = (index) => {
@@ -563,24 +603,26 @@ const GiftCardForm = ({
           i,
           console.log,
           setProgress,
-          "biguncleyemi",
-          "tejczmke"
         )
       )
     );
     const payload = {
-      referenceCurrency: details && details.wallet,
-      remark: details.remark,
+      // referenceCurrency: details && details.wallet,
+      sellerRemarks: details.remark,
       imageURLs: resFile,
-      amount: details.amount,
-      quantity: details.number,
-      cardCode: `${active.name}.${details.country.toLowerCase()}.${
-        details.cardType
-      }`,
+      amount: parseInt(details.amount),
+      fiatCurrencyId: details.fiatCurrencyId,
+      cardType:details.cardType,
+      cardCurrencyId:details.cardCurrencyId,
+      giftCardId:active._id,
+      // cardCode: `${active.name}.${details.country.toLowerCase()}.${
+      //   details.cardType
+      // }`,
     };
+    console.log('payloads',payload)
     await SellGiftCard(payload);
-    setOpen(true);
-    setUploadLoading(false)
+    // setOpen(true);
+    setUploadLoading(false);
   };
 
   const handleOk = () => {
@@ -594,9 +636,14 @@ const GiftCardForm = ({
   return (
     <div className={styles.gitcard__form}>
       {open && soldGiftCard && (
-        <SuccessfulModal title={"Your card has been received, kindly wait 10-15 minutes, check the progress of trade on the 'Transactions' tab"} onClick={() => history.push("/app")} />
+        <SuccessfulModal
+          title={
+            "Your card has been received, kindly wait 10-15 minutes, check the progress of trade on the 'Transactions' tab"
+          }
+          onClick={() => history.push("/app")}
+        />
       )}
-      {console.log('details',cardDetails)}
+      {console.log("details", cardDetails)}
       <Modal
         header={null}
         footer={null}
@@ -635,10 +682,14 @@ const GiftCardForm = ({
             <br />
             <div style={{ marginBottom: 20 }}>
               <Select
-                options={[
-                  { render: "NGN wallet", value: "NGN" },
-                  { render: "GHS wallet", value: "GHS" },
-                ]}
+                // options={[
+                //   { render: "NGN wallet", value: "NGN" },
+                //   { render: "GHS wallet", value: "GHS" },
+                // ]}
+                options={userWallets.fiatWallets.map((item) => ({
+                  render: `${item.Currency.code} wallet`,
+                  value: item,
+                }))}
                 value={details.wallet}
                 onSelect={onWalletChange}
                 className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
@@ -648,44 +699,97 @@ const GiftCardForm = ({
             </div>
             <br />
             <div style={{ marginBottom: 20 }}>
-              {/* <Select
-                options={countryOptions.filter((i) => {
-                  return (
-                    active[active.name].filter((ki) =>
-                      i.value.toLowerCase().includes(ki.name)
-                    ).length > 0
-                  );
-                })}
+              <Select
+                options={
+                  cardDetails[0] &&
+                  cardDetails.map((item) => ({
+                    render: item.GiftCardCurrency.name,
+                    value: item,
+                  }))
+                }
                 value={details.country}
-                onSelect={onCountryChange}
+                onSelect={(value) => {
+                  setDetails((state) => ({
+                    ...state,
+                    country: value.GiftCardCurrency.name,
+                    cardCurrencyId: value.card_currency_id,
+                    giftCardId: value.GiftCard.id,
+                    value,
+                    cardType: "",
+                    amount: "",
+                    number: 1,
+                    total: 0,
+                    file: [],
+                    // wallet: "",
+                    remark: "",
+                  }));
+                }}
                 className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
-                label="Select Currency"
+                label="Select Card Currency"
                 labelClass={styles.label}
-              /> */}
+              />
             </div>
             <br />
             <div style={{ marginBottom: 20 }}>
               <Select
                 options={
-                  active[details.country.toLowerCase()] &&
-                  active[details.country.toLowerCase()].map((i) => ({
-                    value: i[0],
-                    name: getHumanForm(i[0]),
-                    render: (
-                      <div
-                        className={styles.countryOption}
-                        style={{ display: "flex", alignItems: "center" }}
-                      >
-                        <SVG.CardTypePhysical />
-                        <span style={{ marginLeft: 10 }}>
-                          {getHumanForm(i[0])}
-                        </span>
-                      </div>
-                    ),
-                  }))
+                  [
+                    {
+                      render: (
+                        <div
+                          className={styles.countryOption}
+                          style={{ display: "flex", alignItems: "center" }}
+                        >
+                          <SVG.CardTypePhysical />
+                          <span style={{ marginLeft: 10 }}>{"Physical"}</span>
+                        </div>
+                      ),
+                      value: "physical",
+                    },
+                    {
+                      render: (
+                        <div
+                          className={styles.countryOption}
+                          style={{ display: "flex", alignItems: "center" }}
+                        >
+                          <SVG.CardTypePhysical />
+                          <span style={{ marginLeft: 10 }}>{"Ecode"}</span>
+                        </div>
+                      ),
+                      value: "ecode",
+                    },
+                  ]
+
+                  // active[details.country.toLowerCase()].map((i) => ({
+                  //   value: i[0],
+                  //   name: getHumanForm(i[0]),
+                  //   render: (
+                  //     <div
+                  //       className={styles.countryOption}
+                  //       style={{ display: "flex", alignItems: "center" }}
+                  //     >
+                  //       <SVG.CardTypePhysical />
+                  //       <span style={{ marginLeft: 10 }}>
+                  //         {getHumanForm(i[0])}
+                  //       </span>
+                  //     </div>
+                  //   ),
+                  // }))
                 }
                 value={details.cardType}
-                onSelect={onCardTypeChange}
+                onSelect={(value) => {
+                  setDetails((state) => ({
+                    ...state,
+                    cardType: value,
+                    // fiatCurrencyId: "",
+                    amount: "",
+                    number: 1,
+                    total: 0,
+                    file: [],
+                    // wallet: "",
+                    remark: "",
+                  }));
+                }}
                 className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
                 label="Card Type"
                 labelClass={styles.label}
@@ -693,18 +797,51 @@ const GiftCardForm = ({
             </div>
             <br />
             <div>
-              <Input
-                label="Card value"
-                placeholder="Enter card value"
-                value={details.amount}
-                type="number"
-                min={rate && rate.min}
-                max={rate && rate.max}
-                onChange={(e) => onAmountChange(e.target.value)}
-                labelClass={styles.label}
-                className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
-                disabled={!rate || !canTrade}
-              />
+              {details && details.cardType && (
+                <Select
+                  labelClass={styles.largeMarginLabel}
+                  hintClass={styles.largeMarginHint}
+                  label="Select amount"
+                  value={details.amount}
+                  name="amount"
+                  onSelect={(value) => {
+                    setDetails((state) => ({
+                      ...state,
+                      amount: value,
+                      remark: "",
+                    }));
+                  }}
+                  // options={props?.buyGiftCardDetails?.packages.map((item) => ({
+                  //   render: `${props?.buyGiftCardDetails?.currency} ${
+                  //     item.value
+                  //   } - Price: ${Money(item.usdPrice, "USD")}`,
+                  //   value: `${item.value}.${item.amount}`,
+                  // }))}
+                  options={
+                    details.cardType === "physical"
+                      ? Object.keys(details.value.physical).map((item) => ({
+                          render: `${
+                            details.value.GiftCardCurrency.code
+                          } ${item} - Price ${Money(
+                            details.value.physical[item] * item,
+                            details.value.GiftCardCurrency.code
+                          )}`,
+                          value: item,
+                        }))
+                      : Object.keys(details.value.ecode).map((item) => ({
+                          render: `${
+                            details.value.GiftCardCurrency.code
+                          } ${item} - Price ${Money(
+                            details.value.physical[item] * item,
+                            details.value.GiftCardCurrency.code
+                          )}`,
+                          value: item,
+                        }))
+                  }
+
+                  // hint={<p dangerouslySetInnerHTML={extraInfo()} />}
+                />
+              )}
             </div>
             <div className={styles.gitcard__form__upload}>
               {progress && (
@@ -735,7 +872,12 @@ const GiftCardForm = ({
                 placeholder="Enter image remark"
                 value={details.remark}
                 type="text"
-                onChange={(e) => setDetails((details) => ({ ...details, remark: e.target.value }))}
+                onChange={(e) =>
+                  setDetails((details) => ({
+                    ...details,
+                    remark: e.target.value,
+                  }))
+                }
                 labelClass={styles.label}
                 className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
               />
@@ -749,14 +891,13 @@ const GiftCardForm = ({
               <div>
                 <strong>Rate</strong>&emsp;
                 <span>
-                  {rate && rate.rate && rate.rate[details.wallet]}{" "}
-                  {details && details.wallet}
+                  {details && details.wallet} {"670"}
                 </span>
               </div>
               <div>
                 <strong>Value</strong>&emsp;
                 <span>
-                  {details && details.wallet} {details.total}
+                  {details && details.wallet} {total}
                 </span>
               </div>
             </div>
@@ -767,11 +908,11 @@ const GiftCardForm = ({
               disabled={
                 details.file.length === 0 ||
                 !details.amount ||
-                !details.total ||
+                // !details.total ||
                 !details.cardType ||
                 !details.country ||
                 loading ||
-                !canTrade ||
+                // !canTrade ||
                 uploadLoading
               }
               onClick={() => handleSubmit()}
@@ -786,6 +927,7 @@ const GiftCardForm = ({
 const mapStateToProps = (state) => ({
   // loading: state.giftCard.loading,
   cardDetails: state.giftCard.cardDetails,
+  fileUrl:state.giftCard.fileUrl
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -797,7 +939,10 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getCardDetails: (data) => {
     dispatch(getGiftCardDetails(data));
+  },
+  uploadFile: (data) => {
+    dispatch(uploadFileToBucket(data));
   }
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(GiftCardForm)
+export default connect(mapStateToProps, mapDispatchToProps)(GiftCardForm);

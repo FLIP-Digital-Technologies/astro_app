@@ -13,6 +13,7 @@ const initState = {
   userReferral: null,
   fiatCurrency:[],
   cryptoCurrency:[],
+  userWallets:{},
   userReferralTransaction: {
     referrals: [],
     meta: {},
@@ -24,6 +25,7 @@ const authReducer = (state = initState, action) => {
   switch (action.type) {
     case actionTypes.CHECK_EMAIL_AVAILABILITY_PENDING:
     case actionTypes.GET_FIAT_CURRENCY_PENDING:
+    case actionTypes.GET_USER_WALLETS_PENDING:
     case actionTypes.GET_CRYPTO_CURRENCY_PENDING:
     case actionTypes.GET_USER_REFERRALS_PENDING:
     case actionTypes.REDEEM_USER_REFERRAL_PENDING:
@@ -106,6 +108,17 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         // user: action.payload.user,
+        loading: false,
+        error: null,
+      };
+    case actionTypes.GET_USER_WALLETS_SUCCESS:
+      notification.success({
+        message: "Successful",
+        key,
+      });
+      return {
+        ...state,
+        userWallets: action.payload,
         loading: false,
         error: null,
       };
@@ -243,6 +256,7 @@ const authReducer = (state = initState, action) => {
       };
     case actionTypes.GET_CRYPTO_CURRENCY_FAILED:
     case actionTypes.GET_FIAT_CURRENCY_FAILED:
+    case actionTypes.GET_USER_WALLETS_FAILED:
     case actionTypes.GET_USER_REFERRALS_FAILED:
     case actionTypes.REDEEM_USER_REFERRAL_FAILED:
     case actionTypes.LOGIN_FAILED:

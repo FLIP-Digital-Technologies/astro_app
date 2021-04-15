@@ -1,4 +1,5 @@
 import * as actionTypes from "../constants";
+import generalService from "../services/GeneralService";
 import giftCardService from "../services/GiftCardService";
 // import { history } from "../store";
 
@@ -35,7 +36,7 @@ const GetGiftCardDetails = (data) => async (dispatch) => {
   });
 
   await giftCardService
-    .getGiftCardCodes(data)
+    .getGiftCardCode(data)
     .then((response) => {
       // console.log('gifts card', response)
       dispatch({
@@ -185,4 +186,33 @@ const GetLastGiftCardTransactionHistory = (data) => async (dispatch) => {
 
 export const getLastGiftCardTransactionHistory = (data) => (dispatch) => {
   dispatch(GetLastGiftCardTransactionHistory(data));
+};
+
+const UploadFileToBucket = (data) => async (dispatch) => {
+  dispatch({
+    type: actionTypes.UPLOAD_FILE_PENDING,
+  });
+let fileUrl = "";
+  await generalService
+    .uploadFile(data)
+    .then((response) => {
+      dispatch({
+        type: actionTypes.UPLOAD_FILE_SUCCESS,
+        payload: response.data,
+      });
+      localStorage.setItem("fileUrl", response.data.publicUrl);
+    // let fileUrl = response.data.publicUrl
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.UPLOAD_FILE_FAILED,
+        payload: err,
+      });
+      localStorage.setItem("fileUrl", "error");
+    });
+  return localStorage.getItem("fileUrl");
+};
+
+export const uploadFileToBucket = (data) => (dispatch) => {
+  dispatch(UploadFileToBucket(data));
 };

@@ -12,6 +12,7 @@ const initState = {
   cardDetails:{},
   giftCardDetails: null,
   sellGiftCardDetails: null,
+  fileUrl:"",
   GiftCardTransaction: {
     transactions: [],
     meta: {},
@@ -32,6 +33,18 @@ const giftCardReducers = (state = initState, action) => {
         ...state,
         sellGiftCard: false,
         sellGiftCardDetails: null,
+        loading: true,
+        error: null,
+      };
+    case actionTypes.UPLOAD_FILE_PENDING:
+      notification.info({
+        message: "Loading.....",
+        duration: 0,
+        description: "Uploading File",
+        key,
+      });
+      return {
+        ...state,
         loading: true,
         error: null,
       };
@@ -102,6 +115,18 @@ const giftCardReducers = (state = initState, action) => {
         loading: false,
         error: null,
       };
+    case actionTypes.UPLOAD_FILE_SUCCESS:
+      notification.success({
+        message: "Successful",
+        description: "Successful Uploaded file",
+        key,
+      });
+      return {
+        ...state,
+        fileUrl:action.payload.publicUrl,
+        loading: false,
+        error: null,
+      };
     case actionTypes.GET_TRANSACTIONS_HISTORY_GIFTCARD_SUCCESS:
       return {
         ...state,
@@ -149,6 +174,7 @@ const giftCardReducers = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_CARD_DETAILS_FAILED:
+    case actionTypes.UPLOAD_FILE_FAILED:
     case actionTypes.INITIATE_SELL_GIFTCARD_FAILED:
     case actionTypes.GET_TRANSACTIONS_HISTORY_GIFTCARD_FAILED:
     case actionTypes.GET_TRANSACTION_DETAILS_GIFTCARD_FAILED:
