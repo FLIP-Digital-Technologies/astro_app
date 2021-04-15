@@ -32,7 +32,7 @@
     "start": "REACT_APP_ENV=development react-scripts start",
     "build": "REACT_APP_ENV=production react-scripts build",
     "stage": "REACT_APP_ENV=staging react-scripts build",
-    "test": "react-scripts test",
+    "test": "REACT_APP_ENV=test react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
