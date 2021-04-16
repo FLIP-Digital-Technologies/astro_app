@@ -16,7 +16,11 @@ const stage = {
 };
 
 const getEnv = () => {
-  switch (process.env.NODE_ENV) {
+  if (process.env.NODE_ENV === "development") {
+    return dev;
+  }
+  
+  switch (process.env.REACT_APP_ENV) {
     case "development":
       return dev;
     case "production":
