@@ -378,3 +378,57 @@ const GetUserWallets = () => async (dispatch) => {
 export const getUserWallets = () => (dispatch) => {
   dispatch(GetUserWallets());
 };
+
+const CreateFiatWallet = (data) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.CREATE_USER_WALLET_PENDING,
+  });
+
+  await generalService
+    .createFiatWallet({userId}, data)
+    .then((response) => {
+      dispatch({
+        type: actionTypes.CREATE_USER_WALLET_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      console.log("errors", err);
+      dispatch({
+        type: actionTypes.CREATE_USER_WALLET_FAILED,
+        payload: err,
+      });
+    });
+}; // done
+
+export const createFiatWallet = (data) => (dispatch) => {
+  dispatch(CreateFiatWallet(data));
+};
+
+const CreateCryptoWallet = (data) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.CREATE_USER_WALLET_PENDING,
+  });
+
+  await generalService
+    .createCryptoWallet({userId}, data)
+    .then((response) => {
+      dispatch({
+        type: actionTypes.CREATE_USER_WALLET_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      console.log("errors", err);
+      dispatch({
+        type: actionTypes.CREATE_USER_WALLET_FAILED,
+        payload: err,
+      });
+    });
+}; // done
+
+export const createCryptoWallet = (data) => (dispatch) => {
+  dispatch(CreateCryptoWallet(data));
+};

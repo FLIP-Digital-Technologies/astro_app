@@ -113,9 +113,9 @@ const SignUp = (props) => {
             onChange={(e) => handlePassword(e.target.value)}
             required={true}
             minLength={"8"}
-            pattern={"^[0-9A-Za-z]{8,30}$"}
+            pattern={"^[0-9A-Za-z]{6,30}$"}
             value={password}
-            errorMessage={"Password must be a minimum of 8 characters"}
+            errorMessage={"Password must be a minimum of 6 characters"}
             type="password"
             label="Password"
           />

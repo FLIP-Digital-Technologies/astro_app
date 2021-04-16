@@ -145,4 +145,20 @@ generalService.removeBankDetails = function (params) {
   });
 };
 
+generalService.createFiatWallet = function (params, data) {
+  return fetch({
+    url: `/user-account/${params.userId}/create-fiat-wallet`,
+    method: "post",
+    data: data,
+  });
+};
+
+generalService.createCryptoWallet = function (params, data) {
+  return fetch({
+    url: `/user-account/${params.userId}/create-crypto-wallet`,
+    method: "post",
+    data: data,
+  });
+};
+
 export default generalService;
