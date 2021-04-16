@@ -6,22 +6,33 @@ import { DashboardLayout } from "../../components/layout";
 import styles from "../styles.module.scss";
 import { history } from "../../redux/store";
 import {
+  RightCircleOutlined,
+  LeftCircleOutlined,
+  DownOutlined,
+} from "@ant-design/icons";
+import { Menu, Dropdown } from "antd";
+import {
   getBTCWalletDetails,
   getLastBTCTransactionHistory,
 } from "../../redux/actions/btc";
 import { getLastGiftCardTransactionHistory } from "../../redux/actions/giftCard";
-import {
-  getUserBankAccount,
-} from "../../redux/actions/user";
+import { getUserBankAccount } from "../../redux/actions/user";
 import { getBankListByCountry } from "../../redux/actions/bank";
 import { getLastUserWithdrawalDetails } from "../../redux/actions/withdrawals";
-import PTwoPFlyout, { AirtimeFlyout, FundFlyout, } from "./components";
+import PTwoPFlyout, { AirtimeFlyout, FundFlyout } from "./components";
 import { initialPaymentByUser } from "../../redux/actions/payment";
 import ModalWrapper from "../../components/Modals";
 import WithdrawInitial from "../../components/Modals/withdraw-modal-Initial";
-import { getBillPaymentCategory, initialBillPaymentByUser } from "../../redux/actions/billPayment";
+import {
+  getBillPaymentCategory,
+  initialBillPaymentByUser,
+} from "../../redux/actions/billPayment";
 import { Money } from "../../utils/helper";
-import { getCryptoCurrencies, getFiatCurrencies, GetUserDetails } from "../../redux/actions/Auths";
+import {
+  getCryptoCurrencies,
+  getFiatCurrencies,
+  GetUserDetails,
+} from "../../redux/actions/Auths";
 
 const Home = ({
   user,
@@ -41,57 +52,121 @@ const Home = ({
   depositMoney,
   depositMoneyDetails,
   getMainCryptoCurrency,
-  getMainFiatCurrency
+  getMainFiatCurrency,
 }) => {
   const [wallet, setWallet] = useState("NGN");
+  let [fiatIndex, setFiatIndex] = useState(0);
+  let [cryptoIndex, setCryptoIndex] = useState(0);
   const [renderBalance, setRenderBalance] = useState("0");
+  const [renderCryptoBalance, setRenderCryptoBalance] = useState("0");
   const [showAirtime, setShowAirtime] = useState(false);
   const [showFund, setShowFund] = useState(false);
   const [showPTWOP, setShowPTWOP] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openWithdrawal, setOpenWithdrawal] = useState(false);
+  const [currencyHeader, setCurrencyHeader] = useState("Fiat Wallet Balance");
+  const [headerId, setHeaderId] = useState("1");
+  const [visible, setVisible] = useState(false);
 
   const [dataPair, setDataPair] = useState({});
   const [state, setState] = useState({});
   const [AirtimeState, setAirtimeState] = useState({});
 
-const getFiatCurrency = (wallet) => {
-  let fiatCurrency = balance.fiatWallets
-  switch (wallet) {
-    case "NGN":
-      return fiatCurrency.length > 0 && fiatCurrency.filter((item)=> item.Currency.code === "NGN")[0].balance
-    case "GHS":
-      return fiatCurrency.length > 0 && fiatCurrency.filter((item)=> item.Currency.code === "GHS")[0].balance
-    default:
-      return 0
-  }
-}
+  const getFiatCurrency = (wallet) => {
+    let fiatCurrency = balance.fiatWallets;
+    switch (wallet) {
+      case "NGN":
+        return (
+          fiatCurrency.length > 0 &&
+          fiatCurrency.filter((item) => item.Currency.code === "NGN")[0].balance
+        );
+      case "GHS":
+        return (
+          fiatCurrency.length > 0 &&
+          fiatCurrency.filter((item) => item.Currency.code === "GHS")[0].balance
+        );
+      default:
+        return 0;
+    }
+  };
 
-const getCryptoCurrency = (wallet) => {
-  let cryptoCurrency = balance.cryptoWallets
-  switch (wallet) {
-    case "BTC":
-      return cryptoCurrency.length > 0 && cryptoCurrency.filter((item) => item.Currency.code === "BTC")[0].balance
-  
-    default:
-      return 0
-  }
-}
+  const getCryptoCurrency = (wallet) => {
+    let cryptoCurrency = balance.cryptoWallets;
+    switch (wallet) {
+      case "BTC":
+        return (
+          cryptoCurrency.length > 0 &&
+          cryptoCurrency.filter((item) => item.Currency.code === "BTC")[0]
+            .balance
+        );
 
+      default:
+        return 0;
+    }
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-
     if (!balance) return;
     if (!wallet) return;
-    console.log('currency')
-    setRenderBalance(wallet !== "BTC" ? Money(getFiatCurrency(wallet) || 0 , wallet) : getCryptoCurrency(wallet) || 0);
-  });
+    console.log("currency");
+    if (!balance) {
+      return
+    } else {
+      console.log('balance', balance)
+      if (balance.fiatWallets.length == 0) {
+        setRenderBalance(0)
+      } else {
+        setRenderBalance(
+          Money(
+            balance &&
+              balance.fiatWallets &&
+              balance.fiatWallets[fiatIndex].balance || 0,
+            balance &&
+              balance.fiatWallets &&
+              balance.fiatWallets[fiatIndex].Currency.code || "NGN"
+          ) || 0
+        ); 
+      }
+       
+    }
+    
+  }, [balance, fiatIndex]);
 
   useEffect(() => {
+    if (!balance) return;
+    if (!wallet) return;
+    if (!balance) {
+      return
+    } else {
+      if (balance.cryptoWallets.length == 0) {
+        setRenderCryptoBalance(0)
+      } else {
+        setRenderCryptoBalance(
+          Money(
+            balance &&
+              balance.cryptoWallets &&
+              balance.cryptoWallets[cryptoIndex] &&
+              balance.cryptoWallets[cryptoIndex].balance || 0,
+            balance &&
+              balance.cryptoWallets &&
+              balance.cryptoWallets[cryptoIndex] &&
+              balance.cryptoWallets[cryptoIndex].Currency.code || "BTC"
+          )
+        );  
+      }
+      
+    }
+    console.log("currency");
+    
+  }, [balance, cryptoIndex]);
+
+  useEffect(() => {
+    getBalance();
+    
     getCurrentUser();
     getUserBankDetails();
-    getBalance();
+    
     getMainCryptoCurrency();
     getMainFiatCurrency();
     // getLatestBTCTrans({ skip: 0, limit: 5 });
@@ -99,6 +174,32 @@ const getCryptoCurrency = (wallet) => {
     // getLatestWithdrawalTrans({ skip: 0, limit: 5 });
     // eslint-disable-next-line
   }, []);
+
+  const handleMenuClick = (e) => {
+    console.log("press", e.key);
+    if (e.key === "2") {
+      setHeaderId(e.key);
+      setCurrencyHeader("Crypto Wallet Balance");
+      setVisible(false);
+    } else if (e.key === "1") {
+      setHeaderId(e.key);
+      setCurrencyHeader("Fiat Wallet Balance");
+    }
+  };
+
+  const handleVisibleChange = (flag) => {
+    setVisible(flag);
+  };
+
+  const menu = () => {
+    return (
+      <Menu onClick={handleMenuClick}>
+        <Menu.Item key="1">Fiat Wallet Balance</Menu.Item>
+        <Menu.Item key="2">Crypto Wallet Balance</Menu.Item>
+      </Menu>
+    );
+  };
+
   return (
     <DashboardLayout>
       <WithdrawInitial
@@ -113,7 +214,7 @@ const getCryptoCurrency = (wallet) => {
           setIsModalVisible={() => {
             setOpenModal(false);
             setShowFund(false);
-            setState({})
+            setState({});
           }}
         >
           <iframe
@@ -137,10 +238,20 @@ const getCryptoCurrency = (wallet) => {
           title="Airtime purchase"
           width={350}
           placement="right"
-          onClose={() => {setShowAirtime(false); setAirtimeState({})}}
+          onClose={() => {
+            setShowAirtime(false);
+            setAirtimeState({});
+          }}
           visible={showAirtime}
         >
-          <AirtimeFlyout BillPaymentCategory={BillPaymentCategory} buyAirtime={buyAirtime} loading={billLoading} getBillPaymentCategory={getBillPaymentCategory} state={AirtimeState} setState={setAirtimeState} />
+          <AirtimeFlyout
+            BillPaymentCategory={BillPaymentCategory}
+            buyAirtime={buyAirtime}
+            loading={billLoading}
+            getBillPaymentCategory={getBillPaymentCategory}
+            state={AirtimeState}
+            setState={setAirtimeState}
+          />
         </Drawer>
       )}
 
@@ -149,10 +260,18 @@ const getCryptoCurrency = (wallet) => {
           title="Pair 2 Pair (p2p) Transfer"
           placement="right"
           width={350}
-          onClose={() => {setShowPTWOP(false); setDataPair({})}}
+          onClose={() => {
+            setShowPTWOP(false);
+            setDataPair({});
+          }}
           visible={showPTWOP}
         >
-          <PTwoPFlyout setOpenModal={setShowPTWOP} balance={balance} state={dataPair} setState={setDataPair} />
+          <PTwoPFlyout
+            setOpenModal={setShowPTWOP}
+            balance={balance}
+            state={dataPair}
+            setState={setDataPair}
+          />
         </Drawer>
       )}
       {showFund && (
@@ -160,16 +279,370 @@ const getCryptoCurrency = (wallet) => {
           title="Fund wallet"
           placement="right"
           width={350}
-          onClose={() => {setShowFund(false); setState({})}}
+          onClose={() => {
+            setShowFund(false);
+            setState({});
+          }}
           visible={showFund}
         >
-          <FundFlyout state={state} setState={setState} Fund={Fund} loading={loading} setOpenModal={setOpenModal} />
+          <FundFlyout
+            state={state}
+            setState={setState}
+            Fund={Fund}
+            loading={loading}
+            setOpenModal={setOpenModal}
+          />
         </Drawer>
       )}
       <div className={styles.home}>
         <div className={styles.home__welcome}>
           <div className={styles.home__top}>
-            <div className={styles.balances}>
+            {headerId == "1"
+              ? balance &&
+                balance.fiatWallets && ( balance.fiatWallets.length > 0 ? (
+                  <div className={styles.balances}>
+                    <div
+                      className={styles.balances__ta}
+                      onClick={() => {
+                        if (fiatIndex < 1) {
+                          return;
+                        } else {
+                          setFiatIndex(--fiatIndex);
+                        }
+                      }}
+                    >
+                      <LeftCircleOutlined
+                        style={{
+                          fontSize: "30px",
+                          color: fiatIndex < 1 ? "#08c" : "",
+                        }}
+                      />
+                    </div>
+                    <div
+                      className={styles.balances__ta}
+                      // onClick={() => {
+                      //   if (currencyHeader == "Fiat Wallet Balance") {
+                      //     setCurrencyHeader("Crypto Wallet Balance");
+                      //   } else if (currencyHeader == "Crypto Wallet Balance") {
+                      //     setCurrencyHeader("Fiat Wallet Balance");
+                      //   } else {
+                      //     return;
+                      //   }
+                      // }}
+                    >
+                      <Dropdown
+                        trigger={["hover"]}
+                        overlay={menu}
+                        onVisibleChange={handleVisibleChange}
+                        visible={visible}
+                      >
+                        <a
+                          className={styles.balances__title}
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          {currencyHeader}
+                          <DownOutlined />
+                        </a>
+                      </Dropdown>
+                      {/* <span className={styles.balances__title}>{currencyHeader}</span> */}
+                      <div className={styles.balances__value}>
+                        <span>{renderBalance}</span>{" "}
+                        {wallet === "BTC" && <span>{wallet}</span>}
+                      </div>
+                      <div className={styles.balances__btn__holder}>
+                        <div
+                          onClick={() => setWallet("NGN")}
+                          className={`${styles.balances__btn} ${styles.active}`}
+                        >
+                          {balance &&
+                            balance.fiatWallets &&
+                            balance.fiatWallets[fiatIndex].Currency.code}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className={styles.balances__ta}
+                      onClick={() => {
+                        if (fiatIndex + 1 === balance.fiatWallets.length) {
+                          return;
+                        } else {
+                          setFiatIndex(++fiatIndex);
+                        }
+                      }}
+                    >
+                      <RightCircleOutlined
+                        style={{
+                          fontSize: "30px",
+                          color:
+                            fiatIndex + 1 === balance.fiatWallets.length
+                              ? "#08c"
+                              : "",
+                        }}
+                      />
+                    </div>
+                  </div>
+                ) :(
+                  <div className={styles.balances}>
+                    <div
+                      className={styles.balances__ta}
+                      onClick={() => {
+                        if (fiatIndex < 1) {
+                          return;
+                        } else {
+                          setFiatIndex(--fiatIndex);
+                        }
+                      }}
+                    >
+                      <LeftCircleOutlined
+                        style={{
+                          fontSize: "30px",
+                          color: fiatIndex < 1 ? "#08c" : "",
+                        }}
+                      />
+                    </div>
+                    <div
+                      className={styles.balances__ta}
+                      // onClick={() => {
+                      //   if (currencyHeader == "Fiat Wallet Balance") {
+                      //     setCurrencyHeader("Crypto Wallet Balance");
+                      //   } else if (currencyHeader == "Crypto Wallet Balance") {
+                      //     setCurrencyHeader("Fiat Wallet Balance");
+                      //   } else {
+                      //     return;
+                      //   }
+                      // }}
+                    >
+                      <Dropdown
+                        trigger={["hover"]}
+                        overlay={menu}
+                        onVisibleChange={handleVisibleChange}
+                        visible={visible}
+                      >
+                        <a
+                          className={styles.balances__title}
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          {currencyHeader}
+                          <DownOutlined />
+                        </a>
+                      </Dropdown>
+                      {/* <span className={styles.balances__title}>{currencyHeader}</span> */}
+                      <div className={styles.balances__value}>
+                        <span>{"Add Wallet"}</span>{" "}
+                        {wallet === "BTC" && <span>{wallet}</span>}
+                      </div>
+                      <div className={styles.balances__btn__holder}>
+                        <div
+                          onClick={() => setWallet("NGN")}
+                          className={`${styles.balances__btn} ${styles.active}`}
+                        >
+                          <PlusOutlined />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className={styles.balances__ta}
+                      onClick={() => {
+                        console.log(balance.fiatWallets.length);
+                        if (balance.fiatWallets.length === 0) {
+                          return;
+                        }
+                        if (fiatIndex + 1 === balance.fiatWallets.length) {
+                          return;
+                        } else {
+                          setFiatIndex(++fiatIndex);
+                        }
+                      }}
+                    >
+                      <RightCircleOutlined
+                        style={{
+                          fontSize: "30px",
+                          color:
+                            balance.fiatWallets.length === 0
+                              ? "#08c"
+                              : fiatIndex + 1 === balance.fiatWallets.length
+                              ? "#08c"
+                              : "",
+                        }}
+                      />
+                    </div>
+                  </div>
+                ) )
+              : balance &&
+                balance.cryptoWallets &&
+                (balance.cryptoWallets.length > 0 ? (
+                  <div className={styles.balances}>
+                    <div
+                      className={styles.balances__ta}
+                      onClick={() => {
+                        if (cryptoIndex < 1) {
+                          return;
+                        } else {
+                          setCryptoIndex(--cryptoIndex);
+                        }
+                      }}
+                    >
+                      <LeftCircleOutlined
+                        style={{
+                          fontSize: "30px",
+                          color: cryptoIndex < 1 ? "#08c" : "",
+                        }}
+                      />
+                    </div>
+                    <div
+                      className={styles.balances__ta}
+                      // onClick={() => {
+                      //   if (currencyHeader == "Fiat Wallet Balance") {
+                      //     setCurrencyHeader("Crypto Wallet Balance");
+                      //   } else if (currencyHeader == "Crypto Wallet Balance") {
+                      //     setCurrencyHeader("Fiat Wallet Balance");
+                      //   } else {
+                      //     return;
+                      //   }
+                      // }}
+                    >
+                      <Dropdown
+                        trigger={["hover"]}
+                        overlay={menu}
+                        onVisibleChange={handleVisibleChange}
+                        visible={visible}
+                      >
+                        <a
+                          className={styles.balances__title}
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          {currencyHeader}
+                          <DownOutlined />
+                        </a>
+                      </Dropdown>
+                      {/* <span className={styles.balances__title}>{currencyHeader}</span> */}
+                      <div className={styles.balances__value}>
+                        <span>{renderCryptoBalance}</span>{" "}
+                        {wallet === "BTC" && <span>{wallet}</span>}
+                      </div>
+                      <div className={styles.balances__btn__holder}>
+                        <div
+                          onClick={() => setWallet("NGN")}
+                          className={`${styles.balances__btn} ${styles.active}`}
+                        >
+                          {balance &&
+                            balance.cryptoWallets &&
+                            balance.cryptoWallets[cryptoIndex].Currency.code}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className={styles.balances__ta}
+                      onClick={() => {
+                        if (cryptoIndex + 1 === balance.cryptoWallets.length) {
+                          return;
+                        } else {
+                          setCryptoIndex(++cryptoIndex);
+                        }
+                      }}
+                    >
+                      <RightCircleOutlined
+                        style={{
+                          fontSize: "30px",
+                          color:
+                            cryptoIndex + 1 === balance.cryptoWallets.length
+                              ? "#08c"
+                              : "",
+                        }}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.balances}>
+                    <div
+                      className={styles.balances__ta}
+                      onClick={() => {
+                        if (cryptoIndex < 1) {
+                          return;
+                        } else {
+                          setCryptoIndex(--cryptoIndex);
+                        }
+                      }}
+                    >
+                      <LeftCircleOutlined
+                        style={{
+                          fontSize: "30px",
+                          color: cryptoIndex < 1 ? "#08c" : "",
+                        }}
+                      />
+                    </div>
+                    <div
+                      className={styles.balances__ta}
+                      // onClick={() => {
+                      //   if (currencyHeader == "Fiat Wallet Balance") {
+                      //     setCurrencyHeader("Crypto Wallet Balance");
+                      //   } else if (currencyHeader == "Crypto Wallet Balance") {
+                      //     setCurrencyHeader("Fiat Wallet Balance");
+                      //   } else {
+                      //     return;
+                      //   }
+                      // }}
+                    >
+                      <Dropdown
+                        trigger={["hover"]}
+                        overlay={menu}
+                        onVisibleChange={handleVisibleChange}
+                        visible={visible}
+                      >
+                        <a
+                          className={styles.balances__title}
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          {currencyHeader}
+                          <DownOutlined />
+                        </a>
+                      </Dropdown>
+                      {/* <span className={styles.balances__title}>{currencyHeader}</span> */}
+                      <div className={styles.balances__value}>
+                        <span>{"Add Wallet"}</span>{" "}
+                        {wallet === "BTC" && <span>{wallet}</span>}
+                      </div>
+                      <div className={styles.balances__btn__holder}>
+                        <div
+                          onClick={() => setWallet("NGN")}
+                          className={`${styles.balances__btn} ${styles.active}`}
+                        >
+                          <PlusOutlined />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className={styles.balances__ta}
+                      onClick={() => {
+                        console.log(balance.cryptoWallets.length);
+                        if (balance.cryptoWallets.length === 0) {
+                          return;
+                        }
+                        if (cryptoIndex + 1 === balance.cryptoWallets.length) {
+                          return;
+                        } else {
+                          setCryptoIndex(++cryptoIndex);
+                        }
+                      }}
+                    >
+                      <RightCircleOutlined
+                        style={{
+                          fontSize: "30px",
+                          color:
+                            balance.cryptoWallets.length === 0
+                              ? "#08c"
+                              : cryptoIndex + 1 === balance.cryptoWallets.length
+                              ? "#08c"
+                              : "",
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+
+            {/* <div className={styles.balances}>
+              <div className={styles.tops}>A</div>
+              <div className={styles.balances__top}>
               <span className={styles.balances__title}>Wallet Balance</span>
               <div className={styles.balances__value}>
                 <span>{renderBalance}</span>{" "}
@@ -184,7 +657,9 @@ const getCryptoCurrency = (wallet) => {
                 >
                   NGN
                 </div>
-                <div
+
+              </div> */}
+            {/* <div
                   onClick={() => setWallet("GHS")}
                   className={`${styles.balances__btn} ${
                     wallet === "GHS" && styles.active
@@ -199,28 +674,38 @@ const getCryptoCurrency = (wallet) => {
                   }`}
                 >
                   BTC
-                </div>
-              </div>
-            </div>
+                </div> */}
+            {/* </div>
+              <div>A</div>
+            </div> */}
             <div onClick={() => setShowFund(true)} className={styles.fund}>
               <div className={styles.fund__image}>
                 <div>
-                  <PlusOutlined style={{fontSize: 23}} />
+                  <PlusOutlined style={{ fontSize: 23 }} />
                 </div>
               </div>
               <span className={styles.fund__text}>Fund Wallet</span>
             </div>
-            <div onClick={() => setOpenWithdrawal(true)} className={styles.fund}>
+            <div
+              onClick={() => setOpenWithdrawal(true)}
+              className={styles.fund}
+            >
               <div className={styles.fund__image}>
                 <div>
-                  <i class="fas fa-wallet text-white" style={{fontSize: 22, color: "#ffffff"}} />
+                  <i
+                    class="fas fa-wallet text-white"
+                    style={{ fontSize: 22, color: "#ffffff" }}
+                  />
                 </div>
               </div>
               <span className={styles.fund__text}>Withdrawal</span>
             </div>
           </div>
           <div className={styles.quick}>
-            <div className={styles.quick__holder} style={{width: "100%", flexWrap: "wrap"}}>
+            <div
+              className={styles.quick__holder}
+              style={{ width: "100%", flexWrap: "wrap" }}
+            >
               <div
                 onClick={() => setShowPTWOP(true)}
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
@@ -228,7 +713,9 @@ const getCryptoCurrency = (wallet) => {
                 <div>
                   <UserSwitchOutlined />
                 </div>
-                <span style={{textAlign: "center", lineHeight: 1}}>send money via P2P</span>
+                <span style={{ textAlign: "center", lineHeight: 1 }}>
+                  send money via P2P
+                </span>
               </div>
               <div
                 onClick={() => history.push("/app/sell-giftcard")}
@@ -300,7 +787,7 @@ const mapDispatchToProps = (dispatch) => ({
   getBankList: () => {
     dispatch(getBankListByCountry());
   },
-  getMainFiatCurrency:() => {
+  getMainFiatCurrency: () => {
     dispatch(getFiatCurrencies());
   },
   getMainCryptoCurrency: () => {
@@ -318,12 +805,12 @@ const mapDispatchToProps = (dispatch) => ({
   getLatestWithdrawalTrans: (data) => {
     dispatch(getLastUserWithdrawalDetails(data));
   },
-  getBillPaymentCategory: (data) =>  {
+  getBillPaymentCategory: (data) => {
     dispatch(getBillPaymentCategory(data));
   },
   buyAirtime: (billCategory, data) => {
-    dispatch(initialBillPaymentByUser(billCategory, data))
-  }
+    dispatch(initialBillPaymentByUser(billCategory, data));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

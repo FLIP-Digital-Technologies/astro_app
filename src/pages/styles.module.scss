@@ -2138,16 +2138,29 @@
   }
 }
 
+.top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  padding: 30px;
+  background-color: brown;
+}
+
 .balances {
   background-color: #00519e;
   width: 100%;
   border-radius: 5px;
   color: #fff;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   padding: 30px 0 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   margin-bottom: 10px;
+  // justify-items: center;
 
   @include md {
     width: clamp(400px, 50%, 600px);
@@ -2158,12 +2171,28 @@
     color: #abafb1;
     font-size: 16px;
   }
+  &__ta {
+    display: flow-root;
+    // align-items: center;
+    // justify-content: center;
+    }
 
   &__value {
     color: #fff;
     font-size: 24px;
     font-weight: 700;
     margin-top: 5px;
+    text-align: center;
+  }
+
+  &__sub {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    // margin-top: 5px;
+    display: flex;
+    justify-items: legacy;
+    align-items: center;
   }
 
   &__btn {
@@ -2188,9 +2217,11 @@
     &__holder {
       display: flex;
       margin-top: 10px;
+      justify-content: center;
     }
   }
 }
+
 .fund {
   cursor: pointer;
   background-color: #efefef;

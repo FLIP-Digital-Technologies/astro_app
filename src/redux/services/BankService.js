@@ -40,4 +40,14 @@ bankService.validateBankAccountDetails = function (payload) {
   });
 };
 
+bankService.createFiatWallet = function (payload) {
+  let data = {};
+  data.currencyId = payload.currencyId;
+  return fetch({
+    url: `/user-account/${payload.userId}/create-fiat-wallet`,
+    method: "post",
+    data: data,
+  });
+};
+
 export default bankService;
