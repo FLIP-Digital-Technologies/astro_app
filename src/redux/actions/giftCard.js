@@ -210,7 +210,6 @@ let fileUrl = "";
       });
       localStorage.setItem("fileUrl", "error");
     });
-  return localStorage.getItem("fileUrl");
 };
 
 export const uploadFileToBucket = (data) => (dispatch) => {

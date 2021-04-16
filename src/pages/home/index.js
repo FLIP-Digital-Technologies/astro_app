@@ -29,10 +29,13 @@ import {
 } from "../../redux/actions/billPayment";
 import { Money } from "../../utils/helper";
 import {
+  createFiatWallet,
   getCryptoCurrencies,
   getFiatCurrencies,
   GetUserDetails,
 } from "../../redux/actions/Auths";
+import AddWallet from "../../components/Modals/addWalletModal";
+import AddCryptoWallet from "../../components/Modals/addCryptoWallet";
 
 const Home = ({
   user,
@@ -53,6 +56,9 @@ const Home = ({
   depositMoneyDetails,
   getMainCryptoCurrency,
   getMainFiatCurrency,
+  createWallet,
+  fiatCurrency,
+  cryptoCurrency,
 }) => {
   const [wallet, setWallet] = useState("NGN");
   let [fiatIndex, setFiatIndex] = useState(0);
@@ -67,6 +73,8 @@ const Home = ({
   const [currencyHeader, setCurrencyHeader] = useState("Fiat Wallet Balance");
   const [headerId, setHeaderId] = useState("1");
   const [visible, setVisible] = useState(false);
+  const [openAddWallet, setOpenAddWallet] = useState(false)
+  const [opencryptoAddWallet, setOpencryptoAddWallet] = useState(false)
 
   const [dataPair, setDataPair] = useState({});
   const [state, setState] = useState({});
@@ -206,6 +214,17 @@ const Home = ({
         setIsModalVisible={setOpenWithdrawal}
         isModalVisible={openWithdrawal}
       />
+      {console.log('tert',fiatCurrency)}
+      <AddWallet 
+      setIsModalVisible={setOpenAddWallet}
+      isModalVisible={openAddWallet}
+      wallets={fiatCurrency}
+      />
+      <AddCryptoWallet
+      setIsModalVisible={setOpencryptoAddWallet}
+      isModalVisible={opencryptoAddWallet}
+      wallets={cryptoCurrency}
+      />
       {openModal && depositMoneyDetails && (
         <ModalWrapper
           className={styles.scanSell__body}
@@ -251,6 +270,7 @@ const Home = ({
             getBillPaymentCategory={getBillPaymentCategory}
             state={AirtimeState}
             setState={setAirtimeState}
+            fiatCurrency={balance.fiatWallets}
           />
         </Drawer>
       )}
@@ -291,6 +311,7 @@ const Home = ({
             Fund={Fund}
             loading={loading}
             setOpenModal={setOpenModal}
+            fiatCurrency={balance.fiatWallets}
           />
         </Drawer>
       )}
@@ -358,6 +379,16 @@ const Home = ({
                             balance.fiatWallets &&
                             balance.fiatWallets[fiatIndex].Currency.code}
                         </div>
+                       {fiatIndex + 1 === balance.fiatWallets.length && ( 
+                       <>
+                       <div
+                          onClick={() => setOpenAddWallet(true)}
+                          className={`${styles.balances__btn} ${styles.active}`}
+                        >
+                          <PlusOutlined />
+                        </div>
+                        </>
+                        )}
                       </div>
                     </div>
                     <div
@@ -433,7 +464,7 @@ const Home = ({
                       </div>
                       <div className={styles.balances__btn__holder}>
                         <div
-                          onClick={() => setWallet("NGN")}
+                          onClick={() => setOpenAddWallet(true)}
                           className={`${styles.balances__btn} ${styles.active}`}
                         >
                           <PlusOutlined />
@@ -604,7 +635,7 @@ const Home = ({
                       </div>
                       <div className={styles.balances__btn__holder}>
                         <div
-                          onClick={() => setWallet("NGN")}
+                          onClick={() => setOpencryptoAddWallet(true)}
                           className={`${styles.balances__btn} ${styles.active}`}
                         >
                           <PlusOutlined />
@@ -764,6 +795,8 @@ const Home = ({
 const mapStateToProps = (state) => ({
   user: state.user.user,
   balance: state.btc.balance,
+  fiatCurrency:state.user.fiatCurrency,
+  cryptoCurrency:state.user.cryptoCurrency,
   btcTrans: state.btc.latestBTCTransaction,
   giftCardTrans: state.giftCard.latestGiftCardTransaction,
   withdrawalTrans: state.giftCard.latestWithdrawalTransaction,
@@ -811,6 +844,9 @@ const mapDispatchToProps = (dispatch) => ({
   buyAirtime: (billCategory, data) => {
     dispatch(initialBillPaymentByUser(billCategory, data));
   },
+  createWallet: (data) => {
+    dispatch(createFiatWallet(data));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

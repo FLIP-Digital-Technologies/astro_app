@@ -24,6 +24,7 @@ const key = actionTypes.KEY;
 const authReducer = (state = initState, action) => {
   switch (action.type) {
     case actionTypes.CHECK_EMAIL_AVAILABILITY_PENDING:
+    case actionTypes.CREATE_USER_WALLET_PENDING:
     case actionTypes.GET_FIAT_CURRENCY_PENDING:
     case actionTypes.GET_USER_WALLETS_PENDING:
     case actionTypes.GET_CRYPTO_CURRENCY_PENDING:
@@ -165,7 +166,7 @@ const authReducer = (state = initState, action) => {
       });
       return {
         ...state,
-        user: action.payload,
+        user: action.payload.user,
         loading: false,
         error: null,
       };
@@ -254,6 +255,18 @@ const authReducer = (state = initState, action) => {
         loading: false,
         error: null,
       };
+    case actionTypes.CREATE_USER_WALLET_SUCCESS:
+      notification.success({
+        message: "Successful",
+        // description: "You can now Login with your new password.",
+        key,
+      });
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    case actionTypes.CREATE_USER_WALLET_FAILED:
     case actionTypes.GET_CRYPTO_CURRENCY_FAILED:
     case actionTypes.GET_FIAT_CURRENCY_FAILED:
     case actionTypes.GET_USER_WALLETS_FAILED:

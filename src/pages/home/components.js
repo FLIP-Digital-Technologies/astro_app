@@ -74,7 +74,8 @@ export const DiscoFlyout = ({
               fee: 0,
               customerNumber: "",
             }));
-            if (value === "NGN") {
+            console.log('lopsd',value)
+            if (value.code === "NGN") {
               getBillPaymentCategory({
                 billCategory: `discos-${value.code.toLowerCase().substring(0, 2)}`,
               });
@@ -84,14 +85,15 @@ export const DiscoFlyout = ({
           }}
           name="select payment currency"
           options={fiatCurrency.map((item) => ({
-            render: item.name,
+            render: `${item.Currency.code} wallet`,
             value: {
-              code:item.code,
-            _id:item.id
+              code: item.Currency.code,
+              _id: item.id,
             },
             _id: item.id,
           }))}
         />
+        {console.log('lop',fiatCurrency)}
         {state.currency in { NGN: "0" } && (
           <Select
             labelClass={styles.largeMarginLabel}
@@ -200,10 +202,10 @@ export const InternetFlyout = ({
           //   // { render: "GHS", value: "gh" },
           // ]}
           options={fiatCurrency.map((item) => ({
-            render: item.name,
+            render: `${item.Currency.code} wallet`,
             value: {
-              code: item.code,
-            _id:item.id
+              code: item.Currency.code,
+              _id: item.id,
             },
             _id: item.id,
           }))}
@@ -348,9 +350,9 @@ export const CableFlyout = ({
           //   { render: "GHS", value: "gh" },
           // ]}
           options={fiatCurrency.map((item) => ({
-            render: item.name,
+            render: `${item.Currency.code} wallet`,
             value: {
-              code: item.code,
+              code: item.Currency.code,
               _id: item.id,
             },
             _id: item.id,
@@ -504,9 +506,9 @@ export const AirtimeFlyout = ({
           //   { render: "GHS", value: "gh" },
           // ]}
           options={fiatCurrency.map((item) => ({
-            render: item.name,
+            render: `${item.Currency.code} wallet`,
             value: {
-              code: item.code,
+              code: item.Currency.code,
               _id: item.id,
             },
             _id: item.id,
@@ -595,6 +597,7 @@ export const FundFlyout = ({
   Fund,
   loading,
   setOpenModal,
+  fiatCurrency,
 }) => {
   const handleDeposit = () => {
     Fund(state);
@@ -611,11 +614,12 @@ export const FundFlyout = ({
             setState((state) => ({ ...state, currency: value }))
           }
           name="ngn"
-          placeholder="Select a network provider"
-          options={[
-            { render: "NGN wallet", value: "NGN" },
-            { render: "GHS wallet", value: "GHS" },
-          ]}
+          placeholder="Select Wallet"
+          options={fiatCurrency.map((item) => ({
+            render: `${item.Currency.code} wallet`,
+            value: item.Currency.code,
+            _id: item.id,
+          }))}
         />
         {state.currency && (
           <Input

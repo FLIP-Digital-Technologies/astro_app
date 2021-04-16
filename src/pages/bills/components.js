@@ -12,6 +12,7 @@ import {
   initialBillPaymentByUser,
 } from "../../redux/actions/billPayment";
 import { getFiatCurrencies } from "../../redux/actions/Auths";
+import { getBTCWalletDetails } from "../../redux/actions/btc";
 
 const Flyout = ({
   buyAirtime,
@@ -21,9 +22,12 @@ const Flyout = ({
   state,
   fiatCurrency,
   getMainFiatCurrency,
+  balance,
+  getBalance,
 }) => {
   useEffect(() => {
-    getMainFiatCurrency()
+    getMainFiatCurrency();
+    getBalance()
     // eslint-disable-next-line
   }, [])
   const [AirtimeState, setAirtimeState] = useState({});
@@ -47,7 +51,7 @@ const Flyout = ({
           getBillPaymentCategory={getBillPaymentCategory}
           state={AirtimeState}
           setState={setAirtimeState}
-          fiatCurrency={fiatCurrency}
+          fiatCurrency={balance.fiatWallets}
         />
       )}
       {state?.title === "Internet" && (
@@ -58,7 +62,7 @@ const Flyout = ({
           getBillPaymentCategory={getBillPaymentCategory}
           state={InternetState}
           setState={setInternetState}
-          fiatCurrency={fiatCurrency}
+          fiatCurrency={balance.fiatWallets}
         />
       )}
       {state?.title === "Electricity" && (
@@ -69,7 +73,7 @@ const Flyout = ({
           getBillPaymentCategory={getBillPaymentCategory}
           state={DiscosState}
           setState={setDiscosState}
-          fiatCurrency={fiatCurrency}
+          fiatCurrency={balance.fiatWallets}
         />
       )}
       {state?.title === "Cable" && (
@@ -80,7 +84,7 @@ const Flyout = ({
           getBillPaymentCategory={getBillPaymentCategory}
           state={CableState}
           setState={setCableState}
-          fiatCurrency={fiatCurrency}
+          fiatCurrency={balance.fiatWallets}
         />
       )}
     </Drawer>
@@ -111,6 +115,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getMainFiatCurrency: () => {
     dispatch(getFiatCurrencies());
+  },
+  getBalance: () => {
+    dispatch(getBTCWalletDetails());
   },
 });
 
