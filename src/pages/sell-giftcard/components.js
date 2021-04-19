@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Progress, Modal, notification } from "antd";
+import { Progress, Modal } from "antd";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import Input from "../../components/input";
 import Select from "../../components/select";
@@ -8,7 +8,7 @@ import Upload from "../../components/upload";
 import * as SVG from "../../assets/svg";
 import { SuccessfulModal } from "../transactions/components";
 import {
-  countryOptions,
+  // countryOptions,
   processImageToCloudinary,
   Money,
 } from "../../utils/helper";
@@ -23,12 +23,12 @@ import {
   uploadFileToBucket,
 } from "../../redux/actions/giftCard";
 
-const getHumanForm = (name) =>
-  name
-    .replace("-", " ")
-    .split(" ")
-    .map((word) => `${word[0].toUpperCase()}${word.slice(1)}`)
-    .join(" ");
+// const getHumanForm = (name) =>
+//   name
+//     .replace("-", " ")
+//     .split(" ")
+//     .map((word) => `${word[0].toUpperCase()}${word.slice(1)}`)
+//     .join(" ");
 
 const getTerm = (item) => {
   switch (item) {
@@ -485,15 +485,15 @@ const GiftCardForm = ({
     wallet: "",
     remark: "",
   };
-  const INITIAL_STATE2 = {};
+  // const INITIAL_STATE2 = {};
 
   const [details, setDetails] = useState(INITIAL_STATE);
-  const [state, setState] = useState(INITIAL_STATE2);
-  const [rate, setRate] = useState({});
+  // const [state, setState] = useState(INITIAL_STATE2);
+  // const [rate, setRate] = useState({});
   const [progress, setProgress] = useState();
   const [open, setOpen] = useState(false);
   const [openTerm, setOpenTerm] = useState(true);
-  const [canTrade, SetCanTrade] = useState(false);
+  // const [canTrade, SetCanTrade] = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false);
   const [total, setTotal] = useState(0);
 
@@ -503,9 +503,9 @@ const GiftCardForm = ({
   }, []);
 
   useEffect(() => {
-    details && details.cardType && details.cardType == "physical"
+    details && details.cardType && details.cardType === "physical"
       ? setTotal(details.amount && details.value.physical[details.amount] * details.amount * 670)
-      : details.cardType == "ecode"
+      : details.cardType === "ecode"
       ? setTotal(details.amount && details.value.ecode[details.amount] * details.amount * 670)
       : setTotal(0);
 
@@ -513,55 +513,55 @@ const GiftCardForm = ({
     // eslint-disable-next-line
   }, [details]);
 
-  React.useEffect(() => {
-    if (rate.rate) {
-      setDetails((details) => ({
-        ...details,
-        total: rate.rate[details.wallet] * details.amount,
-      }));
-    }
-  }, [rate, details.wallet, details.country, details.cardType]);
+  // React.useEffect(() => {
+  //   if (rate.rate) {
+  //     setDetails((details) => ({
+  //       ...details,
+  //       total: rate.rate[details.wallet] * details.amount,
+  //     }));
+  //   }
+  // }, [rate, details.wallet, details.country, details.cardType]);
 
-  const onCountryChange = (value) => {
-    setDetails((details) => ({
-      ...details,
-      country: value,
-      cardType: "",
-      amount: "",
-    }));
-  };
+  // const onCountryChange = (value) => {
+  //   setDetails((details) => ({
+  //     ...details,
+  //     country: value,
+  //     cardType: "",
+  //     amount: "",
+  //   }));
+  // };
 
-  const onCardTypeChange = (value) => {
-    SetCanTrade(
-      active[details.country.toLowerCase()].filter((i) =>
-        value.includes(i[0])
-      )[0][1]?.isAvailable
-    );
-    if (
-      !active[details.country.toLowerCase()].filter((i) =>
-        value.includes(i[0])
-      )[0][1]?.isAvailable
-    ) {
-      return notification.error({
-        message: "Unavailable Card Type",
-        description: `${getHumanForm(value)} is currently unavailable`,
-      });
-    }
-    setRate(
-      active[details.country.toLowerCase()].filter((i) =>
-        value.includes(i[0])
-      )[0][1]
-    );
-    setDetails((details) => ({ ...details, cardType: value, amount: 0 }));
-  };
+  // const onCardTypeChange = (value) => {
+  //   SetCanTrade(
+  //     active[details.country.toLowerCase()].filter((i) =>
+  //       value.includes(i[0])
+  //     )[0][1]?.isAvailable
+  //   );
+  //   if (
+  //     !active[details.country.toLowerCase()].filter((i) =>
+  //       value.includes(i[0])
+  //     )[0][1]?.isAvailable
+  //   ) {
+  //     return notification.error({
+  //       message: "Unavailable Card Type",
+  //       description: `${getHumanForm(value)} is currently unavailable`,
+  //     });
+  //   }
+  //   setRate(
+  //     active[details.country.toLowerCase()].filter((i) =>
+  //       value.includes(i[0])
+  //     )[0][1]
+  //   );
+  //   setDetails((details) => ({ ...details, cardType: value, amount: 0 }));
+  // };
 
-  const onAmountChange = (value) => {
-    setDetails((details) => ({
-      ...details,
-      amount: value,
-      total: rate.rate[details.wallet] * value,
-    }));
-  };
+  // const onAmountChange = (value) => {
+  //   setDetails((details) => ({
+  //     ...details,
+  //     amount: value,
+  //     total: rate.rate[details.wallet] * value,
+  //   }));
+  // };
 
   // const onNumberChange = ({ target: { value } }) => {
   //   setDetails((details) => ({
@@ -621,7 +621,7 @@ const GiftCardForm = ({
     };
     console.log('payloads',payload)
     await SellGiftCard(payload);
-    // setOpen(true);
+    setOpen(true);
     setUploadLoading(false);
   };
 

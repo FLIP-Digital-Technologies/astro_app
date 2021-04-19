@@ -20,6 +20,7 @@ import { getUserBankAccount } from "../../redux/actions/user";
 import { getBankListByCountry } from "../../redux/actions/bank";
 import { getLastUserWithdrawalDetails } from "../../redux/actions/withdrawals";
 import PTwoPFlyout, { AirtimeFlyout, FundFlyout } from "./components";
+import PTwoPCrypto from "./components2";
 import { initialPaymentByUser } from "../../redux/actions/payment";
 import ModalWrapper from "../../components/Modals";
 import WithdrawInitial from "../../components/Modals/withdraw-modal-Initial";
@@ -38,7 +39,7 @@ import AddWallet from "../../components/Modals/addWalletModal";
 import AddCryptoWallet from "../../components/Modals/addCryptoWallet";
 
 const Home = ({
-  user,
+  // user,
   balance,
   buyAirtime,
   billLoading,
@@ -47,16 +48,16 @@ const Home = ({
   getUserBankDetails,
   getBillPaymentCategory,
   getBalance,
-  getLatestBTCTrans,
+  // getLatestBTCTrans,
   getLatestGiftCardTrans,
-  getLatestWithdrawalTrans,
+  // getLatestWithdrawalTrans,
   Fund,
   loading,
   depositMoney,
   depositMoneyDetails,
   getMainCryptoCurrency,
   getMainFiatCurrency,
-  createWallet,
+  createWallets,
   fiatCurrency,
   cryptoCurrency,
 }) => {
@@ -68,6 +69,7 @@ const Home = ({
   const [showAirtime, setShowAirtime] = useState(false);
   const [showFund, setShowFund] = useState(false);
   const [showPTWOP, setShowPTWOP] = useState(false);
+  const [showPTWOPcrypto, setShowPTWOPcrypto] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openWithdrawal, setOpenWithdrawal] = useState(false);
   const [currencyHeader, setCurrencyHeader] = useState("Fiat Wallet Balance");
@@ -80,61 +82,30 @@ const Home = ({
   const [state, setState] = useState({});
   const [AirtimeState, setAirtimeState] = useState({});
 
-  const getFiatCurrency = (wallet) => {
-    let fiatCurrency = balance.fiatWallets;
-    switch (wallet) {
-      case "NGN":
-        return (
-          fiatCurrency.length > 0 &&
-          fiatCurrency.filter((item) => item.Currency.code === "NGN")[0].balance
-        );
-      case "GHS":
-        return (
-          fiatCurrency.length > 0 &&
-          fiatCurrency.filter((item) => item.Currency.code === "GHS")[0].balance
-        );
-      default:
-        return 0;
-    }
-  };
-
-  const getCryptoCurrency = (wallet) => {
-    let cryptoCurrency = balance.cryptoWallets;
-    switch (wallet) {
-      case "BTC":
-        return (
-          cryptoCurrency.length > 0 &&
-          cryptoCurrency.filter((item) => item.Currency.code === "BTC")[0]
-            .balance
-        );
-
-      default:
-        return 0;
-    }
-  };
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!balance) return;
-    if (!wallet) return;
+    // if (!wallet) return;
     console.log("currency");
     if (!balance) {
       return
     } else {
       console.log('balance', balance)
-      if (balance.fiatWallets.length == 0) {
+      if (balance.fiatWallets.length === 0) {
         setRenderBalance(0)
       } else {
+        
+        balance && balance.fiatWallets &&
         setRenderBalance(
           Money(
             balance &&
               balance.fiatWallets &&
-              balance.fiatWallets[fiatIndex].balance || 0,
+              balance.fiatWallets[fiatIndex].balance,
             balance &&
               balance.fiatWallets &&
-              balance.fiatWallets[fiatIndex].Currency.code || "NGN"
-          ) || 0
-        ); 
+              balance.fiatWallets[fiatIndex].Currency.code
+          )
+        )
       }
        
     }
@@ -143,24 +114,29 @@ const Home = ({
 
   useEffect(() => {
     if (!balance) return;
-    if (!wallet) return;
+    // if (!wallet) return;
     if (!balance) {
       return
     } else {
-      if (balance.cryptoWallets.length == 0) {
+      if (balance.cryptoWallets.length === 0) {
         setRenderCryptoBalance(0)
       } else {
+        balance && balance.cryptoWallets &&
         setRenderCryptoBalance(
-          Money(
-            balance &&
+          balance &&
               balance.cryptoWallets &&
               balance.cryptoWallets[cryptoIndex] &&
-              balance.cryptoWallets[cryptoIndex].balance || 0,
-            balance &&
-              balance.cryptoWallets &&
-              balance.cryptoWallets[cryptoIndex] &&
-              balance.cryptoWallets[cryptoIndex].Currency.code || "BTC"
-          )
+              balance.cryptoWallets[cryptoIndex].balance
+          // Money(
+          //   balance &&
+          //     balance.cryptoWallets &&
+          //     balance.cryptoWallets[cryptoIndex] &&
+          //     balance.cryptoWallets[cryptoIndex].balance,
+          //   balance &&
+          //     balance.cryptoWallets &&
+          //     balance.cryptoWallets[cryptoIndex] &&
+          //     balance.cryptoWallets[cryptoIndex].Currency.code
+          // )
         );  
       }
       
@@ -168,6 +144,11 @@ const Home = ({
     console.log("currency");
     
   }, [balance, cryptoIndex]);
+
+ // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    getBalance();
+  }, [createWallets, getBalance])
 
   useEffect(() => {
     getBalance();
@@ -291,6 +272,27 @@ const Home = ({
             balance={balance}
             state={dataPair}
             setState={setDataPair}
+            fiatCurrency={fiatCurrency}
+          />
+        </Drawer>
+      )}
+      {showPTWOPcrypto && (
+        <Drawer
+          title="Pair 2 Pair (p2p) Crypto Transfer"
+          placement="right"
+          width={350}
+          onClose={() => {
+            setShowPTWOPcrypto(false);
+            setDataPair({});
+          }}
+          visible={showPTWOPcrypto}
+        >
+          <PTwoPCrypto
+            setOpenModal={setShowPTWOPcrypto}
+            balance={balance}
+            state={dataPair}
+            setState={setDataPair}
+            fiatCurrency={cryptoCurrency}
           />
         </Drawer>
       )}
@@ -318,7 +320,7 @@ const Home = ({
       <div className={styles.home}>
         <div className={styles.home__welcome}>
           <div className={styles.home__top}>
-            {headerId == "1"
+            {headerId === "1"
               ? balance &&
                 balance.fiatWallets && ( balance.fiatWallets.length > 0 ? (
                   <div className={styles.balances}>
@@ -357,13 +359,13 @@ const Home = ({
                         onVisibleChange={handleVisibleChange}
                         visible={visible}
                       >
-                        <a
+                        <span
                           className={styles.balances__title}
-                          onClick={(e) => e.preventDefault()}
+                          // onClick={(e) => e.preventDefault()}
                         >
                           {currencyHeader}
                           <DownOutlined />
-                        </a>
+                        </span>
                       </Dropdown>
                       {/* <span className={styles.balances__title}>{currencyHeader}</span> */}
                       <div className={styles.balances__value}>
@@ -449,13 +451,13 @@ const Home = ({
                         onVisibleChange={handleVisibleChange}
                         visible={visible}
                       >
-                        <a
+                        <span
                           className={styles.balances__title}
-                          onClick={(e) => e.preventDefault()}
+                          // onClick={(e) => e.preventDefault()}
                         >
                           {currencyHeader}
                           <DownOutlined />
-                        </a>
+                        </span>
                       </Dropdown>
                       {/* <span className={styles.balances__title}>{currencyHeader}</span> */}
                       <div className={styles.balances__value}>
@@ -538,13 +540,13 @@ const Home = ({
                         onVisibleChange={handleVisibleChange}
                         visible={visible}
                       >
-                        <a
+                        <span
                           className={styles.balances__title}
-                          onClick={(e) => e.preventDefault()}
+                          // onClick={(e) => e.preventDefault()}
                         >
                           {currencyHeader}
                           <DownOutlined />
-                        </a>
+                        </span>
                       </Dropdown>
                       {/* <span className={styles.balances__title}>{currencyHeader}</span> */}
                       <div className={styles.balances__value}>
@@ -553,7 +555,7 @@ const Home = ({
                       </div>
                       <div className={styles.balances__btn__holder}>
                         <div
-                          onClick={() => setWallet("NGN")}
+                          // onClick={() => setWallet("NGN")}
                           className={`${styles.balances__btn} ${styles.active}`}
                         >
                           {balance &&
@@ -620,13 +622,13 @@ const Home = ({
                         onVisibleChange={handleVisibleChange}
                         visible={visible}
                       >
-                        <a
+                        <span
                           className={styles.balances__title}
-                          onClick={(e) => e.preventDefault()}
+                          // onClick={(e) => e.preventDefault()}
                         >
                           {currencyHeader}
                           <DownOutlined />
-                        </a>
+                        </span>
                       </Dropdown>
                       {/* <span className={styles.balances__title}>{currencyHeader}</span> */}
                       <div className={styles.balances__value}>
@@ -758,13 +760,16 @@ const Home = ({
                 <span>Sell GiftCard</span>
               </div>
               <div
-                onClick={() => history.push("/app/btc")}
+                // onClick={() => history.push("/app/crypto")}
+                onClick={()=> setShowPTWOPcrypto(true)}
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
                 <div>
-                  <i class="fab fa-btc"></i>
+                <i class="fas fa-coins"/>
                 </div>
-                <span>Bitcoin</span>
+                <span style={{ textAlign: "center", lineHeight: 1 }}>
+                  send Crypto via P2P
+                </span>
               </div>
               <div
                 onClick={() => setShowAirtime(true)}
@@ -795,6 +800,7 @@ const Home = ({
 const mapStateToProps = (state) => ({
   user: state.user.user,
   balance: state.btc.balance,
+  createWallets:state.user.createWallet,
   fiatCurrency:state.user.fiatCurrency,
   cryptoCurrency:state.user.cryptoCurrency,
   btcTrans: state.btc.latestBTCTransaction,

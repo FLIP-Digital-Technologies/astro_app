@@ -23,11 +23,12 @@ export const BuySection = ({
   buyCoins,
   buyBTC,
   loading,
+  active,
 }) => {
   useEffect(() => {
-    balance &&
-      balance[state.wallet] &&
-      setCurrent_balance(balance[state.wallet].balance);
+    // balance &&
+    //   balance.fiatWallets &&
+    // setCurrent_balance(balance[state.wallet].balance);
   }, [balance, state.wallet]);
 
   useEffect(() => {
@@ -79,12 +80,16 @@ export const BuySection = ({
   const [open, setOpen] = useState(false);
   const showPromiseConfirm = () => {
     confirm({
-      title: `Buy ${state.btc} BTC`,
+      title: `Buy ${state.btc} ${active.Currency.code}`,
       icon: <ExclamationCircleOutlined style={{ color: "#19a9de" }} />,
-      content: `Confirm the purchase of ${state.btc} BTC`,
+      content: `Confirm the purchase of ${state.btc} ${active.Currency.code}`,
       onOk() {
         setOpen(true);
-        return buyCoins({ amount: state.btc, referenceCurrency: state.wallet });
+        return buyCoins({
+          amount: state.btc,
+          debitFiatWalletId: state.walletInfo.id,
+          creditCoinsWalletId: state.creditCoinsWalletId,
+        });
       },
       onCancel() {},
     });
@@ -124,6 +129,7 @@ export const BuySection = ({
           label="Buy to"
           Dummy={{ text: "BTC wallet" }}
         />
+        {console.log("buysection", balance)}
         <Select
           labelClass={styles.largeMarginLabel}
           hintClass={styles.largeMarginHint}
@@ -132,21 +138,31 @@ export const BuySection = ({
           value={state.wallet}
           name="wallet"
           onSelect={(value) =>
-            setState((state) => ({ ...state, wallet: value }))
+            setState((state) => ({
+              ...state,
+              wallet: value.Currency.code,
+              walletBalance: value.balance,
+              debitFiatWalletId: value.id,
+              walletInfo:value
+            }))
           }
-          options={[
-            {
-              render: "NGN wallet",
-              value: "NGN",
-              disabled: rates?.availability?.buy?.value,
-            },
-            {
-              render: "GHS wallet",
-              value: "GHS",
-              disabled: rates?.availability?.buy?.value,
-            },
-          ]}
-          hint={`Current Balance ${Money(current_balance, state.wallet)} `}
+          // options={[
+          //   {
+          //     render: "NGN wallet",
+          //     value: "NGN",
+          //     disabled: rates?.availability?.buy?.value,
+          //   },
+          //   {
+          //     render: "GHS wallet",
+          //     value: "GHS",
+          //     disabled: rates?.availability?.buy?.value,
+          //   },
+          // ]}
+          options={balance.fiatWallets.map((item) => ({
+            render: `${item.Currency.code} wallet`,
+            value: item,
+          }))}
+          hint={`Current Balance ${Money(state.walletBalance, state.wallet)} `}
         />
 
         <div className={styles.transactionCard__holder}>
@@ -215,9 +231,10 @@ export const SellSection = ({
   sellCoins,
   sellBTC,
   loading,
+  active,
 }) => {
   useEffect(() => {
-    balance && balance.BTC && setBtc_current_balance(balance.BTC.balance);
+    // balance && balance.BTC && setBtc_current_balance(balance.BTC.balance);
     balance &&
       balance[state.wallet] &&
       setWallet_current_balance(balance[state.wallet].balance);
@@ -239,21 +256,21 @@ export const SellSection = ({
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ngn") {
       ngn = value;
-      btc = value / (sell_btc_ngn_rate);
+      btc = value / sell_btc_ngn_rate;
       usd = sell_btc_usd_rate * value;
       // usd = 26000 * btc;
-      ghs = (sell_btc_ghs_rate) * btc;
+      ghs = sell_btc_ghs_rate * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "usd") {
       usd = value;
-      btc = value / (sell_btc_usd_rate);
+      btc = value / sell_btc_usd_rate;
       // btc = value / 26000;
       ngn = sell_btc_ngn_rate * btc;
       ghs = sell_btc_ghs_rate * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ghs") {
       ghs = value;
-      btc = value / (sell_btc_ghs_rate);
+      btc = value / sell_btc_ghs_rate;
       usd = sell_btc_usd_rate * value;
       // usd = 26000 * btc;
       ngn = sell_btc_ngn_rate * btc;
@@ -271,14 +288,15 @@ export const SellSection = ({
   const [open, setOpen] = useState(false);
   const showPromiseConfirm = () => {
     confirm({
-      title: `Sell ${isFinite(state.btc) ? state.btc : 0} BTC`,
+      title: `Sell ${isFinite(state.btc) ? state.btc : 0} ${active.Currency.code}`,
       icon: <ExclamationCircleOutlined style={{ color: "#19a9de" }} />,
-      content: `Confirm the sales of ${state.btc} BTC`,
+      content: `Confirm the sales of ${state.btc} ${active.Currency.code}`,
       onOk() {
         setOpen(true);
         return sellCoins({
           amount: isFinite(state.btc) ? state.btc : 0,
-          referenceCurrency: state.wallet,
+          cryptoWalletId: state.wallet,
+          fiatWalletId:state.fiatWalletId
         });
       },
       onCancel() {},
@@ -293,13 +311,20 @@ export const SellSection = ({
       <div className={styles.detailsCard__list}>
         <div className={styles.detailsCard__list__item}>
           <span className={styles.main}>You are selling</span>
-          <span className={styles.sub}>{Money(isFinite(state.btc) ? state.btc : 0, "BTC")}</span>
+          <span className={styles.sub}>
+            {Money(isFinite(state.btc) ? state.btc : 0, "BTC")}
+          </span>
         </div>
         <div className={styles.detailsCard__list__item}>
           <span className={styles.main}>You will receive</span>
           <span className={styles.sub}>
             {console.log("curr", state.wallet)}
-            {Money(isNaN(state.wallet === "NGN" ? state.ngn : state.ghs) ? 0: state[state.wallet === "NGN" ? "ngn" : "ghs"], state.wallet)}
+            {Money(
+              isNaN(state.wallet === "NGN" ? state.ngn : state.ghs)
+                ? 0
+                : state[state.wallet === "NGN" ? "ngn" : "ghs"],
+              state.wallet
+            )}
           </span>
         </div>
         <div className={styles.detailsCard__list__item}>
@@ -319,7 +344,7 @@ export const SellSection = ({
           hintClass={styles.largeMarginHint}
           label="Sell from"
           Dummy={{ text: "BTC wallet" }}
-          hint={`Current Balance ${Money(btc_current_balance, "BTC")} `}
+          hint={`Current Balance ${active.balance} `}
         />
         <Select
           labelClass={styles.largeMarginLabel}
@@ -328,24 +353,36 @@ export const SellSection = ({
           value={state.wallet}
           name="wallet"
           onSelect={(value) =>
-            setState((state) => ({ ...state, wallet: value }))
+            // setState((state) => ({ ...state, wallet: value }))
+            setState((state) => ({
+              ...state,
+              wallet: value.Currency.code,
+              walletBalance: value.balance,
+              fiatWalletId: value.id,
+              walletInfo:value
+            }))
           }
-          options={[
-            {
-              render: "NGN wallet",
-              value: "NGN",
-              disabled: rates?.availability?.sell?.value,
-            },
-            {
-              render: "GHS wallet",
-              value: "GHS",
-              disabled: rates?.availability?.sell?.value,
-            },
-          ]}
-          hint={`Current Balance ${
-            
-            Money(wallet_current_balance, state.wallet)
-          } `}
+          // options={[
+          //   {
+          //     render: "NGN wallet",
+          //     value: "NGN",
+          //     disabled: rates?.availability?.sell?.value,
+          //   },
+          //   {
+          //     render: "GHS wallet",
+          //     value: "GHS",
+          //     disabled: rates?.availability?.sell?.value,
+          //   },
+          // ]}
+          // hint={`Current Balance ${Money(
+          //   wallet_current_balance,
+          //   state.wallet
+          // )} `}
+          options={balance.fiatWallets.map((item) => ({
+            render: `${item.Currency.code} wallet`,
+            value: item,
+          }))}
+          hint={`Current Balance ${Money(state.walletBalance, state.wallet)} `}
         />
 
         <div className={styles.transactionCard__holder}>
@@ -410,16 +447,15 @@ export const SendSection = ({
   sellCoinsExternal,
   sellBTCExternal,
   loading,
+  active,
 }) => {
-
   const [current_balance, setCurrent_balance] = useState(0);
   const [sell_btc_usd_rate, setSell_btc_usd_rate] = useState(0);
   const [sell_btc_ghs_rate, setSell_btc_ghs_rate] = useState(0);
   const [sell_btc_ngn_rate, setSell_btc_ngn_rate] = useState(0);
 
-
   useEffect(() => {
-    balance && balance.BTC && setCurrent_balance(balance.BTC.balance)
+    balance && balance.BTC && setCurrent_balance(balance.BTC.balance);
   }, [balance]);
 
   useEffect(() => {
@@ -430,7 +466,7 @@ export const SendSection = ({
 
   const handleChange = ({ target: { name, value } }) => {
     // let ticker = rates && rates.tickers;
-    
+
     let btc, ngn, usd, ghs;
     if (name === "btc") {
       btc = value;
@@ -441,21 +477,21 @@ export const SendSection = ({
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ngn") {
       ngn = value;
-      btc = value / (sell_btc_ngn_rate);
+      btc = value / sell_btc_ngn_rate;
       usd = sell_btc_usd_rate * value;
       // usd = 26000 * btc;
-      ghs = value / (sell_btc_ghs_rate);
+      ghs = value / sell_btc_ghs_rate;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "usd") {
       usd = value;
-      btc = value / (sell_btc_usd_rate);
+      btc = value / sell_btc_usd_rate;
       // btc = value / 26000;
       ngn = sell_btc_ngn_rate * btc;
       ghs = sell_btc_ghs_rate * btc;
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     } else if (name === "ghs") {
       ghs = value;
-      btc = value / (sell_btc_ghs_rate);
+      btc = value / sell_btc_ghs_rate;
       usd = sell_btc_usd_rate * value;
       // usd = 26000 * btc;
       ngn = sell_btc_ngn_rate * btc;
@@ -478,6 +514,7 @@ export const SendSection = ({
         return sellCoinsExternal({
           amount: state.btc,
           address: state.btcAddress,
+          cryptoWalletId:active.id
         });
       },
       onCancel() {},
@@ -516,9 +553,7 @@ export const SendSection = ({
           hintClass={styles.largeMarginHint}
           label="Send bitcoin from"
           Dummy={{ Icon: BitcoinInput, text: "BTC wallet" }}
-          hint={`Current Balance ${
-            Money(current_balance, "BTC")
-          } `}
+          hint={`Current Balance ${active.balance} `}
         />
         <Input
           labelClass={styles.largeMarginLabel}
@@ -536,12 +571,10 @@ export const SendSection = ({
           labelClass={styles.largeMarginLabel}
           label="Amount in BTC"
           type="number"
-          value={isNaN(state.btc)? 0: state.btc}
+          value={isNaN(state.btc) ? 0 : state.btc}
           name="btc"
           onChange={handleChange}
-          hint={`Current rate ${
-            Money(sell_btc_ngn_rate, "NGN")
-          } / BTC`}
+          hint={`Current rate ${Money(sell_btc_ngn_rate, "NGN")} / BTC`}
           hintClass={styles.largeMarginHint}
           placeholder=""
         />
@@ -549,7 +582,7 @@ export const SendSection = ({
           labelClass={styles.largeMarginLabel}
           label="Amount in USD"
           type="number"
-          value={isNaN(state.usd)? 0: state.usd.toLocaleString()}
+          value={isNaN(state.usd) ? 0 : state.usd.toLocaleString()}
           name="usd"
           onChange={handleChange}
           placeholder="e.g 500"
@@ -561,9 +594,7 @@ export const SendSection = ({
           label="Amount in NGN"
           type="number"
           value={isNaN(state.ngn) ? 0 : state.ngn.toLocaleString()}
-          hint={`Current rate ${
-            Money(sell_btc_ngn_rate, "USD")
-          } / BTC`}
+          hint={`Current rate ${Money(sell_btc_ngn_rate, "USD")} / BTC`}
           name="ngn"
           onChange={handleChange}
         />
@@ -571,10 +602,8 @@ export const SendSection = ({
           labelClass={styles.largeMarginLabel}
           label="Amount in GHC"
           type="number"
-          value={isNaN(state.ghs)? 0 : state.ghs.toLocaleString()}
-          hint={`Current rate ${
-            Money(sell_btc_ghs_rate, "USD")
-          } / BTC`}
+          value={isNaN(state.ghs) ? 0 : state.ghs.toLocaleString()}
+          hint={`Current rate ${Money(sell_btc_ghs_rate, "USD")} / BTC`}
           name="ghs"
           onChange={handleChange}
         />

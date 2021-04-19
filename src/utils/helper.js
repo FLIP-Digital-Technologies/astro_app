@@ -3,7 +3,7 @@ import Loading from "../components/Loading";
 import png from "../assets/png";
 import * as SVG from "../assets/svg";
 import styles from "../pages/styles.module.scss";
-import * as actionTypes from "../redux/constants";
+// import * as actionTypes from "../redux/constants";
 
 import QRious from "qrious";
 import Axios from "axios";
@@ -34,7 +34,7 @@ export const processImageToCloudinary = async (
   try {
     const url = `${API_BASE_URL}misc/upload-file`;
     const data = new FormData();
-    const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+    // const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
 
     // data.append("upload_preset", unsignedUploadPreset);
     // data.append("tags", ["browser_upload", userId]);

@@ -14,10 +14,11 @@ import {
   OnBoarding,
   Coin,
   // Profile,
-  BTC,
+  // BTC,
   BuyGiftCard,
   Bills,
   Settings,
+  CryptoView,
 } from "./pages";
 import {
   getBTCTransactionHistory,
@@ -59,8 +60,10 @@ function App(props) {
       <Route path="/app/coin">
         <Coin />
       </Route>
-      <Route path="/app/btc">
-        <BTC />
+      <Route path="/app/crypto">
+        <CryptoView />
+        {/* <Route path="/app/btc">
+        <BTC /> */}
       </Route>
       <Route path="/app/transactions">
         <Transactions />

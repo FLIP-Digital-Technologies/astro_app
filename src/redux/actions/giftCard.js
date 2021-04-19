@@ -192,7 +192,6 @@ const UploadFileToBucket = (data) => async (dispatch) => {
   dispatch({
     type: actionTypes.UPLOAD_FILE_PENDING,
   });
-let fileUrl = "";
   await generalService
     .uploadFile(data)
     .then((response) => {

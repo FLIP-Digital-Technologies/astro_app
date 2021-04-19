@@ -11,7 +11,7 @@ import {
   initialGiftCardSale,
 } from "../../redux/actions/giftCard";
 import { EmptyEntryWithTitle } from "../transactions/components";
-import { sortData, cardList } from "../../utils/helper";
+// import { cardList } from "../../utils/helper";
 import { getUserWallets } from "../../redux/actions/Auths";
 
 // const getHumanForm = (name) => (
@@ -49,7 +49,7 @@ const SellGiftcard = (props) => {
       setActive(a);
     };
 
-    let C = cardList[item];
+    // let C = cardList[item];
     return (
       <div onClick={handleClick} className={styles.gitcard__content__card}>
         <div className={styles.holder}>

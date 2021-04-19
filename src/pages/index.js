@@ -17,3 +17,4 @@ export { default as BTC } from "./btc";
 export { default as Bills } from "./bills";
 export { default as Airtime } from "./airtime";
 export { default as Settings } from "./settings";
+export { default as CryptoView } from "./crypto";
