@@ -17,6 +17,7 @@ import {
 import { initialWithdrawalByUser } from "../../redux/actions/withdrawals";
 import generalService from "../../redux/services/GeneralService";
 import fetch from "../../redux/services/FetchInterceptor";
+import { getBTCWalletDetails } from "../../redux/actions/btc";
 
 const { confirm } = Modal;
 
@@ -58,11 +59,11 @@ const WithDrawModal3rd = ({
       setFee(0)
       function api() {
         return fetch({
-          url: `/api/payments/outwards/get-transaction-fee`,
+          url: `/payments/outwards/get-transaction-fee`,
           method: "get",
           params: {
             amount: acc.amount,
-            currency: state.currency === "NG" ? "NGN" : "GHS",
+            currencyId: state.currencyId,
           },
         });
       }
@@ -70,7 +71,7 @@ const WithDrawModal3rd = ({
         setFee(res.data.fee);
       });
     }
-  }, [state.currency, acc.amount]);
+  }, [state.currency, acc.amount, state.currencyId]);
 
   useEffect(() => {
     if (state.bankCode && state.accountNumber.length === 10) {
@@ -290,6 +291,7 @@ const mapStateToProps = (state) => ({
   bankList: state.bank.bankList,
   bankName: state.bank.bankDetails,
   bankLink: state.bank.bankList,
+  balance: state.btc.balance
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -305,6 +307,9 @@ const mapDispatchToProps = (dispatch) => ({
   getBankList: (data) => {
     dispatch(getBankListByCountry(data));
   },
+  getBalance: () => {
+    dispatch(getBTCWalletDetails())
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WithDrawModal3rd);

@@ -44,6 +44,35 @@ service.interceptors.request.use(
 );
 
 // API respone interceptor
+
+// service.interceptors.response.use(
+//   (response) => {
+//     return response.data
+//   },
+//   (error) => {
+//     let notificationParam = {
+//       message: "",
+//       key,
+//     };
+//     // console.log("err" + error); // for debug
+//     if (error.code === "ECONNABORTED") {
+//       notificationParam.message = "Connection Timeout";
+//     }  else if (error.response.status === 404) {
+//       console.log('interceptor',error.response)
+//       notificationParam.message = "Not Found";
+//       // notificationParam.description = error.response.data.message;
+//     } else if (error.response.status === 500) {
+//       notificationParam.message = "Internal Server Error";
+//       // notificationParam.description = error.response.data.message;
+//     } else if (error.response.status === 508) {
+//       notificationParam.message = "Time Out";
+//       // notificationParam.description = error.response.data.message;
+//     } else {
+//       notificationParam.message = error.response.data.message;
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 service.interceptors.response.use(
   (response) => {
     return response.data;
@@ -56,13 +85,13 @@ service.interceptors.response.use(
     console.log(error.response);
     // Remove token and redirect
     if (error.response.status === 404) {
-      notificationParam.message = "Not Found";
+      notificationParam.message = error.response.data.message
       // notificationParam.description = error.response.data.message;
     } else if (error.response.status === 500) {
-      notificationParam.message = "Internal Server Error";
+      notificationParam.message = error.response.data.message;
       // notificationParam.description = error.response.data.message;
     } else if (error.response.status === 508) {
-      notificationParam.message = "Time Out";
+      notificationParam.message = error.response.data.message;
       // notificationParam.description = error.response.data.message;
     } else {
       notificationParam.message = error.response.data.message;

@@ -16,7 +16,8 @@ withdrawalsService.initialWithdrawalRequest = function (params, data) {
   } else {
     payload.amount = Number(data.amount);
     payload.bankAccountId = data.bankAccountId;
-    payload.currency = data.currency;
+    payload.currencyId = data.currencyId;
+    payload.transactionPin = data.transactionPin
   }
 
   return fetch({

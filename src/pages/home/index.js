@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Drawer } from "antd";
+import { Drawer, notification } from "antd";
 import { PlusOutlined, UserSwitchOutlined } from "@ant-design/icons";
 import { DashboardLayout } from "../../components/layout";
 import styles from "../styles.module.scss";
@@ -37,6 +37,8 @@ import {
 } from "../../redux/actions/Auths";
 import AddWallet from "../../components/Modals/addWalletModal";
 import AddCryptoWallet from "../../components/Modals/addCryptoWallet";
+import * as actionTypes from "../../redux/constants"
+
 
 const Home = ({
   // user,
@@ -180,6 +182,36 @@ const Home = ({
     setVisible(flag);
   };
 
+  const CompletionHandler = async (event) => {
+    const key = actionTypes.KEY
+    const message = event.data;
+    if (message.type === "payment_ack") {
+      console.log('payment seen')
+      if (message.status === "successful") {
+        console.log('payment success', event)
+        // await HandleSuccess();
+        setOpenModal(false);
+        notification.success({
+          message:"Payment Successful",
+          duration:0,
+          key,
+        })
+      } else {
+        console.log('payment failed', event)
+        setOpenModal(false);
+        notification.error({
+          message:"Payment Failed",
+          duration:0,
+          key,
+        })
+      }
+      
+      window.removeEventListener("message", CompletionHandler);
+    } else {
+      console.log('asdfggg')
+    }
+  }
+
   const menu = () => {
     return (
       <Menu onClick={handleMenuClick}>
@@ -206,6 +238,7 @@ const Home = ({
       isModalVisible={opencryptoAddWallet}
       wallets={cryptoCurrency}
       />
+      {openModal && depositMoneyDetails && window.addEventListener("message", CompletionHandler)}
       {openModal && depositMoneyDetails && (
         <ModalWrapper
           className={styles.scanSell__body}
@@ -214,6 +247,7 @@ const Home = ({
           setIsModalVisible={() => {
             setOpenModal(false);
             setShowFund(false);
+            console.log('opened money')
             setState({});
           }}
         >
@@ -227,7 +261,7 @@ const Home = ({
               paddingTop: 40,
             }}
             title="payment"
-            src={depositMoneyDetails && depositMoneyDetails.fw_paymentLink}
+            src={depositMoneyDetails && depositMoneyDetails.link}
             // src={"https://www.w3schools.com"}
           ></iframe>
         </ModalWrapper>

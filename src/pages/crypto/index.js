@@ -5,16 +5,15 @@ import { DashboardLayout } from "../../components/layout";
 import { getCryptoCurrencies, getUserWallets } from "../../redux/actions/Auths";
 import styles from "../styles.module.scss";
 import BTC from "../btc";
-import { PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import AddCryptoWallet from "../../components/Modals/addCryptoWallet";
 
-const data = [
-  { name: "Bitcoin", code: "BTC", price: 61000, balance: "0.096" },
-  { name: "Ethereum", code: "ETH", price: 2300, balance: "0.1" },
-  { name: "Litecoin", code: "LTE", price: 500, balance: "30.08" },
-  { name: "Dogecoin", code: "DGE", price: 1.5, balance: "400.09" },
-  { name: "Binance Coin", code: "BNB", price: 61000, balance: "0.096" },
-];
+// const data = [
+//   { name: "Bitcoin", code: "BTC", price: 61000, balance: "0.096" },
+//   { name: "Ethereum", code: "ETH", price: 2300, balance: "0.1" },
+//   { name: "Litecoin", code: "LTE", price: 500, balance: "30.08" },
+//   { name: "Dogecoin", code: "DGE", price: 1.5, balance: "400.09" },
+//   { name: "Binance Coin", code: "BNB", price: 61000, balance: "0.096" },
+// ];
 
 const getIcon = (name) => {
   switch (name) {
