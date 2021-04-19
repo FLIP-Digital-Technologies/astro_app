@@ -112,8 +112,8 @@ const SignUp = (props) => {
             placeholder="Password"
             onChange={(e) => handlePassword(e.target.value)}
             required={true}
-            minLength={"8"}
-            pattern={"^[0-9A-Za-z]{6,30}$"}
+            minLength={"6"}
+            pattern={"^[0-9A-Za-z!@#$%^&*]{6,}$"}
             value={password}
             errorMessage={"Password must be a minimum of 6 characters"}
             type="password"
@@ -125,8 +125,8 @@ const SignUp = (props) => {
             placeholder="Confirm Password"
             onChange={(e) => handleConfirmPassword(e.target.value)}
             required={true}
-            minLength={"8"}
-            pattern={"^[0-9A-Za-z]{8,30}$"}
+            minLength={"6"}
+            pattern={"^[0-9A-Za-z!@#$%^&*]{6,}$"}
             value={confirmPassword}
             error={password !== confirmPassword}
             errorMessage={"Password does not match"}

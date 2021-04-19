@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { DashboardLayout } from "../../components/layout";
+// import { DashboardLayout } from "../../components/layout";
 import {
   ArrowLeftOutlined,
   DownloadOutlined,
@@ -59,9 +59,6 @@ const BuyCoin = ({
     receiveBTC();
     getBTCRates();
   }, [receiveBTC, getBTCRates]);
-  React.useEffect(() => {
-    console.log("nhyu", active);
-  }, []);
   return (
     <>
       <div className={styles.gitcard__form}>

@@ -73,7 +73,7 @@ export const BuySection = ({
       setState((state) => ({ ...state, btc: 0, usd: 0, ngn: 0, ghs: 0 }));
     }
   };
-  const [current_balance, setCurrent_balance] = useState(0);
+  // const [current_balance, setCurrent_balance] = useState(0);
   const [buy_btc_usd_rate, setBtc_usd_rate] = useState(0);
   const [buy_btc_ghs_rate, setBtc_ghs_rate] = useState(0);
   const [buy_btc_ngn_rate, setBtc_ngn_rate] = useState(0);
@@ -233,12 +233,12 @@ export const SellSection = ({
   loading,
   active,
 }) => {
-  useEffect(() => {
-    // balance && balance.BTC && setBtc_current_balance(balance.BTC.balance);
-    balance &&
-      balance[state.wallet] &&
-      setWallet_current_balance(balance[state.wallet].balance);
-  }, [balance, state.wallet]);
+  // useEffect(() => {
+  //   // balance && balance.BTC && setBtc_current_balance(balance.BTC.balance);
+  //   balance &&
+  //     balance[state.wallet] &&
+  //     setWallet_current_balance(balance[state.wallet].balance);
+  // }, [balance, state.wallet]);
   useEffect(() => {
     rates && rates.tickers && setSell_btc_usd_rate(rates.tickers.BTCUSD.sell);
     rates && rates.tickers && setSell_btc_ngn_rate(rates.tickers.BTCNGN.sell);
@@ -280,8 +280,8 @@ export const SellSection = ({
       setState((state) => ({ ...state, btc: 0, usd: 0, ngn: 0, ghs: 0 }));
     }
   };
-  const [btc_current_balance, setBtc_current_balance] = useState(0);
-  const [wallet_current_balance, setWallet_current_balance] = useState(0);
+  // const [btc_current_balance, setBtc_current_balance] = useState(0);
+  // const [wallet_current_balance, setWallet_current_balance] = useState(0);
   const [sell_btc_usd_rate, setSell_btc_usd_rate] = useState(0);
   const [sell_btc_ghs_rate, setSell_btc_ghs_rate] = useState(0);
   const [sell_btc_ngn_rate, setSell_btc_ngn_rate] = useState(0);
@@ -449,14 +449,14 @@ export const SendSection = ({
   loading,
   active,
 }) => {
-  const [current_balance, setCurrent_balance] = useState(0);
+  // const [current_balance, setCurrent_balance] = useState(0);
   const [sell_btc_usd_rate, setSell_btc_usd_rate] = useState(0);
   const [sell_btc_ghs_rate, setSell_btc_ghs_rate] = useState(0);
   const [sell_btc_ngn_rate, setSell_btc_ngn_rate] = useState(0);
 
-  useEffect(() => {
-    balance && balance.BTC && setCurrent_balance(balance.BTC.balance);
-  }, [balance]);
+  // useEffect(() => {
+  //   balance && balance.BTC && setCurrent_balance(balance.BTC.balance);
+  // }, [balance]);
 
   useEffect(() => {
     rates && rates.tickers && setSell_btc_usd_rate(rates.tickers.BTCUSD.sell);

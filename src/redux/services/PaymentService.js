@@ -8,7 +8,7 @@ paymentService.initialPayment = function (params, payload) {
   //   "currency": "NGN"
   // }
   let data = {};
-  data.currency = payload.currency;
+  data.currencyId = payload.currencyId;
   data.amount = payload.amount;
   return fetch({
     url: `/payments/inwards/${params.userId}`,
