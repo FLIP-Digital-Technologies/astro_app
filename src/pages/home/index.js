@@ -189,6 +189,7 @@ const Home = ({
       console.log('payment seen')
       if (message.status === "successful") {
         console.log('payment success', event)
+        getBalance()
         // await HandleSuccess();
         setOpenModal(false);
         notification.success({
