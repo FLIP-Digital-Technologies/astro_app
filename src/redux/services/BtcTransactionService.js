@@ -7,11 +7,45 @@ BTCTransactionServices.getWalletDetails = function (params) {
     url: `/user-account/${params.userId}/fetch-wallets`,
     method: "get",
   });
+  // return Promise.resolve(
+  //   {
+  //     "code":200,
+  //     "data": {
+  //       "fiatWallets": [
+  //         {
+  //           "id": 1,
+  //           "balance": 44353.34,
+  //           "Currency": {
+  //             "code": "NGN",
+  //             "name": "Nigerian Naira",
+  //             "id": 1
+  //           },
+  //           "current": 2730,
+  //           "is_active": true
+  //         }
+  //       ],
+  //       "cryptoWallets": [
+  //         {
+  //           "id": 1,
+  //           "balance": 0.000545,
+  //           "Currency": {
+  //             "code": "BTC",
+  //             "name": "Bitcoin",
+  //             "id": 344
+  //           },
+  //           "current": 0.0004,
+  //           "is_active": true
+  //         }
+  //       ]
+  //     },
+  //     "message": "Wallets"
+  //   }
+  // )
 };
 
 BTCTransactionServices.getCurrentMarketTicker = function (params) {
   return fetch({
-    url: "/api/transactions/btc/tickers",
+    url: `/coins/tickers/${'btcngn'}`,
     method: "get",
     params: {
       volume: params?.volume || 1
@@ -57,14 +91,21 @@ BTCTransactionServices.getCurrentMarketTicker = function (params) {
 
 BTCTransactionServices.initialBuyBTC = function (params, payload) {
   // {
-  //   "referenceCurrency": "NGN",
-  //   "amount": 0.0025
+  //   "amount": 200,
+  //   "debitFiatWalletId": 1,
+  //   "creditCoinsWalletId": 1
+  // }
+  // {
+  //   amount: state.btc,
+  //   debitFiatWalletId: state.walletInfo.id,
+  //   creditCoinsWalletId: state.creditCoinsWalletId,
   // }
   let data = {};
   data.amount = payload.amount;
-  data.referenceCurrency = payload.referenceCurrency;
+  data.debitFiatWalletId = payload.debitFiatWalletId;
+  data.creditCoinsWalletId = payload.creditCoinsWalletId;
   return fetch({
-    url: `/api/transactions/btc/${params.userId}/buy`,
+    url: `/coins/${params.userId}/buy`,
     method: "post",
     data: data,
   });
@@ -77,9 +118,10 @@ BTCTransactionServices.initialSellBTC = function (params, payload) {
   // }
   let data = {};
   data.amount = payload.amount;
-  data.referenceCurrency = payload.referenceCurrency;
+  data.cryptoWalletId = payload.cryptoWalletId;
+  data.fiatWalletId = payload.fiatWalletId;
   return fetch({
-    url: `/api/transactions/btc/${params.userId}/sell`,
+    url: `/coins/${params.userId}/sell`,
     method: "post",
     data: data,
   });
@@ -96,8 +138,9 @@ BTCTransactionServices.initialSendBTCToExternalWallet = function (
   let data = {};
   data.address = payload.address;
   data.amount = payload.amount;
+  data.cryptoWalletId = payload.cryptoWalletId;
   return fetch({
-    url: `/api/transactions/btc/${params.userId}/send`,
+    url: `/coins/${params.userId}/send`,
     method: "post",
     data: data,
   });
@@ -112,11 +155,33 @@ BTCTransactionServices.receiveBTC = function (params) {
 
 BTCTransactionServices.getTransactionHistory = function (params) {
   return fetch({
-    url: `/api/transactions/btc/${params.userId}/history`,
+    url: `/coins/${params.userId}/buy`,
     method: "get",
     params: {
-      skip: params.skip,
-      limit: params.limit,
+      page: params.skip,
+      per_page: params.limit,
+    },
+  });
+};
+
+BTCTransactionServices.getTransactionSellHistory = function (params) {
+  return fetch({
+    url: `/coins/${params.userId}/sell`,
+    method: "get",
+    params: {
+      page: params.skip,
+      per_page: params.limit,
+    },
+  });
+};
+
+BTCTransactionServices.getTransactionSendHistory = function (params) {
+  return fetch({
+    url: `/coins/${params.userId}/send`,
+    method: "get",
+    params: {
+      page: params.skip,
+      per_page: params.limit,
     },
   });
 };

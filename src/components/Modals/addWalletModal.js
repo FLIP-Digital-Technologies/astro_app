@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import ModalWrapper from "./index";
 import styles from "./styles.module.scss";
 import { ArrowRight } from "../../assets/svg";
-import WithDrawModalPersonal from "./withdraw-modal-personal";
-import WithDrawModal3rd from "./withdrawal-modal-3rd";
 import { connect } from "react-redux";
 import { createFiatWallet } from "../../redux/actions/Auths";
 // import Button from "../button";

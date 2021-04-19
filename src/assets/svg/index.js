@@ -107,3 +107,9 @@ export { ReactComponent as Physical } from "./physical.svg";
 export { ReactComponent as Barcode } from "./bar-code.svg";
 export { ReactComponent as Copy } from "./copy.svg";
 export { ReactComponent as Lock } from "./lock.svg";
+
+export { default as LTC } from "./litecoin-ltc-logo.svg";
+export { default as ETH } from "./ethereum-eth-logo.svg";
+export { default as DGE } from "./dogecoin-doge-logo.svg";
+export { default as BitcoinLogo } from "./bitcoin-btc-logo.svg";
+export { default as BNB } from "./binance-coin-bnb-logo.svg";

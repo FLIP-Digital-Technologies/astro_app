@@ -392,6 +392,7 @@ const CreateFiatWallet = (data) => async (dispatch) => {
         type: actionTypes.CREATE_USER_WALLET_SUCCESS,
         payload: response.data,
       });
+      dispatch(GetUserWallets());
     })
     .catch((err) => {
       console.log("errors", err);
@@ -419,6 +420,7 @@ const CreateCryptoWallet = (data) => async (dispatch) => {
         type: actionTypes.CREATE_USER_WALLET_SUCCESS,
         payload: response.data,
       });
+      dispatch(GetUserWallets());
     })
     .catch((err) => {
       console.log("errors", err);

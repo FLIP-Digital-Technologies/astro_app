@@ -11,6 +11,7 @@ const initState = {
   updatedUserBank: false,
   updatedTransactionPin: false,
   userReferral: null,
+  createWallet:null,
   fiatCurrency:[],
   cryptoCurrency:[],
   userWallets:{},
@@ -263,6 +264,7 @@ const authReducer = (state = initState, action) => {
       });
       return {
         ...state,
+        createWallet:action.payload,
         loading: false,
         error: null,
       };

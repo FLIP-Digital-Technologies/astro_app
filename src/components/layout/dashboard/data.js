@@ -18,6 +18,7 @@ import {
 
 export const Routes = {
   BTC: "/app/btc",
+  CryptoView: "/app/crypto",
   sellgiftcard: "/app/sell-giftcard",
   buygiftcard: "/app/buy-giftcard",
   airtime: "/app/airtime",
@@ -33,7 +34,7 @@ export const navigation = [
   { Icon: Home, Name: "Home", route: Routes.home },
   { Icon: () => <i class="fas fa-gift" style={{marginRight: 14}}></i>, Name: "Sell Gift Cards", route: Routes.sellgiftcard },
   { Icon: GiftCard, Name: "Buy Gift Cards", route: Routes.buygiftcard },
-  { Icon: () => <i class="fab fa-btc" style={{marginRight: 14}}></i>, Name: "Bitcoin", route: Routes.BTC },
+  { Icon: () => <i class="fas fa-coins" style={{marginRight: 14}}></i>, Name: "Crypto", route: Routes.CryptoView },
   { Icon: TransactionOutlined, Name: "Transactions", route: Routes.transactions },
   { Icon: Transactions, Name: "Bills", route: Routes.bills },
   { Icon: Settings, Name: "Settings", route: Routes.settings },

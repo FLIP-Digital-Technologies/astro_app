@@ -68,16 +68,18 @@ export const DiscoFlyout = ({
             setState((state) => ({
               ...state,
               currency: value.code,
-              currencyId:value._id,
+              currencyId: value._id,
               itemCode: "",
               amount: 0,
               fee: 0,
               customerNumber: "",
             }));
-            console.log('lopsd',value)
+            console.log("lopsd", value);
             if (value.code === "NGN") {
               getBillPaymentCategory({
-                billCategory: `discos-${value.code.toLowerCase().substring(0, 2)}`,
+                billCategory: `discos-${value.code
+                  .toLowerCase()
+                  .substring(0, 2)}`,
               });
             } else {
               BillPaymentCategory = [];
@@ -93,7 +95,7 @@ export const DiscoFlyout = ({
             _id: item.id,
           }))}
         />
-        {console.log('lop',fiatCurrency)}
+        {console.log("lop", fiatCurrency)}
         {state.currency in { NGN: "0" } && (
           <Select
             labelClass={styles.largeMarginLabel}
@@ -189,7 +191,7 @@ export const InternetFlyout = ({
             setState((state) => ({
               ...state,
               currency: value.code,
-              currencyId:value._id,
+              currencyId: value._id,
               itemCode: "",
               customerNumber: "",
               amount: 0,
@@ -337,7 +339,7 @@ export const CableFlyout = ({
             setState((state) => ({
               ...state,
               currency: value.code,
-              currencyId:value._id,
+              currencyId: value._id,
               plan: "",
               itemCode: "",
               customerNumber: "",
@@ -600,7 +602,7 @@ export const FundFlyout = ({
   fiatCurrency,
 }) => {
   const handleDeposit = () => {
-    Fund(state);
+    Fund({ amount: state.amount, currencyId: state.currencyId });
     setOpenModal(true);
   };
   return (
@@ -611,13 +613,17 @@ export const FundFlyout = ({
           label="Select wallet"
           value={state.currency}
           onSelect={(value) =>
-            setState((state) => ({ ...state, currency: value }))
+            setState((state) => ({
+              ...state,
+              currency: value.code,
+              currencyId: value.id,
+            }))
           }
           name="ngn"
           placeholder="Select Wallet"
           options={fiatCurrency.map((item) => ({
             render: `${item.Currency.code} wallet`,
-            value: item.Currency.code,
+            value: item.Currency,
             _id: item.id,
           }))}
         />
@@ -660,6 +666,7 @@ const PTwoPFlyout = ({
   initializeBTCPair2PairTransaction,
   initializeFiatPairTwoPairTransaction,
   getCurrentUserBal,
+  fiatCurrency,
 }) => {
   useEffect(() => {
     getFiatP2PRate();
@@ -693,17 +700,25 @@ const PTwoPFlyout = ({
       data.transferNote = state.transferNote;
       initializeBTCPair2PairTransaction(data);
     } else {
+      // {
+      //   "amount": 200,
+      //   "email": "address@example.com",
+      //   "debitCurrencyId": 1,
+      //   "recipientCurrencyId": 1,
+      //   "transferNote": "Happy birthday"
+      // }
       let data = {};
       data.amount = state.amount;
-      data.referenceCurrency = state.referenceCurrency;
-      data.recipientCurrency = state.recipientCurrency;
+      data.debitCurrencyId = state.debitCurrencyId;
+      data.recipientCurrencyId = state.recipientCurrencyId;
       data.transferNote = state.transferNote;
       if (validateEmail(state.recipientUsername)) {
-        data.recipientEmail = state.recipientUsername;
+        data.email = state.recipientUsername;
       } else {
-        data.recipientUsername = state.recipientUsername;
+        return alert("Please enter a valid email address");
       }
-      initializeFiatPairTwoPairTransaction(data);
+      console.log("send money", data);
+      // initializeFiatPairTwoPairTransaction(data);
     }
     // setOpenModal(false);
     // setState({});
@@ -718,7 +733,9 @@ const PTwoPFlyout = ({
           onSelect={(value) =>
             setState((state) => ({
               ...state,
-              referenceCurrency: value,
+              referenceCurrency: value.Currency.code,
+              debitCurrencyId: value.Currency.id,
+              walletBalance: value.balance,
               recipientCurrency: "",
               recipientUsername: "",
               amount: "",
@@ -726,12 +743,16 @@ const PTwoPFlyout = ({
             }))
           }
           name="referenceCurrency"
-          placeholder="Select a network provider"
-          options={[
-            { render: "NGN wallet", value: "NGN" },
-            { render: "GHS wallet", value: "GHS" },
-            { render: "BTC wallet", value: "BTC" },
-          ]}
+          placeholder="Select Wallet"
+          // options={[
+          //   { render: "NGN wallet", value: "NGN" },
+          //   { render: "GHS wallet", value: "GHS" },
+          //   { render: "BTC wallet", value: "BTC" },
+          // ]}
+          options={balance.fiatWallets.map((item) => ({
+            render: `${item.Currency.code} wallet`,
+            value: item,
+          }))}
           hint={
             state.recipientCurrency && state.referenceCurrency === "BTC"
               ? `
@@ -741,7 +762,7 @@ const PTwoPFlyout = ({
           `
               : `
             Current Balance : ${Money(
-              balance[state.referenceCurrency]?.balance,
+              state.walletBalance,
               state.referenceCurrency
             )}
           `
@@ -755,19 +776,24 @@ const PTwoPFlyout = ({
             onSelect={(value) =>
               setState((state) => ({
                 ...state,
-                recipientCurrency: value,
+                recipientCurrency: value.code,
+                recipientCurrencyId: value.id,
                 recipientUsername: "",
               }))
             }
             name="recipientCurrency"
-            options={
-              state.referenceCurrency === "BTC"
-                ? [{ render: "BTC wallet", value: "BTC" }]
-                : [
-                    { render: "NGN wallet", value: "NGN" },
-                    { render: "GHS wallet", value: "GHS" },
-                  ]
-            }
+            // options={
+            //   state.referenceCurrency === "BTC"
+            //     ? [{ render: "BTC wallet", value: "BTC" }]
+            //     : [
+            //         { render: "NGN wallet", value: "NGN" },
+            //         { render: "GHS wallet", value: "GHS" },
+            //       ]
+            // }
+            options={fiatCurrency.map((item) => ({
+              render: `${item.code} wallet`,
+              value: item,
+            }))}
           />
         )}
         {state.recipientCurrency && (
