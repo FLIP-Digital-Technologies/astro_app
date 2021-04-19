@@ -370,8 +370,8 @@ export const DepositsTab = ({ fetchTrans, transaction, handleAction }) => {
   const columns = [
     {
       title: "Date",
-      dataIndex: "createdAt",
-      render: (createdAt) => `${date(createdAt)}`,
+      dataIndex: "created_at",
+      render: (created_at) => `${date(created_at)}`,
     },
     {
       title: "Amount",
@@ -379,7 +379,7 @@ export const DepositsTab = ({ fetchTrans, transaction, handleAction }) => {
     },
     {
       title: "Reference",
-      dataIndex: "trxReference",
+      dataIndex: "reference",
     },
     {
       title: "Status",

@@ -6,6 +6,7 @@ const InitialWithdrawalByUser = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.INITIAL_WITHDRAWAL_PENDING,
+    payload:data
   });
 
   await withdrawalsService

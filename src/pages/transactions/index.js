@@ -131,10 +131,10 @@ const Transactions = ({
       {viewDepositTrans && (
         <TransactionModal
           title={"Deposit"}
-          dateData={viewDepositTrans.createdAt}
+          dateData={viewDepositTrans.created_at}
           amount={viewDepositTrans.amount}
           status={viewDepositTrans.status}
-          reference={viewDepositTrans.trxReference}
+          reference={viewDepositTrans.reference}
           setIsModalVisible={setDepositTransDetails}
           isModalVisible={depositTransDetails}
         />
