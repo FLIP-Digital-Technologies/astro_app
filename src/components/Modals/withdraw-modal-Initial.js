@@ -53,8 +53,8 @@ const WithdrawInitial = ({ setIsModalVisible, isModalVisible }) => {
         <div
           className={styles.lnkButton}
           onClick={() => {
-            alert('Service Coming Soon')
-            // setOpenThirdPartyWithdrawal(true);
+            // alert('Service Coming Soon')
+            setOpenThirdPartyWithdrawal(true);
             setIsModalVisible(false);
           }}
         >

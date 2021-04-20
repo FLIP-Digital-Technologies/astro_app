@@ -38,8 +38,8 @@ paymentService.getAllPaymentByUser = function (params) {
     params: {
       // currency: params.currency,
       // page: params.skip,
-      page:1,
-      per_page: params.limit,
+      page:params.skip|0,
+      per_page: params.limit | 20,
     },
   });
 };

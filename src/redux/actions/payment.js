@@ -65,6 +65,7 @@ const GetPaymentDetailsById = (data) => async (dispatch) => {
   await paymentService
     .getPaymentDetails({ ...data, userId })
     .then((response) => {
+      console.log('duty', response)
       dispatch({
         type: actionTypes.GET_PAYMENT_DETAILS_SUCCESS,
         payload: response.data,

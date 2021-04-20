@@ -31,7 +31,7 @@ const TransactionModal = ({
           <div className={`${styles.badge} ${styles[type]}`}>
             {status === "PENDING" && <TransactionIconBig />}
             {status === "SUBMITTED" && <TransactionIconBig />}
-            {status === "SUCCESSFUL" && <TransactionIconSuc />}
+            {status === "DONE" && <TransactionIconSuc />}
             {status === "FAILED" && <TransactionIconMed />}
             {status === "DECLINED" && <TransactionIconMed />}
             {status === "CANCELLED" && <TransactionIconMed />}

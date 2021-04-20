@@ -9,20 +9,20 @@ withdrawalsService.initialWithdrawalRequest = function (params, data) {
   //   "currency": "NGN"
   // }
   let payload = {};
-  if (data.bankAccount) {
-    payload.amount = Number(data.amount);
-    payload.save = data.save;
-    payload.bankAccount = data.bankAccount;
-  } else {
+  // if (data.bankAccount) {
+  //   payload.amount = Number(data.amount);
+  //   payload.save = data.save;
+  //   payload.bankAccount = data.bankAccount;
+  // } else {
     payload.amount = Number(data.amount);
     payload.bankAccountId = data.bankAccountId;
-    payload.currencyId = data.currencyId;
-    payload.transactionPin = data.transactionPin
-  }
+    payload.fiatWalletId = data.currencyId;
+    payload.transactionPin = data.pin
+  // }
 
   return fetch({
     url: `/payments/outwards/${params.userId}`,
-    method: "post",
+    method: "put",
     data: payload,
   });
 };
@@ -46,7 +46,7 @@ withdrawalsService.getWithdrawalRequestByUser = function (params) {
     url: `/payments/outwards/${params.userId}`,
     method: "get",
     params: {
-      page: params.skip | 1,
+      page: params.skip | 0,
       per_page: params.limit | 10,
     },
   });

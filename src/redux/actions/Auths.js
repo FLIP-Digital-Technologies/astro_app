@@ -172,9 +172,9 @@ const VerifyEmailOTP = (payload) => async (dispatch) => {
       console.log("email success", response);
       dispatch({
         type: actionTypes.VERIFY_EMAIL_OTP_SUCCESS,
-        // payload: response.data,
+        payload: response.data,
       });
-      // localStorage.setItem(actionTypes.AUTH_TOKEN, response.data.updated_token);
+      localStorage.setItem(actionTypes.AUTH_TOKEN, response.data.token);
       // localStorage.setItem(actionTypes.AUTH_TOKEN_ID, response.data.user.id);
       // localStorage.setItem("type", response.data.user.type);
       history.push("/app/onboarding");

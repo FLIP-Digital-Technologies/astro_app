@@ -82,7 +82,7 @@ const paymentReducer = (state = initState, action) => {
       });
       return {
         ...state,
-        depositTransactionDetails: action.payload.transaction,
+        depositTransactionDetails: action.payload,
         loading: false,
         error: null,
       };
