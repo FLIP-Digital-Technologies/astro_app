@@ -1,4 +1,5 @@
 import * as actionTypes from "../constants";
+import generalService from "../services/GeneralService";
 import PairTwoPairService from "../services/PairTwoPairService";
 // import { history } from "../store";
 
@@ -156,4 +157,31 @@ const GetLastUserFiatP2PTransferDetails = (data) => async (dispatch) => {
 
 export const getLastUserFiatP2PTransferDetails = (data) => (dispatch) => {
   dispatch(GetLastUserFiatP2PTransferDetails(data));
+};
+
+
+const ConvertCurrency = (data) => async (dispatch) => {
+  // const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.CONVERT_CURRENCY_PENDING,
+  });
+
+  await generalService
+    .convertCurrency(data)
+    .then((response) => {
+      dispatch({
+        type: actionTypes.CONVERT_CURRENCY_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.CONVERT_CURRENCY_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const convertCurrency = (data) => (dispatch) => {
+  dispatch(ConvertCurrency(data));
 };

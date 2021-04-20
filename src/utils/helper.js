@@ -113,7 +113,7 @@ export function WaitingComponent(Component) {
 }
 
 export function Money(data = 0, curr = "NGN") {
-  let money = typeof(data) === "number" ? data : parseInt(data, 10);
+  let money = typeof(data) === "number" ? data : parseFloat(data, 10);
   return money.toLocaleString("en-NG", {
     currency: curr,
     style: "currency",

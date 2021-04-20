@@ -8,6 +8,7 @@ import { ArrowRight } from "../../assets/svg";
 import styles from "../styles.module.scss";
 import { Money } from "../../utils/helper";
 import {
+  convertCurrency,
   getCurrentFiatTransferRate,
   initialBTCP2PTransferByUser,
   initialFiatP2PByUser,
@@ -667,6 +668,8 @@ const PTwoPFlyout = ({
   initializeFiatPairTwoPairTransaction,
   getCurrentUserBal,
   fiatCurrency,
+  convertedAmount,
+  convertedCurrency,
 }) => {
   useEffect(() => {
     getFiatP2PRate();
@@ -687,6 +690,15 @@ const PTwoPFlyout = ({
     }
     // eslint-disable-next-line
   }, [pairTwoPairFiatDetails]);
+
+  const onConfirm = (data) => {
+    console.log('convert currency')
+    return convertedCurrency({
+      amount: data,
+      from: state.referenceCurrency,
+      to: state.recipientCurrency,
+    });
+  }
 
   const handleP2PTransfer = () => {
     if (state.referenceCurrency === "BTC") {
@@ -709,7 +721,7 @@ const PTwoPFlyout = ({
       // }
       let data = {};
       data.amount = state.amount;
-      data.debitCurrencyId = state.debitCurrencyId;
+      data.debitWalletId = state.debitWalletId;
       data.recipientCurrencyId = state.recipientCurrencyId;
       data.transferNote = state.transferNote;
       if (validateEmail(state.recipientUsername)) {
@@ -718,7 +730,7 @@ const PTwoPFlyout = ({
         return alert("Please enter a valid email address");
       }
       console.log("send money", data);
-      // initializeFiatPairTwoPairTransaction(data);
+      initializeFiatPairTwoPairTransaction(data);
     }
     // setOpenModal(false);
     // setState({});
@@ -734,7 +746,7 @@ const PTwoPFlyout = ({
             setState((state) => ({
               ...state,
               referenceCurrency: value.Currency.code,
-              debitCurrencyId: value.Currency.id,
+              debitWalletId: value.id,
               walletBalance: value.balance,
               recipientCurrency: "",
               recipientUsername: "",
@@ -816,10 +828,12 @@ const PTwoPFlyout = ({
             labelClass={styles.largeMarginLabel}
             label={`Amount in ${state.referenceCurrency}`}
             value={state.amount}
+            type={"number"}
             name="amount"
-            onChange={(e) =>
-              setState((state) => ({ ...state, amount: e.target.value }))
-            }
+            onChange={(e) => {
+              onConfirm(e.target.value)
+              setState((state) => ({ ...state, amount: e.target.value }));
+            }}
             hint={
               state.referenceCurrency === "BTC" ? (
                 ``
@@ -827,9 +841,7 @@ const PTwoPFlyout = ({
                 <p>
                   Estimated Total amount Recipient will receive:{" "}
                   <strong>{`${Money(
-                    pairTwoPairFiatTicker?.tickers[
-                      `${state.referenceCurrency}${state.recipientCurrency}`
-                    ] * state.amount,
+                    convertedAmount || 0,
                     state.recipientCurrency
                   )}`}</strong>{" "}
                 </p>
@@ -874,6 +886,7 @@ const mapStateToProps = (state) => ({
   pairTwoPairFiatDetails: state.pairTwoPair.pairTwoPairFiatDetails,
   pairTwoPairBTC: state.pairTwoPair.pairTwoPairBTC,
   pairTwoPairBTCDetails: state.pairTwoPair.pairTwoPairBTCDetails,
+  convertedAmount: state.pairTwoPair.convertedAmount,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -891,6 +904,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getMainFiatCurrency: () => {
     dispatch(getFiatCurrencies());
+  },
+  convertedCurrency: (data) => {
+    dispatch(convertCurrency(data));
   },
 });
 
