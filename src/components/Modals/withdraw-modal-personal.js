@@ -103,7 +103,7 @@ const WithDrawModalPersonal = ({
         onSelect={(value) => {
           setAcc((acc) => ({
             ...acc,
-            currency: value.code,
+            currency: value.Currency.code,
             currencyId:value.id,
             pin: "",
             narration: "",
@@ -117,7 +117,7 @@ const WithDrawModalPersonal = ({
         // ]}
         options={balance.fiatWallets.map((item)=> ({
           render:`${item.Currency.name}`,
-          value:item.Currency
+          value:item
         }))}
       />
       <Input

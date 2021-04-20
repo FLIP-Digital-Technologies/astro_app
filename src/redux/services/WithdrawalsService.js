@@ -22,7 +22,7 @@ withdrawalsService.initialWithdrawalRequest = function (params, data) {
 
   return fetch({
     url: `/payments/outwards/${params.userId}`,
-    method: "post",
+    method: "put",
     data: payload,
   });
 };
@@ -46,7 +46,7 @@ withdrawalsService.getWithdrawalRequestByUser = function (params) {
     url: `/payments/outwards/${params.userId}`,
     method: "get",
     params: {
-      page: params.skip | 1,
+      page: params.skip | 0,
       per_page: params.limit | 10,
     },
   });
