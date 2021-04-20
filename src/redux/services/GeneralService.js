@@ -32,6 +32,21 @@ generalService.getCryptoCurrency = function () {
   });
 };
 
+generalService.convertCurrency = function (payload) {
+  let data = {};
+  data.from = payload.from;
+  data.to = payload.to;
+  data.amount = payload.amount
+  return fetch({
+    url: "/misc/convert-fx",
+    method: "post",
+    data: data,
+    headers: {
+      "public-request": "true",
+    },
+  });
+};
+
 generalService.getUserDetails = function (params) {
   return fetch({
     url: "/user-account/" + params.userId,
@@ -108,7 +123,7 @@ generalService.addBankAccount = function (params, payload) {
   data.accountName = payload.accountName;
   data.bankCode = payload.bankCode;
   data.bankName = payload.bankName;
-  data.currencyId = payload.currency === "NGN" ? 1: 2;
+  data.currencyId = payload.currency === "NGN" ? 1 : 2;
   data.isMobileMoney = payload.isMobileMoney;
   return fetch({
     url: `/user-account/${params.userId}/bank-accounts`,
@@ -118,8 +133,8 @@ generalService.addBankAccount = function (params, payload) {
 };
 
 generalService.uploadFile = function (params, payload) {
-  const data = new FormData()
-  data.append('file', payload.file)
+  const data = new FormData();
+  data.append("file", payload.file);
   return fetch({
     url: `/misc/upload-file`,
     method: "post",

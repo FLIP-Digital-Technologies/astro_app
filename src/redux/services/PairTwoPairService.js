@@ -24,30 +24,29 @@ PairTwoPairService.initialBTCP2P = function (params) {
 
 PairTwoPairService.getCurrentFiatTransferRate = function () {
   return fetch({
-    url: `/api/transactions/fiats/tickers`,
+    url: `/fiats/tickers`,
     method: "get",
   });
 };
 
 PairTwoPairService.initialFiatP2P = function (params) {
   // {
-  //   "amount": 10000,
-  //   "recipientEmail": " or recipientUsername ",
-  //   "recipientUsername": " or recipientEmail ",
-  //   "referenceCurrency": "COMPULSORY: NGN or GHS",
-  //   "recipientCurrency": "COMPULSORY: NGN or GHS",
-  //   "transferNote": "OPTIONAL"
+  //   "amount": 200,
+  //   "email": "address@example.com",
+  //   "debitCurrencyId": 1,
+  //   "recipientCurrencyId": 1,
+  //   "transferNote": "Happy birthday"
   // }
+
   let data = {};
   data.amount = params.amount;
-  data.recipientUsername  = params.recipientUsername;
-  data.recipientEmail  = params.recipientEmail;
-  data.referenceCurrency  = params.referenceCurrency;
-  data.recipientCurrency  = params.recipientCurrency;
+  data.email  = params.email;
+  data.debitWalletId  = params.debitWalletId;
+  data.recipientCurrencyId  = params.recipientCurrencyId;
   data.transferNote  = params.transferNote;
 
   return fetch({
-    url: `/api/transactions/fiats/${params.userId}/transfer`,
+    url: `/fiats/${params.userId}/transfer`,
     method: "post",
     data: data,
   });
@@ -55,14 +54,14 @@ PairTwoPairService.initialFiatP2P = function (params) {
 
 PairTwoPairService.getTransactionDetails = function (params) {
   return fetch({
-    url: `/api/transactions/fiats/${params.userId}/${params.transactionId}`,
+    url: `/fiats/${params.userId}/${params.transactionId}`,
     method: "get",
   });
 };
 
 PairTwoPairService.getTransactionHistory = function (params) {
   return fetch({
-    url: `/api/transactions/fiats/${params.userId}/history`,
+    url: `/fiats/${params.userId}/history`,
     method: "get",
     params: {
       skip: params.skip,
