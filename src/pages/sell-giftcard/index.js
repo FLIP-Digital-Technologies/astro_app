@@ -12,7 +12,7 @@ import {
 } from "../../redux/actions/giftCard";
 import { EmptyEntryWithTitle } from "../transactions/components";
 // import { cardList } from "../../utils/helper";
-import { getUserWallets } from "../../redux/actions/Auths";
+import { getFiatCurrencies, getUserWallets } from "../../redux/actions/Auths";
 
 // const getHumanForm = (name) => (
 //   name.replace("-", " ").split(" ").map(word => `${word[0].toUpperCase()}${word.slice(1,)}`).join(" ")
@@ -25,6 +25,7 @@ const SellGiftcard = (props) => {
   useEffect(() => {
     props.getCards({ cardCode: "" });
     props.getWallets()
+    props.getMainFiatCurrency()
     // eslint-disable-next-line
   }, []);
   const [active, setActive] = useState(null);
@@ -39,6 +40,7 @@ const SellGiftcard = (props) => {
       a.displayName = data.name;
       a.uid = data.uid;
       a._id = data.id;
+
       // a[name] = Object(data[1]).map((key) => ({
       //   name: key[0],
       //   [key[0]]: key[1],
@@ -109,6 +111,7 @@ const SellGiftcard = (props) => {
             active={active}
             loading={props.loading}
             userWallets={props.userWallets}
+            fiatCurrency={props.fiatCurrency}
           />
         )}
       </div>
@@ -122,6 +125,7 @@ const mapStateToProps = (state) => ({
   soldGiftCard: state.giftCard.sellGiftCard,
   cardDetails: state.giftCard.cardDetails,
   userWallets: state.user.userWallets,
+  fiatCurrency: state.user.fiatCurrency
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -136,7 +140,10 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getWallets: () => {
     dispatch(getUserWallets());
-  }
+  },
+  getMainFiatCurrency: () => {
+    dispatch(getFiatCurrencies())
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SellGiftcard);

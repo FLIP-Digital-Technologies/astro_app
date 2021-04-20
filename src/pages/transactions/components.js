@@ -152,8 +152,8 @@ export const PTwoPTab = ({ fetchTrans, transaction, handleAction }) => {
   const columns = [
     {
       title: "Date",
-      dataIndex: "createdAt",
-      render: (createdAt) => `${date(createdAt)}`,
+      dataIndex: "created_at",
+      render: (created_at) => `${date(created_at)}`,
     },
     {
       title: "Rate",
@@ -170,7 +170,7 @@ export const PTwoPTab = ({ fetchTrans, transaction, handleAction }) => {
     },
     {
       title: "Amount Sent",
-      dataIndex: "amountSent",
+      dataIndex: "amount_sent_object",
       render: (amountSent) => (
         <p>
           {Money(amountSent && amountSent.value, amountSent && amountSent.currency)}
@@ -178,7 +178,7 @@ export const PTwoPTab = ({ fetchTrans, transaction, handleAction }) => {
       ),
     },{
       title: "Amount Received",
-      dataIndex: "amountReceived",
+      dataIndex: "amount_received_object",
       render: (amountReceived) => (
         <p>
           {Money(amountReceived && amountReceived.value, amountReceived && amountReceived.currency)}
@@ -266,8 +266,8 @@ export const BillPaymentTab = ({ fetchTrans, transaction, handleAction }) => {
   const columns = [
     {
       title: "Date",
-      dataIndex: "createdAt",
-      render: (createdAt) => `${date(createdAt)}`,
+      dataIndex: "created_at",
+      render: (created_at) => `${date(created_at)}`,
     },
     {
       title: "Amount",
@@ -463,8 +463,8 @@ export const WithdrawalsTab = ({ fetchTrans, transaction, handleAction }) => {
   const columns = [
     {
       title: "Date",
-      dataIndex: "createdAt",
-      render: (createdAt) => `${date(createdAt)}`,
+      dataIndex: "created_at",
+      render: (created_at) => `${date(created_at)}`,
     },
     {
       title: "Reference",
@@ -564,8 +564,8 @@ export const GiftCardTradesTab = ({
   const columns = [
     {
       title: "Date",
-      dataIndex: "createdAt",
-      render: (createdAt) => `${date(createdAt)}`,
+      dataIndex: "created_at",
+      render: (created_at) => `${date(created_at)}`,
     },
     {
       title: "Reference",
@@ -656,8 +656,8 @@ export const BTCTradesTab = ({ fetchTrans, transaction, handleAction }) => {
   const columns = [
     {
       title: "Date",
-      dataIndex: "createdAt",
-      render: (createdAt) => `${date(createdAt)}`,
+      dataIndex: "created_at",
+      render: (created_at) => `${date(created_at)}`,
     },
     {
       title: "Reference",

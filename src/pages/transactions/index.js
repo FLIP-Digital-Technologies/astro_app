@@ -102,12 +102,12 @@ const Transactions = ({
       {viewP2PTrans && (
         <TransactionModalP2P
           dateData={viewP2PTrans.createdAt}
-          amountSent={Money(viewP2PTrans?.amountSent?.value, viewP2PTrans?.amountSent?.currency)}
-          amountReceived={Money(viewP2PTrans?.amountReceived?.value, viewP2PTrans?.amountReceived?.currency)}
+          amountSent={Money(viewP2PTrans?.amount_sent_object?.value, viewP2PTrans?.amountSent?.currency)}
+          amountReceived={Money(viewP2PTrans?.amount_received_object?.value, viewP2PTrans?.amountReceived?.currency)}
           status={viewP2PTrans.status}
           reference={viewP2PTrans.reference}
-          rate={`${viewP2PTrans.rate.quote} transfer at ${viewP2PTrans.rate.value}`}
-          transferNote={viewP2PTrans?.transferNote}
+          rate={`Transfer at ${viewP2PTrans.rate.value}`}
+          transferNote={viewP2PTrans?.note}
           setIsModalVisible={setPairTwoPairFiatTransDetails}
           isModalVisible={pairTwoPairFiatTransDetails}
         />
@@ -164,7 +164,7 @@ const Transactions = ({
           id={viewGiftCardTrans.id}
           cardCode={viewGiftCardTrans.cardCode}
           images={viewGiftCardTrans.images}
-          dateData={viewGiftCardTrans.createdAt}
+          dateData={viewGiftCardTrans.created_at}
           amount={viewGiftCardTrans.amount}
           status={viewGiftCardTrans.status}
           reference={viewGiftCardTrans.reference}
@@ -175,7 +175,7 @@ const Transactions = ({
       {viewWithdrawalTrans && (
         <TransactionModal
           title={"Withdrawal"}
-          dateData={viewWithdrawalTrans.createdAt}
+          dateData={viewWithdrawalTrans.created_at}
           amount={viewWithdrawalTrans.amount}
           status={viewWithdrawalTrans.status}
           reference={viewWithdrawalTrans.reference}
@@ -187,7 +187,7 @@ const Transactions = ({
         <TransactionModalBillPayment
           setIsModalVisible={setBillPaymentDetails}
           isModalVisible={billPaymentDetails}
-          dateData={viewBillPaymentTrans.createdAt}
+          dateData={viewBillPaymentTrans.created_at}
           amount={viewBillPaymentTrans.amount}
           status={viewBillPaymentTrans.status}
           reference={viewBillPaymentTrans.reference}
