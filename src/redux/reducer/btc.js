@@ -9,6 +9,10 @@ const initState = {
   latestBTCTransaction: null,
   btcTicker: null,
   btcDetails: null,
+  buyDetails:null,
+  sellDetails:null,
+  sendDetails:null,
+  p2pDetails:null,
   buyBTC: false,
   buyBTCDetails: null,
   sellBTC: false,
@@ -20,11 +24,56 @@ const initState = {
     transactions: [],
     meta: {},
   },
+  buyTransaction: {
+    transactions: [],
+    meta: {},
+  },
+  sellTransaction: {
+    transactions: [],
+    meta: {},
+  },
+  sendTransaction: {
+    transactions: [],
+    meta: {},
+  },
+  p2pTransaction: {
+    transactions: [],
+    meta: {},
+  },
 };
 const key = actionTypes.KEY;
 
 const btcReducer = (state = initState, action) => {
   switch (action.type) {
+    case actionTypes.GET_COIN_BUY_TRANSACTION_DETAILS_PENDING:
+    case actionTypes.GET_COIN_SELL_TRANSACTION_DETAILS_PENDING:
+    case actionTypes.GET_COIN_SEND_TRANSACTION_DETAILS_PENDING:
+    case actionTypes.GET_COIN_P2P_TRANSACTION_DETAILS_PENDING:
+      notification.info({
+        message: "Loading.....",
+        duration: 0,
+        description: "Getting transaction details",
+        key,
+      });
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case actionTypes.GET_COIN_BUY_TRANSACTION_HISTORY_PENDING:
+    case actionTypes.GET_COIN_SELL_TRANSACTION_HISTORY_PENDING:
+    case actionTypes.GET_COIN_SEND_TRANSACTION_HISTORY_PENDING:
+    case actionTypes.GET_COIN_P2P_TRANSACTION_HISTORY_PENDING:
+      notification.info({
+        message: "Loading.....",
+        duration: 0,
+        key,
+      });
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
     case actionTypes.GET_WALLET_DETAILS_PENDING:
     case actionTypes.GET_TRANSACTION_HISTORY_PENDING:
       return {
@@ -134,6 +183,66 @@ const btcReducer = (state = initState, action) => {
         loading: false,
         error: null,
       };
+    case actionTypes.GET_COIN_BUY_TRANSACTION_HISTORY_SUCCESS:
+      notification.success({
+        message:"Successful",
+        duration:0,
+        key,
+      })
+      return {
+        ...state,
+        buyTransaction: {
+          transactions: action.payload.transactions,
+          meta: action.payload.meta,
+        },
+        loading: false,
+        error: null,
+      };
+    case actionTypes.GET_COIN_SELL_TRANSACTION_HISTORY_SUCCESS:
+      notification.success({
+        message:"Successful",
+        duration:0,
+        key,
+      })
+      return {
+        ...state,
+        sellTransaction: {
+          transactions: action.payload.transactions,
+          meta: action.payload.meta,
+        },
+        loading: false,
+        error: null,
+      };
+    case actionTypes.GET_COIN_SEND_TRANSACTION_HISTORY_SUCCESS:
+      notification.success({
+        message:"Successful",
+        duration:0,
+        key,
+      })
+      return {
+        ...state,
+        sendTransaction: {
+          transactions: action.payload.transactions,
+          meta: action.payload.meta,
+        },
+        loading: false,
+        error: null,
+      };
+    case actionTypes.GET_COIN_P2P_TRANSACTION_HISTORY_SUCCESS:
+      notification.success({
+        message:"Successful",
+        duration:0,
+        key,
+      })
+      return {
+        ...state,
+        p2pTransaction: {
+          transactions: action.payload.transactions,
+          meta: action.payload.meta,
+        },
+        loading: false,
+        error: null,
+      };
     case actionTypes.GET_WALLET_DETAILS_SUCCESS:
       return {
         ...state,
@@ -186,6 +295,54 @@ const btcReducer = (state = initState, action) => {
         loading: true,
         error: null,
       };
+    case actionTypes.GET_COIN_BUY_TRANSACTION_DETAILS_SUCCESS:
+      notification.success({
+        message: "Successful",
+        description: "Successfully fetch btc transaction.",
+        key,
+      });
+      return {
+        ...state,
+        buyDetails: action.payload.transaction,
+        loading: true,
+        error: null,
+      };
+    case actionTypes.GET_COIN_SELL_TRANSACTION_DETAILS_SUCCESS:
+      notification.success({
+        message: "Successful",
+        description: "Successfully fetch btc transaction.",
+        key,
+      });
+      return {
+        ...state,
+        sellDetails: action.payload.transaction,
+        loading: true,
+        error: null,
+      };
+    case actionTypes.GET_COIN_SEND_TRANSACTION_DETAILS_SUCCESS:
+      notification.success({
+        message: "Successful",
+        description: "Successfully fetch btc transaction.",
+        key,
+      });
+      return {
+        ...state,
+        sendDetails: action.payload.transaction,
+        loading: true,
+        error: null,
+      };
+    case actionTypes.GET_COIN_P2P_TRANSACTION_DETAILS_SUCCESS:
+      notification.success({
+        message: "Successful",
+        description: "Successfully fetch btc transaction.",
+        key,
+      });
+      return {
+        ...state,
+        p2pDetails: action.payload.transaction,
+        loading: true,
+        error: null,
+      };
     case actionTypes.INITIAL_BUY_BTC_SUCCESS:
       notification.success({
         message: "Successful",
@@ -211,6 +368,14 @@ const btcReducer = (state = initState, action) => {
         loading: false,
         error: null,
       };
+    case actionTypes.GET_COIN_BUY_TRANSACTION_HISTORY_FAILED:
+    case actionTypes.GET_COIN_SELL_TRANSACTION_HISTORY_FAILED:
+    case actionTypes.GET_COIN_SEND_TRANSACTION_HISTORY_FAILED:
+    case actionTypes.GET_COIN_P2P_TRANSACTION_HISTORY_FAILED:
+    case actionTypes.GET_COIN_BUY_TRANSACTION_DETAILS_FAILED:
+    case actionTypes.GET_COIN_SELL_TRANSACTION_DETAILS_FAILED:
+    case actionTypes.GET_COIN_SEND_TRANSACTION_DETAILS_FAILED:
+    case actionTypes.GET_COIN_P2P_TRANSACTION_DETAILS_FAILED:
     case actionTypes.GET_WALLET_DETAILS_FAILED:
     case actionTypes.GET_TRANSACTION_HISTORY_FAILED:
     case actionTypes.RECEIVE_BTC_FAILED:

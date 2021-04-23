@@ -24,6 +24,14 @@ import TransactionModal from "../../components/Modals/transaction-info-modal";
 import {
   getBTCTransactionHistory,
   getBTCWalletDetailsById,
+  getCryptoBuyTransactionDetails,
+  getCryptoBuyTransactionHistory,
+  getCryptoP2PTransactionDetails,
+  getCryptoP2PTransactionHistory,
+  getCryptoSellTransactionDetails,
+  getCryptoSellTransactionHistory,
+  getCryptoSendTransactionDetails,
+  getCryptoSendTransactionHistory,
 } from "../../redux/actions/btc";
 import {
   getGiftCardTransactionHistory,
@@ -52,12 +60,24 @@ import {
 
 const Transactions = ({
   btcTrans,
+  buyTrans,
+  sellTrans,
+  sendTrans,
+  p2pTrans,
   depositTransaction,
   BillPaymentTrans,
   pairTwoPairFiatTrans,
   withdrawalTrans,
   giftCardTrans,
   getBTCTrans,
+  getBuyCryptoTrans,
+  getSellCryptoTrans,
+  getSendCryptoTrans,
+  getP2PCryptoTrans,
+  getBuyCryptoById,
+  getSellCryptoById,
+  getSendCryptoById,
+  getP2PCryptoById,
   getGiftCardTrans,
   getWithdrawalTrans,
   getDepositTrans,
@@ -73,6 +93,10 @@ const Transactions = ({
   viewDepositTrans,
   viewGiftCardTrans,
   viewBTCTrans,
+  viewBuyTrans,
+  viewSellTrans,
+  viewSendTrans,
+  viewP2PCryptoTrans,
   viewBillPaymentTrans,
   viewP2PTrans,
   getBuyGiftCardTrans,
@@ -82,6 +106,10 @@ const Transactions = ({
 }) => {
   const [depositTransDetails, setDepositTransDetails] = React.useState(false);
   const [btcTransDetails, setBtcTransDetails] = React.useState(false);
+  const [buyCryptoTransDetails, setBuyCryptoTransDetails] = React.useState(false);
+  const [sellCryptoTransDetails, setSellCryptoTransDetails] = React.useState(false);
+  const [sendCryptoTransDetails, setSendCryptoTransDetails] = React.useState(false);
+  const [p2pCryptoTransDetails, setP2PCryptoTransDetails] = React.useState(false);
   const [giftCardTransDetails, setGiftCardTransDetails] = React.useState(false);
   const [billPaymentDetails, setBillPaymentDetails] = React.useState(false);
   const [buyGiftCardDetails, setBuyGiftCardDetails] = React.useState(false);
@@ -154,6 +182,74 @@ const Transactions = ({
           quidaxTransactionId={viewBTCTrans.quidaxTransactionId}
           txid={viewBTCTrans.txid}
           transactionFee={viewBTCTrans.transactionFee}
+        />
+      )}
+      {viewBuyTrans && (
+        <TransactionModalBTC
+          setIsModalVisible={setBuyCryptoTransDetails}
+          isModalVisible={buyCryptoTransDetails}
+          type={viewBuyTrans.type}
+          status={viewBuyTrans.status}
+          dateData={viewBuyTrans.createdAt}
+          transactionType={viewBuyTrans.transactionType}
+          reference={viewBuyTrans.reference}
+          rate={viewBuyTrans.rate.amount}
+          amount={viewBuyTrans.amount}
+          address={viewBuyTrans.address}
+          quidaxTransactionId={viewBuyTrans.quidaxTransactionId}
+          txid={viewBuyTrans.txid}
+          transactionFee={viewBuyTrans.transactionFee}
+        />
+      )}
+      {viewSellTrans && (
+        <TransactionModalBTC
+          setIsModalVisible={setSellCryptoTransDetails}
+          isModalVisible={sellCryptoTransDetails}
+          type={viewSellTrans.type}
+          status={viewSellTrans.status}
+          dateData={viewSellTrans.createdAt}
+          transactionType={viewSellTrans.transactionType}
+          reference={viewSellTrans.reference}
+          rate={viewSellTrans.rate.amount}
+          amount={viewSellTrans.amount}
+          address={viewSellTrans.address}
+          quidaxTransactionId={viewSellTrans.quidaxTransactionId}
+          txid={viewSellTrans.txid}
+          transactionFee={viewSellTrans.transactionFee}
+        />
+      )}
+       {viewSendTrans && (
+        <TransactionModalBTC
+          setIsModalVisible={setSendCryptoTransDetails}
+          isModalVisible={sendCryptoTransDetails}
+          type={viewSendTrans.type}
+          status={viewSendTrans.status}
+          dateData={viewSendTrans.createdAt}
+          transactionType={viewSendTrans.transactionType}
+          reference={viewSendTrans.reference}
+          rate={viewSendTrans.rate.amount}
+          amount={viewSendTrans.amount}
+          address={viewSendTrans.address}
+          quidaxTransactionId={viewSendTrans.quidaxTransactionId}
+          txid={viewSendTrans.txid}
+          transactionFee={viewSendTrans.transactionFee}
+        />
+      )}
+      {viewP2PCryptoTrans && (
+        <TransactionModalBTC
+          setIsModalVisible={setP2PCryptoTransDetails}
+          isModalVisible={p2pCryptoTransDetails}
+          type={viewP2PCryptoTrans.type}
+          status={viewP2PCryptoTrans.status}
+          dateData={viewP2PCryptoTrans.createdAt}
+          transactionType={viewP2PCryptoTrans.transactionType}
+          reference={viewP2PCryptoTrans.reference}
+          rate={viewP2PCryptoTrans.rate.amount}
+          amount={viewP2PCryptoTrans.amount}
+          address={viewP2PCryptoTrans.address}
+          quidaxTransactionId={viewP2PCryptoTrans.quidaxTransactionId}
+          txid={viewP2PCryptoTrans.txid}
+          transactionFee={viewP2PCryptoTrans.transactionFee}
         />
       )}
       {viewGiftCardTrans && (
@@ -241,27 +337,10 @@ const Transactions = ({
             <TabPane
               tab={
                 <div className={styles.transactions__tab__item}>
-                  <span>Bitcoin Trades</span>
-                </div>
-              }
-              key="3"
-            >
-              <BTCTradesTab
-                fetchTrans={getBTCTrans}
-                transaction={btcTrans}
-                handleAction={(id) => {
-                  getBTCById({ transactionId: id });
-                  setBtcTransDetails(true);
-                }}
-              />
-            </TabPane>
-            <TabPane
-              tab={
-                <div className={styles.transactions__tab__item}>
                   <span>Bill Payment</span>
                 </div>
               }
-              key="4"
+              key="3"
             >
               <BillPaymentTab
                 fetchTrans={getBillPaymentTrans}
@@ -275,10 +354,80 @@ const Transactions = ({
             <TabPane
               tab={
                 <div className={styles.transactions__tab__item}>
-                  <span>Sell GiftCard Trades</span>
+                  <span>Buy Crypto Transactions</span>
+                </div>
+              }
+              key="4"
+            >
+              <BTCTradesTab
+                fetchTrans={getBuyCryptoTrans}
+                transaction={buyTrans}
+                handleAction={(id) => {
+                  getBuyCryptoById({ transactionId: id });
+                  setBuyCryptoTransDetails(true);
+                }}
+              />
+            </TabPane>
+
+            <TabPane
+              tab={
+                <div className={styles.transactions__tab__item}>
+                  <span>Sell Crypto Transactions</span>
                 </div>
               }
               key="5"
+            >
+              <BTCTradesTab
+                fetchTrans={getSellCryptoTrans}
+                transaction={sellTrans}
+                handleAction={(id) => {
+                  getSellCryptoById({ transactionId: id });
+                  setSellCryptoTransDetails(true);
+                }}
+              />
+            </TabPane>
+            <TabPane
+              tab={
+                <div className={styles.transactions__tab__item}>
+                  <span>Send Crypto Transactions</span>
+                </div>
+              }
+              key="6"
+            >
+              <BTCTradesTab
+                fetchTrans={getSendCryptoTrans}
+                transaction={sendTrans}
+                handleAction={(id) => {
+                  getSendCryptoById({ transactionId: id });
+                  setSendCryptoTransDetails(true);
+                }}
+              />
+            </TabPane>
+            <TabPane
+              tab={
+                <div className={styles.transactions__tab__item}>
+                  <span>P2P Crypto Transactions</span>
+                </div>
+              }
+              key="7"
+            >
+              <BTCTradesTab
+                fetchTrans={getP2PCryptoTrans}
+                transaction={p2pTrans}
+                handleAction={(id) => {
+                  getP2PCryptoById({ transactionId: id });
+                  setP2PCryptoTransDetails(true);
+                }}
+              />
+            </TabPane>
+            
+            <TabPane
+              tab={
+                <div className={styles.transactions__tab__item}>
+                  <span>Sell GiftCard Transactions</span>
+                </div>
+              }
+              key="8"
             >
               <GiftCardTradesTab
                 fetchTrans={getGiftCardTrans}
@@ -292,10 +441,10 @@ const Transactions = ({
             <TabPane
               tab={
                 <div className={styles.transactions__tab__item}>
-                  <span>Buy GiftCard Trades</span>
+                  <span>Buy GiftCard Transactions</span>
                 </div>
               }
-              key="6"
+              key="9"
             >
               <BuyGiftCardTab
                 fetchTrans={getBuyGiftCardTrans}
@@ -309,10 +458,27 @@ const Transactions = ({
             <TabPane
               tab={
                 <div className={styles.transactions__tab__item}>
-                  <span>P2P Transactions</span>
+                  <span>P2P Fiat Transactions</span>
                 </div>
               }
-              key="7"
+              key="10"
+            >
+              <PTwoPTab
+                fetchTrans={getP2PTrans}
+                transaction={pairTwoPairFiatTrans}
+                handleAction={(id) => {
+                  getP2PTransById({ transactionId: id });
+                  setPairTwoPairFiatTransDetails(true);
+                }}
+              />
+            </TabPane>
+            <TabPane
+              tab={
+                <div className={styles.transactions__tab__item}>
+                  <span>P2P Crypto Transactions</span>
+                </div>
+              }
+              key="11"
             >
               <PTwoPTab
                 fetchTrans={getP2PTrans}
@@ -335,6 +501,10 @@ const mapStateToProps = (state) => ({
   btcRates: state.btc.btcTicker,
   balance: state.btc.balance,
   btcTrans: state.btc.BTCTransaction,
+  buyTrans: state.btc.buyTransaction,
+  sellTrans: state.btc.sellTransaction,
+  sendTrans: state.btc.sendTransaction,
+  p2pTrans: state.btc.p2pTransaction,
   giftCardTrans: state.giftCard.GiftCardTransaction,
   BillPaymentTrans: state.billPayment.BillPaymentTransaction,
   BuyGiftCardTrans: state.buyGiftCard.buyGiftCardTransaction,
@@ -343,6 +513,10 @@ const mapStateToProps = (state) => ({
   depositTransaction: state.payment.DepositTransaction,
   viewP2PTrans: state.pairTwoPair.pairTwoPairFiatTransactionDetails && state.pairTwoPair.pairTwoPairFiatTransactionDetails.transaction,
   viewBTCTrans: state.btc.btcDetails,
+  viewBuyTrans: state.btc.buyDetails,
+  viewSellTrans: state.btc.sellDetails,
+  viewSendTrans: state.btc.sendDetails,
+  viewP2PCryptoTrans: state.btc.p2pDetails,
   viewGiftCardTrans: state.giftCard.giftCardDetails,
   viewWithdrawalTrans: state.withdrawals.withdrawalDetails,
   viewDepositTrans: state.payment.depositTransactionDetails,
@@ -353,6 +527,30 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getBTCTrans: (data) => {
     dispatch(getBTCTransactionHistory(data));
+  },
+  getBuyCryptoTrans: (data) => {
+    dispatch(getCryptoBuyTransactionHistory(data))
+  },
+  getSellCryptoTrans:(data) => {
+    dispatch(getCryptoSellTransactionHistory(data))
+  },
+  getSendCryptoTrans:(data) => {
+    dispatch(getCryptoSendTransactionHistory(data))
+  },
+  getP2PCryptoTrans:(data) => {
+    dispatch(getCryptoP2PTransactionHistory(data))
+  },
+  getBuyCryptoById:(data) => {
+    dispatch(getCryptoBuyTransactionDetails(data))
+  },
+  getSellCryptoById:(data) => {
+    dispatch(getCryptoSellTransactionDetails(data))
+  },
+  getSendCryptoById:(data) => {
+    dispatch(getCryptoSendTransactionDetails(data))
+  },
+  getP2PCryptoById:(data)=>{
+    dispatch(getCryptoP2PTransactionDetails(data))
   },
   getGiftCardTrans: (data) => {
     dispatch(getGiftCardTransactionHistory(data));
