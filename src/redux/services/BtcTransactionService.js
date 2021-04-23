@@ -153,7 +153,7 @@ BTCTransactionServices.receiveBTC = function (params) {
   });
 };
 
-BTCTransactionServices.getTransactionHistory = function (params) {
+BTCTransactionServices.getTransactionBuyHistory = function (params) {
   return fetch({
     url: `/coins/${params.userId}/buy`,
     method: "get",
@@ -183,6 +183,42 @@ BTCTransactionServices.getTransactionSendHistory = function (params) {
       page: params.skip,
       per_page: params.limit,
     },
+  });
+};
+
+BTCTransactionServices.getTransactionP2PHistory = function (params) {
+  return fetch({
+    url: `/coins/${params.userId}/p2ptransfer`,
+    method: "get",
+    params: {
+      page: params.skip,
+      per_page: params.limit,
+    },
+  });
+};
+
+BTCTransactionServices.getTransactionBuyDetails = function (params) {
+  return fetch({
+    url: `/coins/${params.userId}/buy/${params.transactionId}`,
+    method: "get",
+  });
+};
+BTCTransactionServices.getTransactionSellDetails = function (params) {
+  return fetch({
+    url: `/coins/${params.userId}/sell/${params.transactionId}`,
+    method: "get",
+  });
+};
+BTCTransactionServices.getTransactionSendDetails = function (params) {
+  return fetch({
+    url: `/coins/${params.userId}/send/${params.transactionId}`,
+    method: "get",
+  });
+};
+BTCTransactionServices.getTransactionP2PDetails = function (params) {
+  return fetch({
+    url: `/coins/${params.userId}/p2ptransfer/${params.transactionId}`,
+    method: "get",
   });
 };
 

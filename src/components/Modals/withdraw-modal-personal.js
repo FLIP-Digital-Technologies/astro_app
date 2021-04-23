@@ -101,10 +101,11 @@ const WithDrawModalPersonal = ({
         label="Select currency"
         value={acc.currency}
         onSelect={(value) => {
+          console.log('value',value)
           setAcc((acc) => ({
             ...acc,
             currency: value.Currency.code,
-            currencyId:value.id,
+            currencyId:value.Currency.id,
             pin: "",
             narration: "",
             amount: 0,

@@ -470,6 +470,7 @@ const GiftCardForm = ({
   getCardDetails,
   cardDetails,
   userWallets,
+  fiatCurrency,
 }) => {
   const INITIAL_STATE = {
     country: "",
@@ -496,6 +497,7 @@ const GiftCardForm = ({
   // const [canTrade, SetCanTrade] = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false);
   const [total, setTotal] = useState(0);
+  const [rate_selected, setRate_selected] = useState("")
 
   useEffect(() => {
     getCardDetails({ cardCode: active.uid });
@@ -503,10 +505,11 @@ const GiftCardForm = ({
   }, []);
 
   useEffect(() => {
+    let fiatCurrencyUsed = fiatCurrency.filter((item) => item.code === details.wallet)[0]
     details && details.cardType && details.cardType === "physical"
-      ? setTotal(details.amount && details.value.physical[details.amount] * details.amount * 670)
+      ? setTotal(details.amount && details.value.physical[details.amount] * details.amount * parseFloat(fiatCurrencyUsed.we_buy, 10))
       : details.cardType === "ecode"
-      ? setTotal(details.amount && details.value.ecode[details.amount] * details.amount * 670)
+      ? setTotal(details.amount && details.value.ecode[details.amount] * details.amount * parseFloat(fiatCurrencyUsed.we_buy, 10))
       : setTotal(0);
 
     // getCardDetails({ cardCode: active.uid });
@@ -576,6 +579,7 @@ const GiftCardForm = ({
   };
 
   const onWalletChange = (value) => {
+    let fiatCurrencyUsed = fiatCurrency.filter((item)=> item.code === value.Currency.code)[0]
     setDetails((details) => ({
       ...details,
       wallet: value.Currency.code,
@@ -584,6 +588,7 @@ const GiftCardForm = ({
       cardType: "",
       amount: "",
     }));
+    setRate_selected(fiatCurrencyUsed.we_buy)
   };
 
   const handleDelete = (index) => {
@@ -824,7 +829,7 @@ const GiftCardForm = ({
                             details.value.GiftCardCurrency.code
                           } ${item} - Price ${Money(
                             details.value.physical[item] * item,
-                            details.value.GiftCardCurrency.code
+                            "USD"
                           )}`,
                           value: item,
                         }))
@@ -833,7 +838,7 @@ const GiftCardForm = ({
                             details.value.GiftCardCurrency.code
                           } ${item} - Price ${Money(
                             details.value.physical[item] * item,
-                            details.value.GiftCardCurrency.code
+                            "USD"
                           )}`,
                           value: item,
                         }))
@@ -891,7 +896,7 @@ const GiftCardForm = ({
               <div>
                 <strong>Rate</strong>&emsp;
                 <span>
-                  {details && details.wallet} {"670"}
+                  {details && details.wallet} {rate_selected}
                 </span>
               </div>
               <div>

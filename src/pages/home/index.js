@@ -182,6 +182,12 @@ const Home = ({
     setVisible(flag);
   };
 
+  const HandleSuccess = () => {
+    getBalance()
+    setOpenModal(false);
+    setShowFund(false);
+  }
+
   const CompletionHandler = async (event) => {
     const key = actionTypes.KEY
     const message = event.data;
@@ -189,8 +195,8 @@ const Home = ({
       console.log('payment seen')
       if (message.status === "successful") {
         console.log('payment success', event)
-        getBalance()
-        // await HandleSuccess();
+
+        await HandleSuccess();
         setOpenModal(false);
         notification.success({
           message:"Payment Successful",

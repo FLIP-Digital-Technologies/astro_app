@@ -4,23 +4,24 @@ const PairTwoPairService = {};
 
 PairTwoPairService.initialBTCP2P = function (params) {
   // {
-  //   "amount": 0.0001,
-  //   "recipientEmail": " or recipientUsername ",
-  //   "recipientUsername": " or recipientEmail ",
-  //   "transferNote": "OPTIONAL"
+  //   "amount": 200,
+  //   "email": "address@example.com",
+  //   "cryptoCurrencyId": 1,
+  //   "transferNote": "Happy birthday"
   // }
   let data = {};
   data.amount = params.amount;
-  data.recipientUsername  = params.recipientUsername;
-  data.recipientEmail  = params.recipientEmail;
+  data.cryptoCurrencyId  = params.cryptoCurrencyId;
+  data.email  = params.recipientEmail;
   data.transferNote  = params.transferNote;
 
   return fetch({
-    url: `/api/transactions/btc/${params.userId}/p2ptransfer`,
+    url: `/coins/${params.userId}/p2ptransfer`,
     method: "post",
     data: data,
   });
 };
+
 
 PairTwoPairService.getCurrentFiatTransferRate = function () {
   return fetch({
@@ -61,11 +62,11 @@ PairTwoPairService.getTransactionDetails = function (params) {
 
 PairTwoPairService.getTransactionHistory = function (params) {
   return fetch({
-    url: `/fiats/${params.userId}/history`,
+    url: `/fiats/${params.userId}/transfer`,
     method: "get",
     params: {
-      skip: params.skip,
-      limit: params.limit,
+      page: params.skip,
+      per_page: params.limit,
     },
   });
 };

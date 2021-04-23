@@ -188,7 +188,7 @@ const GetBTCTransactionHistory = (data) => async (dispatch) => {
     type: actionTypes.GET_TRANSACTION_HISTORY_PENDING,
   });
 
-  await BTCTransactionServices.getTransactionHistory({ ...data, userId })
+  await BTCTransactionServices.getTransactionBuyHistory({ ...data, userId })
     .then((response) => {
       dispatch({
         type: actionTypes.GET_TRANSACTION_HISTORY_SUCCESS,
@@ -207,13 +207,225 @@ export const getBTCTransactionHistory = (data) => (dispatch) => {
   dispatch(GetBTCTransactionHistory(data));
 };
 
+
+const GetCryptoBuyTransactionHistory = (data) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.GET_COIN_BUY_TRANSACTION_HISTORY_PENDING,
+  });
+
+  await BTCTransactionServices.getTransactionBuyHistory({ ...data, userId })
+    .then((response) => {
+      dispatch({
+        type: actionTypes.GET_COIN_BUY_TRANSACTION_HISTORY_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.GET_COIN_BUY_TRANSACTION_HISTORY_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const getCryptoBuyTransactionHistory = (data) => (dispatch) => {
+  dispatch(GetCryptoBuyTransactionHistory(data));
+};
+
+const GetCryptoSellTransactionHistory = (data) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.GET_COIN_SELL_TRANSACTION_HISTORY_PENDING,
+  });
+
+  await BTCTransactionServices.getTransactionSellHistory({ ...data, userId })
+    .then((response) => {
+      dispatch({
+        type: actionTypes.GET_COIN_SELL_TRANSACTION_HISTORY_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.GET_COIN_SELL_TRANSACTION_HISTORY_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const getCryptoSellTransactionHistory = (data) => (dispatch) => {
+  dispatch(GetCryptoSellTransactionHistory(data));
+};
+
+const GetCryptoSendTransactionHistory = (data) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.GET_COIN_SEND_TRANSACTION_HISTORY_PENDING,
+  });
+
+  await BTCTransactionServices.getTransactionSendHistory({ ...data, userId })
+    .then((response) => {
+      dispatch({
+        type: actionTypes.GET_COIN_SEND_TRANSACTION_HISTORY_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.GET_COIN_SEND_TRANSACTION_HISTORY_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const getCryptoSendTransactionHistory = (data) => (dispatch) => {
+  dispatch(GetCryptoSendTransactionHistory(data));
+};
+
+const GetCryptoP2PTransactionHistory = (data) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.GET_COIN_P2P_TRANSACTION_HISTORY_PENDING,
+  });
+
+  await BTCTransactionServices.getTransactionP2PHistory({ ...data, userId })
+    .then((response) => {
+      dispatch({
+        type: actionTypes.GET_COIN_P2P_TRANSACTION_HISTORY_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.GET_COIN_P2P_TRANSACTION_HISTORY_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const getCryptoP2PTransactionHistory = (data) => (dispatch) => {
+  dispatch(GetCryptoP2PTransactionHistory(data));
+};
+
+
+
+
+
+
+const GetCryptoBuyTransactionDetails = (data) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.GET_COIN_BUY_TRANSACTION_DETAILS_PENDING,
+  });
+
+  await BTCTransactionServices.getTransactionBuyDetails({ ...data, userId })
+    .then((response) => {
+      dispatch({
+        type: actionTypes.GET_COIN_BUY_TRANSACTION_DETAILS_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.GET_COIN_BUY_TRANSACTION_DETAILS_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const getCryptoBuyTransactionDetails = (data) => (dispatch) => {
+  dispatch(GetCryptoBuyTransactionDetails(data));
+};
+
+const GetCryptoSellTransactionDetails = (data) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.GET_COIN_SELL_TRANSACTION_DETAILS_PENDING,
+  });
+
+  await BTCTransactionServices.getTransactionSellDetails({ ...data, userId })
+    .then((response) => {
+      dispatch({
+        type: actionTypes.GET_COIN_SELL_TRANSACTION_DETAILS_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.GET_COIN_SELL_TRANSACTION_DETAILS_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const getCryptoSellTransactionDetails = (data) => (dispatch) => {
+  dispatch(GetCryptoSellTransactionDetails(data));
+};
+
+const GetCryptoSendTransactionDetails = (data) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.GET_COIN_SEND_TRANSACTION_DETAILS_PENDING,
+  });
+
+  await BTCTransactionServices.getTransactionSendDetails({ ...data, userId })
+    .then((response) => {
+      dispatch({
+        type: actionTypes.GET_COIN_SEND_TRANSACTION_DETAILS_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.GET_COIN_SEND_TRANSACTION_DETAILS_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const getCryptoSendTransactionDetails = (data) => (dispatch) => {
+  dispatch(GetCryptoSendTransactionDetails(data));
+};
+
+const GetCryptoP2PTransactionDetails = (data) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.GET_COIN_P2P_TRANSACTION_DETAILS_PENDING,
+  });
+
+  await BTCTransactionServices.getTransactionP2PDetails({ ...data, userId })
+    .then((response) => {
+      dispatch({
+        type: actionTypes.GET_COIN_P2P_TRANSACTION_DETAILS_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.GET_COIN_P2P_TRANSACTION_DETAILS_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const getCryptoP2PTransactionDetails = (data) => (dispatch) => {
+  dispatch(GetCryptoP2PTransactionDetails(data));
+};
+
+
+
+
+
+
+
 const GetLastBTCTransactionHistory = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.GET_LAST_TRANSACTION_HISTORY_PENDING,
   });
 
-  await BTCTransactionServices.getTransactionHistory({ ...data, userId })
+  await BTCTransactionServices.getTransactionBuyHistory({ ...data, userId })
     .then((response) => {
       dispatch({
         type: actionTypes.GET_LAST_TRANSACTION_HISTORY_SUCCESS,
