@@ -425,6 +425,18 @@
       @include sm {
         margin-left: 0px;
       }
+
+    &__subtitle {
+      font-size: 20px;
+      line-height: 28px;
+      color: #0d0d0b;
+      font-weight: 500;
+      margin-left: 30px;
+      @include sm {
+        margin-left: 10px;
+      }
+    }
+
     }
 
     &__search {
@@ -2126,8 +2138,8 @@
     }
   }
 
-  &__customer {
-  }
+  // &__customer {
+  // }
 }
 .home {
   &__top {
@@ -2618,5 +2630,75 @@
     @include sm {
       padding: 0 25px;
     }
+  }
+}
+
+.transactioncards {
+  margin-top: 40px;
+
+  &__content {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-bottom: 60px;
+    padding: 0 20px;
+
+    @include md {
+      width: 80%;
+    }
+
+    @include sm {
+      padding: 0 25px;
+    }
+  }
+}
+
+.actionBtns {
+  // border: 1px solid #00519e;
+  // box-shadow: 3px -3px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+  border: 1px solid #805b5b26;
+  box-shadow: -3px 4px 20px #00000026;
+
+  i{
+    font-size: 24px;
+    color: white;
+  }
+}
+
+.quickBtns {
+  width: 130px;
+  height: 130px;
+  margin-bottom: 30px;
+
+  @include md {
+    width: 180px;
+    height: 150px;
+  }
+
+  div {
+    width: 50px;
+    height: 50px;
+    background-color: #00519e;
+    border-radius: 50%;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      fill: #fff;
+    }
+  }
+  span {
+    font-size: 18px;
+    font-weight: 500;
   }
 }
