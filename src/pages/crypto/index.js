@@ -37,7 +37,7 @@ const getIcon = (name) => {
           alt="currency"
         />
       );
-    case "LTE":
+    case "LTC":
       return (
         <img
           src={SVG.LTC}
@@ -103,43 +103,26 @@ const CryptoPage = (props) => {
                           {getIcon(item.Currency.code)}
                           <span>{item.Currency.name}</span>
                           {""}
-                          {/* {wallet === "BTC" && <span>{wallet}</span>} */}
+                          
                         </div>
                       </div>
                       <div
                         className={styles.crypto__ta}
                       >
 
-                        {/* <span className={styles.balances__title}>{currencyHeader}</span> */}
+                        
                         <div className={styles.crypto__value}>
                           <span>{item.balance}</span>
                           {` ${item.Currency.code}`}
                           {/* {wallet === "BTC" && <span>{wallet}</span>} */}
                         </div>
-                        <div className={styles.crypto__price}>
+                        {/* <div className={styles.crypto__price}>
                           <span>{"USD $ "}</span>
-                          {/* {` ${item.price.toLocaleString()}`} */}
+                          
                           55,000
-                        </div>
+                        </div> */}
                       </div>
-                      {/* <div
-                    className={styles.crypto__ta}
-                    //   onClick={() => {
-                    //     if (fiatIndex + 1 === balance.fiatWallets.length) {
-                    //       return;
-                    //     } else {
-                    //       setFiatIndex(++fiatIndex);
-                    //     }
-                    //   }}
-                  >
-                    <RightCircleOutlined
-                      style={{
-                        fontSize: "30px",
-                        color: "#08c",
-                        //   : "",
-                      }}
-                    />
-                  </div> */}
+                      
                     </div>
                   ))}
                 {props.balance && props.balance.cryptoWallets.length === 0 && (
@@ -161,25 +144,11 @@ const CryptoPage = (props) => {
                     </div>
                     <div
                       className={styles.crypto__ta}
-                      // onClick={() => {
-                      //   if (currencyHeader == "Fiat Wallet Balance") {
-                      //     setCurrencyHeader("Crypto Wallet Balance");
-                      //   } else if (currencyHeader == "Crypto Wallet Balance") {
-                      //     setCurrencyHeader("Fiat Wallet Balance");
-                      //   } else {
-                      //     return;
-                      //   }
-                      // }}
+                      
                     >
-                      {/* <span
-                      className={styles.crypto__title}
-                      // onClick={(e) => e.preventDefault()}
-                    >
-                      {"Wallet Balance"}
-                      <DownOutlined />
-                    </span> */}
+                      
 
-                      {/* <span className={styles.balances__title}>{currencyHeader}</span> */}
+                      
                       <div className={styles.crypto__value}>
                         {/* <span>{item.balance}</span>{` ${item.code}`} */}
                         {/* {wallet === "BTC" && <span>{wallet}</span>} */}

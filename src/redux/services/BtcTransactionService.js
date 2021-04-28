@@ -45,7 +45,7 @@ BTCTransactionServices.getWalletDetails = function (params) {
 
 BTCTransactionServices.getCurrentMarketTicker = function (params) {
   return fetch({
-    url: `/coins/tickers/${'btcusdt'}`,
+    url: `/coins/tickers/${params.coin.toLowerCase()}usd${params.coin === "BTC"? "t":"/"}`,
     method: "get",
     params: {
       volume: params?.volume || 1
@@ -54,6 +54,7 @@ BTCTransactionServices.getCurrentMarketTicker = function (params) {
       "public-request": "true",
     },
   });
+
   // return Promise.resolve({
   //   "code": 200,
   //   "message": "Fetched current market tickers successfully",

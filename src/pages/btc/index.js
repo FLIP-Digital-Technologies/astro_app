@@ -51,13 +51,13 @@ const BuyCoin = ({
   const [mode, setMode] = useState("buy");
   React.useEffect(() => {
     const interval = setInterval(async () => {
-      getBTCRates();
+      getBTCRates({coin:active.Currency.code});
     }, 60000);
     return () => clearInterval(interval);
   }, [getBTCRates]);
   React.useEffect(() => {
     receiveBTC();
-    getBTCRates();
+    getBTCRates({coin:active.Currency.code});
   }, [receiveBTC, getBTCRates]);
   return (
     <>
@@ -242,8 +242,8 @@ const mapDispatchToProps = (dispatch) => ({
   receiveBTC: () => {
     dispatch(receiveBTCIntoWallet());
   },
-  getBTCRates: () => {
-    dispatch(getBTCCurrentMarketTicker());
+  getBTCRates: (data) => {
+    dispatch(getBTCCurrentMarketTicker(data));
   },
   buyCoins: (data) => {
     dispatch(initialBTCBuyTransaction(data));
