@@ -5,11 +5,12 @@ import { BarChartOutlined, PayCircleOutlined } from "@ant-design/icons";
 import styles from "../styles.module.scss";
 import FiatTrans from "./fiatTrans";
 import CryptoTrans from "./cryptoTrans";
+import GiftCardTrans from "./giftCardTrans";
 
 const Transactions = () => {
-  
   const [showFiatTrans, setShowFiatTrans] = useState(false);
   const [showCryptoTrans, setShowCryptoTrans] = useState(false);
+  const [showGiftTrans, setShowGiftTrans] = useState(false);
   const [active, setActive] = useState(true);
   return (
     <DashboardLayout>
@@ -27,6 +28,13 @@ const Transactions = () => {
           goBack={setActive}
         />
       )}
+      {!active && showGiftTrans && (
+        <GiftCardTrans
+          isVisible={showGiftTrans}
+          setIsVisible={setShowGiftTrans}
+          goBack={setActive}
+        />
+      )}
       {active && (
         <>
           <span className={styles.gitcard__top__title}>Transactions </span>
@@ -36,7 +44,8 @@ const Transactions = () => {
                 onClick={() => {
                   setShowFiatTrans(true);
                   setActive(false);
-                  setShowCryptoTrans(false)
+                  setShowCryptoTrans(false);
+                  setShowGiftTrans(false);
                   // setFormState((state) => ({ ...state, ...item, show: true }));
                   // setFormState((state) => ({ ...state, show: true }));
                 }}
@@ -50,9 +59,10 @@ const Transactions = () => {
               </div>
               <div
                 onClick={() => {
-                  setShowCryptoTrans(true)
+                  setShowCryptoTrans(true);
                   setActive(false);
-                  setShowFiatTrans(false)
+                  setShowFiatTrans(false);
+                  setShowGiftTrans(false);
                 }}
                 className={`${styles.actionBtns} ${styles.quickBtns}`}
                 // key={index.toString()}
@@ -61,6 +71,21 @@ const Transactions = () => {
                   <PayCircleOutlined />
                 </div>
                 <span>{"Cryto Transactions"}</span>
+              </div>
+              <div
+                onClick={() => {
+                  setShowCryptoTrans(false);
+                  setActive(false);
+                  setShowFiatTrans(false);
+                  setShowGiftTrans(true);
+                }}
+                className={`${styles.actionBtns} ${styles.quickBtns}`}
+                // key={index.toString()}
+              >
+                <div>
+                  <PayCircleOutlined />
+                </div>
+                <span>{"GiftCard Transactions"}</span>
               </div>
               {/* ))} */}
             </div>

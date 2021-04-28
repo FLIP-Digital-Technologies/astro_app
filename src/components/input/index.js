@@ -21,6 +21,8 @@ const Input = ({
   maxlength,
   style = {},
   disabled,
+  defaultValue,
+  pattern,
   ...prop
 }) => {
   const textInput = useRef(null);
@@ -71,6 +73,8 @@ const Input = ({
           maxLength={maxlength}
           style={style}
           disabled={disabled}
+          pattern={pattern}
+          defaultValue={defaultValue}
           {...prop}
           placeholder={placeholder ? placeholder : ""}
           className={`${

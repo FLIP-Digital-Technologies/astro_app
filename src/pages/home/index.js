@@ -62,6 +62,7 @@ const Home = ({
   createWallets,
   fiatCurrency,
   cryptoCurrency,
+  btcTicker,
 }) => {
   const [wallet, setWallet] = useState("NGN");
   let [fiatIndex, setFiatIndex] = useState(0);
@@ -129,16 +130,6 @@ const Home = ({
               balance.cryptoWallets &&
               balance.cryptoWallets[cryptoIndex] &&
               balance.cryptoWallets[cryptoIndex].balance
-          // Money(
-          //   balance &&
-          //     balance.cryptoWallets &&
-          //     balance.cryptoWallets[cryptoIndex] &&
-          //     balance.cryptoWallets[cryptoIndex].balance,
-          //   balance &&
-          //     balance.cryptoWallets &&
-          //     balance.cryptoWallets[cryptoIndex] &&
-          //     balance.cryptoWallets[cryptoIndex].Currency.code
-          // )
         );  
       }
       
@@ -565,15 +556,6 @@ const Home = ({
                     </div>
                     <div
                       className={styles.balances__ta}
-                      // onClick={() => {
-                      //   if (currencyHeader == "Fiat Wallet Balance") {
-                      //     setCurrencyHeader("Crypto Wallet Balance");
-                      //   } else if (currencyHeader == "Crypto Wallet Balance") {
-                      //     setCurrencyHeader("Fiat Wallet Balance");
-                      //   } else {
-                      //     return;
-                      //   }
-                      // }}
                     >
                       <Dropdown
                         trigger={["hover"]}
@@ -589,8 +571,11 @@ const Home = ({
                           <DownOutlined />
                         </span>
                       </Dropdown>
-                      {/* <span className={styles.balances__title}>{currencyHeader}</span> */}
+                      
                       <div className={styles.balances__value}>
+                        <span>{balance &&
+                            balance.cryptoWallets &&
+                            balance.cryptoWallets[cryptoIndex].Currency.code}{"    "}</span>
                         <span>{renderCryptoBalance}</span>{" "}
                         {wallet === "BTC" && <span>{wallet}</span>}
                       </div>
@@ -852,6 +837,7 @@ const mapStateToProps = (state) => ({
   depositMoneyDetails: state.payment.depositMoneyDetails,
   BillPaymentCategory: state.billPayment.BillPaymentCategory,
   billLoading: state.billPayment.loading,
+  btcTicker:state.btc.btcTicker
 });
 
 const mapDispatchToProps = (dispatch) => ({

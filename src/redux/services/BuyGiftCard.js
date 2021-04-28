@@ -12,19 +12,19 @@ buyGiftCardService.initialBuy = function (params, payload) {
   //   "isCustom": false,
   //   "referenceCurrency": "NGN"
   // }
-  let data = {};
-  data.cardSlug = payload.cardSlug;
-  data.cardCurrency = payload.cardCurrency;
-  data.cardValue = payload.cardValue;
-  data.amount = payload.amount;
-  data.quantity = payload.quantity;
-  data.isCustom = payload.isCustom;
-  data.referenceCurrency = payload.referenceCurrency;
-  data.email = payload.email;
+  // let data = {};
+  // data.cardSlug = payload.cardSlug;
+  // data.cardCurrency = payload.cardCurrency;
+  // data.cardValue = payload.cardValue;
+  // data.amount = payload.amount;
+  // data.quantity = payload.quantity;
+  // data.isCustom = payload.isCustom;
+  // data.referenceCurrency = payload.referenceCurrency;
+  // data.email = payload.email;
   return fetch({
     url: `/buy-cards/${params.userId}`,
     method: "post",
-    data: data,
+    data: payload,
   });
 };
 
