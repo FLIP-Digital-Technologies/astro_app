@@ -94,7 +94,7 @@ const BuyGiftCard = (props) => {
       cardValue: card.cardValue,
       email: card.email || props?.user?.email,
       amount: card.amount === "null" ? null : card.amount,
-      quantity: parseInt(card.quantity),
+      quantity: parseInt(card.quantity ),
       isCustom: false,
       fiatWalletId: card.walletId,
     };
@@ -350,7 +350,7 @@ const BuyGiftCard = (props) => {
                 />)}
                 <Input
                   className={`${styles.input}`}
-                  value={card.quantity || 0}
+                  value={card.quantity}
                   label="Quantity"
                   placeholder="minimum is 1"
                   labelClass={styles.largeMarginLabel}
@@ -404,6 +404,7 @@ const BuyGiftCard = (props) => {
                   text="Buy"
                   form="full"
                   disabled={
+                    card.quantity == 0 ||
                     !card.quantity ||
                     !card.amount ||
                     !card.cardValue ||
