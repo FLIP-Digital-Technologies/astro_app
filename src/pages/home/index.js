@@ -588,6 +588,16 @@ const Home = ({
                             balance.cryptoWallets &&
                             balance.cryptoWallets[cryptoIndex].Currency.code}
                         </div>
+                        {cryptoIndex + 1 === balance.cryptoWallets.length && ( 
+                       <>
+                       <div
+                          onClick={() => setOpencryptoAddWallet(true)}
+                          className={`${styles.balances__btn} ${styles.active}`}
+                        >
+                          <PlusOutlined />
+                        </div>
+                        </>
+                        )}
                       </div>
                     </div>
                     <div
