@@ -107,7 +107,6 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
                 style={{ display: "flex", alignItems: "center" }}
                 onClick={() => setShowDropDown(!showDropDown)}
               >
-                {console.log('user mi', user)}
                 <div className={styles.header__right__avatar}>{`${
                   (user && user.Profile.first_name[0].toUpperCase()) || `-`
                 } ${(user && user.Profile.last_name[0].toUpperCase()) || `-`}`}</div>

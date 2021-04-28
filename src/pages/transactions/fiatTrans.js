@@ -39,10 +39,6 @@ import {
   getAllUserFiatP2PTransferDetails,
   getFiatP2PTransferById,
 } from "../../redux/actions/pairTwoPair";
-import {
-  getAllBuyCardTransaction,
-  getBuyCardTransaction,
-} from "../../redux/actions/buyGiftCard";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
 const Transactions = ({
@@ -51,25 +47,18 @@ const Transactions = ({
   BillPaymentTrans,
   pairTwoPairFiatTrans,
   withdrawalTrans,
-  giftCardTrans,
-  getGiftCardTrans,
   getWithdrawalTrans,
   getDepositTrans,
   getBillPaymentTrans,
   getP2PTrans,
   getP2PTransById,
-  getGiftCardById,
   getDepositById,
   getBillPaymentById,
   getWithdrawalById,
   viewWithdrawalTrans,
   viewDepositTrans,
-  viewGiftCardTrans,
   viewBillPaymentTrans,
   viewP2PTrans,
-  getBuyGiftCardTrans,
-  getBuyGiftCardTransById,
-  BuyGiftCardTrans,
   viewBuyGiftCardTrans,
 }) => {
   const [depositTransDetails, setDepositTransDetails] = React.useState(false);
@@ -132,22 +121,6 @@ const Transactions = ({
           reference={viewDepositTrans.reference}
           setIsModalVisible={setDepositTransDetails}
           isModalVisible={depositTransDetails}
-        />
-      )}
-      {viewGiftCardTrans && (
-        <TransactionModalBig
-          title="Gift Card"
-          rate={viewGiftCardTrans.rate.amount}
-          Qua={viewGiftCardTrans.comments}
-          id={viewGiftCardTrans.id}
-          cardCode={viewGiftCardTrans.cardCode}
-          images={viewGiftCardTrans.images}
-          dateData={viewGiftCardTrans.created_at}
-          amount={viewGiftCardTrans.amount}
-          status={viewGiftCardTrans.status}
-          reference={viewGiftCardTrans.reference}
-          setIsModalVisible={setGiftCardTransDetails}
-          isModalVisible={giftCardTransDetails}
         />
       )}
       {viewWithdrawalTrans && (
@@ -233,41 +206,6 @@ const Transactions = ({
                 }}
               />
             </TabPane>
-            
-            <TabPane
-              tab={
-                <div className={styles.transactions__tab__item}>
-                  <span>Sell GiftCard Transactions</span>
-                </div>
-              }
-              key="4"
-            >
-              <GiftCardTradesTab
-                fetchTrans={getGiftCardTrans}
-                transaction={giftCardTrans}
-                handleAction={(id) => {
-                  getGiftCardById({ transactionId: id });
-                  setGiftCardTransDetails(true);
-                }}
-              />
-            </TabPane>
-            <TabPane
-              tab={
-                <div className={styles.transactions__tab__item}>
-                  <span>Buy GiftCard Transactions</span>
-                </div>
-              }
-              key="5"
-            >
-              <BuyGiftCardTab
-                fetchTrans={getBuyGiftCardTrans}
-                transaction={BuyGiftCardTrans}
-                handleAction={(id) => {
-                  getBuyGiftCardTransById({ transactionId: id });
-                  setBuyGiftCardDetails(true);
-                }}
-              />
-            </TabPane>
             <TabPane
               tab={
                 <div className={styles.transactions__tab__item}>
@@ -301,9 +239,7 @@ const mapStateToProps = (state) => ({
   sellTrans: state.btc.sellTransaction,
   sendTrans: state.btc.sendTransaction,
   p2pTrans: state.btc.p2pTransaction,
-  giftCardTrans: state.giftCard.GiftCardTransaction,
   BillPaymentTrans: state.billPayment.BillPaymentTransaction,
-  BuyGiftCardTrans: state.buyGiftCard.buyGiftCardTransaction,
   pairTwoPairFiatTrans: state.pairTwoPair.pairTwoPairFiatTransaction,
   withdrawalTrans: state.withdrawals.WithdrawalTransaction,
   depositTransaction: state.payment.DepositTransaction,
@@ -312,7 +248,6 @@ const mapStateToProps = (state) => ({
   viewWithdrawalTrans: state.withdrawals.withdrawalDetails,
   viewDepositTrans: state.payment.depositTransactionDetails,
   viewBillPaymentTrans: state.billPayment.billPaymentDetails,
-  viewBuyGiftCardTrans: state.buyGiftCard.buyGiftCardTransactionDetails,
 });
 
 // viewBTCTrans,
@@ -321,9 +256,6 @@ const mapStateToProps = (state) => ({
 //   viewSendTrans,
 //   viewP2PCryptoTrans,
 const mapDispatchToProps = (dispatch) => ({
-  getGiftCardTrans: (data) => {
-    dispatch(getGiftCardTransactionHistory(data));
-  },
   getWithdrawalTrans: (data) => {
     dispatch(getAllUserWithdrawalDetails(data));
   },
@@ -336,20 +268,11 @@ const mapDispatchToProps = (dispatch) => ({
   getP2PTrans: (data) => {
     dispatch(getAllUserFiatP2PTransferDetails(data));
   },
-  getBuyGiftCardTrans: (data) => {
-    dispatch(getAllBuyCardTransaction(data));
-  },
-  getBuyGiftCardTransById: (data) => {
-    dispatch(getBuyCardTransaction(data));
-  },
   getP2PTransById: (data) => {
     dispatch(getFiatP2PTransferById(data));
   },
   getBillPaymentById: (data) => {
     dispatch(getBillPaymentDetailsById(data));
-  },
-  getGiftCardById: (data) => {
-    dispatch(getGiftCardTransaction(data));
   },
   getWithdrawalById: (data) => {
     dispatch(getWithdrawalDetailsById(data));

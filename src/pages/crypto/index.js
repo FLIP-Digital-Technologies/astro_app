@@ -119,7 +119,7 @@ const CryptoPage = (props) => {
                         <div className={styles.crypto__price}>
                           <span>{"USD $ "}</span>
                           {/* {` ${item.price.toLocaleString()}`} */}
-                          USD $ 55,000
+                          55,000
                         </div>
                       </div>
                       {/* <div

@@ -235,6 +235,7 @@ const mapStateToProps = (state) => ({
   loading: state.btc.loading,
   sellBTC: state.btc.sellBTC,
   sellBTCExternal: state.btc.sellBTCExternal,
+  btcTicker: state.btc.btcTicker
 });
 
 const mapDispatchToProps = (dispatch) => ({

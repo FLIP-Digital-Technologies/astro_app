@@ -726,6 +726,7 @@ export const SuccessfulModal = ({
   onClick = () => {},
   title = "Payment Successful!",
   btnText = "Continue",
+  walletBalance
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(true);
 

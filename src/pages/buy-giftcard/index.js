@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
-import { Row, Col, Card, Drawer, Typography, Badge } from "antd";
+import { Row, Col, Card, Drawer, Typography, Badge, Modal } from "antd";
+import {ExclamationCircleOutlined} from "@ant-design/icons"
 import { useHistory, useLocation } from "react-router-dom";
 import _ from "lodash";
 
@@ -20,6 +21,7 @@ import {
   initialBuyGiftCard,
 } from "../../redux/actions/buyGiftCard";
 import { Money } from "../../utils/helper";
+import { getBTCWalletDetails } from "../../redux/actions/btc";
 
 function getImgUrl(data) {
   return `https://www.bitrefill.com/content/cn/b_rgb%3A${
@@ -28,6 +30,7 @@ function getImgUrl(data) {
 }
 
 const { Title, Text } = Typography;
+const { confirm } = Modal;
 
 const BuyGiftCard = (props) => {
   // eslint-disable-next-line
@@ -59,6 +62,7 @@ const BuyGiftCard = (props) => {
   }, []);
   useEffect(() => {
     props.getBuyCardsByCountries();
+    props.getBalance()
     props.getBuyCardsBySearch({ searchQuery: "", country: "usa" });
     // eslint-disable-next-line
   }, []);
@@ -68,17 +72,33 @@ const BuyGiftCard = (props) => {
   function extraInfo() {
     return { __html: props?.buyGiftCardDetails?.extraInfo || "" };
   }
+
+  const showPromiseConfirm = () => {
+    console.log('card',card, props?.buyGiftCardDetails)
+
+    confirm({
+      title: `Purchase of Gift card`,
+      icon: <ExclamationCircleOutlined style={{ color: "#19a9de" }} />,
+      content: `Confirm the Purchase of ${Money(card?.cardValue, props?.buyGiftCardDetails?.currency)} ${props?.buyGiftCardDetails?.name} Gift card`,
+      onOk() {
+        return handleSubmit();
+      },
+      onCancel() {},
+    });
+  };
+
   const handleSubmit = async () => {
     const payload = {
       cardSlug: props?.buyGiftCardDetails?.slug,
       cardCurrency: props?.buyGiftCardDetails?.currency,
       cardValue: card.cardValue,
-      email: card.email,
+      email: card.email || props?.user?.email,
       amount: card.amount === "null" ? null : card.amount,
-      quantity: card.quantity,
+      quantity: parseInt(card.quantity),
       isCustom: false,
-      referenceCurrency: card.referenceCurrency,
+      fiatWalletId: card.walletId,
     };
+    console.log('buy gift', payload)
     await props.buyGiftCard(payload);
     setOpen(true);
     setActive(false);
@@ -92,6 +112,7 @@ const BuyGiftCard = (props) => {
             `Your ${props?.buyGiftCardDetails?.name} (${props?.buyGiftCardDetails?.currency}) card purchase has been received. Please check your mail and the 'Transactions' tab for trade progress.`
           }
           onClick={() => history.push("/app")}
+          walletBalance={props.balance}
         />
       )}
       <div className={styles.gitcard}>
@@ -256,7 +277,7 @@ const BuyGiftCard = (props) => {
         {active && (
           <Drawer
             title={state?.title}
-            width={"100vw"}
+            width={"60vw"}
             placement="right"
             onClose={() => {
               setActive(false);
@@ -310,22 +331,23 @@ const BuyGiftCard = (props) => {
                 </Text>
               </div>
               <div>
-                <Select
+                {props?.balance?.fiatWallets && (<Select
                   labelClass={styles.largeMarginLabel}
                   label="Select Wallet"
                   value={card.referenceCurrency}
                   onSelect={(value) => {
                     setCard((card) => ({
                       ...card,
-                      referenceCurrency: value,
+                      referenceCurrency: value.Currency.code,
+                      walletId:value.id
                     }));
                   }}
                   name="wallet"
-                  options={[
-                    { render: "NGN", value: "NGN" },
-                    { render: "GHS", value: "GHS" },
-                  ]}
-                />
+                  options={props.balance.fiatWallets.map((item)=>({
+                    render:`${item.Currency.code}`,
+                    value:item
+                  }))}
+                />)}
                 <Input
                   className={`${styles.input}`}
                   value={card.quantity || 0}
@@ -333,6 +355,7 @@ const BuyGiftCard = (props) => {
                   placeholder="minimum is 1"
                   labelClass={styles.largeMarginLabel}
                   onChange={(e) => {
+                    console.log('user ni', props.user)
                     setCard((card) => ({
                       ...card,
                       quantity: e.target.value,
@@ -342,6 +365,7 @@ const BuyGiftCard = (props) => {
                 />
                 <Input
                   className={`${styles.input}`}
+                  defaultValue={props?.user?.email}
                   value={card.email}
                   label="Email"
                   placeholder="Enter the email to send gift card to"
@@ -385,7 +409,7 @@ const BuyGiftCard = (props) => {
                     !card.cardValue ||
                     !card.referenceCurrency
                   }
-                  onClick={() => handleSubmit()}
+                  onClick={() => showPromiseConfirm()}
                 />
               </div>
             </div>
@@ -397,6 +421,8 @@ const BuyGiftCard = (props) => {
 };
 
 const mapStateToProps = (state) => ({
+  user: state.user.user,
+  balance: state.btc.balance,
   buyCardCountries: state.buyGiftCard.buyCardCountries,
   buyGiftCards: state.buyGiftCard.buyGiftCards,
   buyGiftCardDetails: state.buyGiftCard.buyGiftCardDetails,
@@ -415,6 +441,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   buyGiftCard: (data) => {
     dispatch(initialBuyGiftCard(data));
+  },
+  getBalance: () => {
+    dispatch(getBTCWalletDetails());
   },
 });
 

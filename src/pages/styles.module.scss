@@ -2661,13 +2661,14 @@
   border-radius: 5px;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
   cursor: pointer;
   border: 1px solid #805b5b26;
   box-shadow: -3px 4px 20px #00000026;
 
   i{
-    font-size: 24px;
+    font-size: 22px;
     color: white;
   }
 }
@@ -2676,6 +2677,7 @@
   width: 130px;
   height: 130px;
   margin-bottom: 30px;
+
 
   @include md {
     width: 180px;
@@ -2698,7 +2700,7 @@
     }
   }
   span {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 500;
   }
 }

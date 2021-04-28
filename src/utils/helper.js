@@ -34,10 +34,6 @@ export const processImageToCloudinary = async (
   try {
     const url = `${API_BASE_URL}misc/upload-file`;
     const data = new FormData();
-    // const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
-
-    // data.append("upload_preset", unsignedUploadPreset);
-    // data.append("tags", ["browser_upload", userId]);
     data.append("file", file);
     console.log('GCP Upload', url)
     let res = await Axios.post(`${url}`, data, {

@@ -45,7 +45,7 @@ BTCTransactionServices.getWalletDetails = function (params) {
 
 BTCTransactionServices.getCurrentMarketTicker = function (params) {
   return fetch({
-    url: `/coins/tickers/${'btcngn'}`,
+    url: `/coins/tickers/${'btcusdt'}`,
     method: "get",
     params: {
       volume: params?.volume || 1
