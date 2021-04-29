@@ -37,8 +37,7 @@ import {
 } from "../../redux/actions/Auths";
 import AddWallet from "../../components/Modals/addWalletModal";
 import AddCryptoWallet from "../../components/Modals/addCryptoWallet";
-import * as actionTypes from "../../redux/constants"
-
+import * as actionTypes from "../../redux/constants";
 
 const Home = ({
   // user,
@@ -78,8 +77,8 @@ const Home = ({
   const [currencyHeader, setCurrencyHeader] = useState("Fiat Wallet Balance");
   const [headerId, setHeaderId] = useState("1");
   const [visible, setVisible] = useState(false);
-  const [openAddWallet, setOpenAddWallet] = useState(false)
-  const [opencryptoAddWallet, setOpencryptoAddWallet] = useState(false)
+  const [openAddWallet, setOpenAddWallet] = useState(false);
+  const [opencryptoAddWallet, setOpencryptoAddWallet] = useState(false);
 
   const [dataPair, setDataPair] = useState({});
   const [state, setState] = useState({});
@@ -89,66 +88,61 @@ const Home = ({
   useEffect(() => {
     if (!balance) return;
     // if (!wallet) return;
-    console.log("currency");
+
     if (!balance) {
-      return
+      return;
     } else {
-      console.log('balance', balance)
       if (balance.fiatWallets.length === 0) {
-        setRenderBalance(0)
+        setRenderBalance(0);
       } else {
-        
-        balance && balance.fiatWallets &&
-        setRenderBalance(
-          Money(
-            balance &&
-              balance.fiatWallets &&
-              balance.fiatWallets[fiatIndex].balance,
-            balance &&
-              balance.fiatWallets &&
-              balance.fiatWallets[fiatIndex].Currency.code
-          )
-        )
+        balance &&
+          balance.fiatWallets &&
+          setRenderBalance(
+            Money(
+              balance &&
+                balance.fiatWallets &&
+                balance.fiatWallets[fiatIndex].balance,
+              balance &&
+                balance.fiatWallets &&
+                balance.fiatWallets[fiatIndex].Currency.code
+            )
+          );
       }
-       
     }
-    
   }, [balance, fiatIndex]);
 
   useEffect(() => {
     if (!balance) return;
     // if (!wallet) return;
     if (!balance) {
-      return
+      return;
     } else {
       if (balance.cryptoWallets.length === 0) {
-        setRenderCryptoBalance(0)
+        setRenderCryptoBalance(0);
       } else {
-        balance && balance.cryptoWallets &&
-        setRenderCryptoBalance(
-          balance &&
+        balance &&
+          balance.cryptoWallets &&
+          setRenderCryptoBalance(
+            balance &&
               balance.cryptoWallets &&
               balance.cryptoWallets[cryptoIndex] &&
               balance.cryptoWallets[cryptoIndex].balance
-        );  
+          );
       }
-      
     }
-    console.log("currency");
-    
   }, [balance, cryptoIndex]);
 
- // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     getBalance();
-  }, [createWallets, getBalance])
+  }, [createWallets, getBalance]);
 
   useEffect(() => {
     getBalance();
-    
+
     getCurrentUser();
     getUserBankDetails();
-    
+
     getMainCryptoCurrency();
     getMainFiatCurrency();
     // getLatestBTCTrans({ skip: 0, limit: 5 });
@@ -158,7 +152,6 @@ const Home = ({
   }, []);
 
   const handleMenuClick = (e) => {
-    console.log("press", e.key);
     if (e.key === "2") {
       setHeaderId(e.key);
       setCurrencyHeader("Crypto Wallet Balance");
@@ -174,41 +167,37 @@ const Home = ({
   };
 
   const HandleSuccess = () => {
-    getBalance()
+    getBalance();
     setOpenModal(false);
     setShowFund(false);
-  }
+  };
 
   const CompletionHandler = async (event) => {
-    const key = actionTypes.KEY
+    const key = actionTypes.KEY;
     const message = event.data;
     if (message.type === "payment_ack") {
-      console.log('payment seen')
       if (message.status === "successful") {
-        console.log('payment success', event)
-
         await HandleSuccess();
         setOpenModal(false);
         notification.success({
-          message:"Payment Successful",
-          duration:0,
+          message: "Payment Successful",
+          duration: 0,
           key,
-        })
+        });
       } else {
-        console.log('payment failed', event)
         setOpenModal(false);
         notification.error({
-          message:"Payment Failed",
-          duration:0,
+          message: "Payment Failed",
+          duration: 0,
           key,
-        })
+        });
       }
-      
+
       window.removeEventListener("message", CompletionHandler);
     } else {
-      console.log('asdfggg')
+      // console.log('mat')
     }
-  }
+  };
 
   const menu = () => {
     return (
@@ -225,18 +214,20 @@ const Home = ({
         setIsModalVisible={setOpenWithdrawal}
         isModalVisible={openWithdrawal}
       />
-      {console.log('tert',fiatCurrency)}
-      <AddWallet 
-      setIsModalVisible={setOpenAddWallet}
-      isModalVisible={openAddWallet}
-      wallets={fiatCurrency}
+
+      <AddWallet
+        setIsModalVisible={setOpenAddWallet}
+        isModalVisible={openAddWallet}
+        wallets={fiatCurrency}
       />
       <AddCryptoWallet
-      setIsModalVisible={setOpencryptoAddWallet}
-      isModalVisible={opencryptoAddWallet}
-      wallets={cryptoCurrency}
+        setIsModalVisible={setOpencryptoAddWallet}
+        isModalVisible={opencryptoAddWallet}
+        wallets={cryptoCurrency}
       />
-      {openModal && depositMoneyDetails && window.addEventListener("message", CompletionHandler)}
+      {openModal &&
+        depositMoneyDetails &&
+        window.addEventListener("message", CompletionHandler)}
       {openModal && depositMoneyDetails && (
         <ModalWrapper
           className={styles.scanSell__body}
@@ -245,7 +236,7 @@ const Home = ({
           setIsModalVisible={() => {
             setOpenModal(false);
             setShowFund(false);
-            console.log('opened money')
+
             setState({});
           }}
         >
@@ -354,7 +345,8 @@ const Home = ({
           <div className={styles.home__top}>
             {headerId === "1"
               ? balance &&
-                balance.fiatWallets && ( balance.fiatWallets.length > 0 ? (
+                balance.fiatWallets &&
+                (balance.fiatWallets.length > 0 ? (
                   <div className={styles.balances}>
                     <div
                       className={styles.balances__ta}
@@ -413,15 +405,15 @@ const Home = ({
                             balance.fiatWallets &&
                             balance.fiatWallets[fiatIndex].Currency.code}
                         </div>
-                       {fiatIndex + 1 === balance.fiatWallets.length && ( 
-                       <>
-                       <div
-                          onClick={() => setOpenAddWallet(true)}
-                          className={`${styles.balances__btn} ${styles.active}`}
-                        >
-                          <PlusOutlined />
-                        </div>
-                        </>
+                        {fiatIndex + 1 === balance.fiatWallets.length && (
+                          <>
+                            <div
+                              onClick={() => setOpenAddWallet(true)}
+                              className={`${styles.balances__btn} ${styles.active}`}
+                            >
+                              <PlusOutlined />
+                            </div>
+                          </>
                         )}
                       </div>
                     </div>
@@ -446,7 +438,7 @@ const Home = ({
                       />
                     </div>
                   </div>
-                ) :(
+                ) : (
                   <div className={styles.balances}>
                     <div
                       className={styles.balances__ta}
@@ -508,7 +500,6 @@ const Home = ({
                     <div
                       className={styles.balances__ta}
                       onClick={() => {
-                        console.log(balance.fiatWallets.length);
                         if (balance.fiatWallets.length === 0) {
                           return;
                         }
@@ -532,7 +523,7 @@ const Home = ({
                       />
                     </div>
                   </div>
-                ) )
+                ))
               : balance &&
                 balance.cryptoWallets &&
                 (balance.cryptoWallets.length > 0 ? (
@@ -554,9 +545,7 @@ const Home = ({
                         }}
                       />
                     </div>
-                    <div
-                      className={styles.balances__ta}
-                    >
+                    <div className={styles.balances__ta}>
                       <Dropdown
                         trigger={["hover"]}
                         overlay={menu}
@@ -571,11 +560,14 @@ const Home = ({
                           <DownOutlined />
                         </span>
                       </Dropdown>
-                      
+
                       <div className={styles.balances__value}>
-                        <span>{balance &&
+                        <span>
+                          {balance &&
                             balance.cryptoWallets &&
-                            balance.cryptoWallets[cryptoIndex].Currency.code}{"    "}</span>
+                            balance.cryptoWallets[cryptoIndex].Currency.code}
+                          {"    "}
+                        </span>
                         <span>{renderCryptoBalance}</span>{" "}
                         {wallet === "BTC" && <span>{wallet}</span>}
                       </div>
@@ -588,15 +580,15 @@ const Home = ({
                             balance.cryptoWallets &&
                             balance.cryptoWallets[cryptoIndex].Currency.code}
                         </div>
-                        {cryptoIndex + 1 === balance.cryptoWallets.length && ( 
-                       <>
-                       <div
-                          onClick={() => setOpencryptoAddWallet(true)}
-                          className={`${styles.balances__btn} ${styles.active}`}
-                        >
-                          <PlusOutlined />
-                        </div>
-                        </>
+                        {cryptoIndex + 1 === balance.cryptoWallets.length && (
+                          <>
+                            <div
+                              onClick={() => setOpencryptoAddWallet(true)}
+                              className={`${styles.balances__btn} ${styles.active}`}
+                            >
+                              <PlusOutlined />
+                            </div>
+                          </>
                         )}
                       </div>
                     </div>
@@ -683,7 +675,6 @@ const Home = ({
                     <div
                       className={styles.balances__ta}
                       onClick={() => {
-                        console.log(balance.cryptoWallets.length);
                         if (balance.cryptoWallets.length === 0) {
                           return;
                         }
@@ -797,11 +788,11 @@ const Home = ({
               </div>
               <div
                 // onClick={() => history.push("/app/crypto")}
-                onClick={()=> setShowPTWOPcrypto(true)}
+                onClick={() => setShowPTWOPcrypto(true)}
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
                 <div>
-                <i class="fas fa-coins"/>
+                  <i class="fas fa-coins" />
                 </div>
                 <span style={{ textAlign: "center", lineHeight: 1 }}>
                   send Crypto via P2P
@@ -836,9 +827,9 @@ const Home = ({
 const mapStateToProps = (state) => ({
   user: state.user.user,
   balance: state.btc.balance,
-  createWallets:state.user.createWallet,
-  fiatCurrency:state.user.fiatCurrency,
-  cryptoCurrency:state.user.cryptoCurrency,
+  createWallets: state.user.createWallet,
+  fiatCurrency: state.user.fiatCurrency,
+  cryptoCurrency: state.user.cryptoCurrency,
   btcTrans: state.btc.latestBTCTransaction,
   giftCardTrans: state.giftCard.latestGiftCardTransaction,
   withdrawalTrans: state.giftCard.latestWithdrawalTransaction,
@@ -847,7 +838,7 @@ const mapStateToProps = (state) => ({
   depositMoneyDetails: state.payment.depositMoneyDetails,
   BillPaymentCategory: state.billPayment.BillPaymentCategory,
   billLoading: state.billPayment.loading,
-  btcTicker:state.btc.btcTicker
+  btcTicker: state.btc.btcTicker,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -889,7 +880,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   createWallet: (data) => {
     dispatch(createFiatWallet(data));
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

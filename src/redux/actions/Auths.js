@@ -9,11 +9,11 @@ const CheckEmailAvailability = (data) => async (dispatch) => {
   });
   let payload = {};
   payload.email = data.email;
-  console.log(authService);
+  
   await authService
     .checkEmailAvailability(payload)
     .then((response) => {
-      console.log("response", response);
+      
       if (response.message === "Email does not exist'}") {
       }
       dispatch({
@@ -23,7 +23,7 @@ const CheckEmailAvailability = (data) => async (dispatch) => {
       dispatch(RegisterUser(data));
     })
     .catch((err) => {
-      console.log("response", err);
+      
       dispatch({
         type: actionTypes.CHECK_EMAIL_AVAILABILITY_FAILED,
         payload: err,
@@ -56,7 +56,7 @@ const RegisterUser = (data) => async (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log("errors", err);
+      
       dispatch({
         type: actionTypes.REGISTER_FAILED,
         payload: err,
@@ -118,7 +118,7 @@ const getUserDetails = (data) => async (dispatch) => {
   await authService
     .getUserDetails(data)
     .then((response) => {
-      console.log('response success', response)
+      
       dispatch({
         type: actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS,
         payload: response.data,
@@ -169,7 +169,7 @@ const VerifyEmailOTP = (payload) => async (dispatch) => {
   await authService
     .verifyEmail({ userId }, data)
     .then((response) => {
-      console.log("email success", response);
+     
       dispatch({
         type: actionTypes.VERIFY_EMAIL_OTP_SUCCESS,
         payload: response.data,
@@ -180,7 +180,7 @@ const VerifyEmailOTP = (payload) => async (dispatch) => {
       history.push("/app/onboarding");
     })
     .catch((err) => {
-      console.log("error email", err);
+      
       dispatch({
         type: actionTypes.VERIFY_EMAIL_OTP_FAILED,
         payload: err,
@@ -314,7 +314,7 @@ const GetFiatCurrencies = () => async (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log("errors", err);
+     
       dispatch({
         type: actionTypes.GET_FIAT_CURRENCY_FAILED,
         payload: err,
@@ -340,7 +340,7 @@ const GetCryptoCurrencies = () => async (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log("errors", err);
+      
       dispatch({
         type: actionTypes.GET_CRYPTO_CURRENCY_FAILED,
         payload: err,
@@ -367,7 +367,7 @@ const GetUserWallets = () => async (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log("errors", err);
+      
       dispatch({
         type: actionTypes.GET_USER_WALLETS_FAILED,
         payload: err,
@@ -395,7 +395,7 @@ const CreateFiatWallet = (data) => async (dispatch) => {
       dispatch(GetUserWallets());
     })
     .catch((err) => {
-      console.log("errors", err);
+      
       dispatch({
         type: actionTypes.CREATE_USER_WALLET_FAILED,
         payload: err,
@@ -423,7 +423,7 @@ const CreateCryptoWallet = (data) => async (dispatch) => {
       dispatch(GetUserWallets());
     })
     .catch((err) => {
-      console.log("errors", err);
+      
       dispatch({
         type: actionTypes.CREATE_USER_WALLET_FAILED,
         payload: err,

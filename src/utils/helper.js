@@ -35,16 +35,16 @@ export const processImageToCloudinary = async (
     const url = `${API_BASE_URL}misc/upload-file`;
     const data = new FormData();
     data.append("file", file);
-    console.log('GCP Upload', url)
+    // console.log('GCP Upload', url)
     let res = await Axios.post(`${url}`, data, {
       onUploadProgress: progressEvent => {
         progress(parseInt(Math.round(progressEvent.loaded * 100 / progressEvent.total)))
       }
     });
-    error("urls", res.data)
+    // error("urls", res.data)
     return res.data.data.publicUrl;
   } catch (err) {
-    error(err);
+    // error(err);
   }
 };
 

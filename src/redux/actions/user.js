@@ -180,7 +180,7 @@ const GetUserBankAccount = () => async (dispatch) => {
   await generalService
     .getBankDetails({ userId })
     .then((response) => {
-      console.log('response', response)
+      
       dispatch({
         type: actionTypes.GET_BANK_ACCOUNT_SUCCESS,
         payload: response.data,

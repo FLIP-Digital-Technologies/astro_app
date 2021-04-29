@@ -11,7 +11,7 @@ const GetGiftCardCodes = (data) => async (dispatch) => {
   await giftCardService
     .getGiftCardCodes(data)
     .then((response) => {
-      console.log('gifts card', response)
+      
       dispatch({
         type: actionTypes.GET_CARD_CODES_SUCCESS,
         payload: response.data,

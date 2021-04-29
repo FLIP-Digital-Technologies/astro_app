@@ -20,7 +20,7 @@ import { getFiatCurrencies, getUserWallets } from "../../redux/actions/Auths";
 
 const SellGiftcard = (props) => {
   let b = props.giftCardList;
-  console.log('gift card',b)
+ 
   let list = b;
   useEffect(() => {
     props.getCards({ cardCode: "" });

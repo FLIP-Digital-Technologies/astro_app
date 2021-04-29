@@ -74,7 +74,7 @@ const BuyGiftCard = (props) => {
   }
 
   const showPromiseConfirm = () => {
-    console.log('card',card, props?.buyGiftCardDetails)
+    
 
     confirm({
       title: `Purchase of Gift card`,
@@ -98,7 +98,7 @@ const BuyGiftCard = (props) => {
       isCustom: false,
       fiatWalletId: card.walletId,
     };
-    console.log('buy gift', payload)
+    
     await props.buyGiftCard(payload);
     setOpen(true);
     setActive(false);
@@ -355,7 +355,7 @@ const BuyGiftCard = (props) => {
                   placeholder="minimum is 1"
                   labelClass={styles.largeMarginLabel}
                   onChange={(e) => {
-                    console.log('user ni', props.user)
+                    // console.log('user ni', props.user)
                     setCard((card) => ({
                       ...card,
                       quantity: e.target.value,

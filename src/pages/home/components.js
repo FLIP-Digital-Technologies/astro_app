@@ -75,7 +75,7 @@ export const DiscoFlyout = ({
               fee: 0,
               customerNumber: "",
             }));
-            console.log("lopsd", value);
+            // console.log("lopsd", value);
             if (value.code === "NGN") {
               getBillPaymentCategory({
                 billCategory: `discos-${value.code
@@ -96,7 +96,7 @@ export const DiscoFlyout = ({
             _id: item.id,
           }))}
         />
-        {console.log("lop", fiatCurrency)}
+        
         {state.currency in { NGN: "0" } && (
           <Select
             labelClass={styles.largeMarginLabel}
@@ -692,7 +692,7 @@ const PTwoPFlyout = ({
   }, [pairTwoPairFiatDetails]);
 
   const onConfirm = (data) => {
-    console.log('convert currency')
+    
     return convertedCurrency({
       amount: data,
       from: state.referenceCurrency,
@@ -729,7 +729,7 @@ const PTwoPFlyout = ({
       } else {
         return alert("Please enter a valid email address");
       }
-      console.log("send money", data);
+      
       initializeFiatPairTwoPairTransaction(data);
     }
     // setOpenModal(false);

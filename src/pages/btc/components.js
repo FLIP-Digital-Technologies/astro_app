@@ -39,7 +39,6 @@ export const BuySection = ({
   }, [rates]);
   const handleChange = ({ target: { name, value } }) => {
     // let ticker = rates && rates.tickers;
-    console.log(buy_btc_ghs_rate, buy_btc_ngn_rate, buy_btc_usd_rate);
     let btc, ngn, usd, ghs;
     if (name === "btc") {
       btc = value;
@@ -98,7 +97,7 @@ export const BuySection = ({
       },
     })
       .then((response) => {
-        // console.log("response5", response.data.ticker);
+        
         setWallet_btc_rate(response.data.ticker.buy);
       })
       .catch((err) => {
@@ -144,7 +143,7 @@ export const BuySection = ({
           label="Buy to"
           Dummy={{ text: `${active.Currency.code} wallet` }}
         />
-        {console.log("buysection", balance)}
+        
         <Select
           labelClass={styles.largeMarginLabel}
           hintClass={styles.largeMarginHint}
@@ -262,7 +261,7 @@ export const SellSection = ({
   //     setWallet_current_balance(balance[state.wallet].balance);
   // }, [balance, state.wallet]);
   useEffect(() => {
-    console.log("rates1", rates);
+    
     rates && rates.ticker && setSell_btc_usd_rate(rates.ticker.sell);
     rates && rates.tickers && setSell_btc_ngn_rate(rates.tickers.BTCNGN.sell);
     rates && rates.tickers && setSell_btc_ghs_rate(rates.tickers.BTCGHS.sell);
@@ -337,7 +336,7 @@ export const SellSection = ({
       },
     })
       .then((response) => {
-        // console.log("response5", response.data.ticker);
+        
         setWallet_btc_rate(response.data.ticker.sell);
       })
       .catch((err) => {
@@ -365,7 +364,7 @@ export const SellSection = ({
         <div className={styles.detailsCard__list__item}>
           <span className={styles.main}>You will receive</span>
           <span className={styles.sub}>
-            {console.log("curr", state.wallet)}
+            
             {Money(
               isNaN(state.wallet === "NGN" ? state.ngn : state.ghs)
                 ? 0

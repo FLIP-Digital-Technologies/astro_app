@@ -94,7 +94,7 @@ const CryptoPage = (props) => {
                     <div
                       className={styles.crypto}
                       onClick={() => {
-                        console.log(index, item);
+                        // console.log(index, item);
                         setActive({ ...item, icon: getIcon(item.Currency.code) });
                       }}
                     >

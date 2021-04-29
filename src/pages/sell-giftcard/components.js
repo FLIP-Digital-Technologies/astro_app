@@ -624,7 +624,7 @@ const GiftCardForm = ({
       //   details.cardType
       // }`,
     };
-    console.log('payloads',payload)
+    // console.log('payloads',payload)
     await SellGiftCard(payload);
     setOpen(true);
     setUploadLoading(false);
@@ -648,7 +648,7 @@ const GiftCardForm = ({
           onClick={() => history.push("/app")}
         />
       )}
-      {console.log("details", cardDetails)}
+      
       <Modal
         header={null}
         footer={null}
