@@ -361,7 +361,7 @@ const Home = ({
                       <LeftCircleOutlined
                         style={{
                           fontSize: "30px",
-                          color: fiatIndex < 1 ? "#08c" : "",
+                          color: fiatIndex < 1 ? "#9a4e6a" : "",
                         }}
                       />
                     </div>
@@ -385,9 +385,10 @@ const Home = ({
                       >
                         <span
                           className={styles.balances__title}
+                          style={{cursor:"pointer"}}
                           // onClick={(e) => e.preventDefault()}
                         >
-                          {currencyHeader}
+                          {currencyHeader} {"  "}
                           <DownOutlined />
                         </span>
                       </Dropdown>
@@ -432,7 +433,7 @@ const Home = ({
                           fontSize: "30px",
                           color:
                             fiatIndex + 1 === balance.fiatWallets.length
-                              ? "#08c"
+                              ? "#9a4e6a"
                               : "",
                         }}
                       />
@@ -453,7 +454,7 @@ const Home = ({
                       <LeftCircleOutlined
                         style={{
                           fontSize: "30px",
-                          color: fiatIndex < 1 ? "#08c" : "",
+                          color: fiatIndex < 1 ? "#9a4e6a" : "",
                         }}
                       />
                     </div>
@@ -515,9 +516,9 @@ const Home = ({
                           fontSize: "30px",
                           color:
                             balance.fiatWallets.length === 0
-                              ? "#08c"
+                              ? "#9a4e6a"
                               : fiatIndex + 1 === balance.fiatWallets.length
-                              ? "#08c"
+                              ? "#9a4e6a"
                               : "",
                         }}
                       />
@@ -541,7 +542,7 @@ const Home = ({
                       <LeftCircleOutlined
                         style={{
                           fontSize: "30px",
-                          color: cryptoIndex < 1 ? "#08c" : "",
+                          color: cryptoIndex < 1 ? "#9a4e6a" : "",
                         }}
                       />
                     </div>
@@ -607,7 +608,7 @@ const Home = ({
                           fontSize: "30px",
                           color:
                             cryptoIndex + 1 === balance.cryptoWallets.length
-                              ? "#08c"
+                              ? "#9a4e6a"
                               : "",
                         }}
                       />
@@ -628,7 +629,7 @@ const Home = ({
                       <LeftCircleOutlined
                         style={{
                           fontSize: "30px",
-                          color: cryptoIndex < 1 ? "#08c" : "",
+                          color: cryptoIndex < 1 ? "#9a4e6a" : "",
                         }}
                       />
                     </div>
@@ -690,9 +691,9 @@ const Home = ({
                           fontSize: "30px",
                           color:
                             balance.cryptoWallets.length === 0
-                              ? "#08c"
+                              ? "#9a4e6a"
                               : cryptoIndex + 1 === balance.cryptoWallets.length
-                              ? "#08c"
+                              ? "#9a4e6a"
                               : "",
                         }}
                       />

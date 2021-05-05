@@ -7,6 +7,7 @@ import {
   // Profile,
   Power,
   LogoNav,
+  AstroLogoNav
 } from "../../../assets/svg";
 import { navigation } from "./data";
 // import { history } from "../../../redux/store";
@@ -44,6 +45,7 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
   return (
     <Layout>
       <Sider
+
         breakpoint="lg"
         collapsedWidth="0"
         trigger={null}
@@ -57,20 +59,21 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
           height: "100vh",
           //   position: "fixed",
           //   left: 0,
-          backgroundColor: "#00519e",
+          backgroundColor: "#890F3C",
         }}
       >
         
         <div className={styles.logo}>
-          <LogoNav />
+          <AstroLogoNav />
         </div>
         <Menu
           style={{
-            backgroundColor: "#00519e",
+            backgroundColor: "#890F3C",
           }}
           theme="dark"
           mode="inline"
           defaultSelectedKeys={[pathname]}
+
         >
           {navigation &&
             navigation.map(({ Icon, Name, route }) => (

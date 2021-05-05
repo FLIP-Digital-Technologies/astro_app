@@ -594,7 +594,7 @@
         margin-left: auto;
         width: 100px;
         height: 100px;
-        border: 1px solid #00519e;
+        border: 1px solid #890F3C;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -1499,14 +1499,14 @@
 }
 
 .deleteButton {
-  background: #e82127;
+  background: #d8213c;
   color: #fff;
   margin-top: 10px;
 }
 
 .landing {
   &__top {
-    background: #00519e;
+    background: #890F3C;
     display: flex;
     flex-direction: column-reverse;
     padding: 0 50px 180px;
@@ -1651,7 +1651,7 @@
   }
 
   &__steps {
-    background: #00519e;
+    background: #890F3C;
     padding: 78px 30px;
     margin-top: -90px;
     page-break-after: 100px;
@@ -1861,7 +1861,7 @@
         font-size: 32px;
         line-height: 50px;
         margin-bottom: 22px;
-        color: #00519e;
+        color: #890F3C;
         font-weight: 700;
 
         @include sm {
@@ -2160,7 +2160,7 @@
 }
 
 .balances {
-  background-color: #00519e;
+  background-color: #890F3C;
   width: 100%;
   border-radius: 5px;
   color: #fff;
@@ -2235,7 +2235,7 @@
 
 
 .crypto {
-  background-color: #00519e;
+  background-color: #890F3C;
   width: 100%;
   border-radius: 5px;
   color: #fff;
@@ -2271,7 +2271,7 @@
     font-weight: 700;
     margin-top: 5px;
     text-align: center;
-    background-color: #00519e;
+    background-color: #890F3C;
   }
   &__price {
     color: #abafb1;
@@ -2351,7 +2351,7 @@
     width: 75px;
     height: 75px;
     margin-bottom: 0;
-    border: 1px solid #00519e;
+    border: 1px solid #890F3C;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -2367,7 +2367,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background-color: #00519e;
+      background-color: #890F3C;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -2427,7 +2427,7 @@
 
     &__btn {
       width: 100%;
-      background-color: #00519e;
+      background-color: #890F3C;
       color: #fff;
       padding: 5px;
       display: flex;
@@ -2443,7 +2443,7 @@
 }
 
 .actionBtn {
-  // border: 1px solid #00519e;
+  // border: 1px solid #890F3C;
   // box-shadow: 3px -3px 20px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   display: flex;
@@ -2472,7 +2472,7 @@
   div {
     width: 50px;
     height: 50px;
-    background-color: #00519e;
+    background-color: #890F3C;
     border-radius: 50%;
     margin-top: 30px;
     margin-bottom: 10px;
@@ -2560,7 +2560,7 @@
   border: 1px solid #707070;
 
   &.active {
-    border: 1px solid #00519e;
+    border: 1px solid #890F3C;
 
     .buy {
       background-color: red;
@@ -2656,7 +2656,7 @@
 }
 
 .actionBtns {
-  // border: 1px solid #00519e;
+  // border: 1px solid #890F3C;
   // box-shadow: 3px -3px 20px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   display: flex;
@@ -2687,7 +2687,7 @@
   div {
     width: 50px;
     height: 50px;
-    background-color: #00519e;
+    background-color: #890F3C;
     border-radius: 50%;
     margin-top: 30px;
     margin-bottom: 10px;

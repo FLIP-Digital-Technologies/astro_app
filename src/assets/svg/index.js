@@ -4,6 +4,7 @@ export { ReactComponent as LogoWhiteBig } from "./logo_white_big.svg";
 export { ReactComponent as LogoFooter } from "./LogoFooter.svg";
 
 export { ReactComponent as LogoNav } from "./logo.svg";
+export { ReactComponent as AstroLogoNav } from "./astro-img.svg";
 
 export { ReactComponent as Home } from "./home_new.svg";
 export { ReactComponent as GiftCard } from "./gift_new.svg";

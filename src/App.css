@@ -28,7 +28,7 @@ body {
     width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), color 0.3s;
 }
 .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: #005ca2 !important;
+  background-color: #8d3153 !important;
 }
 .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
   .ant-menu-item-selected
@@ -43,7 +43,7 @@ body {
   left: 0;
   width: 2px;
   height: 100%;
-  background-color: #005ca2;
+  background-color: #8d3153;
 }
 
 .site-layout-background {

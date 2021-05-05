@@ -103,27 +103,27 @@ export const Hands = () => {
       <div className={`${styles.content} ${styles.rev}`}>
         <div className={styles.title}>Get the best value for your Bitcoins</div>
         <div className={styles.sub} style={{marginBottom: 13}}>
-          <i class="fas fa-circle" style={{color: "#00519e"}}></i>{" "}
+          <i class="fas fa-circle" style={{color: "#890F3C"}}></i>{" "}
           Trade Gift cards (Buy and sell)
         </div>
         <div className={styles.sub} style={{marginBottom: 13}}>
-          <i class="fas fa-circle" style={{color: "#00519e"}}></i>{" "}
+          <i class="fas fa-circle" style={{color: "#890F3C"}}></i>{" "}
           Trade Bitcoins (Buy and Sell)
         </div>
         <div className={styles.sub} style={{marginBottom: 13}}>
-          <i class="fas fa-circle" style={{color: "#00519e"}}></i>{" "}
+          <i class="fas fa-circle" style={{color: "#890F3C"}}></i>{" "}
           Free and secure crypto wallets
         </div>
         <div className={styles.sub} style={{marginBottom: 13}}>
-          <i class="fas fa-circle" style={{color: "#00519e"}}></i>{" "}
+          <i class="fas fa-circle" style={{color: "#890F3C"}}></i>{" "}
           Free Naira and Cedis wallets
         </div>
         <div className={styles.sub} style={{marginBottom: 13}}>
-          <i class="fas fa-circle" style={{color: "#00519e"}}></i>{" "}
+          <i class="fas fa-circle" style={{color: "#890F3C"}}></i>{" "}
           Send money ( peer to peer )
         </div>
         <div className={styles.sub} style={{marginBottom: 13}}>
-          <i class="fas fa-circle" style={{color: "#00519e"}}></i>{" "}
+          <i class="fas fa-circle" style={{color: "#890F3C"}}></i>{" "}
           Pay bills
         </div>
         <br />

@@ -22,7 +22,7 @@
   border-radius: 50%;
   z-index: 3;
   margin: 20px auto;
-  border: 1px solid #00519e;
+  border: 1px solid #890F3C;
   overflow: hidden;
 }
 
@@ -95,7 +95,7 @@
 }
 
 .carousel.carousel-slider .control-arrow {
-  background: #00519e !important;
+  background: #890F3C !important;
   height: 50px !important;
   position: absolute;
   top: 35% !important;
