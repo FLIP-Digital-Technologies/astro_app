@@ -240,7 +240,7 @@
     justify-content: center;
 
     @include sm {
-      width: 100%;
+      width: 80%;
     }
 
     @include md {
@@ -252,7 +252,7 @@
     }
 
     &__content {
-      width: 500px;
+      width: 400px;
     }
   }
 }

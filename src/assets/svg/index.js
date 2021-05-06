@@ -6,6 +6,8 @@ export { ReactComponent as LogoFooter } from "./LogoFooter.svg";
 export { ReactComponent as LogoNav } from "./logo.svg";
 export { ReactComponent as AstroLogoNav } from "./astro-img.svg";
 
+export { ReactComponent as AstroLogoFull } from "./astro-logo-full.svg";
+
 export { ReactComponent as Home } from "./home_new.svg";
 export { ReactComponent as GiftCard } from "./gift_new.svg";
 export { ReactComponent as Contact } from "./contact.svg";

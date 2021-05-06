@@ -1,4 +1,7 @@
 @import "../breakpoints.scss";
+.allFont {
+  font-family:"Verdana"
+}
 
 .billsBtnSubmit {
   flex: none;
@@ -812,6 +815,7 @@
     padding-bottom: 60px;
     justify-content: flex-start;
     align-items: center;
+    
 
     &__title {
       font-size: 36px;
@@ -847,6 +851,8 @@
       background: #f6f7f9 !important;
       padding-left: 19px !important;
       margin-bottom: 0px;
+      border-radius:20px;
+      
 
       &::placeholder {
         color: #777777 !important;
@@ -860,14 +866,17 @@
       &__body {
         margin-bottom: 60px;
         width: 100%;
+        
       }
     }
 
     &__button {
       font-size: 18px !important;
       line-height: 20px !important;
-      padding: 20px !important;
+      padding: 13px !important;
       margin-top: 30px;
+      border-radius:30px;
+      background-image: linear-gradient(to right, #921946 , #e53b7a)
     }
 
     &__terms {

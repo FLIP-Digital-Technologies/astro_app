@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import { Modal } from "antd";
+import { Modal, Input as AntInput } from "antd";
 import { AuthHeader } from "../../components/header";
 import Input from "../../components/input";
 import Button from "../../components/button";
@@ -54,7 +54,7 @@ const SignIn = (props) => {
   };
 
   return (
-    <div>
+    <div className={styles.allFont}>
       <Modal
         footer={null}
         title="Reset Password"
@@ -83,6 +83,7 @@ const SignIn = (props) => {
           </div>
         ) : (
           <div>
+            
             <Input
               className={styles.auth__content__input__body}
               inputClass={styles.auth__content__input}
@@ -118,7 +119,7 @@ const SignIn = (props) => {
           <h3 className={styles.auth__content__subTitle}>
             Sign in to your Flip account
           </h3>
-
+          
           <Input
             className={styles.auth__content__input__body}
             inputClass={styles.auth__content__input}
@@ -129,6 +130,7 @@ const SignIn = (props) => {
             type="email"
             required={true}
             label="Email"
+            style={{borderRadius:10}}
           />
           <Input
             className={styles.auth__content__input__body}
@@ -139,6 +141,7 @@ const SignIn = (props) => {
             type="password"
             required={true}
             label="Password"
+            style={{borderRadius:10}}
           />
           <div  onClick={showModal} style={{cursor: "pointer"}} className={styles.auth__content__forgot}>Forgot Password?</div>
           <Button

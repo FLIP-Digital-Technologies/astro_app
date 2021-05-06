@@ -1,5 +1,5 @@
 const dev = {
-  API_ENDPOINT_URL: "https://api-dot-myflipapp-297309.uc.r.appspot.com/v1/",
+  API_ENDPOINT_URL: "https://api.astroafrica.site/v1/",
 };
 
 const prod = {
@@ -11,7 +11,7 @@ const test = {
 };
 
 const stage = {
-  API_ENDPOINT_URL:  "https://api-dot-myflipapp-297309.uc.r.appspot.com/v1/",
+  API_ENDPOINT_URL:  "https://api.astroafrica.site/v1/",
                    
 };
 
