@@ -53,7 +53,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    background-color: #94385a;
+    // background-color: #94385a;
+    background-image: linear-gradient(to right, #921946 , #eed8d8);
 
     @include md {
       padding: 0 70px;
