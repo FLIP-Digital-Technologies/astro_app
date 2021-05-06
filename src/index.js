@@ -25,14 +25,12 @@ ReactDOM.render(
       <Switch>
         <PrivateRoute allow path="/verification" component={Verification} />
         <Route exact path="/">
-          <Landing />
+          {/* <Landing /> */}
+          <SignIn />
         </Route>
-        {/* <Route path="/about">
-          <About />
-        </Route> */}
-        <Route path="/rates">
+        {/* <Route path="/rates">
           <AboutRates />
-        </Route>
+        </Route> */}
         <Route path="/signin">
           <SignIn />
         </Route>
