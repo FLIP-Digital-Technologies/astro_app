@@ -3,7 +3,7 @@ const dev = {
 };
 
 const prod = {
-  API_ENDPOINT_URL: "https://myflipapp-297309.uc.r.appspot.com/",
+  API_ENDPOINT_URL:  "https://api.astroafrica.site/v1/",
 };
 
 const test = {
