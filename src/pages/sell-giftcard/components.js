@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Progress, Modal } from "antd";
+import { Progress, Modal, notification } from "antd";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import Input from "../../components/input";
 import Select from "../../components/select";
@@ -497,7 +497,7 @@ const GiftCardForm = ({
   // const [canTrade, SetCanTrade] = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false);
   const [total, setTotal] = useState(0);
-  const [rate_selected, setRate_selected] = useState("")
+  const [rate_selected, setRate_selected] = useState("");
 
   useEffect(() => {
     getCardDetails({ cardCode: active.uid });
@@ -505,11 +505,23 @@ const GiftCardForm = ({
   }, []);
 
   useEffect(() => {
-    let fiatCurrencyUsed = fiatCurrency.filter((item) => item.code === details.wallet)[0]
+    let fiatCurrencyUsed = fiatCurrency.filter(
+      (item) => item.code === details.wallet
+    )[0];
     details && details.cardType && details.cardType === "physical"
-      ? setTotal(details.amount && details.value.physical[details.amount] * details.amount * parseFloat(fiatCurrencyUsed.we_buy, 10))
+      ? setTotal(
+          details.amount &&
+            details.value.physical[details.amount] *
+              details.amount *
+              parseFloat(fiatCurrencyUsed.we_buy, 10)
+        )
       : details.cardType === "ecode"
-      ? setTotal(details.amount && details.value.ecode[details.amount] * details.amount * parseFloat(fiatCurrencyUsed.we_buy, 10))
+      ? setTotal(
+          details.amount &&
+            details.value.ecode[details.amount] *
+              details.amount *
+              parseFloat(fiatCurrencyUsed.we_buy, 10)
+        )
       : setTotal(0);
 
     // getCardDetails({ cardCode: active.uid });
@@ -579,7 +591,9 @@ const GiftCardForm = ({
   };
 
   const onWalletChange = (value) => {
-    let fiatCurrencyUsed = fiatCurrency.filter((item)=> item.code === value.Currency.code)[0]
+    let fiatCurrencyUsed = fiatCurrency.filter(
+      (item) => item.code === value.Currency.code
+    )[0];
     setDetails((details) => ({
       ...details,
       wallet: value.Currency.code,
@@ -588,7 +602,7 @@ const GiftCardForm = ({
       cardType: "",
       amount: "",
     }));
-    setRate_selected(fiatCurrencyUsed.we_buy)
+    setRate_selected(fiatCurrencyUsed.we_buy);
   };
 
   const handleDelete = (index) => {
@@ -604,28 +618,28 @@ const GiftCardForm = ({
     }
     const resFile = await Promise.all(
       details.file.map((i) =>
-        processImageToCloudinary(
-          i,
-          console.log,
-          setProgress,
-        )
+        processImageToCloudinary(i, console.log, setProgress)
       )
     );
     const payload = {
-      // referenceCurrency: details && details.wallet,
       sellerRemarks: details.remark,
       imageURLs: resFile,
       amount: parseInt(details.amount),
       fiatCurrencyId: details.fiatCurrencyId,
-      cardType:details.cardType,
-      cardCurrencyId:details.cardCurrencyId,
-      giftCardId:active._id,
-      // cardCode: `${active.name}.${details.country.toLowerCase()}.${
-      //   details.cardType
-      // }`,
+      cardType: details.cardType,
+      cardCurrencyId: details.cardCurrencyId,
+      giftCardId: active._id,
     };
+    if (resFile[0] === "error") {
+      return notification.error({
+        message: "Could not upload Image",
+      });
+    } else {
+      await SellGiftCard(payload);
+    }
+
     // console.log('payloads',payload)
-    await SellGiftCard(payload);
+
     setOpen(true);
     setUploadLoading(false);
   };
@@ -648,7 +662,7 @@ const GiftCardForm = ({
           onClick={() => history.push("/app")}
         />
       )}
-      
+
       <Modal
         header={null}
         footer={null}
@@ -916,7 +930,7 @@ const GiftCardForm = ({
                 // !details.total ||
                 !details.cardType ||
                 !details.country ||
-                loading ||
+                // loading ||
                 // !canTrade ||
                 uploadLoading
               }
@@ -932,7 +946,7 @@ const GiftCardForm = ({
 const mapStateToProps = (state) => ({
   // loading: state.giftCard.loading,
   cardDetails: state.giftCard.cardDetails,
-  fileUrl:state.giftCard.fileUrl
+  fileUrl: state.giftCard.fileUrl,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -947,7 +961,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   uploadFile: (data) => {
     dispatch(uploadFileToBucket(data));
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GiftCardForm);

@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from "react";
+import React, { useRef, useEffect } from "react";
 import Loading from "../components/Loading";
 import png from "../assets/png";
 import * as SVG from "../assets/svg";
@@ -9,26 +9,22 @@ import QRious from "qrious";
 import Axios from "axios";
 import { API_BASE_URL } from "../configs/AppConfig";
 
-export const QRCode = ({text, size}) => {
+export const QRCode = ({ text, size }) => {
   const canvas = useRef(null);
   useEffect(() => {
     if (canvas != null && canvas.current != null) {
       // eslint-disable-next-line
       let qr = new QRious({
         element: canvas.current,
-          value: text,
-          size: size
+        value: text,
+        size: size,
       });
     }
   });
-  return(<canvas ref={canvas}></canvas>);
-}
+  return <canvas ref={canvas}></canvas>;
+};
 
-export const processImageToCloudinary = async (
-  file,
-  error,
-  progress
-) => {
+export const processImageToCloudinary = async (file, error, progress) => {
   // `fieldName` and `meta` are not used for now${moment().format('DDMMMYYYY')}
 
   try {
@@ -37,14 +33,20 @@ export const processImageToCloudinary = async (
     data.append("file", file);
     // console.log('GCP Upload', url)
     let res = await Axios.post(`${url}`, data, {
-      onUploadProgress: progressEvent => {
-        progress(parseInt(Math.round(progressEvent.loaded * 100 / progressEvent.total)))
-      }
-    });
-    // error("urls", res.data)
+      onUploadProgress: (progressEvent) => {
+        progress(
+          parseInt(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          )
+        );
+      },
+    })
+    error("urls", res);
     return res.data.data.publicUrl;
   } catch (err) {
-    // error(err);
+    error(err);
+    return "error"
+    
   }
 };
 
@@ -109,7 +111,7 @@ export function WaitingComponent(Component) {
 }
 
 export function Money(data = 0, curr = "NGN") {
-  let money = typeof(data) === "number" ? data : parseFloat(data, 10);
+  let money = typeof data === "number" ? data : parseFloat(data, 10);
   return money.toLocaleString("en-NG", {
     currency: curr,
     style: "currency",
@@ -139,9 +141,7 @@ export const DigitalAsset = [
         className={styles.countryOption}
         style={{ display: "flex", alignItems: "center" }}
       >
-        <SVG.BitcoinInput
-          style={{ margin: 5 }}
-        />
+        <SVG.BitcoinInput style={{ margin: 5 }} />
         <span>BTC</span>
       </div>
     ),
@@ -224,7 +224,7 @@ export const DigitalAsset = [
   },
   {
     value: "Ebay",
-    name:  "ebay",
+    name: "ebay",
     render: (
       <div
         className={styles.countryOption}
@@ -355,7 +355,7 @@ export const DigitalAsset = [
       </div>
     ),
   },
-]
+];
 
 export const cardList = {
   itunes: { name: "iTunes", Image: SVG.CardItunes },
@@ -369,12 +369,7 @@ export const cardList = {
   sephora: {
     name: "Sephora",
     Image: () => (
-      <img
-        height="151.692"
-        width="241"
-        src={png.SephoraSmallCard}
-        alt="card"
-      />
+      <img height="151.692" width="241" src={png.SephoraSmallCard} alt="card" />
     ),
   },
   ebay: {
@@ -392,12 +387,7 @@ export const cardList = {
   amazon: {
     name: "Amazon",
     Image: () => (
-      <img
-        height="151.692"
-        width="241"
-        src={png.AmazonSmallCard}
-        alt="card"
-      />
+      <img height="151.692" width="241" src={png.AmazonSmallCard} alt="card" />
     ),
   },
   "amex-gold": {
@@ -835,9 +825,12 @@ export const cardOptions = [
     value: "physical",
     name: "Physical Card",
     render: (
-      <div className={styles.countryOption} style={{display: "flex",  alignItems: "center"}}>
+      <div
+        className={styles.countryOption}
+        style={{ display: "flex", alignItems: "center" }}
+      >
         <SVG.CardTypePhysical />
-        <span style={{marginLeft: 10}}>Physical Card</span>
+        <span style={{ marginLeft: 10 }}>Physical Card</span>
       </div>
     ),
   },
@@ -845,9 +838,12 @@ export const cardOptions = [
     value: "small-card",
     name: "Small Card",
     render: (
-      <div className={styles.countryOption} style={{display: "flex",  alignItems: "center"}}>
+      <div
+        className={styles.countryOption}
+        style={{ display: "flex", alignItems: "center" }}
+      >
         <SVG.CardTypePhysical />
-        <span style={{marginLeft: 10}}>Small Card</span>
+        <span style={{ marginLeft: 10 }}>Small Card</span>
       </div>
     ),
   },
@@ -855,9 +851,12 @@ export const cardOptions = [
     value: "big-card",
     name: "Large Card",
     render: (
-      <div className={styles.countryOption} style={{display: "flex",  alignItems: "center"}}>
+      <div
+        className={styles.countryOption}
+        style={{ display: "flex", alignItems: "center" }}
+      >
         <SVG.CardTypePhysical />
-        <span style={{marginLeft: 10}}>Large Card</span>
+        <span style={{ marginLeft: 10 }}>Large Card</span>
       </div>
     ),
   },
@@ -865,9 +864,12 @@ export const cardOptions = [
     value: "e-code",
     name: "E-Code",
     render: (
-      <div className={styles.countryOption} style={{display: "flex",  alignItems: "center"}}>
+      <div
+        className={styles.countryOption}
+        style={{ display: "flex", alignItems: "center" }}
+      >
         <SVG.CardTypePhysical />
-        <span style={{marginLeft: 10}}>E-Code</span>
+        <span style={{ marginLeft: 10 }}>E-Code</span>
       </div>
     ),
   },
@@ -944,4 +946,4 @@ export const country = [
 
 export const joinArray = (newDate, oldData) => {
   return [...oldData, ...newDate];
-}
+};

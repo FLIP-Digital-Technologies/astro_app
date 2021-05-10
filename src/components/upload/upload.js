@@ -56,6 +56,7 @@ const Upload = ({ handleFile, file }) => {
         ref={hiddenFileInput}
         style={{ display: "none" }}
         type="file"
+        accept="image/jpeg,image/png"
       />
     </div>
   );
