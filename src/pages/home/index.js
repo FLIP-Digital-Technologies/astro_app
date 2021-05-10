@@ -62,6 +62,7 @@ const Home = ({
   fiatCurrency,
   cryptoCurrency,
   btcTicker,
+  userLoading
 }) => {
   const [wallet, setWallet] = useState("NGN");
   let [fiatIndex, setFiatIndex] = useState(0);
@@ -740,8 +741,9 @@ const Home = ({
               <div>A</div>
             </div> */}
             <div
+            
               onClick={() => {
-                balance?.fiatWallets
+                userLoading
                   ? notification.info({
                       message: "Please wait",
                     })
@@ -758,7 +760,7 @@ const Home = ({
             </div>
             <div
               onClick={() => {
-                balance?.fiatWallets
+                userLoading
                   ? notification.info({
                       message: "Please wait",
                     })
@@ -784,7 +786,13 @@ const Home = ({
               style={{ width: "100%", flexWrap: "wrap" }}
             >
               <div
-                onClick={() => setShowPTWOP(true)}
+              onClick={() => {
+                userLoading
+                  ? notification.info({
+                      message: "Please wait",
+                    })
+                  : setShowPTWOP(true);
+              }}
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
                 <div>
@@ -804,8 +812,14 @@ const Home = ({
                 <span>Sell GiftCard</span>
               </div>
               <div
+              onClick={() => {
+                userLoading
+                  ? notification.info({
+                      message: "Please wait",
+                    })
+                  : setShowPTWOPcrypto(true);
+              }}
                 // onClick={() => history.push("/app/crypto")}
-                onClick={() => setShowPTWOPcrypto(true)}
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
                 <div>
@@ -816,7 +830,14 @@ const Home = ({
                 </span>
               </div>
               <div
-                onClick={() => setShowAirtime(true)}
+              onClick={() => {
+                userLoading
+                  ? notification.info({
+                      message: "Please wait",
+                    })
+                  : setShowAirtime(true);
+              }}
+                
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
                 <div>
@@ -843,6 +864,7 @@ const Home = ({
 
 const mapStateToProps = (state) => ({
   user: state.user.user,
+  userLoading:state.user.loading,
   balance: state.btc.balance,
   createWallets: state.user.createWallet,
   fiatCurrency: state.user.fiatCurrency,
