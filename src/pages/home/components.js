@@ -63,7 +63,7 @@ export const DiscoFlyout = ({
       <div className={styles.airttime}>
         <Select
           labelClass={styles.largeMarginLabel}
-          label="Select currency"
+          label="Select Wallet"
           value={state.currency}
           onSelect={(value) => {
             setState((state) => ({
@@ -186,7 +186,7 @@ export const InternetFlyout = ({
       <div className={styles.airttime}>
         <Select
           labelClass={styles.largeMarginLabel}
-          label="Select currency"
+          label="Select Wallet"
           value={state.currency}
           onSelect={(value) => {
             setState((state) => ({
@@ -334,7 +334,7 @@ export const CableFlyout = ({
       <div className={styles.airttime}>
         <Select
           labelClass={styles.largeMarginLabel}
-          label="Select currency"
+          label="Select Wallet"
           value={state.currency}
           onSelect={(value) => {
             setState((state) => ({
@@ -484,7 +484,7 @@ export const AirtimeFlyout = ({
       <div className={styles.airttime}>
         <Select
           labelClass={styles.largeMarginLabel}
-          label="Select currency"
+          label="Select Wallet"
           value={state.currency}
           onSelect={(value) => {
             setState((state) => ({

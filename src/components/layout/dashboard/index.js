@@ -7,7 +7,8 @@ import {
   // Profile,
   Power,
   LogoNav,
-  AstroLogoNav
+  AstroLogoNav,
+  AstroLogoWhite
 } from "../../../assets/svg";
 import { navigation } from "./data";
 // import { history } from "../../../redux/store";
@@ -64,7 +65,7 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
       >
         
         <div className={styles.logo}>
-          <AstroLogoNav />
+          <AstroLogoWhite />
         </div>
         <Menu
           style={{

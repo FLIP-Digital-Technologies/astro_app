@@ -12,6 +12,7 @@ import { initialWithdrawalByUser } from "../../redux/actions/withdrawals";
 import { Money } from "../../utils/helper";
 import fetch from "../../redux/services/FetchInterceptor";
 import { getBTCWalletDetails } from "../../redux/actions/btc";
+import PinInput from "react-pin-input";
 
 const { confirm } = Modal;
 
@@ -98,7 +99,7 @@ const WithDrawModalPersonal = ({
       />
       <Select
         labelClass={styles.largeMarginLabel}
-        label="Select currency"
+        label="Select Wallet"
         value={acc.currency}
         onSelect={(value) => {
           setAcc((acc) => ({
@@ -146,11 +147,12 @@ const WithDrawModalPersonal = ({
         className={styles.largeMarginLabel}
         label="Enter Transaction Pin"
         placeholder="Enter Transaction Pin"
-        type="password"
+        type="number"
         maxlength={4}
         value={acc.pin}
         onChange={(e) => setAcc({ ...acc, pin: e.target.value })}
       />
+      
       <Button
         onClick={() => showPromiseConfirm()}
         className={styles.button}

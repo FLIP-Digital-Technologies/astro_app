@@ -137,7 +137,7 @@ const SignUp = (props) => {
           <Input
             className={styles.auth__content__input__body}
             inputClass={styles.auth__content__input}
-            placeholder="Referral Code"
+            placeholder="Referral Code (Optional)"
             onChange={(e) => handleReferralCode(e.target.value)}
             required={false}
             value={referralCode}
