@@ -385,7 +385,7 @@ const Home = ({
                       >
                         <span
                           className={styles.balances__title}
-                          style={{cursor:"pointer"}}
+                          style={{ cursor: "pointer" }}
                           // onClick={(e) => e.preventDefault()}
                         >
                           {currencyHeader} {"  "}
@@ -739,7 +739,16 @@ const Home = ({
             {/* </div>
               <div>A</div>
             </div> */}
-            <div onClick={() => setShowFund(true)} className={styles.fund}>
+            <div
+              onClick={() => {
+                balance?.fiatWallets
+                  ? notification.info({
+                      message: "Please wait",
+                    })
+                  : setShowFund(true);
+              }}
+              className={styles.fund}
+            >
               <div className={styles.fund__image}>
                 <div>
                   <PlusOutlined style={{ fontSize: 23 }} />
@@ -748,7 +757,14 @@ const Home = ({
               <span className={styles.fund__text}>Fund Wallet</span>
             </div>
             <div
-              onClick={() => setOpenWithdrawal(true)}
+              onClick={() => {
+                balance?.fiatWallets
+                  ? notification.info({
+                      message: "Please wait",
+                    })
+                  : setOpenWithdrawal(true);
+              }}
+              
               className={styles.fund}
             >
               <div className={styles.fund__image}>
