@@ -55,7 +55,7 @@ const Transactions = () => {
                 <div>
                   <BarChartOutlined />
                 </div>
-                <span>{"Fiat Transactions"}</span>
+                <span>{"Fiat"}</span>
               </div>
               <div
                 onClick={() => {
@@ -70,7 +70,7 @@ const Transactions = () => {
                 <div>
                   <PayCircleOutlined />
                 </div>
-                <span>{"Cryto Transactions"}</span>
+                <span>{"Crypto"}</span>
               </div>
               <div
                 onClick={() => {
@@ -85,7 +85,7 @@ const Transactions = () => {
                 <div>
                   <PayCircleOutlined />
                 </div>
-                <span>{"GiftCard Transactions"}</span>
+                <span>{"GiftCard"}</span>
               </div>
               {/* ))} */}
             </div>

@@ -9,10 +9,16 @@ billPayment.initialBillPayment = function (params, payload) {
   //   "amount": 10
   //   "itemCode": "MD489"
   // }
+  // {
+  //   "currencyId": 2,
+  //   "itemCode": "it372",
+  //   "customerNumber": "2348039393423",
+  //   "amount": 43000
+  // }
   let data = {};
   data.customerNumber = payload.customerNumber;
   data.amount = payload.amount;
-  data.currencyId = payload.currencyId;
+  data.fiatWalletId = payload.currencyId;
   data.itemCode = payload.itemCode;
   return fetch({
     url: `/bills/${params.userId}/${params.billCategory}`,
@@ -30,17 +36,17 @@ billPayment.getBillPaymentCategory = function (params) {
 
 billPayment.getBillPaymentTransactionDetail = function (params) {
   return fetch({
-    url: `/bills/${params.userId}/${params.transactionId}`,
+    url: `/bills/${params.userId}/transactions/${params.transactionId}`,
     method: "get",
   });
 };
 
 billPayment.getAllBillPaymentTransactionByUser = function (params) {
   return fetch({
-    url: `/bills/${params.userId}/history`,
+    url: `/bills/${params.userId}/transactions`,
     method: "get",
     params: {
-      page: params.skip || 1,
+      page: params.skip || 0,
       per_page: params.limit,
     },
   });

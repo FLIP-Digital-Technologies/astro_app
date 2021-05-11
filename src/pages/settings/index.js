@@ -9,7 +9,12 @@ import { DashboardLayout } from "../../components/layout";
 import { Copy } from "../../assets/svg";
 import styles from "../styles.module.scss";
 
-import { changePassword, getCryptoCurrencies, getFiatCurrencies, GetUserDetails } from "../../redux/actions/Auths";
+import {
+  changePassword,
+  getCryptoCurrencies,
+  getFiatCurrencies,
+  GetUserDetails,
+} from "../../redux/actions/Auths";
 import { getBTCWalletDetails } from "../../redux/actions/btc";
 import {
   getUserBankAccount,
@@ -161,14 +166,14 @@ const Profile = ({
   cryptoCurrency,
   fiatCurrency,
   getMainFiatCurrency,
-  getMainCryptoCurrency
+  getMainCryptoCurrency,
 }) => {
   useEffect(() => {
     getCurrentUser();
-    console.log('abh',[...fiatCurrency, ...cryptoCurrency])
+    // console.log("abh", [...fiatCurrency, ...cryptoCurrency]);
     getUserBankDetails();
-    getMainFiatCurrency()
-    getMainCryptoCurrency()
+    getMainFiatCurrency();
+    getMainCryptoCurrency();
     // getBankList();
     getBalance();
     // eslint-disable-next-line
@@ -183,6 +188,10 @@ const Profile = ({
     currency: "",
     bankBranchCode: "",
     bankBranchName: "",
+    accountType: {
+      value: "",
+      country: "",
+    },
   };
 
   const [state, setState] = useState(INITIAL_STATE);
@@ -200,10 +209,32 @@ const Profile = ({
 
   useEffect(() => {
     if (
+      state.accountType.value === "ng-account" &&
       state.bankCode &&
       state.accountNumber.length === 10 &&
       !state.isMobileMoney
     ) {
+      console.log("ng- account");
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: state.accountNumber,
+      });
+    } else if (
+      state.accountType.value === "gh-account" &&
+      state.bankCode &&
+      state.accountNumber.length === 12 &&
+      !state.isMobileMoney
+    ) {
+      console.log("gh - account");
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: state.accountNumber,
+      });
+    } else if (
+      state.accountType.value === "gh-mobile" &&
+      state.accountNumber.length === 12
+    ) {
+      console.log("mobile");
       verifyBankAccount({
         bankCode: state.bankCode,
         accountNumber: state.accountNumber,
@@ -236,6 +267,7 @@ const Profile = ({
     submitBankDetails({
       ...state,
       currencyId: state.currency === "GH" ? 2 : 1,
+      accountType: state.accountType,
     });
     setTimeout(() => {
       setState((state) => ({
@@ -251,7 +283,6 @@ const Profile = ({
         isMobileMoney: false,
       }));
     }, 2000);
-    
   };
 
   const handleMobileMoneyBankCode = (value) => {
@@ -373,12 +404,14 @@ const Profile = ({
                     style={{ width: "100%" }}
                   >{`${item.account_number}`}</span>
                   <span style={{ width: "100%" }}>{`${
-                    item.isMobileMoney
+                    item.details.is_mobile_money
                       ? "Mobile Money Account"
-                      : item.account_name
+                      : item.details.account_name
                   }`}</span>
                   <span style={{ width: "100%" }}>{`${
-                    item.isMobileMoney ? item.bank_code : item.bank_name
+                    item.details.is_mobile_money
+                      ? item.bank_code
+                      : item.details.bankName
                   }`}</span>
                   <Button
                     className={styles.deleteButton}
@@ -410,12 +443,13 @@ const Profile = ({
             <Select
               labelClass={styles.profileBankInputLabel}
               className={styles.profileBankInput}
-              label="Select currency"
+              label="Select Account Type"
               value={state.currency}
               onSelect={(value) => {
                 setState((state) => ({
                   ...state,
-                  currency: value,
+                  currency: value.country,
+                  accountType: value,
                   accountNumber: "",
                   bankCode: "",
                   bvn: "",
@@ -425,21 +459,43 @@ const Profile = ({
                   bankBranchName: "",
                   isMobileMoney: false,
                 }));
-                if( value !== "US") {
-                  getBankList({ country: value });
+                if (value !== "US") {
+                  getBankList({ country: value.country });
                 }
               }}
               name="select payment currency"
-              options={fiatCurrency.map((item)=> ({
-                render: item.name,
-                value:item.code.substring(0,2)
-              }))}
-              // options={[
-              //   { render: "NGN", value: "NG" },
-              //   { render: "GHS", value: "GH" },
-              // ]}
+              // options={fiatCurrency.map((item)=> ({
+              //   render: item.name,
+              //   value:item.code.substring(0,2)
+              // }))}
+              options={[
+                {
+                  render: "Nigeria Accounts",
+                  value: {
+                    country: "NG",
+                    value: "ng-account",
+                    name: "Nigeria Account",
+                  },
+                },
+                {
+                  render: "Ghana Accounts",
+                  value: {
+                    country: "GH",
+                    value: "gh-account",
+                    name: "Ghana Account",
+                  },
+                },
+                {
+                  render: "Ghana Mobile Money",
+                  value: {
+                    country: "GH",
+                    value: "gh-mobile",
+                    name: "Ghana Mobile Money",
+                  },
+                },
+              ]}
             />
-            {state.currency === "GH" && (
+            {/* {state.currency === "GH" && (
               <div
                 className={styles.profileBankInput}
                 style={{
@@ -477,8 +533,8 @@ const Profile = ({
                   unCheckedChildren="No"
                 />
               </div>
-            )}
-            {state.currency === "NG" && (
+            )} */}
+            {state.accountType.value === "ng-account" && (
               <Select
                 name="bankCode"
                 labelClass={styles.profileBankInputLabel}
@@ -493,7 +549,7 @@ const Profile = ({
                 }))}
               />
             )}
-            {state.currency === "GH" && !state.isMobileMoney && (
+            {state.accountType.value === "gh-account" && (
               <Select
                 name="bankCode"
                 className={styles.profileBankInput}
@@ -507,7 +563,7 @@ const Profile = ({
                 }))}
               />
             )}
-            {state.currency === "GH" && !state.isMobileMoney && (
+            {state.accountType.value === "gh-account" && (
               <Select
                 name="bankBranchName"
                 labelClass={styles.profileBankInputLabel}
@@ -531,7 +587,7 @@ const Profile = ({
                 }
               />
             )}
-            {state.currency === "GH" && state.isMobileMoney && (
+            {state.accountType.value === "gh-mobile" && (
               <Select
                 name="bankCode"
                 className={styles.profileBankInput}
@@ -547,7 +603,7 @@ const Profile = ({
                 ]}
               />
             )}
-            {state.currency && !state.isMobileMoney && (
+            {state.currency && state.accountType.value !== "gh-mobile" && (
               <Input
                 name="accountNumber"
                 value={state.accountNumber}
@@ -556,11 +612,11 @@ const Profile = ({
                 onChange={handleChange}
                 label="Account Number"
                 placeholder="e.g 01236548"
-                maxLength="10"
+                maxLength="15"
                 hint="Please ensure to input the correct account number"
               />
             )}
-            {state.isMobileMoney && (
+            {state.accountType.value === "gh-mobile" && (
               <Input
                 name="accountNumber"
                 value={state.accountNumber}
@@ -569,11 +625,11 @@ const Profile = ({
                 onChange={handleChange}
                 label="Mobile Number"
                 placeholder="e.g 01236548"
-                maxLength="10"
+                maxLength="15"
                 hint="Please ensure to input the correct account number"
               />
             )}
-            {state.currency === "GH" && !state.isMobileMoney && (
+            {state.accountType.value !== "gh-mobile" && (
               <Input
                 name="accountName"
                 value={state.accountName}
@@ -586,34 +642,7 @@ const Profile = ({
                 disabled
               />
             )}
-            {state.currency === "NG" && (
-              <Input
-                name="accountName"
-                value={state.accountName}
-                labelClass={styles.profileBankInputLabel}
-                className={styles.profileBankInput}
-                onChange={handleChange}
-                label="Account Name"
-                placeholder="Enter your account name"
-                readOnly={true}
-                disabled
-              />
-            )}
-            {/* {state.currency === "NG" && (
-              <Input
-                name="bvn"
-                value={state.bvn}
-                onChange={handleChange}
-                label="BVN"
-                type="number"
-                maxLength="11"
-                pattern="\d{11}$"
-                placeholder="Enter 11 digit BVN"
-                hint="We cannot gain entry into your account"
-                labelClass={styles.profileBankInputLabel}
-                className={styles.profileBankInput}
-              />
-            )} */}
+
             <div className={styles.btnPair}>
               <Button
                 disabled={
@@ -652,7 +681,6 @@ const Profile = ({
             onSubmit={handleChangePassword}
             className={styles.profileSecurityContent}
           >
-            
             <Input
               placeholder="Current Password"
               label="Current Password"
@@ -691,8 +719,8 @@ const Profile = ({
 
 const mapStateToProps = (state) => ({
   user: state.user.user,
-  fiatCurrency:state.user.fiatCurrency,
-  cryptoCurrency:state.user.cryptoCurrency,
+  fiatCurrency: state.user.fiatCurrency,
+  cryptoCurrency: state.user.cryptoCurrency,
   balance: state.btc.balance,
   branchList: state.bank.bankBranchList,
   bankList: state.bank.bankList,
@@ -706,10 +734,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(GetUserDetails());
   },
   getMainFiatCurrency: () => {
-    dispatch(getFiatCurrencies())
+    dispatch(getFiatCurrencies());
   },
   getMainCryptoCurrency: () => {
-    dispatch(getCryptoCurrencies())
+    dispatch(getCryptoCurrencies());
   },
   getUserBankDetails: () => {
     dispatch(getUserBankAccount());

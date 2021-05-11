@@ -28,7 +28,7 @@ import {
   getBillPaymentCategory,
   initialBillPaymentByUser,
 } from "../../redux/actions/billPayment";
-import { Money } from "../../utils/helper";
+import capitalizeFirstLetter, { Money } from "../../utils/helper";
 import {
   createFiatWallet,
   getCryptoCurrencies,
@@ -40,7 +40,7 @@ import AddCryptoWallet from "../../components/Modals/addCryptoWallet";
 import * as actionTypes from "../../redux/constants";
 
 const Home = ({
-  // user,
+  user,
   balance,
   buyAirtime,
   billLoading,
@@ -62,7 +62,7 @@ const Home = ({
   fiatCurrency,
   cryptoCurrency,
   btcTicker,
-  userLoading
+  userLoading,
 }) => {
   const [wallet, setWallet] = useState("NGN");
   let [fiatIndex, setFiatIndex] = useState(0);
@@ -256,7 +256,10 @@ const Home = ({
           ></iframe>
         </ModalWrapper>
       )}
-      <span className={styles.gitcard__top__title}>Home </span>
+      <span className={styles.gitcard__top__title}>
+        {" "}
+        {` Hi ${capitalizeFirstLetter(user.username)}` || "Hello"},{" "}
+      </span>
       {showAirtime && (
         <Drawer
           title="Airtime purchase"
@@ -741,7 +744,6 @@ const Home = ({
               <div>A</div>
             </div> */}
             <div
-            
               onClick={() => {
                 userLoading
                   ? notification.info({
@@ -766,7 +768,6 @@ const Home = ({
                     })
                   : setOpenWithdrawal(true);
               }}
-              
               className={styles.fund}
             >
               <div className={styles.fund__image}>
@@ -786,13 +787,13 @@ const Home = ({
               style={{ width: "100%", flexWrap: "wrap" }}
             >
               <div
-              onClick={() => {
-                userLoading
-                  ? notification.info({
-                      message: "Please wait",
-                    })
-                  : setShowPTWOP(true);
-              }}
+                onClick={() => {
+                  userLoading
+                    ? notification.info({
+                        message: "Please wait",
+                      })
+                    : setShowPTWOP(true);
+                }}
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
                 <div>
@@ -812,13 +813,13 @@ const Home = ({
                 <span>Sell GiftCard</span>
               </div>
               <div
-              onClick={() => {
-                userLoading
-                  ? notification.info({
-                      message: "Please wait",
-                    })
-                  : setShowPTWOPcrypto(true);
-              }}
+                onClick={() => {
+                  userLoading
+                    ? notification.info({
+                        message: "Please wait",
+                      })
+                    : setShowPTWOPcrypto(true);
+                }}
                 // onClick={() => history.push("/app/crypto")}
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
@@ -830,14 +831,13 @@ const Home = ({
                 </span>
               </div>
               <div
-              onClick={() => {
-                userLoading
-                  ? notification.info({
-                      message: "Please wait",
-                    })
-                  : setShowAirtime(true);
-              }}
-                
+                onClick={() => {
+                  userLoading
+                    ? notification.info({
+                        message: "Please wait",
+                      })
+                    : setShowAirtime(true);
+                }}
                 className={`${styles.actionBtn} ${styles.quickBtn}`}
               >
                 <div>
@@ -864,7 +864,7 @@ const Home = ({
 
 const mapStateToProps = (state) => ({
   user: state.user.user,
-  userLoading:state.user.loading,
+  userLoading: state.user.loading,
   balance: state.btc.balance,
   createWallets: state.user.createWallet,
   fiatCurrency: state.user.fiatCurrency,

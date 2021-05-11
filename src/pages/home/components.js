@@ -811,7 +811,7 @@ const PTwoPFlyout = ({
         {state.recipientCurrency && (
           <Input
             labelClass={styles.largeMarginLabel}
-            label={`Enter Recipient Username or Email`}
+            label={`Enter Recipient Email`}
             value={state.recipientUsername}
             name="recipientUsername"
             onChange={(e) =>

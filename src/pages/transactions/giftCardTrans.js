@@ -58,18 +58,18 @@ const Transactions = ({
       
       {viewBuyGiftCardTrans && (
         <TransactionModalBuyGiftCard
-          dateData={viewBuyGiftCardTrans.createdAt}
+          dateData={viewBuyGiftCardTrans.created_at}
           amount={viewBuyGiftCardTrans.amount}
           status={viewBuyGiftCardTrans.status}
-          cardValue={viewBuyGiftCardTrans?.cardDetails?.cardValue}
+          cardValue={viewBuyGiftCardTrans?.card_detail?.value}
           reference={viewBuyGiftCardTrans.reference}
-          referenceCurrency={viewBuyGiftCardTrans.referenceCurrency}
-          quan={viewBuyGiftCardTrans?.cardDetails?.quantity}
+          referenceCurrency={viewBuyGiftCardTrans.description}
+          quan={viewBuyGiftCardTrans?.card_detail?.quantity}
           setIsModalVisible={setBuyGiftCardDetails}
           isModalVisible={buyGiftCardDetails}
-          cardCurrency={viewBuyGiftCardTrans?.cardDetails?.cardCurrency}
-          cardSlug={viewBuyGiftCardTrans.cardSlug}
-          estimatedUSDValue={viewBuyGiftCardTrans?.cardDetails?.estimatedUSDValue}
+          cardCurrency={viewBuyGiftCardTrans?.card_detail?.currency}
+          cardSlug={viewBuyGiftCardTrans.card_slug}
+          estimatedUSDValue={viewBuyGiftCardTrans?.card_detail?.estimatedUSDValue}
         />
       )}
       

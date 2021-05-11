@@ -131,7 +131,7 @@ giftCardService.initialSellGiftCard = function (params, payload) {
   data.sellerRemarks = payload.remark;
   
   return fetch({
-    url: `/cards/${params.userId}/sell`,
+    url: `/cards/sell/transactions/${params.userId}`,
     method: "post",
     data: data,
   });
@@ -139,25 +139,25 @@ giftCardService.initialSellGiftCard = function (params, payload) {
 
 giftCardService.cancelSellGiftCardTransaction = function (params) {
   return fetch({
-    url: `/cards/${params.userId}/${params.transactionId}`,
+    url: `/cards/sell/transactions/${params.userId}/${params.transactionId}`,
     method: "delete",
   });
 };
 
 giftCardService.getTransactionDetails = function (params) {
   return fetch({
-    url: `/cards/${params.userId}/${params.transactionId}`,
+    url: `/cards/sell/transactions/${params.userId}/${params.transactionId}`,
     method: "get",
   });
 };
 
 giftCardService.getTransactionHistory = function (params) {
   return fetch({
-    url: `/cards/${params.userId}/sell`,
+    url: `/cards/sell/transactions/${params.userId}`,
     method: "get",
     params: {
-      skip: params.skip,
-      limit: params.limit,
+      page: params.skip,
+      per_page: params.limit,
     },
   });
 };

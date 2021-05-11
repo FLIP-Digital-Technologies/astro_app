@@ -36,7 +36,7 @@ generalService.convertCurrency = function (payload) {
   let data = {};
   data.from = payload.from;
   data.to = payload.to;
-  data.amount = payload.amount
+  data.amount = payload.amount;
   return fetch({
     url: "/misc/convert-fx",
     method: "post",
@@ -120,11 +120,13 @@ generalService.addBankAccount = function (params, payload) {
   // }
   let data = {};
   data.accountNumber = payload.accountNumber;
-  data.accountName = payload.accountName;
   data.bankCode = payload.bankCode;
-  data.bankName = payload.bankName;
-  data.currencyId = payload.currency === "NGN" ? 1 : 2;
-  data.isMobileMoney = payload.isMobileMoney;
+  data.accountType = payload.accountType;
+  data.details = {
+    accountName: payload.accountName,
+    currencyId: payload.currencyId,
+    bankName:payload.bankName,
+  };
   return fetch({
     url: `/user-account/${params.userId}/bank-accounts`,
     method: "post",
@@ -132,15 +134,15 @@ generalService.addBankAccount = function (params, payload) {
   });
 };
 
-generalService.uploadFile = function (params, payload) {
-  const data = new FormData();
-  data.append("file", payload.file);
-  return fetch({
-    url: `/misc/upload-file`,
-    method: "post",
-    data: data,
-  });
-};
+// generalService.uploadFile = function (params, payload) {
+//   const data = new FormData();
+//   data.append("file", payload.file);
+//   return fetch({
+//     url: `/misc/upload-file`,
+//     method: "post",
+//     data: data,
+//   });
+// };
 
 generalService.getBankDetails = function (params) {
   return fetch({

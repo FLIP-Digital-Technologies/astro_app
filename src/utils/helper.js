@@ -9,6 +9,11 @@ import QRious from "qrious";
 import Axios from "axios";
 import { API_BASE_URL } from "../configs/AppConfig";
 
+
+export default function capitalizeFirstLetter(s) {
+  return s && s[0].toUpperCase() + s.slice(1);
+}
+
 export const QRCode = ({ text, size }) => {
   const canvas = useRef(null);
   useEffect(() => {

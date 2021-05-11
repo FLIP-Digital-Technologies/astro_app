@@ -36,7 +36,7 @@ export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
   const columns = [
     {
       title: "Date",
-      dataIndex: "createdAt",
+      dataIndex: "created_at",
       render: (createdAt) => `${date(createdAt)}`,
     },
     {
@@ -45,7 +45,7 @@ export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
     },
     {
       title: "Card Ordered",
-      dataIndex: "cardSlug",
+      dataIndex: "card_slug",
       render: (cardSlug, rec) => (
         <div>
         <p>
@@ -58,19 +58,19 @@ export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
     },
     {
       title: "Card Amount | USD Amount",
-      dataIndex: "cardDetails",
+      dataIndex: "card_detail",
       render: (cardDetails) => (
         <p>
-          {cardDetails && cardDetails.cardCurrency}
-          {cardDetails && cardDetails.cardValue} | USD 
-          {cardDetails && cardDetails.estimatedUSDValue.amount}
+          {cardDetails && cardDetails.currency}{" "}
+          {cardDetails && cardDetails.value}{" | USD"} 
+          {cardDetails && cardDetails.usd_value}
         </p>
       ),
     },
-    {
-      title: "Wallet",
-      dataIndex: "referenceCurrency"
-    },
+    // {
+    //   title: "Wallet",
+    //   dataIndex: "referenceCurrency"
+    // },
     {
       title: "Status",
       dataIndex: "status",
@@ -279,15 +279,21 @@ export const BillPaymentTab = ({ fetchTrans, transaction, handleAction }) => {
     },
     {
       title: "Bill Payed For",
-      dataIndex: "details",
+      dataIndex: "detail",
       render: (details) => (
         <p>
-          {details && details.serviceName}
+          {details && details.serviceName }{' | '}
+          {details && details.serviceCode}
         </p>
       ),
     },{
       title: "Currency",
-      dataIndex: "referenceCurrency"
+      dataIndex: "FiatCurrency",
+      render:(currency) => (
+        <p>
+          {currency.code}
+        </p>
+      )
     },
     {
       title: "Status",

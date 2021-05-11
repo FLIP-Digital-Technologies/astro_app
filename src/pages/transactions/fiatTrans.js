@@ -145,8 +145,8 @@ const Transactions = ({
           title={"Bill Payment"}
           transactionFee={viewBillPaymentTrans.transactionFee}
           id={viewBillPaymentTrans.id}
-          referenceCurrency={viewBillPaymentTrans.referenceCurrency}
-          details={viewBillPaymentTrans.details}
+          referenceCurrency={viewBillPaymentTrans.FiatCurrency.code}
+          details={viewBillPaymentTrans.detail}
         />
       )}
       <div className={styles.transactions}>
@@ -247,7 +247,7 @@ const mapStateToProps = (state) => ({
   viewGiftCardTrans: state.giftCard.giftCardDetails,
   viewWithdrawalTrans: state.withdrawals.withdrawalDetails,
   viewDepositTrans: state.payment.depositTransactionDetails,
-  viewBillPaymentTrans: state.billPayment.billPaymentDetails,
+  viewBillPaymentTrans: state.billPayment.BillPaymentTransactionDetails,
 });
 
 // viewBTCTrans,

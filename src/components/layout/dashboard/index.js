@@ -8,13 +8,14 @@ import {
   Power,
   LogoNav,
   AstroLogoNav,
-  AstroLogoWhite
+  AstroLogoWhite,
 } from "../../../assets/svg";
 import { navigation } from "./data";
 // import { history } from "../../../redux/store";
 
 import styles from "./styles.module.scss";
 import { logOutUser } from "../../../redux/actions/Auths";
+import capitalizeFirstLetter from "../../../utils/helper";
 
 const { Header, Content, Sider } = Layout;
 
@@ -46,7 +47,6 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
   return (
     <Layout>
       <Sider
-
         breakpoint="lg"
         collapsedWidth="0"
         trigger={null}
@@ -63,7 +63,6 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
           backgroundColor: "#890F3C",
         }}
       >
-        
         <div className={styles.logo}>
           <AstroLogoWhite />
         </div>
@@ -74,7 +73,6 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={[pathname]}
-
         >
           {navigation &&
             navigation.map(({ Icon, Name, route }) => (
@@ -103,20 +101,23 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
               >
                 <Toggle />
               </div>
-             
             </div>
             <div className={styles.header__right}>
-              
               <div
                 style={{ display: "flex", alignItems: "center" }}
                 onClick={() => setShowDropDown(!showDropDown)}
               >
                 <div className={styles.header__right__avatar}>{`${
                   (user && user.Profile.first_name[0].toUpperCase()) || `-`
-                } ${(user && user.Profile.last_name[0].toUpperCase()) || `-`}`}</div>
+                } ${
+                  (user && user.Profile.last_name[0].toUpperCase()) || `-`
+                }`}</div>
                 <div className={styles.header__right__name}>{`${
-                  (user && user.Profile.first_name) || `-`
-                } ${(user && user.Profile.last_name) || `-`}`}</div>
+                  (user && capitalizeFirstLetter(user.Profile.first_name)) ||
+                  `-`
+                } ${
+                  (user && capitalizeFirstLetter(user.Profile.last_name)) || `-`
+                }`}</div>
                 <CaretDown />
                 {showDropDown && (
                   <div
@@ -127,7 +128,6 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
                       right: 20,
                       boxShadow: "4px 19px 20px 5px #cecece",
                       zIndex: 9,
-                      
                     }}
                   >
                     <div
