@@ -9,7 +9,7 @@ const GetGiftCardCodes = (data) => async (dispatch) => {
   });
 
   await giftCardService
-    .getGiftCardCodes(data)
+    .getGiftCardCode(data)
     .then((response) => {
       
       dispatch({

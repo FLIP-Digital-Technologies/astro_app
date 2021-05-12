@@ -457,6 +457,33 @@ const getTerm = (item) => {
         </div>
       );
     default:
+      return (
+        <div>
+          <p>
+            This trade is for ebay
+          </p>
+          <p>
+            confirm that all info (Card value, Card quantity,country, etc.) are
+            accurately uploaded before submission. You will not be able to
+            update or modify this once a transacton has been submitted and
+            confirmed.
+          </p>
+          <p>
+            Make sure that the gift card is properly scratched and the code is
+            clear and complete. You do not require a receipt for this trade, you
+            can upload it if you have.
+          </p>
+          <p>
+            Giftcards uploaded in a wrong section will be forwarded to the right
+            column and credited at the current rate in that section.
+          </p>
+          <p>
+            This trade will take only a few minutes. a notification will be sent
+            to you after confirmation
+          </p>
+          <p>If you need to ask a question, pls reach us via the live chat.</p>
+        </div>
+      );
       break;
   }
 };
@@ -663,7 +690,7 @@ const GiftCardForm = ({
         />
       )}
 
-      <Modal
+      {/* <Modal
         header={null}
         footer={null}
         visible={openTerm}
@@ -672,7 +699,7 @@ const GiftCardForm = ({
       >
         <h3>Trade Terms</h3>
         {getTerm(active.name)}
-      </Modal>
+      </Modal> */}
       <div
         className={styles.gitcard__form__holder}
         style={{ alignItems: "flex-start" }}
@@ -936,6 +963,31 @@ const GiftCardForm = ({
               }
               onClick={() => handleSubmit()}
             />
+            <div>
+          <p>
+            This trade is for {active.displayName}
+          </p>
+          <p>
+            confirm that all info (Card value, Card quantity,country, etc.) are
+            accurately uploaded before submission. You will not be able to
+            update or modify this once a transacton has been submitted and
+            confirmed.
+          </p>
+          <p>
+            Make sure that the gift card is properly scratched and the code is
+            clear and complete. You do not require a receipt for this trade, you
+            can upload it if you have.
+          </p>
+          <p>
+            Giftcards uploaded in a wrong section will be forwarded to the right
+            column and credited at the current rate in that section.
+          </p>
+          <p>
+            This trade will take only a few minutes. a notification will be sent
+            to you after confirmation
+          </p>
+          <p>If you need to ask a question, pls reach us via the live chat.</p>
+        </div>
           </div>
         </div>
       </div>

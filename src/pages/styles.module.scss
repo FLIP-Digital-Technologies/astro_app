@@ -527,6 +527,7 @@
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 50px;
+    padding: 2px 2px 2px 2px;
 
     &__left {
       width: clamp(300px, 400px, 600px);
@@ -568,7 +569,7 @@
     }
 
     &__body {
-      background: #ffffff;
+      background: #f7f4f4;
       border-radius: 5px;
       margin-top: 10px;
       display: flex;
