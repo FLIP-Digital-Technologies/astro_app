@@ -88,7 +88,7 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
           bg ? { backgroundColor: "#fff", minWidth: 300 } : { minWidth: 300 }
         }
       >
-        <Header className="site-layout-background" style={{ padding: 0 }}>
+        <Header className="site-layout-background" style={{ padding: 0, backgroundColor: "#F7F4F4" }}>
           <div className={styles.header}>
             <div
               className={styles.header__left}
@@ -148,7 +148,7 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
             </div>
           </div>
         </Header>
-        <Content style={{ padding: "24px 10px 0", overflowY: "auto" }}>
+        <Content style={{ padding: "24px 10px 0", overflowY: "auto", backgroundColor: "#F7F4F4" }}>
           {children}
         </Content>
       </Layout>

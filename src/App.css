@@ -1,4 +1,6 @@
 @import "~antd/dist/antd.css";
+@import url('https://fonts.googleapis.com/css?family=Arvo');
+@import url('https://fonts.googleapis.com/css?family=Rajdhani');
 
 *,
 html,
@@ -81,6 +83,7 @@ body {
 
 .ant-drawer-body {
   padding: 24px;
+  background-color: #F7F4F4;
 }
 
 .ant-drawer-content-wrapper {

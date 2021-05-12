@@ -13,6 +13,7 @@
   margin-top: 40px;
   margin-left: 11px;
   margin-right: 11px;
+  background-color: #F7F4F4;
   &__welcome {
     &__top {
       color: #012169;
@@ -418,13 +419,16 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 50px;
+    
 
     &__title {
-      font-size: 24px;
-      line-height: 28px;
-      color: #0d0d0b;
+      font-size: 28px;
+      line-height: 30px;
+      font-family: 'Arvo';
+      color: #8C6966;
       font-weight: 500;
       margin-left: 30px;
+      background-color:'transparent';
       @include sm {
         margin-left: 0px;
       }
@@ -2203,6 +2207,7 @@
     font-weight: 700;
     margin-top: 5px;
     text-align: center;
+    font-family: 'Arvo';
   }
 
   &__sub {
@@ -2329,7 +2334,7 @@
 
 .fund {
   cursor: pointer;
-  background-color: #efefef;
+  background-color: #f3f0f0;
   margin-left: 30px;
   border-radius: 5px;
   display: flex;
@@ -2342,6 +2347,7 @@
   flex-direction: row;
   padding: 10px 20px;
   margin-top: 30px;
+  box-shadow: -3px 4px 20px #00000026;
 
   @include md {
     width: 200px;

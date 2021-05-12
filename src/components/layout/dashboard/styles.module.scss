@@ -29,6 +29,7 @@
   padding-left: 27px;
   padding-right: 35px;
   position: relative;
+  background-color: #F7F4F4;
 
   &__right {
     display: flex;
@@ -52,6 +53,7 @@
       font-size: 15px;
       color: #8d284d;
       margin-right: 7px;
+      border-width: 20px;
     }
 
     &__name {

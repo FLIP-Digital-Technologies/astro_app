@@ -258,7 +258,7 @@ const Home = ({
       )}
       <span className={styles.gitcard__top__title}>
         {" "}
-        {` Hi ${capitalizeFirstLetter(user.username)}` || "Hello"},{" "}
+        {user && user.username && ` Hi ${capitalizeFirstLetter(user.username)}` || "Hello"},{" "}
       </span>
       {showAirtime && (
         <Drawer
