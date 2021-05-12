@@ -1,6 +1,7 @@
 @import "~antd/dist/antd.css";
 @import url('https://fonts.googleapis.com/css?family=Arvo');
-@import url('https://fonts.googleapis.com/css?family=Rajdhani');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300&family=Rajdhani&display=swap');
 
 *,
 html,
@@ -8,7 +9,7 @@ body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'Helvetica Neue';
+  
 }
 .ant-menu-item {
   display: flex;
@@ -16,8 +17,10 @@ body {
   color: #98a6c3;
   margin-top: 4 !important;
   font-size: 20px;
-  margin-bottom: 10px !important;
+  margin-bottom: 15px !important;
   padding: 10px 30px !important;
+  font-family: 'Fira Sans', sans-serif;
+  font-family: 'Rajdhani', sans-serif;
 }
 .ant-menu-item svg path {
   stroke: #98a6c3;

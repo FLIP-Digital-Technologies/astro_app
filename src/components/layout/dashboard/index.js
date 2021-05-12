@@ -76,7 +76,7 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
         >
           {navigation &&
             navigation.map(({ Icon, Name, route }) => (
-              <Menu.Item key={route} icon={<Icon />}>
+              <Menu.Item key={route} icon={<Icon style={{fontSize:24, borderWidth:2}} />}>
                 <Link to={route}>{Name}</Link>
               </Menu.Item>
             ))}

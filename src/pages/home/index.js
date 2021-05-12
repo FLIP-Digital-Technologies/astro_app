@@ -9,6 +9,7 @@ import {
   RightCircleOutlined,
   LeftCircleOutlined,
   DownOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons";
 import { Menu, Dropdown } from "antd";
 import {
@@ -258,7 +259,11 @@ const Home = ({
       )}
       <span className={styles.gitcard__top__title}>
         {" "}
-        {user && user.username && ` Hi ${capitalizeFirstLetter(user.username)}` || "Hello"},{" "}
+        {(user &&
+          user.username &&
+          ` Hi ${capitalizeFirstLetter(user.username)}`) ||
+          "Hello"}
+        ,{" "}
       </span>
       {showAirtime && (
         <Drawer
@@ -347,6 +352,67 @@ const Home = ({
       <div className={styles.home}>
         <div className={styles.home__welcome}>
           <div className={styles.home__top}>
+            {!balance && (
+              <div className={styles.balances}>
+                <div
+                  className={styles.balances__ta}
+                  
+                >
+                  <LeftCircleOutlined
+                    style={{
+                      fontSize: "30px",
+                      color:"#9a4e6a",
+                    }}
+                  />
+                </div>
+                <div
+                  className={styles.balances__ta}
+                  // onClick={() => {
+                  //   if (currencyHeader == "Fiat Wallet Balance") {
+                  //     setCurrencyHeader("Crypto Wallet Balance");
+                  //   } else if (currencyHeader == "Crypto Wallet Balance") {
+                  //     setCurrencyHeader("Fiat Wallet Balance");
+                  //   } else {
+                  //     return;
+                  //   }
+                  // }}
+                >
+                  <Dropdown
+                    // trigger={["hover"]}
+                    overlay={menu}
+                    // onVisibleChange={handleVisibleChange}
+                    visible={visible}
+                  >
+                    <span
+                      className={styles.balances__title}
+                      // style={{ cursor: "pointer" }}
+                      // onClick={(e) => e.preventDefault()}
+                    >
+                      {currencyHeader} {"  "}
+                      <DownOutlined />
+                    </span>
+                  </Dropdown>
+                  {/* <span className={styles.balances__title}>{currencyHeader}</span> */}
+                  <div className={styles.balances__value}>
+                    <span>{'Please Wait...'}</span>{" "}
+                    
+                  </div>
+                  <div className={styles.balances__btn__holder}>
+                    <LoadingOutlined style={{fontSize:40}} />
+                  </div>
+                </div>
+                <div
+                  className={styles.balances__ta}
+                >
+                  <RightCircleOutlined
+                    style={{
+                      fontSize: "30px",
+                      color:"#9a4e6a"
+                    }}
+                  />
+                </div>
+              </div>
+            )}
             {headerId === "1"
               ? balance &&
                 balance.fiatWallets &&
