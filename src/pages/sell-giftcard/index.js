@@ -23,7 +23,7 @@ const SellGiftcard = (props) => {
 
   let list = b;
   useEffect(() => {
-    // props.getCards({ cardCode: "all" });
+    props.getCards({ cardCode: "" });
     props.getWallets();
     props.getMainFiatCurrency();
     // eslint-disable-next-line
@@ -32,14 +32,14 @@ const SellGiftcard = (props) => {
 
   const CardItem = ({ item, data }) => {
     const handleClick = () => {
-      props.getCardDetails({ cardCode: data.GiftCard.uid });
+      props.getCardDetails({ cardCode: data.uid });
       let a = {};
-      let name = data.GiftCard.name;
+      let name = data.name;
       a.name = name;
-      a.image = data.GiftCard.image;
-      a.displayName = data.GiftCard.name;
-      a.uid = data.GiftCard.uid;
-      a._id = data.GiftCard.id;
+      a.image = data.image;
+      a.displayName = data.name;
+      a.uid = data.uid;
+      a._id = data.id;
 
       // a[name] = Object(data[1]).map((key) => ({
       //   name: key[0],
@@ -56,9 +56,9 @@ const SellGiftcard = (props) => {
       <div onClick={handleClick} className={styles.gitcard__content__card}>
         <div className={styles.holder}>
           {/* {C && C.Image && <C.Image />} */}
-          <img src={data.GiftCard.image} height="151.692" width="241" alt="card" />
+          <img src={data.image} height="151.692" width="241" alt="card" />
         </div>
-        {data.GiftCard.name}
+        {data.name}
         {/* {getHumanForm(item) || null} */}
       </div>
     );
@@ -77,7 +77,6 @@ const SellGiftcard = (props) => {
               </div> */}
             </div>
             <Row gutter={{ xs: 0, sm: 0, md: 0, lg: 0 }}>
-              {console.log('listed',list)}
               {list && list.length < 1 ? (
                 <div style={{ width: "100%" }}>
                   <EmptyEntryWithTitle title="GiftCard" action={false} />

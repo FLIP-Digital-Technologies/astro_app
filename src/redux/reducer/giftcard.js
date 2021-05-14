@@ -157,7 +157,7 @@ const giftCardReducers = (state = initState, action) => {
       });
       return {
         ...state,
-        giftCardList: action.payload.cardRateDetails,
+        giftCardList: action.payload.cards,
         loading: false,
         error: null,
       };

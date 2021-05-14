@@ -2,15 +2,15 @@ import fetch from "./FetchInterceptor";
 
 const giftCardService = {};
 
-// giftCardService.getGiftCardCodes = function (params) {
-//   return fetch({
-//     url: `/cards/${params.cardCode || ""}`,
-//     method: "get",
-//     headers: {
-//       "public-request": "true",
-//     },
-//   });
-// };
+giftCardService.getGiftCardCodes = function (params) {
+  return fetch({
+    url: `/cards/${params.cardCode || ""}`,
+    method: "get",
+    headers: {
+      "public-request": "true",
+    },
+  });
+};
 
 giftCardService.getGiftCardCode = function (params) {
   return fetch({
