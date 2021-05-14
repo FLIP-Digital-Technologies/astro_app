@@ -361,7 +361,7 @@ const Profile = ({
                 component="div"
                 data-clipboard-text={`${
                   window && window.location && window.location.origin
-                }/signup?code=${user && user.referralCode}`}
+                }/signup?code=${user && user.referral_code}`}
                 onSuccess={() =>
                   notification.success({
                     message: "copied",

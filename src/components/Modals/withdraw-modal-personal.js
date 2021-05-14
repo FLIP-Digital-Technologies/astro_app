@@ -84,12 +84,13 @@ const WithDrawModalPersonal = ({
       setIsModalVisible={setIsModalVisible}
     >
       <div className={styles.title}>Withdraw</div>
+      {console.log('bank accounts', bankAccounts)}
       <Select
         options={
           bankAccounts &&
           bankAccounts.map((item) => ({
             value: item.id,
-            render: `${item.account_number} - ${item.bank_name} - ${item.account_name}`,
+            render: `${item.account_number} - ${item.details.bankName} - ${item.details.account_name}`,
           }))
         }
         value={acc.bankAccountId}
@@ -127,7 +128,7 @@ const WithDrawModalPersonal = ({
         placeholder="Enter amount here"
         type="number"
         value={acc.amount}
-        min={500}
+        // min={500}
         onChange={(e) => setAcc({ ...acc, amount: e.target.value, pin: "", narration: "" })}
         hint={acc.currency && acc.amount ?
           <span>
