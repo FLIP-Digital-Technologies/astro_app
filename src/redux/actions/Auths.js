@@ -36,6 +36,7 @@ export const checkEmailAvailability = (data) => (dispatch) => {
 }; // done
 
 const RegisterUser = (data) => async (dispatch) => {
+  console.log('signup',data)
   dispatch({
     type: actionTypes.REGISTER_PENDING,
   });

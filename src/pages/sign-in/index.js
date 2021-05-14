@@ -156,7 +156,7 @@ const SignIn = (props) => {
             }}
             className={styles.auth__content__alt}
           >
-            <span>New to Flip? </span>
+            <span>New to Astro? </span>
             <span className={styles.auth__content__alt__link}>Sign Up</span>
           </div>
         </form>

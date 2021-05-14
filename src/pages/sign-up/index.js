@@ -22,7 +22,7 @@ const SignUp = (props) => {
   useEffect(() => {
     const url = new URL(window.location.href);
     const referralCode = url.searchParams.get("code"); // TODO: hhjj
-    handleReferralCode(referralCode || " ");
+    handleReferralCode(referralCode);
   }, []);
 
   const history = useHistory();
@@ -37,11 +37,17 @@ const SignUp = (props) => {
       });
       return;
     }
-    // console.log("resulted", result2);
+    console.log("resulted", { 
+      referralCode,
+      email,
+      password,
+      firstName,
+      lastName,
+      username
+    });
 
-    if(referralCode){
+    if(referralCode === null){
       props.checkEmailAvailable({ 
-        referralCode,
         email,
         password,
         firstName,
@@ -50,6 +56,7 @@ const SignUp = (props) => {
       })
     } else {
       props.checkEmailAvailable({
+        referralCode,
         email,
         password,
         firstName,

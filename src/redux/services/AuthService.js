@@ -16,9 +16,12 @@ authService.createAccount = function (payload) {
   data.email = payload.email;
   data.firstName = payload.firstName;
   data.lastName = payload.lastName;
-  // data.referralCode = payload.referralCode || "";
   data.password = payload.password;
   data.username = payload.username;
+
+  if (payload.referralCode) {
+    data.referralCode = payload.referralCode;
+  }
 
   return fetch({
     url: "/user-account",
@@ -116,7 +119,7 @@ authService.resetPassword = function (data) {
     },
     data: {
       email: data.email,
-    }
+    },
   });
 };
 

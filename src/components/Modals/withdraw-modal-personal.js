@@ -158,7 +158,7 @@ const WithDrawModalPersonal = ({
         onClick={() => showPromiseConfirm()}
         className={styles.button}
         disabled={
-          !acc.bankAccountId || !acc.pin || !acc.amount || acc.amount < 500 || loading || !fee
+          !acc.bankAccountId || !acc.pin || !acc.amount || loading || !fee
         }
         text="Withdraw"
         form="full"

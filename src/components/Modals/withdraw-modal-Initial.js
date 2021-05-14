@@ -50,7 +50,7 @@ const WithdrawInitial = ({ setIsModalVisible, isModalVisible }) => {
         >
           <span>Withdraw to saved account</span> <ArrowRight />
         </div>
-        <div
+        {/* <div
           className={styles.lnkButton}
           onClick={() => {
             alert('Service Coming Soon')
@@ -59,7 +59,7 @@ const WithdrawInitial = ({ setIsModalVisible, isModalVisible }) => {
           }}
         >
           <span>Withdraw to 3rd party account</span> <ArrowRight />
-        </div>
+        </div> */}
       </ModalWrapper>
     </React.Fragment>
   );
