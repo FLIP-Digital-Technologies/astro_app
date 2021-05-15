@@ -117,7 +117,7 @@ const SignIn = (props) => {
         <form className={styles.auth__content} onSubmit={(e) => login(e)}>
           <h2 className={styles.auth__content__title}>Welcome back!</h2>
           <h3 className={styles.auth__content__subTitle}>
-            Sign in to your Flip account
+            Sign in to your Astro account
           </h3>
           
           <Input

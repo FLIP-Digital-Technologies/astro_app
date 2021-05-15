@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory, Link, useLocation } from "react-router-dom";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
-import { LogoNav, AstroLogoNav, AstroLogoFull } from "../../assets/svg";
+import { LogoNav, AstroLogoWhite, AstroLogoFull } from "../../assets/svg";
 import Button from "../button";
 import styles from "./style.module.scss";
 
@@ -16,7 +16,7 @@ const LandingHeader = ({ form, type }) => {
     >
       <div className={styles.landingHeaderLeft}>
         <Link to="/">
-          <AstroLogoFull className={styles.landingHeaderLeftLogo} />
+          <AstroLogoWhite className={styles.landingHeaderLeftLogo} />
         </Link>
       </div>
 

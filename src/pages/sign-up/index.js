@@ -71,7 +71,7 @@ const SignUp = (props) => {
         <form onSubmit={(e) => register(e)} className={styles.auth__content}>
           <h2 className={styles.auth__content__title}>Let's get started!</h2>
           <h3 className={styles.auth__content__subTitle}>
-            Create your Flip account in a sec!
+            Create your Astro account in a sec!
           </h3>
           <Input
             className={styles.auth__content__input__body}
@@ -179,7 +179,7 @@ const SignUp = (props) => {
             }}
             className={styles.auth__content__alt}
           >
-            <span>Already have a Flip account? </span>
+            <span>Already have a Astro account? </span>
             <span className={styles.auth__content__alt__link}>Sign In</span>
           </div>
         </form>

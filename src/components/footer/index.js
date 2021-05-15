@@ -35,22 +35,22 @@ const Footer = () => {
           </div> */}
           <div style={{ textAlign: "center" }}>
             <div className={styles.link} style={{display: "flex", justifyContent: "center"}}>
-              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://twitter.com/FlipAfrika">
+              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://twitter.com/AstroAfrika">
                 <i class="fab text-dark fa-twitter"></i>
               </a>
-              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://web.facebook.com/FlipAfrika">
+              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://web.facebook.com/AstroAfrika">
                 <i class="fab text-dark fa-facebook"></i>
               </a>
-              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://www.instagram.com/FlipAfrika">
+              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://www.instagram.com/AstroAfrika">
                 <i class="fab text-dark fa-instagram"></i>
               </a>
             </div>
             <div style={{marginBottom: 8}} className={styles.link}>
               <a
                 style={{ color: "white" }}
-                href="mailto:support@Flipafrika.com"
+                href="mailto:support@Astroafrika.com"
               >
-                Email Us: support@Flipafrika.com
+                Email Us: support@Astroafrika.com
               </a>
             </div>
             <div className={styles.link}>
@@ -58,7 +58,7 @@ const Footer = () => {
               <address>Accra Address - 2,Anumansa street, accra ghana.</address>
             </div>
             <div className={styles.link}>
-              <p>All Rights Reserved. Flip 2020</p>
+              <p>All Rights Reserved. Astro 2020</p>
             </div>
           </div>
         </div>

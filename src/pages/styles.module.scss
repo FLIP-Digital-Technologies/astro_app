@@ -880,7 +880,9 @@
       line-height: 20px !important;
       padding: 13px !important;
       margin-top: 30px;
-      border-radius:30px;
+      border-radius:10px !important;
+      // perspective: 1px;
+      overflow: hidden;
       background-image: linear-gradient(to right, #921946 , #e53b7a)
     }
 
