@@ -427,6 +427,25 @@ const Home = ({
                 Handle Your Bills
               </div>
             </div>
+            <div
+              className={homeStyles.topbox__inner}
+              onClick={() => history.push("/app/bills")}
+            >
+              <div className={homeStyles.topbox__topic}>
+                <img
+                  src={png.QuickAction}
+                  height="24"
+                  width="24"
+                  style={{ marginRight: 5 }}
+                  alt="wallet"
+                />
+                Quick Action
+              </div>
+              <div className={homeStyles.topbox__info}>Settings</div>
+              <div className={homeStyles.topbox__description}>
+                Go to Settings
+              </div>
+            </div>
             <div className={homeStyles.topbox__inner}>
               <div className={homeStyles.topbox__topic}>
                 <img
@@ -445,7 +464,7 @@ const Home = ({
             </div>
           </div>)}
           <Row>
-            <Col style={{ marginRight: 25, marginBottom: 28 }}>
+            <Col span={10} style={{ marginRight: 25, marginBottom: 28 }}>
               <div className={homeStyles.charts}>
                 {/* <div className={homeStyles.charts__title}> */}
                 <div className={homeStyles.charts__title__container}>
@@ -704,9 +723,9 @@ const Home = ({
                 </div>
               </div>
             </Col>
-            <Col>
-              <Row style={{ marginBottom: 25 }}>
-                <Col>
+            <Col span={13} style={{}}>
+              <Row style={{ marginBottom: 25, display:'flex', justifyContent:'center' }}>
+                <Col span={10}>
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
@@ -737,7 +756,7 @@ const Home = ({
                     </div>
                   </div>
                 </Col>
-                <Col>
+                <Col span={10}>
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
@@ -769,8 +788,8 @@ const Home = ({
                   </div>
                 </Col>
               </Row>
-              <Row>
-                <Col>
+              <Row style={{ marginBottom: 25, display:'flex', justifyContent:'center' }}>
+                <Col span={10}>
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
@@ -803,7 +822,7 @@ const Home = ({
                     </div>
                   </div>
                 </Col>
-                <Col>
+                <Col span={10}>
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
