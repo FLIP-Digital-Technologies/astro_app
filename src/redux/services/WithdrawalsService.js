@@ -17,7 +17,7 @@ withdrawalsService.initialWithdrawalRequest = function (params, data) {
   // } else {
     payload.amount = Number(data.amount);
     payload.bankAccountId = data.bankAccountId;
-    payload.fiatWalletId = data.currencyId;
+    payload.fiatWalletId = data.fiatWalletId;
     payload.transactionPin = data.pin
   // }
 

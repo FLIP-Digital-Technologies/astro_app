@@ -107,6 +107,7 @@ const WithDrawModalPersonal = ({
             ...acc,
             currency: value.Currency.code,
             currencyId:value.Currency.id,
+            fiatWalletId:value.id,
             pin: "",
             narration: "",
             amount: 0,
