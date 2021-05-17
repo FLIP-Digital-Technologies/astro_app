@@ -464,9 +464,8 @@ const Home = ({
             </div>
           </div>)}
           <Row>
-            <Col span={10} style={{ marginRight: 25, marginBottom: 28 }}>
+            <Col span={10} xs={10} lg={10} md={10} xxl={10} xl={10}  style={{ marginRight: 25, marginBottom: 28 }}>
               <div className={homeStyles.charts}>
-                {/* <div className={homeStyles.charts__title}> */}
                 <div className={homeStyles.charts__title__container}>
                   <Dropdown
                     trigger={["hover"]}
@@ -729,7 +728,7 @@ const Home = ({
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
-                      userLoading
+                      balance && balance.fiatWallets.length > 0
                         ? notification.info({
                             message: "Please wait",
                           })
@@ -760,7 +759,7 @@ const Home = ({
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
-                      userLoading
+                      balance && balance.fiatWallets.length > 0
                         ? notification.info({
                             message: "Please wait",
                           })
