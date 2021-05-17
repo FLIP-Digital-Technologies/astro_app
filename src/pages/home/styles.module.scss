@@ -246,6 +246,12 @@
     margin-top: 5px;
     text-align: center;
     font-family: 'Exo';
+     @include md {
+         font-size: 40px;
+     }
+     @include sm {
+         font-size: 40px;
+     }
   }
 
   &__sub {
