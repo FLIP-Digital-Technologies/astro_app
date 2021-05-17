@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Avatar } from "antd";
 import { Link, useLocation } from "react-router-dom";
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  CreditCardOutlined,
+} from "@ant-design/icons";
 import {
   CaretDown,
   // Profile,
@@ -9,6 +14,7 @@ import {
   LogoNav,
   AstroLogoNav,
   AstroLogoWhite,
+  AstroLogoFull,
 } from "../../../assets/svg";
 import { navigation } from "./data";
 // import { history } from "../../../redux/store";
@@ -17,7 +23,7 @@ import styles from "./styles.module.scss";
 import { logOutUser } from "../../../redux/actions/Auths";
 import capitalizeFirstLetter from "../../../utils/helper";
 
-const { Header, Content, Sider } = Layout;
+const { Header, Content, Sider, Footer } = Layout;
 
 function Toggle() {
   return (
@@ -37,19 +43,44 @@ function Toggle() {
   );
 }
 
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
+
 const DashboardLayout = ({ children, bg, user, logout }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [showSideBar, setShowSideBar] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
   let location = useLocation();
   const { pathname } = location;
 
+  const toggle = () => {
+    setShowSideBar(!showSideBar);
+  };
+
   return (
     <Layout>
+      {console.log('dimension', windowDimensions)}
       <Sider
         breakpoint="lg"
-        collapsedWidth="0"
-        trigger={null}
+        collapsedWidth="80"
+        defaultCollapsed={true}
+        trigger={React.createElement(
+          showSideBar ? MenuUnfoldOutlined : MenuFoldOutlined,
+          {
+            className: "trigger",
+            onClick: toggle,
+            style: { backgroundColor: "transparent" },
+          }
+        )}
+        collapsible={windowDimensions < 866 ? false :true}
+        onCollapse={toggle}
         collapsed={showSideBar}
         onBreakpoint={(broken) => {
           setShowSideBar(broken);
@@ -76,7 +107,7 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
         >
           {navigation &&
             navigation.map(({ Icon, Name, route }) => (
-              <Menu.Item key={route} icon={<Icon style={{fontSize:24, borderWidth:2}} />}>
+              <Menu.Item key={route} icon={<Icon style={{ fontSize: 24 }} />}>
                 <Link to={route}>{Name}</Link>
               </Menu.Item>
             ))}
@@ -88,19 +119,22 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
           bg ? { backgroundColor: "#fff", minWidth: 300 } : { minWidth: 300 }
         }
       >
-        <Header className="site-layout-background" style={{ padding: 0, backgroundColor: "#F7F4F4" }}>
+        <Header
+          className="site-layout-background"
+          style={{ padding: 0, backgroundColor: "#F7F4F4" }}
+        >
           <div className={styles.header}>
             <div
               className={styles.header__left}
               style={{ display: "flex", alignItems: "center" }}
             >
-              <div
+              {windowDimensions.width < 866 && (<div
                 style={{ cursor: "pointer" }}
                 id={styles.header__left_toggler}
                 onClick={() => setShowSideBar(!showSideBar)}
               >
                 <Toggle />
-              </div>
+              </div>)}
             </div>
             <div className={styles.header__right}>
               <div
@@ -148,7 +182,14 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
             </div>
           </div>
         </Header>
-        <Content style={{ padding: "24px 10px 0", overflowY: "auto", backgroundColor: "#F7F4F4" }}>
+
+        <Content
+          style={{
+            padding: "24px 10px 0",
+            overflowY: "auto",
+            backgroundColor: "#F7F4F4",
+          }}
+        >
           {children}
         </Content>
       </Layout>

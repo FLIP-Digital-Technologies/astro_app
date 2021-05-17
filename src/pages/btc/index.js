@@ -86,8 +86,7 @@ const BuyCoin = ({
      <SVG.ArrowLeft /> Bitcoin
      </div> */}
         {/* <span className={styles.gitcard__top__title}></span> */}
-        <br />
-        <br />
+      
         <div className={styles.sellPage}>
           <div className={styles.sellPage__left}>
             <div className={styles.sellPage__select}>

@@ -78,6 +78,35 @@
     }
   }
 }
+.sidefooter {
+  display: flex;
+  align-items: center;
+  width: 50%;
+  justify-content: space-between;
+  padding-left: 27px;
+  padding-right: 35px;
+  position: relative;
+  // background-color: #F7F4F4;
+
+  &__right {
+    display: flex;
+    align-items: center;
+
+    &__avatar {
+      // background: #f5f6fa;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 15px;
+      color: #8d284d;
+      margin-right: 7px;
+      border-width: 20px;
+    }
+}
+}
 
 .dropDown {
   position: absolute;
@@ -95,4 +124,16 @@ span.anticon.anticon-bars {
   @media (max-width: 895px) {
     display: block;
   }
+}
+
+.trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
 }
