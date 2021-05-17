@@ -464,7 +464,8 @@ const Home = ({
             </div>
           </div>)}
           <Row>
-            <Col span={10} xs={10} lg={10} md={10} xxl={10} xl={10}  style={{ marginRight: 25, marginBottom: 28 }}>
+            <Col span={10} xs={20} sm={20} lg={10} md={20} xxl={10} xl={10}  style={{ marginRight: 25, marginBottom: 28 }}>
+              
               <div className={homeStyles.charts}>
                 <div className={homeStyles.charts__title__container}>
                   <Dropdown
@@ -722,9 +723,9 @@ const Home = ({
                 </div>
               </div>
             </Col>
-            <Col span={13} style={{}}>
+            <Col span={13} xs={20} sm={20} lg={13} md={20} xxl={13} xl={13} style={{}}>
               <Row style={{ marginBottom: 25, display:'flex', justifyContent:'center' }}>
-                <Col span={10}>
+                <Col span={10} xs={20} sm={20} lg={10} md={20} xxl={10} xl={10}>
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
@@ -755,7 +756,7 @@ const Home = ({
                     </div>
                   </div>
                 </Col>
-                <Col span={10}>
+                <Col span={10} xs={20} sm={20} lg={10} md={20} xxl={10} xl={10} >
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
@@ -788,7 +789,7 @@ const Home = ({
                 </Col>
               </Row>
               <Row style={{ marginBottom: 25, display:'flex', justifyContent:'center' }}>
-                <Col span={10}>
+                <Col span={10} xs={20} sm={20} lg={10} md={20} xxl={10} xl={10}>
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
@@ -821,7 +822,7 @@ const Home = ({
                     </div>
                   </div>
                 </Col>
-                <Col span={10}>
+                <Col span={10} xs={20} sm={20} lg={10} md={20} xxl={10} xl={10}>
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
