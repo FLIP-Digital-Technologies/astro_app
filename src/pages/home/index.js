@@ -730,10 +730,10 @@ const Home = ({
                     className={homeStyles.widgets__inner}
                     onClick={() => {
                       balance && balance.fiatWallets.length > 0
-                        ? notification.info({
-                            message: "Please wait",
-                          })
-                        : setShowFund(true);
+                        ? setShowFund(true)
+                        : notification.info({
+                          message: "Please wait",
+                        })
                     }}
                   >
                     <div className={homeStyles.widgets__image}>
@@ -761,10 +761,11 @@ const Home = ({
                     className={homeStyles.widgets__inner}
                     onClick={() => {
                       balance && balance.fiatWallets.length > 0
-                        ? notification.info({
-                            message: "Please wait",
-                          })
-                        : setOpenWithdrawal(true);
+                        ? setOpenWithdrawal(true)
+                        : notification.info({
+                          message: "Please wait",
+                        }) 
+                        
                     }}
                   >
                     <div className={homeStyles.widgets__image}>
