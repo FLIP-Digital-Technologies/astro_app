@@ -429,7 +429,7 @@ const Home = ({
             </div>
             <div
               className={homeStyles.topbox__inner}
-              onClick={() => history.push("/app/bills")}
+              onClick={() => history.push("/app/settings")}
             >
               <div className={homeStyles.topbox__topic}>
                 <img
