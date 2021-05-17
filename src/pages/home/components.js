@@ -675,6 +675,9 @@ const PTwoPFlyout = ({
     getFiatP2PRate();
   }, [getFiatP2PRate]);
   useEffect(() => {
+    
+  }, [convertedAmount])
+  useEffect(() => {
     if (pairTwoPairBTC && state.amount) {
       setState({});
       setOpenModal(false);
