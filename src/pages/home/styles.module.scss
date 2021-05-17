@@ -312,6 +312,9 @@
         color: #921946;
         cursor: pointer;
     }
+    &__text:hover {
+        text-decoration: underline;
+    }
 }
 
 

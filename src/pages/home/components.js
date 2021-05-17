@@ -141,6 +141,7 @@ export const DiscoFlyout = ({
               label="Amount"
               value={state.amount}
               name="amount"
+              type={"number"}
               onChange={(e) =>
                 setState((state) => ({ ...state, amount: e.target.value }))
               }
@@ -283,6 +284,7 @@ export const InternetFlyout = ({
               value={state.amount}
               readOnly={true}
               name="amount"
+              
               onChange={(e) =>
                 setState((state) => ({ ...state, amount: e.target.value }))
               }
@@ -432,6 +434,7 @@ export const CableFlyout = ({
               label="Amount"
               value={state.amount}
               name="amount"
+              type={"number"}
               onChange={(e) =>
                 setState((state) => ({ ...state, amount: e.target.value }))
               }
@@ -569,6 +572,7 @@ export const AirtimeFlyout = ({
               label="Amount"
               value={state.amount}
               name="amount"
+              type={"number"}
               onChange={(e) =>
                 setState((state) => ({ ...state, amount: e.target.value }))
               }
@@ -634,6 +638,7 @@ export const FundFlyout = ({
             label={`Amount in ${state.currency}`}
             value={state.amount}
             name="amount"
+            type={"number"}
             onChange={(e) =>
               setState((state) => ({ ...state, amount: e.target.value }))
             }

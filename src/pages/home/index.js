@@ -718,7 +718,7 @@ const Home = ({
                     className={homeStyles.extras__text}
                     onClick={() => history.push("/app/buy-giftcard")}
                   >
-                    {"Buy Gift Cards"} <DoubleRightOutlined />
+                    {"Buy Gift Cards"} <DoubleRightOutlined />{" "}
                   </div>
                 </div>
               </div>
