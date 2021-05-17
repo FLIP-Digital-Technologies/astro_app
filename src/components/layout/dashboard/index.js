@@ -44,7 +44,9 @@ function Toggle() {
 }
 
 function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
+  const { screen } = window;
+  let width = screen.width
+  let height = screen.height
   return {
     width,
     height
@@ -69,17 +71,17 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
       {console.log('dimension', windowDimensions)}
       <Sider
         breakpoint="lg"
-        collapsedWidth="80"
-        defaultCollapsed={true}
-        trigger={React.createElement(
-          showSideBar ? MenuUnfoldOutlined : MenuFoldOutlined,
-          {
-            className: "trigger",
-            onClick: toggle,
-            style: { backgroundColor: "transparent" },
-          }
-        )}
-        collapsible={windowDimensions < 866 ? false :true}
+        collapsedWidth={windowDimensions.width < 866? "0": "80"}
+        // defaultCollapsed={true}
+        // trigger={React.createElement(
+        //   showSideBar ? MenuUnfoldOutlined : MenuFoldOutlined,
+        //   {
+        //     className: "trigger",
+        //     onClick: toggle,
+        //     style: { backgroundColor: "transparent" },
+        //   }
+        // )}
+        trigger={null}
         onCollapse={toggle}
         collapsed={showSideBar}
         onBreakpoint={(broken) => {
@@ -135,6 +137,7 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
               >
                 <Toggle />
               </div>)}
+              
             </div>
             <div className={styles.header__right}>
               <div

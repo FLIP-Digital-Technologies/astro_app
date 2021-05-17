@@ -84,6 +84,16 @@ const Home = ({
   withdrawalTrans,
   pairTwoPairFiatTrans,
 }) => {
+  function getWindowDimensions() {
+    const { screen } = window;
+    let width = screen.width
+    let height = screen.height
+    return {
+      width,
+      height
+    };
+  }
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
   const [wallet, setWallet] = useState("NGN");
   let [fiatIndex, setFiatIndex] = useState(0);
   let [cryptoIndex, setCryptoIndex] = useState(0);
@@ -276,7 +286,7 @@ const Home = ({
           ></iframe>
         </ModalWrapper>
       )}
-      <span className={styles.gitcard__top__title}>
+      <span className={styles.gitcard__top__title} style={{marginBottom:20}}>
         {" "}
         {(user &&
           user.username &&
@@ -378,7 +388,7 @@ const Home = ({
           lg={17}
           style={{ marginLeft: 15, marginBottom: 28 }}
         >
-          <div className={homeStyles.topbox}>
+         {windowDimensions.width >866 && ( <div className={homeStyles.topbox}>
             <div
               className={homeStyles.topbox__inner}
               onClick={() => history.push("/app/crypto")}
@@ -433,7 +443,7 @@ const Home = ({
                 Invite your guys
               </div>
             </div>
-          </div>
+          </div>)}
           <Row>
             <Col style={{ marginRight: 25, marginBottom: 28 }}>
               <div className={homeStyles.charts}>

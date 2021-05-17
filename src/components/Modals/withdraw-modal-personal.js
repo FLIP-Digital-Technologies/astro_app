@@ -67,8 +67,8 @@ const WithDrawModalPersonal = ({
       title: `Withdrawing ${Money(acc.amount, "NGN")}`,
       icon: <ExclamationCircleOutlined style={{ color: "#19a9de" }} />,
       content: `Confirm the withdrawal of ${Money(acc.amount, acc.currency)} into ${
-        data.account_name
-      } ${data.account_number} ${data.bank_name}`,
+        data.details.account_name
+      } ${data.account_number} ${data.details.bankName}`,
       onOk() {
         return submitBankDetails({ ...acc });
       },
