@@ -56,7 +56,7 @@ const BuyCoin = ({
     return () => clearInterval(interval);
   }, [getBTCRates]);
   React.useEffect(() => {
-    receiveBTC();
+    receiveBTC({cryptoWalletId:active.id});
     getBTCRates({coin:active.Currency.code});
   }, [receiveBTC, getBTCRates]);
   return (
@@ -106,7 +106,7 @@ const BuyCoin = ({
                   mode === "buy" && styles.active
                 }`}
               >
-                <div className={`${styles.sell}`}>
+                <div className={`${styles.selling}`}>
                   <ArrowLeftOutlined style={{ color: "#fff" }} />
                 </div>
                 <span>Buy</span>
@@ -127,7 +127,7 @@ const BuyCoin = ({
                   mode === "sell" && styles.active
                 }`}
               >
-                <div className={`${styles.buy}`}>
+                <div className={`${styles.buying}`}>
                   <ArrowLeftOutlined style={{ color: "#fff" }} rotate={180} />
                 </div>
                 <span>Sell</span>
@@ -238,8 +238,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  receiveBTC: () => {
-    dispatch(receiveBTCIntoWallet());
+  receiveBTC: (data) => {
+    dispatch(receiveBTCIntoWallet(data));
   },
   getBTCRates: (data) => {
     dispatch(getBTCCurrentMarketTicker(data));

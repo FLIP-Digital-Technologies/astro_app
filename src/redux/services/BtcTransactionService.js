@@ -149,7 +149,7 @@ BTCTransactionServices.initialSendBTCToExternalWallet = function (
 
 BTCTransactionServices.receiveBTC = function (params) {
   return fetch({
-    url: `/api/transactions/btc/${params.userId}/receive`,
+    url: `/coins/${params.userId}/address/receive/${params.cryptoWalletId}`,
     method: "get",
   });
 };

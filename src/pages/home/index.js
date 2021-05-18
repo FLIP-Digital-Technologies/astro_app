@@ -223,7 +223,7 @@ const Home = ({
         setOpenModal(false);
         notification.error({
           message: "Payment Failed",
-          duration: 0,
+          duration: 1,
           key,
         });
       }
@@ -382,7 +382,7 @@ const Home = ({
           />
         </Drawer>
       )}
-      <Row>
+      <Row style={{marginTop:20}}>
         <Col
           span={17}
           md={24}
@@ -469,15 +469,15 @@ const Home = ({
               </div>
             </div>
           )}
-          <Row gutter={[16,16]} style={{}}>
+          <Row gutter={[8, 8]} style={{}}>
             <Col
-              span={10}
+              span={12}
               xs={20}
               sm={20}
-              lg={10}
+              lg={12}
               md={20}
-              xxl={10}
-              xl={10}
+              xxl={12}
+              xl={12}
               // style={{ marginRight: 25, marginBottom: 28 }}
             >
               <div className={homeStyles.charts}>
@@ -723,60 +723,67 @@ const Home = ({
                 <div className={homeStyles.extras}>
                   <div
                     className={homeStyles.extras__text}
-                    onClick={() => history.push("/app/sell-giftcard")}
-                  >
-                    {"Sell Gift Cards"} <DoubleRightOutlined />
-                  </div>
-                  <div
-                    className={homeStyles.extras__text}
-                    onClick={() => history.push("/app/buy-giftcard")}
-                  >
-                    {"Buy Gift Cards"} <DoubleRightOutlined />{" "}
-                  </div>
-                </div>
-              </div>
-            </Col>
-            <Col
-              span={13}
-              xs={20}
-              sm={20}
-              lg={13}
-              md={20}
-              xxl={13}
-              xl={13}
-              style={{ marginTop:10}}
-            >
-              <Row
-                style={{
-                  marginBottom: 25,
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-                gutter={[8,8]}
-              >
-                <Col span={10} xs={20} sm={20} lg={10} md={20} xxl={10} xl={10}>
-                  <div
-                    className={homeStyles.widgets__inner}
                     onClick={() => {
                       balance && balance.fiatWallets.length > 0
                         ? setShowFund(true)
                         : notification.info({
                             message: "Please wait",
+                            duration:2.5,
                           });
                     }}
                   >
+                    {"Deposit Funds"} <DoubleRightOutlined />
+                  </div>
+                  <div
+                    className={homeStyles.extras__text}
+                    onClick={() => {
+                      balance && balance.fiatWallets.length > 0
+                        ? setOpenWithdrawal(true)
+                        : notification.info({
+                            message: "Please wait",
+                            duration:2.5,
+                          });
+                    }}
+                  >
+                    {"Withdraw Funds"} <DoubleRightOutlined />{" "}
+                  </div>
+                  <div
+                    className={homeStyles.extras__text}
+                    onClick={() => {
+                      balance && balance.fiatWallets.length > 0
+                        ? setShowAirtime(true)
+                        : notification.info({
+                            message: "Please wait",
+                            duration:2.5,
+                          });
+                    }}
+                  >
+                    {"Buy Airtime"} <DoubleRightOutlined />{" "}
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col span={12} xs={20} sm={20} lg={12} md={20} xxl={12} xl={12}>
+              <Row gutter={[8, 25]}>
+                <Col span={12} xs={20} sm={20} lg={12} md={20} xxl={12} xl={12}>
+                  <div
+                    className={homeStyles.widgets__inner}
+                    onClick={() => history.push("/app/sell-giftcard")}
+                  >
                     <div className={homeStyles.widgets__image}>
                       <img
-                        src={png.Fund}
+                        src={png.SellGiftCard}
                         height="40"
                         width="40"
                         style={{ marginRight: 5 }}
                         alt="wallet"
                       />
                     </div>
-                    <div className={homeStyles.widgets__info}>Fund Wallet</div>
+                    <div className={homeStyles.widgets__info}>
+                      Sell Gift Cards
+                    </div>
                     <div className={homeStyles.widgets__description}>
-                      Fund your Astro Fiat Wallets
+                      We buy Gift Cards at a good price
                     </div>
                     <div className={homeStyles.widgets__arrow}>
                       <DoubleRightOutlined
@@ -785,29 +792,23 @@ const Home = ({
                     </div>
                   </div>
                 </Col>
-                <Col span={10} xs={20} sm={20} lg={10} md={20} xxl={10} xl={10}>
+                <Col span={12} xs={20} sm={20} lg={12} md={20} xxl={12} xl={12}>
                   <div
                     className={homeStyles.widgets__inner}
-                    onClick={() => {
-                      balance && balance.fiatWallets.length > 0
-                        ? setOpenWithdrawal(true)
-                        : notification.info({
-                            message: "Please wait",
-                          });
-                    }}
+                    onClick={() => history.push("/app/crypto")}
                   >
                     <div className={homeStyles.widgets__image}>
                       <img
-                        src={png.Withdrawal}
+                        src={png.SellBitcoin}
                         height="40"
                         width="40"
                         style={{ marginRight: 5 }}
                         alt="wallet"
                       />
                     </div>
-                    <div className={homeStyles.widgets__info}>Withdrawal</div>
+                    <div className={homeStyles.widgets__info}>Sell Bitcoin</div>
                     <div className={homeStyles.widgets__description}>
-                      Transfer to your bank accounts
+                      Convert Bitcoin to your preferred currency
                     </div>
                     <div className={homeStyles.widgets__arrow}>
                       <DoubleRightOutlined
@@ -817,23 +818,18 @@ const Home = ({
                   </div>
                 </Col>
               </Row>
-              <Row
-                style={{
-                  marginBottom: 25,
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-                gutter={[8,8]}
-              >
-                <Col span={10} xs={20} sm={20} lg={10} md={20} xxl={10} xl={10}>
+              <Row gutter={[8, 25]}>
+                <Col span={12} xs={20} sm={20} lg={12} md={20} xxl={12} xl={12}>
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
-                      userLoading
-                        ? notification.info({
+                      balance && balance.fiatWallets.length > 0
+                        ? setShowPTWOP(true)
+                        : notification.info({
                             message: "Please wait",
+                            duration:2.5,
                           })
-                        : setShowPTWOP(true);
+                        
                     }}
                   >
                     <div className={homeStyles.widgets__image}>
@@ -858,15 +854,17 @@ const Home = ({
                     </div>
                   </div>
                 </Col>
-                <Col span={10} xs={20} sm={20} lg={10} md={20} xxl={10} xl={10}>
+                <Col span={12} xs={20} sm={20} lg={12} md={20} xxl={12} xl={12}>
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
-                      userLoading
-                        ? notification.info({
-                            message: "Please wait",
+                      balance && balance.cryptoWallets.length > 0
+                        ? setShowPTWOPcrypto(true)
+                        : notification.info({
+                            message: "No crypto wallet",
+                            duration:2.5,
                           })
-                        : setShowPTWOPcrypto(true);
+                        
                     }}
                   >
                     <div className={homeStyles.widgets__image}>
@@ -894,6 +892,132 @@ const Home = ({
               </Row>
             </Col>
           </Row>
+          {/* <Row gutter={[8, 8]} style={{}}>
+            <Col span={6} xs={20} sm={20} lg={6} md={20} xxl={6} xl={6}>
+              <div
+                className={homeStyles.widgets__inner}
+                onClick={() => {
+                  userLoading
+                    ? notification.info({
+                        message: "Please wait",
+                      })
+                    : setShowPTWOP(true);
+                }}
+              >
+                <div className={homeStyles.widgets__image}>
+                  <img
+                    src={png.P2P}
+                    height="40"
+                    width="40"
+                    style={{ marginRight: 5 }}
+                    alt="wallet"
+                  />
+                </div>
+                <div className={homeStyles.widgets__info}>Astro Transfer</div>
+                <div className={homeStyles.widgets__description}>
+                  Send Money to another Astro user
+                </div>
+                <div className={homeStyles.widgets__arrow}>
+                  <DoubleRightOutlined
+                    className={homeStyles.widgets__arrow__inner}
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col span={6} xs={20} sm={20} lg={6} md={20} xxl={6} xl={6}>
+              <div
+                className={homeStyles.widgets__inner}
+                onClick={() => {
+                  userLoading
+                    ? notification.info({
+                        message: "Please wait",
+                      })
+                    : setShowPTWOPcrypto(true);
+                }}
+              >
+                <div className={homeStyles.widgets__image}>
+                  <img
+                    src={png.CryptoPeer}
+                    height="40"
+                    width="40"
+                    style={{ marginRight: 5 }}
+                    alt="wallet"
+                  />
+                </div>
+                <div className={homeStyles.widgets__info}>Crypto Transfer</div>
+                <div className={homeStyles.widgets__description}>
+                  Send crypto to another Astro user
+                </div>
+                <div className={homeStyles.widgets__arrow}>
+                  <DoubleRightOutlined
+                    className={homeStyles.widgets__arrow__inner}
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col span={6} xs={20} sm={20} lg={6} md={20} xxl={6} xl={6}>
+              <div
+                className={homeStyles.widgets__inner}
+                onClick={() => {
+                  userLoading
+                    ? notification.info({
+                        message: "Please wait",
+                      })
+                    : setShowPTWOP(true);
+                }}
+              >
+                <div className={homeStyles.widgets__image}>
+                  <img
+                    src={png.P2P}
+                    height="40"
+                    width="40"
+                    style={{ marginRight: 5 }}
+                    alt="wallet"
+                  />
+                </div>
+                <div className={homeStyles.widgets__info}>Astro Transfer</div>
+                <div className={homeStyles.widgets__description}>
+                  Send Money to another Astro user
+                </div>
+                <div className={homeStyles.widgets__arrow}>
+                  <DoubleRightOutlined
+                    className={homeStyles.widgets__arrow__inner}
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col span={6} xs={20} sm={20} lg={6} md={20} xxl={6} xl={6}>
+              <div
+                className={homeStyles.widgets__inner}
+                onClick={() => {
+                  userLoading
+                    ? notification.info({
+                        message: "Please wait",
+                      })
+                    : setShowPTWOPcrypto(true);
+                }}
+              >
+                <div className={homeStyles.widgets__image}>
+                  <img
+                    src={png.CryptoPeer}
+                    height="40"
+                    width="40"
+                    style={{ marginRight: 5 }}
+                    alt="wallet"
+                  />
+                </div>
+                <div className={homeStyles.widgets__info}>Crypto Transfer</div>
+                <div className={homeStyles.widgets__description}>
+                  Send crypto to another Astro user
+                </div>
+                <div className={homeStyles.widgets__arrow}>
+                  <DoubleRightOutlined
+                    className={homeStyles.widgets__arrow__inner}
+                  />
+                </div>
+              </div>
+            </Col>
+          </Row> */}
         </Col>
         <Col
           span={1}

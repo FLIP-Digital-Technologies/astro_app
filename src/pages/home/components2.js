@@ -101,7 +101,7 @@ const PTwoPCrypto = ({
             }))
           }
           name="referenceCurrency"
-          placeholder="Select a network provider"
+          placeholder="Select Wallet"
           //   options={[
           //     { render: "NGN wallet", value: "NGN" },
           //     { render: "GHS wallet", value: "GHS" },
@@ -112,7 +112,7 @@ const PTwoPCrypto = ({
             value: item,
           }))}
           hint={`
-              Current Balance : ${state.walletBalance}
+              Current Balance : ${state.walletBalance ?? 0}
             `}
         />
         {state.referenceCurrency && (

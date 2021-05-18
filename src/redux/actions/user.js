@@ -49,6 +49,7 @@ const UpdateUserDetails = (data) => async (dispatch) => {
       });
       notification.success({
         message: "Successful updated user details.",
+        duration:2.5,
         key,
       });
       dispatch(GetUserDetails());

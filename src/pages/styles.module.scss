@@ -423,13 +423,14 @@
     
 
     &__title {
-      font-size: 35px;
+      font-size: 32px;
       line-height: 35px;
       font-family: 'Maven Pro';
       color: #8C6966;
       font-weight: 500;
       margin-left: 30px;
       background-color:'transparent';
+      
       
       @include sm {
         margin-left: 0px;
@@ -2587,10 +2588,26 @@
     border: 1px solid #890F3C;
 
     .buy {
-      background-color: red;
+      background-color: #921946;
     }
     .sell {
       background-color: green;
+    }
+    .selling {
+      background-color: green;
+      -webkit-transform: rotate(315deg);
+      -moz-transform: rotate(315deg);
+      -ms-transform: rotate(315deg);
+      -o-transform: rotate(315deg);
+      transform: rotate(315deg);
+    }
+    .buying {
+      background-color: #921946;
+      -webkit-transform: rotate(315deg);
+      -moz-transform: rotate(315deg);
+      -ms-transform: rotate(315deg);
+      -o-transform: rotate(315deg);
+      transform: rotate(315deg);
     }
   }
 

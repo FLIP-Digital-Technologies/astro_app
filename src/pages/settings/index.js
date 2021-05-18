@@ -232,12 +232,12 @@ const Profile = ({
       });
     } else if (
       state.accountType.value === "gh-mobile" &&
-      state.accountNumber.length === 12
+      state.accountNumber.length === 11
     ) {
       console.log("mobile");
       verifyBankAccount({
         bankCode: state.bankCode,
-        accountNumber: state.accountNumber,
+        accountNumber: `233${state.accountNumber.substring(1,)}`,
       });
     }
     // eslint-disable-next-line

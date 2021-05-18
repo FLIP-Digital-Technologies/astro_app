@@ -660,6 +660,7 @@ const GiftCardForm = ({
     if (resFile[0] === "error") {
       return notification.error({
         message: "Could not upload Image",
+        duration:2.5,
       });
     } else {
       await SellGiftCard(payload);

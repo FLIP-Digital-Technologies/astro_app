@@ -50,7 +50,7 @@ const bankReducer = (state = initState, action) => {
     case actionTypes.DEL_BANK_ACCOUNT_PENDING:
       notification.info({
         message: "Loading.....",
-        duration: 0,
+        duration: 1.5,
         description: "Deleting Bank details",
         key,
       });
@@ -63,6 +63,7 @@ const bankReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         description: "Successfully deleted Bank details",
+        duration:2.5,
         key,
       });
       return {
@@ -100,6 +101,7 @@ const bankReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         description: "Successfully Fetched Bank Accounts",
+        duration:2.5,
         key,
       });
       return {

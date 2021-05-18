@@ -105,6 +105,7 @@ const authReducer = (state = initState, action) => {
     case actionTypes.VERIFY_EMAIL_OTP_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         key,
       });
       return {
@@ -116,6 +117,7 @@ const authReducer = (state = initState, action) => {
     case actionTypes.GET_USER_WALLETS_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         key,
       });
       return {
@@ -127,6 +129,7 @@ const authReducer = (state = initState, action) => {
     case actionTypes.GET_CRYPTO_CURRENCY_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         key,
       });
       return {
@@ -139,6 +142,7 @@ const authReducer = (state = initState, action) => {
     case actionTypes.GET_FIAT_CURRENCY_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         key,
       });
       return {
@@ -163,6 +167,7 @@ const authReducer = (state = initState, action) => {
     case actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         key,
       });
       return {
@@ -175,6 +180,7 @@ const authReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         description: "Added Bank details",
+        duration:2.5,
         key,
       });
       return {
@@ -198,6 +204,7 @@ const authReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         description: "Password Changed Successfully",
+        duration:2.5,
         key,
       });
       return {
@@ -209,6 +216,7 @@ const authReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         description: "Transaction Pin Set",
+        duration:2.5,
         key,
       });
       return {
@@ -222,7 +230,8 @@ const authReducer = (state = initState, action) => {
     case actionTypes.REDEEM_USER_REFERRAL_SUCCESS:
       notification.success({
         message: "Successful",
-        description: "Redeemed referral bonus successfully",
+        // description: "Redeemed referral bonus successfully",
+        duration:2.5,
         key,
       });
       return {
@@ -234,6 +243,7 @@ const authReducer = (state = initState, action) => {
     case actionTypes.GET_USER_REFERRALS_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         key,
       });
       return {
@@ -249,6 +259,7 @@ const authReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         description: "You can now Login with your new password.",
+        duration:2.5,
         key,
       });
       return {
@@ -260,6 +271,7 @@ const authReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         // description: "You can now Login with your new password.",
+        duration:2.5,
         key,
       });
       return {

@@ -157,13 +157,13 @@ export const initialBTCSellToExternalWalletTransaction = (data) => (
   dispatch(InitialBTCSellToExternalWalletTransaction(data));
 };
 
-const ReceiveBTCIntoWallet = () => async (dispatch) => {
+const ReceiveBTCIntoWallet = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
     type: actionTypes.RECEIVE_BTC_PENDING,
   });
 
-  await BTCTransactionServices.receiveBTC({ userId })
+  await BTCTransactionServices.receiveBTC({ userId, cryptoWalletId:data.cryptoWalletId })
     .then((response) => {
       dispatch({
         type: actionTypes.RECEIVE_BTC_SUCCESS,
@@ -178,8 +178,8 @@ const ReceiveBTCIntoWallet = () => async (dispatch) => {
     });
 };
 
-export const receiveBTCIntoWallet = () => (dispatch) => {
-  dispatch(ReceiveBTCIntoWallet());
+export const receiveBTCIntoWallet = (data) => (dispatch) => {
+  dispatch(ReceiveBTCIntoWallet(data));
 };
 
 const GetBTCTransactionHistory = (data) => async (dispatch) => {

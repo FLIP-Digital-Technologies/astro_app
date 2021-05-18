@@ -34,6 +34,7 @@ const SignUp = (props) => {
     if (password !== confirmPassword) {
       notification.error({
         message: "Password does not match",
+        duration:2.5,
       });
       return;
     }

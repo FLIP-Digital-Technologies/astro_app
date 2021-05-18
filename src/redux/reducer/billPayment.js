@@ -84,6 +84,7 @@ const billPaymentReducer = (state = initState, action) => {
     case actionTypes.GET_BILL_PAYMENT_DETAILS_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         description: "Successfully fetched Bill Payment transaction.",
         key,
       });
@@ -96,6 +97,7 @@ const billPaymentReducer = (state = initState, action) => {
     case actionTypes.INITIAL_BILL_PAYMENT_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         // description: "Successfully",
         key,
       });

@@ -21,8 +21,8 @@
         border:solid rgb(201, 199, 199);
         border-width: 1px;
         margin-right: 28px;
-        width: 180px;
-        height: 180px;
+        width: 170px;
+        height: 170px;
         display: flex;
         align-items: flex-start;
         justify-content: center;
@@ -50,7 +50,7 @@
         color: rgb(113, 115, 116);
     }
     &__info{
-        font-size: 30px;
+        font-size: 20px;
         font-weight: 600;
     }
 }
@@ -65,11 +65,11 @@
     // padding: 2px 20px 30px 4px;
     padding-left: 20px;
     padding-top: 20px;
-    width:100% !important;
-    height:465px;
+    width:90% !important;
+    // height:465px;
     padding-right: 20px;
     padding-bottom: 20px;
-    margin-top: 10px;
+    // margin-top: 10px;
     @include sm {
         width: 500px;
       }
@@ -120,7 +120,7 @@
         cursor: pointer;
         border:solid rgb(201, 199, 199);
         border-width: 1px;
-        margin-right: 28px;
+        // margin-right: 28px;
         width: 90%;
         height: 100%;
         display: flex;
@@ -131,10 +131,10 @@
         padding-left: 20px;
         color: rgb(13, 14, 14);
         background-color: #fff;
-        padding-left: 15px;
-        padding-right: 15px;
-        padding-top: 15px;
-        padding-bottom: 15px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-top: 12px;
+        padding-bottom: 12px;
         box-shadow: -3px 4px 20px #00000026;
         @media (min-width: 576px) {
           margin-bottom: 20px !important; 
@@ -183,7 +183,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     font-size: 15px;
     font-weight: 500;
     width: 100%;
@@ -194,6 +194,7 @@
         font-size: 18px;
         margin-bottom: 28px;
         font-weight: 500;
+        display: flex;
         justify-content: flex-start;
     }
     &__headeright {

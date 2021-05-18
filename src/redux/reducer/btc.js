@@ -260,6 +260,7 @@ const btcReducer = (state = initState, action) => {
     case actionTypes.INITIAL_SEND_BTC_TO_EXTERNAL_WALLET_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         description: "Successful BTC sent.",
         key,
       });
@@ -273,6 +274,7 @@ const btcReducer = (state = initState, action) => {
     case actionTypes.INITIAL_SELL_BTC_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         description: "Successful BTC sales.",
         key,
       });
@@ -286,6 +288,7 @@ const btcReducer = (state = initState, action) => {
     case actionTypes.GET_WALLET_DETAILS_BY_ID_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         description: "Successfully fetch btc transaction.",
         key,
       });
@@ -298,6 +301,7 @@ const btcReducer = (state = initState, action) => {
     case actionTypes.GET_COIN_BUY_TRANSACTION_DETAILS_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         description: "Successfully fetch btc transaction.",
         key,
       });
@@ -310,6 +314,7 @@ const btcReducer = (state = initState, action) => {
     case actionTypes.GET_COIN_SELL_TRANSACTION_DETAILS_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         description: "Successfully fetch btc transaction.",
         key,
       });
@@ -322,6 +327,7 @@ const btcReducer = (state = initState, action) => {
     case actionTypes.GET_COIN_SEND_TRANSACTION_DETAILS_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         description: "Successfully fetch btc transaction.",
         key,
       });
@@ -334,6 +340,7 @@ const btcReducer = (state = initState, action) => {
     case actionTypes.GET_COIN_P2P_TRANSACTION_DETAILS_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         description: "Successfully fetch btc transaction.",
         key,
       });
@@ -346,6 +353,7 @@ const btcReducer = (state = initState, action) => {
     case actionTypes.INITIAL_BUY_BTC_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         description: "Successful BTC purchase.",
         key,
       });
@@ -359,6 +367,7 @@ const btcReducer = (state = initState, action) => {
     case actionTypes.GET_CURRENT_MARKET_TICKERS_SUCCESS:
       notification.success({
         message: "Successful",
+        duration:2.5,
         description: "Successfully Fetched Current BTC rates",
         key,
       });

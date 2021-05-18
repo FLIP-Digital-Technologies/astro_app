@@ -116,11 +116,22 @@ export function WaitingComponent(Component) {
 }
 
 export function Money(data = 0, curr = "NGN") {
-  let money = typeof data === "number" ? data : parseFloat(data, 10);
-  return money.toLocaleString("en-NG", {
-    currency: curr,
-    style: "currency",
-  });
+  if (data === "" || data === null || data === undefined) {
+    let value = 0
+    let money = typeof value === "number" ? value : parseFloat(value, 10);
+    return money.toLocaleString("en-NG", {
+      currency: curr,
+      style: "currency",
+    });
+  } else {
+    let value = data
+    let money = typeof value === "number" ? value : parseFloat(value, 10);
+    return money.toLocaleString("en-NG", {
+      currency: curr,
+      style: "currency",
+    });
+  }
+ 
 }
 
 export function sortData(temp1) {

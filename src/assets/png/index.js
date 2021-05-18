@@ -42,6 +42,8 @@ import P2P from "./lending.png"
 import QuickAction from "./action.png"
 import RazorGoldCard from "./razergold1.png"
 import Referrals from "./referrals.png"
+import SellGiftCard from "./sell-card.png"
+import SellBitcoin from "./exchange.png"
 import SephoraSmallCard from "./sephora.png"
 import SparCard from "./spar1.png"
 import StarbucksCard from "./starbuck1.png"
@@ -106,6 +108,8 @@ png = {
   QuickAction,
   RazorGoldCard,
   Referrals,
+  SellGiftCard,
+  SellBitcoin,
   SephoraSmallCard,
   SparCard,
   StarbucksCard,
