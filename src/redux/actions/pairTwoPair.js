@@ -42,6 +42,7 @@ const InitialFiatP2PByUser = (data) => async (dispatch) => {
         type: actionTypes.INITIAL_FIAT_P2P_TRANSFER_SUCCESS,
         payload: response.data,
       });
+      dispatch(GetAllUserFiatP2PTransferDetails({skip:0, limit:4}));
     })
     .catch((err) => {
       dispatch({

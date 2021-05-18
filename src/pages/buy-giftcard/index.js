@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import { Row, Col, Card, Drawer, Typography, Badge, Modal } from "antd";
-import {ExclamationCircleOutlined} from "@ant-design/icons"
+import { ExclamationCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 import { useHistory, useLocation } from "react-router-dom";
 import _ from "lodash";
 
@@ -62,7 +62,7 @@ const BuyGiftCard = (props) => {
   }, []);
   useEffect(() => {
     props.getBuyCardsByCountries();
-    props.getBalance()
+    props.getBalance();
     props.getBuyCardsBySearch({ searchQuery: "", country: "usa" });
     // eslint-disable-next-line
   }, []);
@@ -74,12 +74,13 @@ const BuyGiftCard = (props) => {
   }
 
   const showPromiseConfirm = () => {
-    
-
     confirm({
       title: `Purchase of Gift card`,
       icon: <ExclamationCircleOutlined style={{ color: "#19a9de" }} />,
-      content: `Confirm the Purchase of ${Money(card?.cardValue, props?.buyGiftCardDetails?.currency)} ${props?.buyGiftCardDetails?.name} Gift card`,
+      content: `Confirm the Purchase of ${Money(
+        card?.cardValue,
+        props?.buyGiftCardDetails?.currency
+      )} ${props?.buyGiftCardDetails?.name} Gift card`,
       onOk() {
         return handleSubmit();
       },
@@ -94,11 +95,11 @@ const BuyGiftCard = (props) => {
       cardValue: card.cardValue,
       email: card.email || props?.user?.email,
       amount: card.amount === "null" ? null : card.amount,
-      quantity: parseInt(card.quantity ),
+      quantity: parseInt(card.quantity),
       isCustom: false,
       fiatWalletId: card.walletId,
     };
-    
+
     await props.buyGiftCard(payload);
     setOpen(true);
     setActive(false);
@@ -108,9 +109,7 @@ const BuyGiftCard = (props) => {
     <DashboardLayout>
       {open && props.initBuyGiftCardTransaction && (
         <SuccessfulModal
-          title={
-            `Your ${props?.buyGiftCardDetails?.name} (${props?.buyGiftCardDetails?.currency}) card purchase has been received. Please check your mail and the 'Transactions' tab for trade progress.`
-          }
+          title={`Your ${props?.buyGiftCardDetails?.name} (${props?.buyGiftCardDetails?.currency}) card purchase has been received. Please check your mail and the 'Transactions' tab for trade progress.`}
           onClick={() => history.push("/app")}
           walletBalance={props.balance}
         />
@@ -198,81 +197,90 @@ const BuyGiftCard = (props) => {
               </Col>
             </Row>
           </div>
-          <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-            {props.buyGiftCards && props.buyGiftCards.length < 1 ? (
-              <div style={{ width: "100%" }}>
-                <EmptyEntryWithTitle title="GiftCard" action={false} />
-              </div>
-            ) : (
-              props.buyGiftCards &&
-              props.buyGiftCards.map((item, key) => {
-                return (
-                  <Col
-                    key={key}
-                    xs={24}
-                    sm={24}
-                    md={12}
-                    lg={8}
-                    xl={6}
-                    className="gutter-row"
-                    style={{ marginBottom: 20 }}
-                  >
-                    <Badge.Ribbon
-                      color={item.outOfStock ? "#f50" : ""}
-                      text={item.outOfStock ? "Out Of Stock" : "Available"}
+          {!props.loading ? (
+            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+              {props.buyGiftCards && props.buyGiftCards.length < 1 ? (
+                <div style={{ width: "100%" }}>
+                  <EmptyEntryWithTitle title="GiftCard" action={false} />
+                </div>
+              ) : (
+                props.buyGiftCards &&
+                props.buyGiftCards.map((item, key) => {
+                  return (
+                    <Col
+                      key={key}
+                      xs={24}
+                      sm={24}
+                      md={12}
+                      lg={8}
+                      xl={6}
+                      className="gutter-row"
+                      style={{ marginBottom: 20 }}
                     >
-                      <Card
-                        hoverable
-                        bordered={false}
-                        onClick={
-                          item?.outOfStock
-                            ? () => {}
-                            : () => {
-                                props.getSingleCard({ card: item.slug });
-                                history.push(`${pathname}?slug=${item.slug}`);
-                                setActive(true);
-                              }
-                        }
-                        style={{ width: "100%", border: "1px solid #00000026" }}
-                        cover={
-                          <img
-                            alt={"card" + key}
-                            style={
-                              item.logoNoMargin
-                                ? {
-                                    width: "100%",
-                                    height: 200,
-                                    backgroundColor: item.logoBackground,
-                                  }
-                                : {
-                                    width: "100%",
-                                    height: 200,
-                                    padding: "30px",
-                                    backgroundColor: item.logoBackground,
-                                  }
-                            }
-                            src={getImgUrl(item)}
-                          />
-                        }
+                      <Badge.Ribbon
+                        color={item.outOfStock ? "#f50" : ""}
+                        text={item.outOfStock ? "Out Of Stock" : "Available"}
                       >
-                        <p
+                        <Card
+                          hoverable
+                          bordered={false}
+                          onClick={
+                            item?.outOfStock
+                              ? () => {}
+                              : () => {
+                                  props.getSingleCard({ card: item.slug });
+                                  history.push(`${pathname}?slug=${item.slug}`);
+                                  setActive(true);
+                                }
+                          }
                           style={{
-                            margin: 0,
-                            textAlign: "center",
-                            fontSize: "1.3em",
+                            width: "100%",
+                            border: "1px solid #00000026",
                           }}
+                          cover={
+                            <img
+                              alt={"card" + key}
+                              style={
+                                item.logoNoMargin
+                                  ? {
+                                      width: "100%",
+                                      height: 200,
+                                      backgroundColor: item.logoBackground,
+                                    }
+                                  : {
+                                      width: "100%",
+                                      height: 200,
+                                      padding: "30px",
+                                      backgroundColor: item.logoBackground,
+                                    }
+                              }
+                              src={getImgUrl(item)}
+                            />
+                          }
                         >
-                          <strong>
-                            <p>{item.name}</p>
-                          </strong>
-                        </p>
-                      </Card>
-                    </Badge.Ribbon>
-                  </Col>
-                );
-              })
-            )}
-          </Row>
+                          <p
+                            style={{
+                              margin: 0,
+                              textAlign: "center",
+                              fontSize: "1.3em",
+                            }}
+                          >
+                            <strong>
+                              <p>{item.name}</p>
+                            </strong>
+                          </p>
+                        </Card>
+                      </Badge.Ribbon>
+                    </Col>
+                  );
+                })
+              )}
+            </Row>
+          ) : (
+            <div className={styles.buygiftcardloader}>
+              <LoadingOutlined />
+            </div>
+          )}
         </div>
         {active && (
           <Drawer
@@ -331,23 +339,25 @@ const BuyGiftCard = (props) => {
                 </Text>
               </div>
               <div>
-                {props?.balance?.fiatWallets && (<Select
-                  labelClass={styles.largeMarginLabel}
-                  label="Select Wallet"
-                  value={card.referenceCurrency}
-                  onSelect={(value) => {
-                    setCard((card) => ({
-                      ...card,
-                      referenceCurrency: value.Currency.code,
-                      walletId:value.id
-                    }));
-                  }}
-                  name="wallet"
-                  options={props.balance.fiatWallets.map((item)=>({
-                    render:`${item.Currency.code}`,
-                    value:item
-                  }))}
-                />)}
+                {props?.balance?.fiatWallets && (
+                  <Select
+                    labelClass={styles.largeMarginLabel}
+                    label="Select Wallet"
+                    value={card.referenceCurrency}
+                    onSelect={(value) => {
+                      setCard((card) => ({
+                        ...card,
+                        referenceCurrency: value.Currency.code,
+                        walletId: value.id,
+                      }));
+                    }}
+                    name="wallet"
+                    options={props.balance.fiatWallets.map((item) => ({
+                      render: `${item.Currency.code}`,
+                      value: item,
+                    }))}
+                  />
+                )}
                 <Input
                   className={`${styles.input}`}
                   value={card.quantity}
@@ -426,6 +436,7 @@ const mapStateToProps = (state) => ({
   balance: state.btc.balance,
   buyCardCountries: state.buyGiftCard.buyCardCountries,
   buyGiftCards: state.buyGiftCard.buyGiftCards,
+  loading: state.buyGiftCard.loading,
   buyGiftCardDetails: state.buyGiftCard.buyGiftCardDetails,
   initBuyGiftCardTransaction: state.buyGiftCard.initBuyGiftCardTransaction,
 });

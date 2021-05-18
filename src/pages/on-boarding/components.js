@@ -137,6 +137,10 @@ export const Step2 = ({
     currency: "",
     bankBranchCode: "",
     bankBranchName: "",
+    accountType: {
+      value: "",
+      country: "",
+    },
   };
 
   const [state, setState] = useState(INITIAL_STATE);
@@ -210,41 +214,62 @@ export const Step2 = ({
       <div className={styles.onboarding__section}>
         <h2 className={styles.onboarding__title}>Bank Account Details</h2>
         <div className={styles.onboarding__inputList1}>
-          <Select
-            labelClass={styles.profileBankInputLabel}
-            className={styles.profileBankInput}
-            label="Select currency"
-            value={state.currency}
-            onSelect={(value) => {
-              setState((state) => ({
-                ...state,
-                currency: value.code.substring(0,2),
-                accountNumber: "",
-                bankCode: "",
-                bvn: "",
-                accountName: "",
-                bankName: "",
-                bankBranchCode: "",
-                bankBranchName: "",
-                isMobileMoney: false,
-              }));
-              getBankList({ country: value.code.substring(0,2) });
-            }}
-            name="select payment currency"
-            // options={[
-            //   { render: "NGN", value: "NG" },
-            //   { render: "GHS", value: "GH" },
-            // ]}
-            options={fiatCurrency.map((item) => ({
-              render: item.name,
-              value: {
-                code:item.code,
-              _id:item.id
-              },
-              _id: item.id,
-            }))}
-          />
-          {state.currency === "GH" && (
+        <Select
+              labelClass={styles.profileBankInputLabel}
+              className={styles.profileBankInput}
+              label="Select Account Type"
+              value={state.currency}
+              onSelect={(value) => {
+                setState((state) => ({
+                  ...state,
+                  currency: value.country,
+                  accountType: value,
+                  accountNumber: "",
+                  bankCode: "",
+                  bvn: "",
+                  accountName: "",
+                  bankName: "",
+                  bankBranchCode: "",
+                  bankBranchName: "",
+                  isMobileMoney: false,
+                }));
+                if (value !== "US") {
+                  getBankList({ country: value.country });
+                }
+              }}
+              name="select payment currency"
+              // options={fiatCurrency.map((item)=> ({
+              //   render: item.name,
+              //   value:item.code.substring(0,2)
+              // }))}
+              options={[
+                {
+                  render: "Nigeria Accounts",
+                  value: {
+                    country: "NG",
+                    value: "ng-account",
+                    name: "Nigeria Account",
+                  },
+                },
+                {
+                  render: "Ghana Accounts",
+                  value: {
+                    country: "GH",
+                    value: "gh-account",
+                    name: "Ghana Account",
+                  },
+                },
+                {
+                  render: "Ghana Mobile Money",
+                  value: {
+                    country: "GH",
+                    value: "gh-mobile",
+                    name: "Ghana Mobile Money",
+                  },
+                },
+              ]}
+            />
+          {/* {state.currency === "GH" && (
             <div
               className={styles.profileBankInput}
               style={{
@@ -282,61 +307,62 @@ export const Step2 = ({
                 unCheckedChildren="No"
               />
             </div>
-          )}
-          {state.currency === "NG" && (
-            <Select
-              name="bankCode"
-              className={styles.profileBankInput}
-              value={state.bankCode}
-              onSelect={(value) => handleBankCode(value)}
-              label="Bank"
-              placeholder="Select your bank"
-              options={bankList?.map((i) => ({
-                value: `${i.code},${i.name}`,
-                render: i.name,
-              }))}
-            />
-          )}
+          )} */}
+          {state.accountType.value === "ng-account" && (
+              <Select
+                name="bankCode"
+                labelClass={styles.profileBankInputLabel}
+                className={styles.profileBankInput}
+                value={state.bankCode}
+                onSelect={(value) => handleBankCode(value)}
+                label="Bank Name"
+                placeholder="Select your bank"
+                options={bankList?.map((i) => ({
+                  value: `${i.code},${i.name}`,
+                  render: i.name,
+                }))}
+              />
+            )}
         </div>
         <div className={styles.onboarding__inputList1}>
-          {state.currency === "GH" && !state.isMobileMoney && (
-            <Select
-              name="bankCode"
-              className={styles.profileBankInput}
-              value={state.bankCode}
-              onSelect={(value) => handleBankCode(value)}
-              label="Bank"
-              placeholder="Select your bank"
-              options={bankList?.map((i) => ({
-                value: `${i.code},${i.name},${i.id}`,
-                render: i.name,
-              }))}
-            />
-          )}
-          {state.currency === "GH" && !state.isMobileMoney && (
-            <Select
-              name="bankBranchName"
-              labelClass={styles.profileBankInputLabel}
-              className={styles.profileBankInput}
-              value={`${state.bankBranchCode},${state.bankBranchName}`}
-              onSelect={(value) => {
-                setState((state) => ({
-                  ...state,
-                  bankBranchName: value.split(",")[1],
-                  bankBranchCode: value.split(",")[0],
-                }));
-              }}
-              label="Bank Branch"
-              placeholder="Select your bank branch"
-              options={
-                branchList &&
-                branchList?.map((i) => ({
-                  value: `${i.branch_code},${i.branch_name}`,
-                  render: i.branch_name,
-                }))
-              }
-            />
-          )}
+        {state.accountType.value === "gh-account" && (
+              <Select
+                name="bankCode"
+                className={styles.profileBankInput}
+                value={state.bankCode}
+                onSelect={(value) => handleBankCode(value)}
+                label="Bank"
+                placeholder="Select your bank"
+                options={bankList?.map((i) => ({
+                  value: `${i.code},${i.name},${i.id}`,
+                  render: i.name,
+                }))}
+              />
+            )}
+         {state.accountType.value === "gh-account" && (
+              <Select
+                name="bankBranchName"
+                labelClass={styles.profileBankInputLabel}
+                className={styles.profileBankInput}
+                value={`${state.bankBranchCode},${state.bankBranchName}`}
+                onSelect={(value) => {
+                  setState((state) => ({
+                    ...state,
+                    bankBranchName: value.split(",")[1],
+                    bankBranchCode: value.split(",")[0],
+                  }));
+                }}
+                label="Bank Branch"
+                placeholder="Select your bank branch"
+                options={
+                  branchList &&
+                  branchList?.map((i) => ({
+                    value: `${i.branch_code},${i.branch_name}`,
+                    render: i.branch_name,
+                  }))
+                }
+              />
+            )}
           {/* <Input
             name="bvn"
             value={state.bvn}
@@ -350,65 +376,62 @@ export const Step2 = ({
           /> */}
         </div>
         <div className={styles.onboarding__inputList2}>
-          {state.currency === "GH" && state.isMobileMoney && (
-            <Select
-              name="bankCode"
-              className={styles.profileBankInput}
-              value={state.bankCode}
-              onSelect={(value) => handleMobileMoneyBankCode(value)}
-              label="Mobile Network"
-              placeholder="Select your bank"
-              options={[
-                { render: "MTN", value: "MTN" },
-                { render: "AIRTEL", value: "AIRTEL" },
-                { render: "TIGO", value: "TIGO" },
-                { render: "VODAFONE", value: "VODAFONE" },
-                { render: "VODAFONE", value: "VODAFONE" },
-                {},
-                {}
-              ]}
-            />
-          )}
-          {state.currency && !state.isMobileMoney && (
-            <Input
-              name="accountNumber"
-              value={state.accountNumber}
-              labelClass={styles.profileBankInputLabel}
-              className={styles.profileBankInput}
-              onChange={handleChange}
-              label="Account Number"
-              placeholder="e.g 01236548"
-              maxLength="10"
-              hint="Please ensure to input the correct account number"
-            />
-          )}
-          {state.isMobileMoney && (
-            <Input
-              name="accountNumber"
-              value={state.accountNumber}
-              labelClass={styles.profileBankInputLabel}
-              className={styles.profileBankInput}
-              onChange={handleChange}
-              label="Mobile Number"
-              placeholder="e.g 01236548"
-              maxLength="10"
-              hint="Please ensure to input the correct account number"
-            />
-          )}
-          {state.currency === "GH" && !state.isMobileMoney &&  (
-            <Input
-              name="accountName"
-              value={state.accountName}
-              labelClass={styles.profileBankInputLabel}
-              className={styles.profileBankInput}
-              onChange={handleChange}
-              label="Account Name"
-              placeholder="Enter your account name"
-              readOnly={true}
-              disabled
-            />
-          )}
-          {state.currency === "NG" &&  (
+        {state.accountType.value === "gh-mobile" && (
+              <Select
+                name="bankCode"
+                className={styles.profileBankInput}
+                value={state.bankCode}
+                onSelect={(value) => handleMobileMoneyBankCode(value)}
+                label="Mobile Network"
+                placeholder="Select your bank"
+                options={[
+                  { render: "MTN", value: "MTN" },
+                  { render: "AIRTEL", value: "AIRTEL" },
+                  { render: "TIGO", value: "TIGO" },
+                  { render: "VODAFONE", value: "VODAFONE" },
+                ]}
+              />
+            )}
+          {state.currency && state.accountType.value !== "gh-mobile" && (
+              <Input
+                name="accountNumber"
+                value={state.accountNumber}
+                labelClass={styles.profileBankInputLabel}
+                className={styles.profileBankInput}
+                onChange={handleChange}
+                label="Account Number"
+                placeholder="e.g 01236548"
+                maxLength="15"
+                hint="Please ensure to input the correct account number"
+              />
+            )}
+         {state.accountType.value === "gh-mobile" && (
+              <Input
+                name="accountNumber"
+                value={state.accountNumber}
+                labelClass={styles.profileBankInputLabel}
+                className={styles.profileBankInput}
+                onChange={handleChange}
+                label="Mobile Number"
+                placeholder="e.g 01236548"
+                maxLength="11"
+                hint="Please ensure to input the correct account number"
+              />
+            )}
+          {state.accountType.value !== "gh-mobile" && (
+              <Input
+                name="accountName"
+                value={state.accountName}
+                labelClass={styles.profileBankInputLabel}
+                className={styles.profileBankInput}
+                onChange={handleChange}
+                label="Account Name"
+                placeholder="Enter your account name"
+                readOnly={true}
+                disabled
+              />
+            )}
+          {/* {state.currency === "NG" &&  (
             <Input
               name="accountName"
               value={state.accountName}
@@ -420,7 +443,7 @@ export const Step2 = ({
               readOnly={true}
               disabled
             />
-          )}
+          )} */}
         </div>
       </div>
       <div className={styles.btnPair}>

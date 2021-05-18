@@ -625,7 +625,7 @@ const Profile = ({
                 onChange={handleChange}
                 label="Mobile Number"
                 placeholder="e.g 01236548"
-                maxLength="15"
+                maxLength="11"
                 hint="Please ensure to input the correct account number"
               />
             )}

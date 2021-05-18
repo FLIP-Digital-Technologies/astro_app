@@ -83,17 +83,21 @@ const Home = ({
   getP2PTrans,
   withdrawalTrans,
   pairTwoPairFiatTrans,
+  pairTwoPairLoading,
+  withdrawalLoading,
 }) => {
   function getWindowDimensions() {
     const { screen } = window;
-    let width = screen.width
-    let height = screen.height
+    let width = screen.width;
+    let height = screen.height;
     return {
       width,
-      height
+      height,
     };
   }
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
   const [wallet, setWallet] = useState("NGN");
   let [fiatIndex, setFiatIndex] = useState(0);
   let [cryptoIndex, setCryptoIndex] = useState(0);
@@ -286,7 +290,7 @@ const Home = ({
           ></iframe>
         </ModalWrapper>
       )}
-      <span className={styles.gitcard__top__title} style={{marginBottom:20}}>
+      <span className={styles.gitcard__top__title} style={{ marginBottom: 20 }}>
         {" "}
         {(user &&
           user.username &&
@@ -388,84 +392,94 @@ const Home = ({
           lg={17}
           style={{ marginLeft: 15, marginBottom: 28 }}
         >
-         {windowDimensions.width >866 && ( <div className={homeStyles.topbox}>
-            <div
-              className={homeStyles.topbox__inner}
-              onClick={() => history.push("/app/crypto")}
+          {windowDimensions.width > 866 && (
+            <div className={homeStyles.topbox}>
+              <div
+                className={homeStyles.topbox__inner}
+                onClick={() => history.push("/app/crypto")}
+              >
+                <div className={homeStyles.topbox__topic}>
+                  <img
+                    src={png.QuickAction}
+                    height="24"
+                    width="24"
+                    style={{ marginRight: 5 }}
+                    alt="wallet"
+                  />
+                  Quick Action
+                </div>
+                <div className={homeStyles.topbox__info}>Crypto</div>
+                <div className={homeStyles.topbox__description}>
+                  Manage your crypto wallets
+                </div>
+              </div>
+              <div
+                className={homeStyles.topbox__inner}
+                onClick={() => history.push("/app/bills")}
+              >
+                <div className={homeStyles.topbox__topic}>
+                  <img
+                    src={png.QuickAction}
+                    height="24"
+                    width="24"
+                    style={{ marginRight: 5 }}
+                    alt="wallet"
+                  />
+                  Quick Action
+                </div>
+                <div className={homeStyles.topbox__info}>Bills</div>
+                <div className={homeStyles.topbox__description}>
+                  Handle Your Bills
+                </div>
+              </div>
+              <div
+                className={homeStyles.topbox__inner}
+                onClick={() => history.push("/app/settings")}
+              >
+                <div className={homeStyles.topbox__topic}>
+                  <img
+                    src={png.QuickAction}
+                    height="24"
+                    width="24"
+                    style={{ marginRight: 5 }}
+                    alt="wallet"
+                  />
+                  Quick Action
+                </div>
+                <div className={homeStyles.topbox__info}>Settings</div>
+                <div className={homeStyles.topbox__description}>
+                  Go to Settings
+                </div>
+              </div>
+              <div className={homeStyles.topbox__inner}>
+                <div className={homeStyles.topbox__topic}>
+                  <img
+                    src={png.Referrals}
+                    height="24"
+                    width="24"
+                    style={{ marginRight: 5 }}
+                    alt="wallet"
+                  />
+                  Referrals
+                </div>
+                <div className={homeStyles.topbox__info}>0</div>
+                <div className={homeStyles.topbox__description}>
+                  Invite your guys
+                </div>
+              </div>
+            </div>
+          )}
+          <Row gutter={[16,16]} style={{}}>
+            <Col
+              span={10}
+              xs={20}
+              sm={20}
+              lg={10}
+              md={20}
+              xxl={10}
+              xl={10}
+              // style={{ marginRight: 25, marginBottom: 28 }}
             >
-              <div className={homeStyles.topbox__topic}>
-                <img
-                  src={png.QuickAction}
-                  height="24"
-                  width="24"
-                  style={{ marginRight: 5 }}
-                  alt="wallet"
-                />
-                Quick Action
-              </div>
-              <div className={homeStyles.topbox__info}>Crypto</div>
-              <div className={homeStyles.topbox__description}>
-                Manage your crypto wallets
-              </div>
-            </div>
-            <div
-              className={homeStyles.topbox__inner}
-              onClick={() => history.push("/app/bills")}
-            >
-              <div className={homeStyles.topbox__topic}>
-                <img
-                  src={png.QuickAction}
-                  height="24"
-                  width="24"
-                  style={{ marginRight: 5 }}
-                  alt="wallet"
-                />
-                Quick Action
-              </div>
-              <div className={homeStyles.topbox__info}>Bills</div>
-              <div className={homeStyles.topbox__description}>
-                Handle Your Bills
-              </div>
-            </div>
-            <div
-              className={homeStyles.topbox__inner}
-              onClick={() => history.push("/app/settings")}
-            >
-              <div className={homeStyles.topbox__topic}>
-                <img
-                  src={png.QuickAction}
-                  height="24"
-                  width="24"
-                  style={{ marginRight: 5 }}
-                  alt="wallet"
-                />
-                Quick Action
-              </div>
-              <div className={homeStyles.topbox__info}>Settings</div>
-              <div className={homeStyles.topbox__description}>
-                Go to Settings
-              </div>
-            </div>
-            <div className={homeStyles.topbox__inner}>
-              <div className={homeStyles.topbox__topic}>
-                <img
-                  src={png.Referrals}
-                  height="24"
-                  width="24"
-                  style={{ marginRight: 5 }}
-                  alt="wallet"
-                />
-                Referrals
-              </div>
-              <div className={homeStyles.topbox__info}>0</div>
-              <div className={homeStyles.topbox__description}>
-                Invite your guys
-              </div>
-            </div>
-          </div>)}
-          <Row>
-            <Col span={10} xs={20} sm={20} lg={10} md={20} xxl={10} xl={10}  style={{ marginRight: 25, marginBottom: 28 }}>
-              
               <div className={homeStyles.charts}>
                 <div className={homeStyles.charts__title__container}>
                   <Dropdown
@@ -631,8 +645,7 @@ const Home = ({
                           onClick={() => setOpencryptoAddWallet(true)}
                           className={`${homeStyles.balances__btn} ${homeStyles.active}`}
                         >
-                          <PlusOutlined
-                          />
+                          <PlusOutlined />
                         </div>
                       )
                     ) : (
@@ -723,8 +736,24 @@ const Home = ({
                 </div>
               </div>
             </Col>
-            <Col span={13} xs={20} sm={20} lg={13} md={20} xxl={13} xl={13} style={{}}>
-              <Row style={{ marginBottom: 25, display:'flex', justifyContent:'center' }}>
+            <Col
+              span={13}
+              xs={20}
+              sm={20}
+              lg={13}
+              md={20}
+              xxl={13}
+              xl={13}
+              style={{ marginTop:10}}
+            >
+              <Row
+                style={{
+                  marginBottom: 25,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+                gutter={[8,8]}
+              >
                 <Col span={10} xs={20} sm={20} lg={10} md={20} xxl={10} xl={10}>
                   <div
                     className={homeStyles.widgets__inner}
@@ -732,8 +761,8 @@ const Home = ({
                       balance && balance.fiatWallets.length > 0
                         ? setShowFund(true)
                         : notification.info({
-                          message: "Please wait",
-                        })
+                            message: "Please wait",
+                          });
                     }}
                   >
                     <div className={homeStyles.widgets__image}>
@@ -756,16 +785,15 @@ const Home = ({
                     </div>
                   </div>
                 </Col>
-                <Col span={10} xs={20} sm={20} lg={10} md={20} xxl={10} xl={10} >
+                <Col span={10} xs={20} sm={20} lg={10} md={20} xxl={10} xl={10}>
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
                       balance && balance.fiatWallets.length > 0
                         ? setOpenWithdrawal(true)
                         : notification.info({
-                          message: "Please wait",
-                        }) 
-                        
+                            message: "Please wait",
+                          });
                     }}
                   >
                     <div className={homeStyles.widgets__image}>
@@ -789,7 +817,14 @@ const Home = ({
                   </div>
                 </Col>
               </Row>
-              <Row style={{ marginBottom: 25, display:'flex', justifyContent:'center' }}>
+              <Row
+                style={{
+                  marginBottom: 25,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+                gutter={[8,8]}
+              >
                 <Col span={10} xs={20} sm={20} lg={10} md={20} xxl={10} xl={10}>
                   <div
                     className={homeStyles.widgets__inner}
@@ -886,17 +921,28 @@ const Home = ({
             flexDirection: "column",
           }}
         >
-          <Row style={{marginBottom:15}}>
+          <Row style={{ marginBottom: 15 }}>
             <Col>
-              <div className={homeStyles.rightbody__header}>
-                <img
-                  src={png.Withdrawal}
-                  height="30"
-                  width="30"
-                  style={{ marginRight: 5 }}
-                  alt="wallet"
-                />
-                Recent Withdrawals
+              <div className={homeStyles.rightbody__headercontainer}>
+                <div className={homeStyles.rightbody__header}>
+                  <img
+                    src={png.Withdrawal}
+                    height="30"
+                    width="30"
+                    style={{ marginRight: 5 }}
+                    alt="wallet"
+                  />
+                  Recent Withdrawals
+                </div>
+                <div>
+                  {!withdrawalLoading ? (
+                    <ReloadOutlined
+                      onClick={() => getWithdrawalTrans({ skip: 0, limit: 4 })}
+                    />
+                  ) : (
+                    <LoadingOutlined />
+                  )}
+                </div>
               </div>
               <div>
                 <Timeline mode={"left"}>
@@ -907,7 +953,7 @@ const Home = ({
                       <>
                         <Timeline.Item>
                           {`${
-                            item.bank_account.details.currencyId === 1
+                            item.BankAccount.details.currencyId === 1
                               ? Money(item.amount, "NGN")
                               : Money(item.amount, "GHS")
                           } ${date(item.created_at)}`}
@@ -923,15 +969,26 @@ const Home = ({
           </Row>
           <Row>
             <Col>
-              <div className={homeStyles.rightbody__header}>
-                <img
-                  src={png.P2P}
-                  height="30"
-                  width="30"
-                  style={{ marginRight: 5 }}
-                  alt="wallet"
-                />
-                Recent Astro Transfers
+              <div className={homeStyles.rightbody__headercontainer}>
+                <div className={homeStyles.rightbody__header}>
+                  <img
+                    src={png.P2P}
+                    height="30"
+                    width="30"
+                    style={{ marginRight: 5 }}
+                    alt="wallet"
+                  />
+                  Recent Astro Transfers
+                </div>
+                <div className={homeStyles.rightbody__headeright}>
+                  {!pairTwoPairLoading ? (
+                    <ReloadOutlined
+                      onClick={() => getP2PTrans({ skip: 0, limit: 4 })}
+                    />
+                  ) : (
+                    <LoadingOutlined />
+                  )}
+                </div>
               </div>
               <div>
                 <Timeline mode={"left"}>
@@ -981,7 +1038,9 @@ const mapStateToProps = (state) => ({
   billLoading: state.billPayment.loading,
   btcTicker: state.btc.btcTicker,
   pairTwoPairFiatTrans: state.pairTwoPair.pairTwoPairFiatTransaction,
+  pairTwoPairLoading: state.pairTwoPair.loading,
   withdrawalTrans: state.withdrawals.WithdrawalTransaction,
+  withdrawalLoading: state.withdrawals.loading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
