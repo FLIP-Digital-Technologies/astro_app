@@ -97,7 +97,7 @@
             flex-direction: row;
         }
         &__text{
-            font-size: 20px;
+            font-size: 17px;
         font-weight: 500;
         }
     }
@@ -265,13 +265,13 @@
 
   &__value {
     color: #921946;
-    font-size: 50px;
+    font-size: 30px;
     font-weight: 700;
     margin-top: 5px;
     text-align: center;
     font-family: 'Exo';
      @include md {
-         font-size: 40px;
+         font-size: 30px;
      }
      @include sm {
          font-size: 40px;
