@@ -382,16 +382,21 @@ const Home = ({
           />
         </Drawer>
       )}
-      <Row style={{marginTop:20}}>
+      <div className={styles.home}>
+      <Row style={{marginTop:20}} 
+      gutter={[8, 20]}
+      >
         <Col
           span={17}
-          md={24}
           xs={24}
-          xl={17}
+          sm={24}
+          md={8}
+          lg={8}
+          xl={17} 
           xxl={17}
-          lg={17}
           style={{ marginLeft: 15, marginBottom: 28 }}
         >
+          {/* <Col span={6} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}></Col> */}
           {windowDimensions.width > 866 && (
             <div className={homeStyles.topbox}>
               <div
@@ -1143,6 +1148,9 @@ const Home = ({
           </Row>
         </Col>
       </Row>
+
+      </div>
+      
       {console.log("withdraw", pairTwoPairFiatTrans)}
     </DashboardLayout>
   );

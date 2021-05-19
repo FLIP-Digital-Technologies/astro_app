@@ -191,6 +191,7 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
             padding: "24px 10px 0",
             overflowY: "auto",
             backgroundColor: "#F7F4F4",
+            // maxWidth:"100%"
           }}
         >
           {children}

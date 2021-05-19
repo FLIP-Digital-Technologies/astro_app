@@ -186,7 +186,7 @@ const PTwoPCrypto = ({
         {state.recipientUsername && (
           <Input
             labelClass={styles.largeMarginLabel}
-            label={`Transfer Note(optional)`}
+            label={`Transfer Note (optional)`}
             value={state.transferNote}
             name="transferNote"
             onChange={(e) =>
