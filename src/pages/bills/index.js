@@ -46,7 +46,7 @@ const Bills = () => {
       <Flyout state={formState} setState={setFormState} />
       <div className={styles.bills}>
         {/* <div className={styles.bills__content}> */}
-          <Row>
+          <Row gutter={[8,20]}>
           {BILLS &&
             BILLS.map((item, index) => (
               <Col span={6} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}>
