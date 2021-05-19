@@ -301,7 +301,7 @@ const Home = ({
       {showAirtime && (
         <Drawer
           title="Airtime purchase"
-          width={350}
+          width={windowDimensions.width > 866? 350 : 256 }
           placement="right"
           onClose={() => {
             setShowAirtime(false);
@@ -325,7 +325,7 @@ const Home = ({
         <Drawer
           title="Pair 2 Pair (p2p) Transfer"
           placement="right"
-          width={350}
+          width={windowDimensions.width > 866? 350 : 256 }
           onClose={() => {
             setShowPTWOP(false);
             setDataPair({});
@@ -345,7 +345,7 @@ const Home = ({
         <Drawer
           title="Pair 2 Pair (p2p) Crypto Transfer"
           placement="right"
-          width={350}
+          width={windowDimensions.width > 866? 350 : 256 }
           onClose={() => {
             setShowPTWOPcrypto(false);
             setDataPair({});
@@ -365,7 +365,7 @@ const Home = ({
         <Drawer
           title="Fund wallet"
           placement="right"
-          width={350}
+          width={windowDimensions.width > 866? 350 : 256 }
           onClose={() => {
             setShowFund(false);
             setState({});
@@ -383,15 +383,15 @@ const Home = ({
         </Drawer>
       )}
       <div className={styles.home}>
-      <Row style={{marginTop:20}} 
-      gutter={[8, 20]}
+      <Row style={{}} 
+      gutter={[8, 8]}
       >
         <Col
           span={17}
           xs={24}
           sm={24}
-          md={8}
-          lg={8}
+          md={24}
+          lg={17}
           xl={17} 
           xxl={17}
           style={{ marginLeft: 15, marginBottom: 28 }}
