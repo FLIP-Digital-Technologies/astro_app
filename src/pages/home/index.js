@@ -483,7 +483,7 @@ const Home = ({
               <div className={homeStyles.charts}>
                 <div className={homeStyles.charts__title__container}>
                   <Dropdown
-                    trigger={["hover"]}
+                    trigger={["click", "hover"]}
                     overlay={menu}
                     onVisibleChange={handleVisibleChange}
                     visible={visible}
