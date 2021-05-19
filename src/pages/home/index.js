@@ -1020,7 +1020,8 @@ const Home = ({
           </Row> */}
         </Col>
         <Col
-          span={1}
+          // span={1}
+          span={1} xs={0} sm={0} lg={1} md={0} xxl={1} xl={1}
           style={{
             // border: 3,
             paddingLeft: 2,
@@ -1037,7 +1038,9 @@ const Home = ({
           style={{ borderLeftWidth: 4, borderWidth: 5, borderColor: "black" }}
         />
         <Col
-          span={5}
+          // span={5}
+          span={5} xs={20} sm={20} lg={5} md={20} xxl={5} xl={5}
+
           style={{
             alignItems: "flex-start",
             justifyContent: "flex-start",
