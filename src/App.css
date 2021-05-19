@@ -31,6 +31,17 @@ body {
   background: none;
   font-size: 20px;
 }
+.ant-timeline-item-tail {
+  position: absolute;
+  top: 10px;
+  left: 4px;
+  height: calc(100% - 10px);
+  border-left: 2px solid #dad6d6;
+}
+.ant-timeline-item-head-blue {
+  color: #921946;
+  border-color: #921946;
+}
 .ant-divider-vertical {
   position: relative;
   top: -0.06em;
