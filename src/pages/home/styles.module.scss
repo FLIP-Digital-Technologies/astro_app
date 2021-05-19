@@ -147,6 +147,10 @@
         background-color: #890F3C;
         color: rgb(254, 255, 255);
     }
+    &__inner::selection{
+      background-color: #890F3C;
+      color: rgb(254, 255, 255);
+  }
     &__image {
         font-size: small;
         font-weight: 500;
