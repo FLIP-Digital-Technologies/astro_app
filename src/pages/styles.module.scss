@@ -151,10 +151,12 @@
 }
 .onboarding {
   padding: 23px 41px 33px 30px;
-  background-color: #fff;
+  background-color: #f7f4f4;
 
   &__section {
     margin-bottom: 30px;
+    width:100%;
+    // background-color: steelblue;
   }
 
   &__title {
@@ -168,7 +170,21 @@
   }
   &__inputList1 {
     display: flex;
-    width: 70%;
+    width:90%;
+    // background-color: tan;
+    flex-wrap: wrap;
+    justify-content:space-between;
+
+    div:first-child {
+      margin-right: 50px;
+    }
+  }
+  &__inputList5 {
+    display: flex;
+    width:70%;
+    // background-color: tan;
+    flex-wrap: wrap;
+    justify-content:space-between;
 
     div:first-child {
       margin-right: 50px;
@@ -236,12 +252,29 @@
 
 .btnPair {
   display: flex;
-  width: 300px;
+  flex-wrap: wrap;
+  width: 30%;
   align-items: center;
   justify-content: space-between;
+  // background-color: steelblue;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 
-  button:first-child {
-    margin-right: 20px;
+  
+  @media (max-width: 866px) {
+    // flex-direction: column;
+    width:80%;
+
+    
+  }
+  &__inner{
+    margin-bottom: 10px;
+  //   padding-left: 10px;
+  // padding-right: 10px;
+  // padding-top: 10px;
+  // padding-bottom: 10px;
   }
 }
 
