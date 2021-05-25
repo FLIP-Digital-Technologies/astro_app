@@ -136,11 +136,13 @@
         padding-top: 12px;
         padding-bottom: 12px;
         box-shadow: -3px 4px 20px #00000026;
-        @media (min-width: 576px) {
+        @media (max-width: 600px) {
           margin-bottom: 20px !important; 
+          font-size: 10px;
         }
         @include sm {
           margin-bottom: 20px;
+          font-size: 10px;
         }
     }
     &__inner:hover{
@@ -157,12 +159,21 @@
     } 
     &__description {
         font-size: 13px;
+        @media (max-width:600px) {
+          font-size: 10px;
+        }
+    }
+    &__images {
+      width:30px;
+      height: 30px;
     }
     
     &__info{
         font-size: 22px;
         font-weight: 600;
-        
+        @media (max-width:600px) {
+          font-size: 13px;
+        }
     }
     &__arrow {
         margin-top: 10px;
@@ -172,6 +183,9 @@
         width: 100%;
         &__inner{
             font-size: 24px;
+            @media (max-width:600px) {
+              font-size: 14px;
+            }
             
         }
     }
@@ -269,16 +283,16 @@
 
   &__value {
     color: #921946;
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 700;
     margin-top: 5px;
     text-align: center;
     font-family: 'Exo';
      @include md {
-         font-size: 30px;
+         font-size: 28px;
      }
      @include sm {
-         font-size: 40px;
+         font-size: 28px;
      }
   }
 
@@ -334,11 +348,24 @@
 }
 .extras {
     margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     &__text {
-        font-size: 20px;
-        margin-top: 10px;
-        color: #921946;
+        font-size: 14px;
+        margin-right: 10px;
+        color: #fcfcfc;
         cursor: pointer;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: #777777;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-radius: 10px;
     }
     &__text:hover {
         text-decoration: underline;

@@ -49,7 +49,7 @@ const Bills = () => {
           <Row gutter={[8,20]}>
           {BILLS &&
             BILLS.map((item, index) => (
-              <Col span={6} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}>
+              <Col span={6} xs={10} sm={10} md={10} lg={8} xl={6} xxl={6}>
               <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
@@ -61,8 +61,7 @@ const Bills = () => {
                   <div className={homeStyles.widgets__image}>
                     <img
                       src={item.img}
-                      height="40"
-                      width="40"
+                      className={homeStyles.widgets__images}
                       style={{ marginRight: 5 }}
                       alt="wallet"
                     />

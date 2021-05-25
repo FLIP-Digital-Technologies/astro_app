@@ -737,7 +737,8 @@ const Home = ({
                           });
                     }}
                   >
-                    {"Deposit Funds"} <DoubleRightOutlined />
+                    {"Deposit Funds"} 
+                    {/* <DoubleRightOutlined /> */}
                   </div>
                   <div
                     className={homeStyles.extras__text}
@@ -750,7 +751,8 @@ const Home = ({
                           });
                     }}
                   >
-                    {"Withdraw Funds"} <DoubleRightOutlined />{" "}
+                    {"Withdraw Funds"} 
+                    {/* <DoubleRightOutlined />{" "} */}
                   </div>
                   <div
                     className={homeStyles.extras__text}
@@ -763,14 +765,15 @@ const Home = ({
                           });
                     }}
                   >
-                    {"Buy Airtime"} <DoubleRightOutlined />{" "}
+                    {"Buy Airtime"} 
+                    {/* <DoubleRightOutlined />{" "} */}
                   </div>
                 </div>
               </div>
             </Col>
-            <Col span={12} xs={20} sm={20} lg={12} md={20} xxl={12} xl={12}>
+            <Col span={12} xs={24} sm={24} lg={12} md={24} xxl={12} xl={12}>
               <Row gutter={[8, 25]}>
-                <Col span={12} xs={20} sm={20} lg={12} md={20} xxl={12} xl={12}>
+                <Col span={12} xs={10} sm={8} lg={12} md={10} xxl={12} xl={12}>
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => history.push("/app/sell-giftcard")}
@@ -778,8 +781,7 @@ const Home = ({
                     <div className={homeStyles.widgets__image}>
                       <img
                         src={png.SellGiftCard}
-                        height="40"
-                        width="40"
+                        className={homeStyles.widgets__images}
                         style={{ marginRight: 5 }}
                         alt="wallet"
                       />
@@ -797,7 +799,7 @@ const Home = ({
                     </div>
                   </div>
                 </Col>
-                <Col span={12} xs={20} sm={20} lg={12} md={20} xxl={12} xl={12}>
+                <Col span={12} xs={10} sm={8} lg={12} md={10} xxl={12} xl={12}>
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => history.push("/app/crypto")}
@@ -805,8 +807,7 @@ const Home = ({
                     <div className={homeStyles.widgets__image}>
                       <img
                         src={png.SellBitcoin}
-                        height="40"
-                        width="40"
+                        className={homeStyles.widgets__images}
                         style={{ marginRight: 5 }}
                         alt="wallet"
                       />
@@ -824,7 +825,7 @@ const Home = ({
                 </Col>
               </Row>
               <Row gutter={[8, 25]}>
-                <Col span={12} xs={20} sm={20} lg={12} md={20} xxl={12} xl={12}>
+              <Col span={12} xs={10} sm={8} lg={12} md={10} xxl={12} xl={12}>
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
@@ -840,8 +841,7 @@ const Home = ({
                     <div className={homeStyles.widgets__image}>
                       <img
                         src={png.P2P}
-                        height="40"
-                        width="40"
+                        className={homeStyles.widgets__images}
                         style={{ marginRight: 5 }}
                         alt="wallet"
                       />
@@ -859,7 +859,7 @@ const Home = ({
                     </div>
                   </div>
                 </Col>
-                <Col span={12} xs={20} sm={20} lg={12} md={20} xxl={12} xl={12}>
+                <Col span={12} xs={10} sm={8} lg={12} md={10} xxl={12} xl={12}>
                   <div
                     className={homeStyles.widgets__inner}
                     onClick={() => {
@@ -875,8 +875,7 @@ const Home = ({
                     <div className={homeStyles.widgets__image}>
                       <img
                         src={png.CryptoPeer}
-                        height="40"
-                        width="40"
+                        className={homeStyles.widgets__images}
                         style={{ marginRight: 5 }}
                         alt="wallet"
                       />

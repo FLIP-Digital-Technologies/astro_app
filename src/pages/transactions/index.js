@@ -46,8 +46,8 @@ const Transactions = () => {
         <>
           <span className={styles.gitcard__top__title}>Transactions </span>
           <div className={styles.transactioncards}>
-            <Row gutter={[24, 24]}>
-              <Col span={6} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}>
+            <Row gutter={[16, 16]}>
+              <Col span={6} xs={10} sm={12} md={8} lg={8} xl={6} xxl={6}>
               <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
@@ -62,8 +62,7 @@ const Transactions = () => {
                   <div className={homeStyles.widgets__image}>
                     <img
                       src={png.FiatTrans}
-                      height="40"
-                      width="40"
+                      className={homeStyles.widgets__images}
                       style={{ marginRight: 5 }}
                       alt="wallet"
                     />
@@ -81,7 +80,7 @@ const Transactions = () => {
                   </div>
                 </div>
               </Col>
-              <Col span={6} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}>
+              <Col span={6} xs={10} sm={12} md={8} lg={8} xl={6} xxl={6}>
               <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
@@ -94,8 +93,7 @@ const Transactions = () => {
                   <div className={homeStyles.widgets__image}>
                     <img
                       src={png.CryptoTrans}
-                      height="40"
-                      width="40"
+                      className={homeStyles.widgets__images}
                       style={{ marginRight: 5 }}
                       alt="wallet"
                     />
@@ -113,7 +111,8 @@ const Transactions = () => {
                   </div>
                 </div>
               </Col>
-              <Col span={6} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}>
+              <Col span={6} xs={10} sm={12} md={8} lg={8} xl={6} xxl={6}>
+              
               <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
@@ -126,8 +125,7 @@ const Transactions = () => {
                   <div className={homeStyles.widgets__image}>
                     <img
                       src={png.GiftCardTrans}
-                      height="40"
-                      width="40"
+                      className={homeStyles.widgets__images}
                       style={{ marginRight: 5 }}
                       alt="wallet"
                     />
