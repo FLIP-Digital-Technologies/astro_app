@@ -45,11 +45,11 @@ function Toggle() {
 
 function getWindowDimensions() {
   const { screen } = window;
-  let width = screen.width
-  let height = screen.height
+  let width = screen.width;
+  let height = screen.height;
   return {
     width,
-    height
+    height,
   };
 }
 
@@ -57,7 +57,9 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [showSideBar, setShowSideBar] = useState(true);
   const [collapsed, setCollapsed] = useState(false);
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
 
   let location = useLocation();
   const { pathname } = location;
@@ -68,10 +70,10 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
 
   return (
     <Layout>
-      {console.log('dimension', windowDimensions)}
+      {console.log("dimension", windowDimensions)}
       <Sider
         breakpoint="lg"
-        collapsedWidth={windowDimensions.width < 866? "0": "80"}
+        collapsedWidth={windowDimensions.width < 866 ? "0" : "80"}
         // defaultCollapsed={true}
         // trigger={React.createElement(
         //   showSideBar ? MenuUnfoldOutlined : MenuFoldOutlined,
@@ -130,14 +132,15 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
               className={styles.header__left}
               style={{ display: "flex", alignItems: "center" }}
             >
-              {windowDimensions.width < 866 && (<div
-                style={{ cursor: "pointer" }}
-                id={styles.header__left_toggler}
-                onClick={() => setShowSideBar(!showSideBar)}
-              >
-                <Toggle />
-              </div>)}
-              
+              {windowDimensions.width < 866 && (
+                <div
+                  style={{ cursor: "pointer", fontSize:20, color:'#921946' }}
+                  id={styles.header__left_toggler}
+                  onClick={() => setShowSideBar(!showSideBar)}
+                >
+                  <Toggle />
+                </div>
+              )}
             </div>
             <div className={styles.header__right}>
               <div
@@ -188,7 +191,7 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
 
         <Content
           style={{
-            padding: "24px 10px 0",
+            padding: "0px 0px 0",
             overflowY: "auto",
             backgroundColor: "#F7F4F4",
             // maxWidth:"100%"

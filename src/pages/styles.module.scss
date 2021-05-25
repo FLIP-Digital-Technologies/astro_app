@@ -466,8 +466,9 @@
       background-color:'transparent';
       
       
-      @include sm {
-        margin-left: 0px;
+      @media (max-width:600px) {
+        margin-left: 22px;
+        
       }
 
     &__subtitle {
