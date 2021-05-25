@@ -4,7 +4,7 @@ import Input from "../../components/input";
 import Select from "../../components/select";
 import Button from "../../components/button";
 import { history } from "../../redux/store";
-import { Switch } from "antd";
+import { notification, Switch } from "antd";
 
 export const Step1 = ({ user, submitForm }) => {
   const INITIAL_STATE = {
@@ -151,20 +151,82 @@ export const Step2 = ({
   const handleChange = ({ target: { name, value } }) => {
     setState((state) => ({ ...state, [name]: value }));
   };
-
-  useEffect(() => {
+  const verifyAccount = () => {
     if (
+      state.accountType.value === "ng-account" &&
       state.bankCode &&
       state.accountNumber.length === 10 &&
       !state.isMobileMoney
     ) {
+      console.log("ng- account");
       verifyBankAccount({
         bankCode: state.bankCode,
         accountNumber: state.accountNumber,
       });
+    } else if (
+      state.accountType.value === "gh-account" &&
+      state.bankCode &&
+      state.accountNumber.length === 12 &&
+      !state.isMobileMoney
+    ) {
+      console.log("gh - account");
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: state.accountNumber,
+      });
+    } else if (
+      state.accountType.value === "gh-mobile" &&
+      state.accountNumber.length === 11
+    ) {
+      console.log("mobile");
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: `233${state.accountNumber.substring(1,)}`,
+      });
+    } else {
+      notification.info({
+        message:"Please check the number"
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (
+      state.accountType.value === "ng-account" &&
+      state.bankCode &&
+      state.accountNumber.length === 10 &&
+      !state.isMobileMoney
+    ) {
+      console.log("ng- account");
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: state.accountNumber,
+      });
+    } else if (
+      state.accountType.value === "gh-account" &&
+      state.bankCode &&
+      state.accountNumber.length === 12 &&
+      !state.isMobileMoney
+    ) {
+      console.log("gh - account");
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: state.accountNumber,
+      });
+    } else if (
+      state.accountType.value === "gh-mobile" &&
+      state.accountNumber.length === 11
+    ) {
+      console.log("mobile");
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: `233${state.accountNumber.substring(1,)}`,
+      });
     }
     // eslint-disable-next-line
   }, [state.bankCode, state.accountNumber, verifyBankAccount]);
+
+
   useEffect(() => {
     if (branchList && branchList.length === 1) {
       setState((state) => ({
@@ -362,7 +424,12 @@ export const Step2 = ({
               label="Account Number"
               placeholder="e.g 01236548"
               maxLength="15"
-              hint="Please ensure to input the correct account number"
+              hint={
+                <p className={styles.verifylink} onClick={() => verifyAccount()}>
+                  Click to verify your account
+                </p>
+                
+              }
             />
           )}
           {state.accountType.value === "gh-mobile" && (
@@ -375,7 +442,11 @@ export const Step2 = ({
               label="Mobile Number"
               placeholder="e.g 01236548"
               maxLength="11"
-              hint="Please ensure to input the correct account number"
+              hint={
+                <p className={styles.verifylink} onClick={() => verifyAccount()}>
+                  Click to verify your account
+                </p>
+              }
             />
           )}
           {state.accountType.value !== "gh-mobile" && (

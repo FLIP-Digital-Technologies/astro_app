@@ -263,11 +263,12 @@
   padding-bottom: 10px;
 
   
-  @media (max-width: 866px) {
+  @media (max-width: 600px) {
     // flex-direction: column;
     width:80%;
-
-    
+  }
+  @media (min-width:866px) {
+    margin-top: 50px;
   }
   &__inner{
     margin-bottom: 10px;
@@ -2793,4 +2794,14 @@
   height: 500px;
   font-size: 60px;
   color: #921946;
+}
+
+.verifylink {
+  color: rgba(19, 30, 77, 0.6);
+  
+}
+
+.verifylink:hover {
+  color: #921946;
+  text-decoration: underline;
 }
