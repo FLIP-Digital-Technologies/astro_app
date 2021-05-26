@@ -104,7 +104,7 @@ const SellGiftcard = (props) => {
                 <input placeholder="Search for giftcards" />
               </div> */}
             </div>
-            <Row gutter={{ xs: 0, sm: 0, md: 0, lg: 0 }} style={{marginLeft:25}}>
+            <Row gutter={{ xs: 0, sm: 0, md: 0, lg: 0 }} style={{marginLeft:25, marginTop:20}}>
               {list && list.length < 1 ? (
                 <div style={{ width: "100%" }}>
                   <EmptyEntryWithTitle title="GiftCard" action={false} />
@@ -115,9 +115,9 @@ const SellGiftcard = (props) => {
                   return (
                     <Col
                       key={key}
-                      xs={12}
-                      sm={12}
-                      md={8}
+                      xs={10}
+                      sm={10}
+                      md={6}
                       lg={4}
                       xl={4}
                       className="gutter-row"
