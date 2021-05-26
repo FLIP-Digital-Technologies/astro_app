@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Modal } from "antd";
+import { Modal, notification } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import ModalWrapper from "./index";
 import styles from "./styles.module.scss";
@@ -60,7 +60,8 @@ const WithDrawModalPersonal = ({
   }, [acc.currencyId, acc.amount, acc.currency]);
 
   const showPromiseConfirm = () => {
-    const data =
+    if (acc.pin.match(/^\d{4}$|^\d{6}$/) && (acc.pin.length == 4 || acc.pin.length == 6)) {
+      const data =
       bankAccounts &&
       bankAccounts.filter((item) => item.id === acc.bankAccountId)[0];
     confirm({
@@ -74,6 +75,11 @@ const WithDrawModalPersonal = ({
       },
       onCancel() {},
     });
+    } else {
+      notification.info({
+        message:"Check your Pin"
+      })
+    }
   };
 
   return (
@@ -149,7 +155,10 @@ const WithDrawModalPersonal = ({
         className={styles.largeMarginLabel}
         label="Enter Transaction Pin"
         placeholder="Enter Transaction Pin"
-        type="number"
+        type="password"
+         
+        // pattern="[0-9]*" 
+        inputmode="numeric"
         maxlength={4}
         value={acc.pin}
         onChange={(e) => setAcc({ ...acc, pin: e.target.value })}

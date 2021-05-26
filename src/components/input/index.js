@@ -23,6 +23,7 @@ const Input = ({
   disabled,
   defaultValue,
   pattern,
+  inputMode,
   ...prop
 }) => {
   const textInput = useRef(null);
@@ -75,6 +76,7 @@ const Input = ({
           disabled={disabled}
           pattern={pattern}
           defaultValue={defaultValue}
+          inputMode={inputMode}
           {...prop}
           placeholder={placeholder ? placeholder : ""}
           className={`${
