@@ -2674,11 +2674,11 @@
 
 .airttime {
   width:100%;
-  @media (min-width: 576px) {
-    width: 100px;
-    max-zoom: 1;
-    // margin-right: 20px;
-  }
+  // @media (max-width: 576px) {
+  //   width: 100px;
+  //   max-zoom: 1;
+  //   // margin-right: 20px;
+  // }
   &__title {
     font-weight: 700;
     font-size: 24px;
