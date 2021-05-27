@@ -12,7 +12,6 @@ import { initialWithdrawalByUser } from "../../redux/actions/withdrawals";
 import { Money } from "../../utils/helper";
 import fetch from "../../redux/services/FetchInterceptor";
 import { getBTCWalletDetails } from "../../redux/actions/btc";
-import PinInput from "react-pin-input";
 
 const { confirm } = Modal;
 
@@ -60,7 +59,7 @@ const WithDrawModalPersonal = ({
   }, [acc.currencyId, acc.amount, acc.currency]);
 
   const showPromiseConfirm = () => {
-    if (acc.pin.match(/^\d{4}$|^\d{6}$/) && (acc.pin.length == 4 || acc.pin.length == 6)) {
+    if (acc.pin.match(/^\d{4}$|^\d{6}$/) && (acc.pin.length === 4 || acc.pin.length === 6)) {
       const data =
       bankAccounts &&
       bankAccounts.filter((item) => item.id === acc.bankAccountId)[0];

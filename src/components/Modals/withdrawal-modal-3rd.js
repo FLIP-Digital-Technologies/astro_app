@@ -15,7 +15,7 @@ import {
   getBankBranchByID,
 } from "../../redux/actions/bank";
 import { initialWithdrawalByUser } from "../../redux/actions/withdrawals";
-import generalService from "../../redux/services/GeneralService";
+// import generalService from "../../redux/services/GeneralService";
 import fetch from "../../redux/services/FetchInterceptor";
 import { getBTCWalletDetails } from "../../redux/actions/btc";
 
@@ -115,7 +115,7 @@ const WithDrawModal3rd = ({
   };
 
   const handleFormSubmit = (e) => {
-    const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+    // const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
     if (e) {
       e.preventDefault();
     }
