@@ -253,7 +253,7 @@ const btcReducer = (state = initState, action) => {
     case actionTypes.RECEIVE_BTC_SUCCESS:
       return {
         ...state,
-        btcWalletAddress: action.payload.paymentAddress,
+        btcWalletAddress: action.payload.paymentAddress.address,
         loading: false,
         error: null,
       };

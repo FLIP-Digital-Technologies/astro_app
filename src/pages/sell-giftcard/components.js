@@ -459,9 +459,7 @@ const getTerm = (item) => {
     default:
       return (
         <div>
-          <p>
-            This trade is for ebay
-          </p>
+          <p>This trade is for ebay</p>
           <p>
             confirm that all info (Card value, Card quantity,country, etc.) are
             accurately uploaded before submission. You will not be able to
@@ -660,7 +658,7 @@ const GiftCardForm = ({
     if (resFile[0] === "error") {
       return notification.error({
         message: "Could not upload Image",
-        duration:2.5,
+        duration: 2.5,
       });
     } else {
       await SellGiftCard(payload);
@@ -728,27 +726,30 @@ const GiftCardForm = ({
             </h2>
             <br />
             <div style={{ marginBottom: 20 }}>
-              <Select
+              {/* <Select
                 // options={[
                 //   { render: "NGN wallet", value: "NGN" },
                 //   { render: "GHS wallet", value: "GHS" },
                 // ]}
-                options={userWallets.fiatWallets.map((item) => ({
-                  render: `${item.Currency.code} wallet`,
-                  value: item,
-                }))}
+                options={
+                  userWallets &&
+                  userWallets.fiatWallets.map((item) => ({
+                    render: `${item.Currency.code} wallet`,
+                    value: item,
+                  }))
+                }
                 value={details.wallet}
                 onSelect={onWalletChange}
                 className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
                 label="Select wallet to credit"
                 labelClass={styles.label}
-              />
+              /> */}
             </div>
             <br />
             <div style={{ marginBottom: 20 }}>
-              <Select
+              {/* <Select
                 options={
-                  cardDetails[0] &&
+                  cardDetails &&
                   cardDetails.map((item) => ({
                     render: item.GiftCardCurrency.name,
                     value: item,
@@ -774,7 +775,7 @@ const GiftCardForm = ({
                 className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
                 label="Select Card Currency"
                 labelClass={styles.label}
-              />
+              /> */}
             </div>
             <br />
             <div style={{ marginBottom: 20 }}>
@@ -965,30 +966,30 @@ const GiftCardForm = ({
               onClick={() => handleSubmit()}
             />
             <div>
-          <p>
-            This trade is for {active.displayName}
-          </p>
-          <p>
-            confirm that all info (Card value, Card quantity,country, etc.) are
-            accurately uploaded before submission. You will not be able to
-            update or modify this once a transacton has been submitted and
-            confirmed.
-          </p>
-          <p>
-            Make sure that the gift card is properly scratched and the code is
-            clear and complete. You do not require a receipt for this trade, you
-            can upload it if you have.
-          </p>
-          <p>
-            Giftcards uploaded in a wrong section will be forwarded to the right
-            column and credited at the current rate in that section.
-          </p>
-          <p>
-            This trade will take only a few minutes. a notification will be sent
-            to you after confirmation
-          </p>
-          <p>If you need to ask a question, pls reach us via the live chat.</p>
-        </div>
+              <p>This trade is for {active.displayName}</p>
+              <p>
+                confirm that all info (Card value, Card quantity,country, etc.)
+                are accurately uploaded before submission. You will not be able
+                to update or modify this once a transacton has been submitted
+                and confirmed.
+              </p>
+              <p>
+                Make sure that the gift card is properly scratched and the code
+                is clear and complete. You do not require a receipt for this
+                trade, you can upload it if you have.
+              </p>
+              <p>
+                Giftcards uploaded in a wrong section will be forwarded to the
+                right column and credited at the current rate in that section.
+              </p>
+              <p>
+                This trade will take only a few minutes. a notification will be
+                sent to you after confirmation
+              </p>
+              <p>
+                If you need to ask a question, pls reach us via the live chat.
+              </p>
+            </div>
           </div>
         </div>
       </div>

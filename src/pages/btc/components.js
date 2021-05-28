@@ -498,9 +498,12 @@ export const SellSection = ({
         </div>
         <Button
           disabled={
-            parseInt(state.ngn, 10) < 499
-              ? true
-              : false || loading || !state.wallet
+            // state.btc > 0
+            //   ? true
+            //   : false 
+              // || 
+              loading 
+              || !state.wallet
           }
           onClick={() => showPromiseConfirm()}
           className={styles.sellPage__btn}
@@ -693,7 +696,7 @@ export const SendSection = ({
       <Button
         text="Send"
         disabled={
-          !state.btcAddress || state.btc > active.balance
+          !state.btcAddress || state.btc <= active.balance
             ? true
             : false 
         }

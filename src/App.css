@@ -59,7 +59,7 @@ body {
     width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), color 0.3s;
 }
 .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: #921946 !important;
+  background-color: #262b3f !important;
 }
 .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
   .ant-menu-item-selected
@@ -71,10 +71,10 @@ body {
   .ant-menu-item-selected::before {
   content: "";
   position: absolute;
-  left: 0;
-  width: 2px;
+  right: 0;
+  width: 8px;
   height: 100%;
-  background-color: #921946;
+  background-color: #f4b778;
 }
 
 .site-layout-background {
