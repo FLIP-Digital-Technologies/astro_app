@@ -133,14 +133,15 @@ const Home = ({
         balance &&
           balance.fiatWallets &&
           setRenderBalance(
-            Money(
+            `${
               balance &&
-                balance.fiatWallets &&
-                balance.fiatWallets[fiatIndex].balance,
+              balance.fiatWallets &&
+              balance.fiatWallets[fiatIndex].Currency.code
+            } ${
               balance &&
-                balance.fiatWallets &&
-                balance.fiatWallets[fiatIndex].Currency.code
-            )
+              balance.fiatWallets &&
+              balance.fiatWallets[fiatIndex].balance
+            }`
           );
       }
     }
@@ -301,7 +302,7 @@ const Home = ({
       {showAirtime && (
         <Drawer
           title="Airtime purchase"
-          width={windowDimensions.width > 866? 350 : 256 }
+          width={windowDimensions.width > 866 ? 350 : 256}
           placement="right"
           onClose={() => {
             setShowAirtime(false);
@@ -325,7 +326,7 @@ const Home = ({
         <Drawer
           title="Pair 2 Pair (p2p) Transfer"
           placement="right"
-          width={windowDimensions.width > 866? 350 : 256 }
+          width={windowDimensions.width > 866 ? 350 : 256}
           onClose={() => {
             setShowPTWOP(false);
             setDataPair({});
@@ -345,7 +346,7 @@ const Home = ({
         <Drawer
           title="Pair 2 Pair (p2p) Crypto Transfer"
           placement="right"
-          width={windowDimensions.width > 866? 350 : 256 }
+          width={windowDimensions.width > 866 ? 350 : 256}
           onClose={() => {
             setShowPTWOPcrypto(false);
             setDataPair({});
@@ -365,7 +366,7 @@ const Home = ({
         <Drawer
           title="Fund wallet"
           placement="right"
-          width={windowDimensions.width > 866? 350 : 256 }
+          width={windowDimensions.width > 866 ? 350 : 256}
           onClose={() => {
             setShowFund(false);
             setState({});
@@ -383,219 +384,250 @@ const Home = ({
         </Drawer>
       )}
       <div className={styles.home}>
-      <Row style={{}} 
-      gutter={[8, 8]}
-      >
-        <Col
-          span={17}
-          xs={24}
-          sm={24}
-          md={24}
-          lg={17}
-          xl={17} 
-          xxl={17}
-          style={{ marginLeft: 15, marginBottom: 28 }}
-        >
-          {/* <Col span={6} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}></Col> */}
-          {windowDimensions.width > 866 && (
-            <div className={homeStyles.topbox}>
-              <div
-                className={homeStyles.topbox__inner}
-                onClick={() => history.push("/app/crypto")}
+        <Row style={{}} gutter={[8, 8]}>
+          <Col
+            span={17}
+            xs={24}
+            sm={24}
+            md={24}
+            lg={17}
+            xl={17}
+            xxl={17}
+            style={{ marginLeft: 15, marginBottom: 28 }}
+          >
+            {/* <Col span={6} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}></Col> */}
+            {windowDimensions.width > 866 && (
+              <div className={homeStyles.topbox}>
+                <div
+                  className={homeStyles.topbox__inner}
+                  onClick={() => history.push("/app/crypto")}
+                >
+                  <div className={homeStyles.topbox__topic}>
+                    <img
+                      src={png.QuickAction}
+                      height="24"
+                      width="24"
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                    Quick Action
+                  </div>
+                  <div className={homeStyles.topbox__info}>Crypto</div>
+                  <div className={homeStyles.topbox__description}>
+                    Manage your crypto wallets
+                  </div>
+                </div>
+                <div
+                  className={homeStyles.topbox__inner}
+                  onClick={() => history.push("/app/bills")}
+                >
+                  <div className={homeStyles.topbox__topic}>
+                    <img
+                      src={png.QuickAction}
+                      height="24"
+                      width="24"
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                    Quick Action
+                  </div>
+                  <div className={homeStyles.topbox__info}>Bills</div>
+                  <div className={homeStyles.topbox__description}>
+                    Handle Your Bills
+                  </div>
+                </div>
+                <div
+                  className={homeStyles.topbox__inner}
+                  onClick={() => history.push("/app/settings")}
+                >
+                  <div className={homeStyles.topbox__topic}>
+                    <img
+                      src={png.QuickAction}
+                      height="24"
+                      width="24"
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                    Quick Action
+                  </div>
+                  <div className={homeStyles.topbox__info}>Settings</div>
+                  <div className={homeStyles.topbox__description}>
+                    Go to Settings
+                  </div>
+                </div>
+                <div className={homeStyles.topbox__inner}>
+                  <div className={homeStyles.topbox__topic}>
+                    <img
+                      src={png.Referrals}
+                      height="24"
+                      width="24"
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                    Referrals
+                  </div>
+                  <div className={homeStyles.topbox__info}>0</div>
+                  <div className={homeStyles.topbox__description}>
+                    Invite your guys
+                  </div>
+                </div>
+              </div>
+            )}
+            <Row gutter={[8, 8]} style={{}}>
+              <Col
+                span={12}
+                xs={20}
+                sm={20}
+                lg={12}
+                md={20}
+                xxl={12}
+                xl={12}
+                // style={{ marginRight: 25, marginBottom: 28 }}
               >
-                <div className={homeStyles.topbox__topic}>
-                  <img
-                    src={png.QuickAction}
-                    height="24"
-                    width="24"
-                    style={{ marginRight: 5 }}
-                    alt="wallet"
-                  />
-                  Quick Action
-                </div>
-                <div className={homeStyles.topbox__info}>Crypto</div>
-                <div className={homeStyles.topbox__description}>
-                  Manage your crypto wallets
-                </div>
-              </div>
-              <div
-                className={homeStyles.topbox__inner}
-                onClick={() => history.push("/app/bills")}
-              >
-                <div className={homeStyles.topbox__topic}>
-                  <img
-                    src={png.QuickAction}
-                    height="24"
-                    width="24"
-                    style={{ marginRight: 5 }}
-                    alt="wallet"
-                  />
-                  Quick Action
-                </div>
-                <div className={homeStyles.topbox__info}>Bills</div>
-                <div className={homeStyles.topbox__description}>
-                  Handle Your Bills
-                </div>
-              </div>
-              <div
-                className={homeStyles.topbox__inner}
-                onClick={() => history.push("/app/settings")}
-              >
-                <div className={homeStyles.topbox__topic}>
-                  <img
-                    src={png.QuickAction}
-                    height="24"
-                    width="24"
-                    style={{ marginRight: 5 }}
-                    alt="wallet"
-                  />
-                  Quick Action
-                </div>
-                <div className={homeStyles.topbox__info}>Settings</div>
-                <div className={homeStyles.topbox__description}>
-                  Go to Settings
-                </div>
-              </div>
-              <div className={homeStyles.topbox__inner}>
-                <div className={homeStyles.topbox__topic}>
-                  <img
-                    src={png.Referrals}
-                    height="24"
-                    width="24"
-                    style={{ marginRight: 5 }}
-                    alt="wallet"
-                  />
-                  Referrals
-                </div>
-                <div className={homeStyles.topbox__info}>0</div>
-                <div className={homeStyles.topbox__description}>
-                  Invite your guys
-                </div>
-              </div>
-            </div>
-          )}
-          <Row gutter={[8, 8]} style={{}}>
-            <Col
-              span={12}
-              xs={20}
-              sm={20}
-              lg={12}
-              md={20}
-              xxl={12}
-              xl={12}
-              // style={{ marginRight: 25, marginBottom: 28 }}
-            >
-              <div className={homeStyles.charts}>
-                <div className={homeStyles.charts__title__container}>
-                  <Dropdown
-                    trigger={["click", "hover"]}
-                    overlay={menu}
-                    onVisibleChange={handleVisibleChange}
-                    visible={visible}
-                  >
-                    <span
-                      className={homeStyles.charts__title__text}
-                      style={{ cursor: "pointer" }}
-                      // onClick={(e) => e.preventDefault()}
+                <div className={homeStyles.charts}>
+                  <div className={homeStyles.charts__title__container}>
+                    <Dropdown
+                      trigger={["click", "hover"]}
+                      overlay={menu}
+                      onVisibleChange={handleVisibleChange}
+                      visible={visible}
                     >
-                      {currencyHeader} {"  "}
-                      <DownOutlined />
-                    </span>
-                  </Dropdown>
-                  {!balanceLoading ? (
-                    <ReloadOutlined
-                      className={homeStyles.charts__title__text}
-                      onClick={() => getBalance()}
-                    />
-                  ) : (
-                    <LoadingOutlined
-                      className={homeStyles.charts__title__text}
-                    />
-                  )}
-                </div>
-                {balance ? (
-                  currencyHeader === "Fiat Wallet Balance" ? (
-                    balance &&
-                    balance.fiatWallets &&
-                    balance.fiatWallets.length > 0 ? (
+                      <span
+                        className={homeStyles.charts__title__text}
+                        style={{ cursor: "pointer" }}
+                        // onClick={(e) => e.preventDefault()}
+                      >
+                        {currencyHeader} {"  "}
+                        <DownOutlined />
+                      </span>
+                    </Dropdown>
+                    {!balanceLoading ? (
+                      <ReloadOutlined
+                        className={homeStyles.charts__title__text}
+                        onClick={() => getBalance()}
+                      />
+                    ) : (
+                      <LoadingOutlined
+                        className={homeStyles.charts__title__text}
+                      />
+                    )}
+                  </div>
+                  {balance ? (
+                    currencyHeader === "Fiat Wallet Balance" ? (
+                      balance &&
+                      balance.fiatWallets &&
+                      balance.fiatWallets.length > 0 ? (
+                        <div className={homeStyles.balances__value}>
+                          <span>{renderBalance}</span>{" "}
+                        </div>
+                      ) : (
+                        <div className={homeStyles.balances__value}>
+                          <span>{"Add Wallet"}</span>{" "}
+                        </div>
+                      )
+                    ) : balance &&
+                      balance.cryptoWallets &&
+                      balance.cryptoWallets.length > 0 ? (
                       <div className={homeStyles.balances__value}>
-                        <span>{renderBalance}</span>{" "}
+                        <span>
+                          {balance &&
+                            balance.cryptoWallets &&
+                            balance.cryptoWallets[cryptoIndex].Currency.code}
+                          {"    "}
+                        </span>
+                        <span>{renderCryptoBalance}</span>{" "}
                       </div>
                     ) : (
                       <div className={homeStyles.balances__value}>
                         <span>{"Add Wallet"}</span>{" "}
                       </div>
                     )
-                  ) : balance &&
-                    balance.cryptoWallets &&
-                    balance.cryptoWallets.length > 0 ? (
-                    <div className={homeStyles.balances__value}>
-                      <span>
-                        {balance &&
-                          balance.cryptoWallets &&
-                          balance.cryptoWallets[cryptoIndex].Currency.code}
-                        {"    "}
-                      </span>
-                      <span>{renderCryptoBalance}</span>{" "}
-                    </div>
                   ) : (
                     <div className={homeStyles.balances__value}>
-                      <span>{"Add Wallet"}</span>{" "}
+                      <span>{"Please Wait"}</span>{" "}
                     </div>
-                  )
-                ) : (
-                  <div className={homeStyles.balances__value}>
-                    <span>{"Please Wait"}</span>{" "}
-                  </div>
-                )}
+                  )}
 
-                <div className={homeStyles.balancefooter}>
-                  {/* left side */}
-                  <div>
-                    {currencyHeader === "Fiat Wallet Balance" ? (
-                      <div
-                        className={styles.balances__ta}
-                        onClick={() => {
-                          if (fiatIndex < 1) {
-                            return;
-                          } else {
-                            setFiatIndex(--fiatIndex);
-                          }
-                        }}
-                      >
-                        <DoubleLeftOutlined
-                          style={{
-                            fontSize: 24,
-                            color:
-                              fiatIndex < 1 ? "rgb(236, 233, 233)" : "#921946",
+                  <div className={homeStyles.balancefooter}>
+                    {/* left side */}
+                    <div>
+                      {currencyHeader === "Fiat Wallet Balance" ? (
+                        <div
+                          className={styles.balances__ta}
+                          onClick={() => {
+                            if (fiatIndex < 1) {
+                              return;
+                            } else {
+                              setFiatIndex(--fiatIndex);
+                            }
                           }}
-                        />
-                      </div>
-                    ) : (
-                      <div
-                        className={styles.balances__ta}
-                        onClick={() => {
-                          if (cryptoIndex < 1) {
-                            return;
-                          } else {
-                            setCryptoIndex(--cryptoIndex);
-                          }
-                        }}
-                      >
-                        <DoubleLeftOutlined
-                          style={{
-                            fontSize: 24,
-                            color: cryptoIndex < 1 ? "rgb(236, 233, 233)" : "",
+                        >
+                          <DoubleLeftOutlined
+                            style={{
+                              fontSize: 24,
+                              color:
+                                fiatIndex < 1
+                                  ? "rgb(236, 233, 233)"
+                                  : "#921946",
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <div
+                          className={styles.balances__ta}
+                          onClick={() => {
+                            if (cryptoIndex < 1) {
+                              return;
+                            } else {
+                              setCryptoIndex(--cryptoIndex);
+                            }
                           }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                  {/* end of left side */}
-                  <div>
-                    {balance ? (
-                      currencyHeader === "Fiat Wallet Balance" ? (
-                        balance && balance.fiatWallets.length > 0 ? (
+                        >
+                          <DoubleLeftOutlined
+                            style={{
+                              fontSize: 24,
+                              color:
+                                cryptoIndex < 1 ? "rgb(236, 233, 233)" : "",
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                    {/* end of left side */}
+                    <div>
+                      {balance ? (
+                        currencyHeader === "Fiat Wallet Balance" ? (
+                          balance && balance.fiatWallets.length > 0 ? (
+                            <div
+                              style={{ display: "flex", flexDirection: "row" }}
+                            >
+                              <div
+                                // onClick={() => setOpencryptoAddWallet(true)}
+                                className={`${homeStyles.balances__btn} ${homeStyles.active}`}
+                              >
+                                {balance.fiatWallets &&
+                                  balance.fiatWallets[fiatIndex].Currency.code}
+                              </div>
+                              {fiatIndex + 1 === balance.fiatWallets.length && (
+                                <>
+                                  <div
+                                    onClick={() => setOpenAddWallet(true)}
+                                    className={`${homeStyles.balances__btn} ${homeStyles.active}`}
+                                  >
+                                    <PlusOutlined />
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          ) : (
+                            <div
+                              onClick={() => setOpenAddWallet(true)}
+                              className={`${homeStyles.balances__btn} ${homeStyles.active}`}
+                            >
+                              <PlusOutlined />
+                            </div>
+                          )
+                        ) : balance && balance.cryptoWallets.length > 0 ? (
                           <div
                             style={{ display: "flex", flexDirection: "row" }}
                           >
@@ -603,13 +635,15 @@ const Home = ({
                               // onClick={() => setOpencryptoAddWallet(true)}
                               className={`${homeStyles.balances__btn} ${homeStyles.active}`}
                             >
-                              {balance.fiatWallets &&
-                                balance.fiatWallets[fiatIndex].Currency.code}
+                              {balance.cryptoWallets &&
+                                balance.cryptoWallets[cryptoIndex].Currency
+                                  .code}
                             </div>
-                            {fiatIndex + 1 === balance.fiatWallets.length && (
+                            {cryptoIndex + 1 ===
+                              balance.cryptoWallets.length && (
                               <>
                                 <div
-                                  onClick={() => setOpenAddWallet(true)}
+                                  onClick={() => setOpencryptoAddWallet(true)}
                                   className={`${homeStyles.balances__btn} ${homeStyles.active}`}
                                 >
                                   <PlusOutlined />
@@ -619,284 +653,288 @@ const Home = ({
                           </div>
                         ) : (
                           <div
-                            onClick={() => setOpenAddWallet(true)}
+                            onClick={() => setOpencryptoAddWallet(true)}
                             className={`${homeStyles.balances__btn} ${homeStyles.active}`}
                           >
                             <PlusOutlined />
                           </div>
                         )
-                      ) : balance && balance.cryptoWallets.length > 0 ? (
-                        <div style={{ display: "flex", flexDirection: "row" }}>
-                          <div
-                            // onClick={() => setOpencryptoAddWallet(true)}
-                            className={`${homeStyles.balances__btn} ${homeStyles.active}`}
-                          >
-                            {balance.cryptoWallets &&
-                              balance.cryptoWallets[cryptoIndex].Currency.code}
-                          </div>
-                          {cryptoIndex + 1 === balance.cryptoWallets.length && (
-                            <>
-                              <div
-                                onClick={() => setOpencryptoAddWallet(true)}
-                                className={`${homeStyles.balances__btn} ${homeStyles.active}`}
-                              >
-                                <PlusOutlined />
-                              </div>
-                            </>
-                          )}
+                      ) : (
+                        <div className={styles.balances__btn__holder}>
+                          <LoadingOutlined style={{ fontSize: 40 }} />
+                        </div>
+                      )}
+                    </div>
+                    {/* right side */}
+                    <div>
+                      {currencyHeader === "Fiat Wallet Balance" ? (
+                        <div
+                          className={styles.balances__ta}
+                          onClick={() => {
+                            if (balance.fiatWallets.length === 0) {
+                              return;
+                            }
+                            if (fiatIndex + 1 === balance.fiatWallets.length) {
+                              return;
+                            } else {
+                              setFiatIndex(++fiatIndex);
+                            }
+                          }}
+                        >
+                          <DoubleRightOutlined
+                            style={{
+                              fontSize: 24,
+                              color: balance
+                                ? balance.fiatWallets &&
+                                  balance.fiatWallets.length === 0
+                                  ? "rgb(236, 233, 233)"
+                                  : fiatIndex + 1 === balance.fiatWallets.length
+                                  ? "rgb(236, 233, 233)"
+                                  : "#921946"
+                                : "",
+                            }}
+                          />
                         </div>
                       ) : (
                         <div
-                          onClick={() => setOpencryptoAddWallet(true)}
-                          className={`${homeStyles.balances__btn} ${homeStyles.active}`}
+                          className={styles.balances__ta}
+                          onClick={() => {
+                            if (balance.cryptoWallets.length === 0) {
+                              return;
+                            }
+                            if (
+                              cryptoIndex + 1 ===
+                              balance.cryptoWallets.length
+                            ) {
+                              return;
+                            } else {
+                              setCryptoIndex(++cryptoIndex);
+                            }
+                          }}
                         >
-                          <PlusOutlined />
+                          <DoubleRightOutlined
+                            style={{
+                              fontSize: 24,
+                              color: balance
+                                ? balance.cryptoWallets &&
+                                  balance.cryptoWallets.length === 0
+                                  ? "rgb(236, 233, 233)"
+                                  : cryptoIndex + 1 ===
+                                    balance.cryptoWallets.length
+                                  ? "rgb(236, 233, 233)"
+                                  : "#921946"
+                                : "",
+                            }}
+                          />
                         </div>
-                      )
-                    ) : (
-                      <div className={styles.balances__btn__holder}>
-                        <LoadingOutlined style={{ fontSize: 40 }} />
-                      </div>
-                    )}
+                      )}
+                    </div>
+                    {/* end of right side */}
                   </div>
-                  {/* right side */}
-                  <div>
-                    {currencyHeader === "Fiat Wallet Balance" ? (
-                      <div
-                        className={styles.balances__ta}
-                        onClick={() => {
-                          if (balance.fiatWallets.length === 0) {
-                            return;
-                          }
-                          if (fiatIndex + 1 === balance.fiatWallets.length) {
-                            return;
-                          } else {
-                            setFiatIndex(++fiatIndex);
-                          }
-                        }}
-                      >
-                        <DoubleRightOutlined
-                          style={{
-                            fontSize: 24,
-                            color: balance
-                              ? balance.fiatWallets &&
-                                balance.fiatWallets.length === 0
-                                ? "rgb(236, 233, 233)"
-                                : fiatIndex + 1 === balance.fiatWallets.length
-                                ? "rgb(236, 233, 233)"
-                                : "#921946"
-                              : "",
-                          }}
-                        />
-                      </div>
-                    ) : (
-                      <div
-                        className={styles.balances__ta}
-                        onClick={() => {
-                          if (balance.cryptoWallets.length === 0) {
-                            return;
-                          }
-                          if (
-                            cryptoIndex + 1 ===
-                            balance.cryptoWallets.length
-                          ) {
-                            return;
-                          } else {
-                            setCryptoIndex(++cryptoIndex);
-                          }
-                        }}
-                      >
-                        <DoubleRightOutlined
-                          style={{
-                            fontSize: 24,
-                            color: balance
-                              ? balance.cryptoWallets &&
-                                balance.cryptoWallets.length === 0
-                                ? "rgb(236, 233, 233)"
-                                : cryptoIndex + 1 ===
-                                  balance.cryptoWallets.length
-                                ? "rgb(236, 233, 233)"
-                                : "#921946"
-                              : "",
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                  {/* end of right side */}
-                </div>
-                <div className={homeStyles.extras}>
-                  <div
-                    className={homeStyles.extras__text}
-                    onClick={() => {
-                      balance && balance.fiatWallets.length > 0
-                        ? setShowFund(true)
-                        : notification.info({
-                            message: "Please wait",
-                            duration:2.5,
-                          });
-                    }}
-                  >
-                    {"Deposit Funds"} 
-                    {/* <DoubleRightOutlined /> */}
-                  </div>
-                  <div
-                    className={homeStyles.extras__text}
-                    onClick={() => {
-                      balance && balance.fiatWallets.length > 0
-                        ? setOpenWithdrawal(true)
-                        : notification.info({
-                            message: "Please wait",
-                            duration:2.5,
-                          });
-                    }}
-                  >
-                    {"Withdraw Funds"} 
-                    {/* <DoubleRightOutlined />{" "} */}
-                  </div>
-                  <div
-                    className={homeStyles.extras__text}
-                    onClick={() => {
-                      balance && balance.fiatWallets.length > 0
-                        ? setShowAirtime(true)
-                        : notification.info({
-                            message: "Please wait",
-                            duration:2.5,
-                          });
-                    }}
-                  >
-                    {"Buy Airtime"} 
-                    {/* <DoubleRightOutlined />{" "} */}
+                  <div className={homeStyles.extras}>
+                    <div
+                      className={homeStyles.extras__text}
+                      onClick={() => {
+                        balance && balance.fiatWallets.length > 0
+                          ? setShowFund(true)
+                          : notification.info({
+                              message: "Please wait",
+                              duration: 2.5,
+                            });
+                      }}
+                    >
+                      {"Deposit Funds"}
+                      {/* <DoubleRightOutlined /> */}
+                    </div>
+                    <div
+                      className={homeStyles.extras__text}
+                      onClick={() => {
+                        balance && balance.fiatWallets.length > 0
+                          ? setOpenWithdrawal(true)
+                          : notification.info({
+                              message: "Please wait",
+                              duration: 2.5,
+                            });
+                      }}
+                    >
+                      {"Withdraw Funds"}
+                      {/* <DoubleRightOutlined />{" "} */}
+                    </div>
+                    <div
+                      className={homeStyles.extras__text}
+                      onClick={() => {
+                        balance && balance.fiatWallets.length > 0
+                          ? setShowAirtime(true)
+                          : notification.info({
+                              message: "Please wait",
+                              duration: 2.5,
+                            });
+                      }}
+                    >
+                      {"Buy Airtime"}
+                      {/* <DoubleRightOutlined />{" "} */}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Col>
-            <Col span={12} xs={24} sm={24} lg={12} md={24} xxl={12} xl={12}>
-              <Row gutter={[8, 25]}>
-                <Col span={12} xs={10} sm={8} lg={12} md={10} xxl={12} xl={12}>
-                  <div
-                    className={homeStyles.widgets__inner}
-                    onClick={() => history.push("/app/sell-giftcard")}
+              </Col>
+              <Col span={12} xs={24} sm={24} lg={12} md={24} xxl={12} xl={12}>
+                <Row gutter={[8, 25]}>
+                  <Col
+                    span={12}
+                    xs={10}
+                    sm={8}
+                    lg={12}
+                    md={10}
+                    xxl={12}
+                    xl={12}
                   >
-                    <div className={homeStyles.widgets__image}>
-                      <img
-                        src={png.SellGiftCard}
-                        className={homeStyles.widgets__images}
-                        style={{ marginRight: 5 }}
-                        alt="wallet"
-                      />
+                    <div
+                      className={homeStyles.widgets__inner}
+                      onClick={() => history.push("/app/sell-giftcard")}
+                    >
+                      <div className={homeStyles.widgets__image}>
+                        <img
+                          src={png.SellGiftCard}
+                          className={homeStyles.widgets__images}
+                          style={{ marginRight: 5 }}
+                          alt="wallet"
+                        />
+                      </div>
+                      <div className={homeStyles.widgets__info}>
+                        Sell Gift Cards
+                      </div>
+                      <div className={homeStyles.widgets__description}>
+                        We buy Gift Cards at a good price
+                      </div>
+                      <div className={homeStyles.widgets__arrow}>
+                        <DoubleRightOutlined
+                          className={homeStyles.widgets__arrow__inner}
+                        />
+                      </div>
                     </div>
-                    <div className={homeStyles.widgets__info}>
-                      Sell Gift Cards
-                    </div>
-                    <div className={homeStyles.widgets__description}>
-                      We buy Gift Cards at a good price
-                    </div>
-                    <div className={homeStyles.widgets__arrow}>
-                      <DoubleRightOutlined
-                        className={homeStyles.widgets__arrow__inner}
-                      />
-                    </div>
-                  </div>
-                </Col>
-                <Col span={12} xs={10} sm={8} lg={12} md={10} xxl={12} xl={12}>
-                  <div
-                    className={homeStyles.widgets__inner}
-                    onClick={() => history.push("/app/crypto")}
+                  </Col>
+                  <Col
+                    span={12}
+                    xs={10}
+                    sm={8}
+                    lg={12}
+                    md={10}
+                    xxl={12}
+                    xl={12}
                   >
-                    <div className={homeStyles.widgets__image}>
-                      <img
-                        src={png.SellBitcoin}
-                        className={homeStyles.widgets__images}
-                        style={{ marginRight: 5 }}
-                        alt="wallet"
-                      />
+                    <div
+                      className={homeStyles.widgets__inner}
+                      onClick={() => history.push("/app/crypto")}
+                    >
+                      <div className={homeStyles.widgets__image}>
+                        <img
+                          src={png.SellBitcoin}
+                          className={homeStyles.widgets__images}
+                          style={{ marginRight: 5 }}
+                          alt="wallet"
+                        />
+                      </div>
+                      <div className={homeStyles.widgets__info}>
+                        Sell Bitcoin
+                      </div>
+                      <div className={homeStyles.widgets__description}>
+                        Convert Bitcoin to your preferred currency
+                      </div>
+                      <div className={homeStyles.widgets__arrow}>
+                        <DoubleRightOutlined
+                          className={homeStyles.widgets__arrow__inner}
+                        />
+                      </div>
                     </div>
-                    <div className={homeStyles.widgets__info}>Sell Bitcoin</div>
-                    <div className={homeStyles.widgets__description}>
-                      Convert Bitcoin to your preferred currency
-                    </div>
-                    <div className={homeStyles.widgets__arrow}>
-                      <DoubleRightOutlined
-                        className={homeStyles.widgets__arrow__inner}
-                      />
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-              <Row gutter={[8, 25]}>
-              <Col span={12} xs={10} sm={8} lg={12} md={10} xxl={12} xl={12}>
-                  <div
-                    className={homeStyles.widgets__inner}
-                    onClick={() => {
-                      balance && balance.fiatWallets.length > 0
-                        ? setShowPTWOP(true)
-                        : notification.info({
-                            message: "Please wait",
-                            duration:2.5,
-                          })
-                        
-                    }}
+                  </Col>
+                </Row>
+                <Row gutter={[8, 25]}>
+                  <Col
+                    span={12}
+                    xs={10}
+                    sm={8}
+                    lg={12}
+                    md={10}
+                    xxl={12}
+                    xl={12}
                   >
-                    <div className={homeStyles.widgets__image}>
-                      <img
-                        src={png.P2P}
-                        className={homeStyles.widgets__images}
-                        style={{ marginRight: 5 }}
-                        alt="wallet"
-                      />
+                    <div
+                      className={homeStyles.widgets__inner}
+                      onClick={() => {
+                        balance && balance.fiatWallets.length > 0
+                          ? setShowPTWOP(true)
+                          : notification.info({
+                              message: "Please wait",
+                              duration: 2.5,
+                            });
+                      }}
+                    >
+                      <div className={homeStyles.widgets__image}>
+                        <img
+                          src={png.P2P}
+                          className={homeStyles.widgets__images}
+                          style={{ marginRight: 5 }}
+                          alt="wallet"
+                        />
+                      </div>
+                      <div className={homeStyles.widgets__info}>
+                        Astro Transfer
+                      </div>
+                      <div className={homeStyles.widgets__description}>
+                        Send Money to another Astro user
+                      </div>
+                      <div className={homeStyles.widgets__arrow}>
+                        <DoubleRightOutlined
+                          className={homeStyles.widgets__arrow__inner}
+                        />
+                      </div>
                     </div>
-                    <div className={homeStyles.widgets__info}>
-                      Astro Transfer
-                    </div>
-                    <div className={homeStyles.widgets__description}>
-                      Send Money to another Astro user
-                    </div>
-                    <div className={homeStyles.widgets__arrow}>
-                      <DoubleRightOutlined
-                        className={homeStyles.widgets__arrow__inner}
-                      />
-                    </div>
-                  </div>
-                </Col>
-                <Col span={12} xs={10} sm={8} lg={12} md={10} xxl={12} xl={12}>
-                  <div
-                    className={homeStyles.widgets__inner}
-                    onClick={() => {
-                      balance && balance.cryptoWallets.length > 0
-                        ? setShowPTWOPcrypto(true)
-                        : notification.info({
-                            message: "No crypto wallet",
-                            duration:2.5,
-                          })
-                        
-                    }}
+                  </Col>
+                  <Col
+                    span={12}
+                    xs={10}
+                    sm={8}
+                    lg={12}
+                    md={10}
+                    xxl={12}
+                    xl={12}
                   >
-                    <div className={homeStyles.widgets__image}>
-                      <img
-                        src={png.CryptoPeer}
-                        className={homeStyles.widgets__images}
-                        style={{ marginRight: 5 }}
-                        alt="wallet"
-                      />
+                    <div
+                      className={homeStyles.widgets__inner}
+                      onClick={() => {
+                        balance && balance.cryptoWallets.length > 0
+                          ? setShowPTWOPcrypto(true)
+                          : notification.info({
+                              message: "No crypto wallet",
+                              duration: 2.5,
+                            });
+                      }}
+                    >
+                      <div className={homeStyles.widgets__image}>
+                        <img
+                          src={png.CryptoPeer}
+                          className={homeStyles.widgets__images}
+                          style={{ marginRight: 5 }}
+                          alt="wallet"
+                        />
+                      </div>
+                      <div className={homeStyles.widgets__info}>
+                        Crypto Transfer
+                      </div>
+                      <div className={homeStyles.widgets__description}>
+                        Send crypto to another Astro user
+                      </div>
+                      <div className={homeStyles.widgets__arrow}>
+                        <DoubleRightOutlined
+                          className={homeStyles.widgets__arrow__inner}
+                        />
+                      </div>
                     </div>
-                    <div className={homeStyles.widgets__info}>
-                      Crypto Transfer
-                    </div>
-                    <div className={homeStyles.widgets__description}>
-                      Send crypto to another Astro user
-                    </div>
-                    <div className={homeStyles.widgets__arrow}>
-                      <DoubleRightOutlined
-                        className={homeStyles.widgets__arrow__inner}
-                      />
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-          {/* <Row gutter={[8, 8]} style={{}}>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+            {/* <Row gutter={[8, 8]} style={{}}>
             <Col span={6} xs={20} sm={20} lg={6} md={20} xxl={6} xl={6}>
               <div
                 className={homeStyles.widgets__inner}
@@ -1022,134 +1060,145 @@ const Home = ({
               </div>
             </Col>
           </Row> */}
-        </Col>
-        <Col
-          // span={1}
-          span={1} xs={0} sm={0} lg={1} md={0} xxl={1} xl={1}
-          style={{
-            // border: 3,
-            paddingLeft: 2,
-            // backgroundColor: "white",
-            borderColor: "green",
-            // borderRadius: 10,
-            borderWidth: 2,
-            borderRightWidth: 1,
-          }}
-        >
-          <div className={homeStyles.divider} />
-        </Col>
-        <div
-          style={{ borderLeftWidth: 4, borderWidth: 5, borderColor: "black" }}
-        />
-        <Col
-          // span={5}
-          span={5} xs={20} sm={20} lg={5} md={20} xxl={5} xl={5}
-
-          style={{
-            alignItems: "flex-start",
-            justifyContent: "flex-start",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <Row style={{ marginBottom: 15 }}>
-            <Col>
-              <div className={homeStyles.rightbody__headercontainer}>
-                <div className={homeStyles.rightbody__header}>
-                  <img
-                    src={png.Withdrawal}
-                    height="30"
-                    width="30"
-                    style={{ marginRight: 5 }}
-                    alt="wallet"
-                  />
-                  Recent Withdrawals
+          </Col>
+          <Col
+            // span={1}
+            span={1}
+            xs={0}
+            sm={0}
+            lg={1}
+            md={0}
+            xxl={1}
+            xl={1}
+            style={{
+              // border: 3,
+              paddingLeft: 2,
+              // backgroundColor: "white",
+              borderColor: "green",
+              // borderRadius: 10,
+              borderWidth: 2,
+              borderRightWidth: 1,
+            }}
+          >
+            <div className={homeStyles.divider} />
+          </Col>
+          <div
+            style={{ borderLeftWidth: 4, borderWidth: 5, borderColor: "black" }}
+          />
+          <Col
+            // span={5}
+            span={5}
+            xs={20}
+            sm={20}
+            lg={5}
+            md={20}
+            xxl={5}
+            xl={5}
+            style={{
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Row style={{ marginBottom: 15 }}>
+              <Col>
+                <div className={homeStyles.rightbody__headercontainer}>
+                  <div className={homeStyles.rightbody__header}>
+                    <img
+                      src={png.Withdrawal}
+                      height="30"
+                      width="30"
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                    Recent Withdrawals
+                  </div>
+                  <div>
+                    {!withdrawalLoading ? (
+                      <ReloadOutlined
+                        onClick={() =>
+                          getWithdrawalTrans({ skip: 0, limit: 4 })
+                        }
+                      />
+                    ) : (
+                      <LoadingOutlined />
+                    )}
+                  </div>
                 </div>
                 <div>
-                  {!withdrawalLoading ? (
-                    <ReloadOutlined
-                      onClick={() => getWithdrawalTrans({ skip: 0, limit: 4 })}
-                    />
-                  ) : (
-                    <LoadingOutlined />
-                  )}
+                  <Timeline mode={"left"}>
+                    {withdrawalTrans &&
+                    withdrawalTrans.transactions &&
+                    withdrawalTrans.transactions.length > 0 ? (
+                      withdrawalTrans.transactions.map((item) => (
+                        <>
+                          <Timeline.Item>
+                            {`${
+                              item.BankAccount.details.currencyId === 1
+                                ? `NGN ${item.amount}`
+                                : `GHS ${item.amount}`
+                            } ${date(item.created_at)}`}
+                          </Timeline.Item>
+                        </>
+                      ))
+                    ) : (
+                      <Empty description={<span>No recent Withdrawal</span>} />
+                    )}
+                  </Timeline>
                 </div>
-              </div>
-              <div>
-                <Timeline mode={"left"}>
-                  {withdrawalTrans &&
-                  withdrawalTrans.transactions &&
-                  withdrawalTrans.transactions.length > 0 ? (
-                    withdrawalTrans.transactions.map((item) => (
-                      <>
-                        <Timeline.Item>
-                          {`${
-                            item.BankAccount.details.currencyId === 1
-                              ? Money(item.amount, "NGN")
-                              : Money(item.amount, "GHS")
-                          } ${date(item.created_at)}`}
-                        </Timeline.Item>
-                      </>
-                    ))
-                  ) : (
-                    <Empty description={<span>No recent Withdrawal</span>} />
-                  )}
-                </Timeline>
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <div className={homeStyles.rightbody__headercontainer}>
-                <div className={homeStyles.rightbody__header}>
-                  <img
-                    src={png.P2P}
-                    height="30"
-                    width="30"
-                    style={{ marginRight: 5 }}
-                    alt="wallet"
-                  />
-                  Recent Astro Transfers
-                </div>
-                <div className={homeStyles.rightbody__headeright}>
-                  {!pairTwoPairLoading ? (
-                    <ReloadOutlined
-                      onClick={() => getP2PTrans({ skip: 0, limit: 4 })}
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <div className={homeStyles.rightbody__headercontainer}>
+                  <div className={homeStyles.rightbody__header}>
+                    <img
+                      src={png.P2P}
+                      height="30"
+                      width="30"
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
                     />
-                  ) : (
-                    <LoadingOutlined />
-                  )}
+                    Recent Astro Transfers
+                  </div>
+                  <div className={homeStyles.rightbody__headeright}>
+                    {!pairTwoPairLoading ? (
+                      <ReloadOutlined
+                        onClick={() => getP2PTrans({ skip: 0, limit: 4 })}
+                      />
+                    ) : (
+                      <LoadingOutlined />
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div>
-                <Timeline mode={"left"}>
-                  {pairTwoPairFiatTrans &&
-                  pairTwoPairFiatTrans.transactions &&
-                  pairTwoPairFiatTrans.transactions.length > 0 ? (
-                    pairTwoPairFiatTrans.transactions.map((item) => (
-                      <>
-                        <Timeline.Item>
-                          {`${Money(
-                            item.amount_sent_object.value,
-                            item.amount_sent_object.currency
-                          )} sent by ${date(item.created_at)}`}
-                        </Timeline.Item>
-                      </>
-                    ))
-                  ) : (
-                    <Empty
-                      description={<span>No recent Astro Transfer</span>}
-                    />
-                  )}
-                </Timeline>
-              </div>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-
+                <div>
+                  <Timeline mode={"left"}>
+                    {pairTwoPairFiatTrans &&
+                    pairTwoPairFiatTrans.transactions &&
+                    pairTwoPairFiatTrans.transactions.length > 0 ? (
+                      pairTwoPairFiatTrans.transactions.map((item) => (
+                        <>
+                          <Timeline.Item>
+                            {` ${item.amount_sent_object.currency} ${
+                              item.amount_sent_object.value
+                            } sent by ${date(item.created_at)}`}
+                          </Timeline.Item>
+                        </>
+                      ))
+                    ) : (
+                      <Empty
+                        description={<span>No recent Astro Transfer</span>}
+                      />
+                    )}
+                  </Timeline>
+                </div>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
       </div>
-      
+
       {console.log("withdraw", pairTwoPairFiatTrans)}
     </DashboardLayout>
   );

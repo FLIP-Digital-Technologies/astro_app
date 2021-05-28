@@ -88,7 +88,7 @@ export const BuySection = ({
   };
   const currencyTicker = async (data) => {
     AppFetch({
-      url: `/coins/tickers/${active.Currency.code.toLowerCase()}${data}`,
+      url: `/coins/tickers/${active.Currency.code.toLowerCase()}/${data}`,
       method: "get",
       headers: {
         "public-request": "true",

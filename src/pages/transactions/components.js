@@ -116,7 +116,7 @@ export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
           onChange={handleTableChange}
         />
       ) : (
-        <EmptyEntryWithTitle title="P2P Transaction" />
+        <EmptyEntryWithTitle title="Gift Card" />
       )}
     </div>
   );
@@ -652,6 +652,11 @@ export const BTCTradesTab = ({ fetchTrans, transaction, handleAction }) => {
     }));
     setLoading(false);
   }, [transaction]);
+
+  React.useEffect(() => {
+    fetchTrans({ skip: 0, limit: 10 });
+    // eslint-disable-next-line
+  }, []);
 
   const handleTableChange = (pagination, filters, sorter) => {
     fetch({

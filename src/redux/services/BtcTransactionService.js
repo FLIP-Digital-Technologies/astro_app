@@ -45,10 +45,12 @@ BTCTransactionServices.getWalletDetails = function (params) {
 
 BTCTransactionServices.getCurrentMarketTicker = function (params) {
   return fetch({
-    url: `/coins/tickers/${params.coin === "BTC" ? params.coin.toLowerCase() : "Ltc"}usd${params.coin === "BTC"? "t":"t"}`,
+    url: `/coins/tickers/${
+      params.coin === "BTC" ? params.coin.toLowerCase() : "Ltc"
+    }/usd${params.coin === "BTC" ? "t" : "t"}`,
     method: "get",
     params: {
-      volume: params?.volume || 1
+      volume: params?.volume || 1,
     },
     headers: {
       "public-request": "true",
