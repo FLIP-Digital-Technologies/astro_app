@@ -53,6 +53,10 @@ const BuyCoin = ({
   });
   const [mode, setMode] = useState("buy");
   React.useEffect(() => {
+    getConversions()
+    // eslint-disable-next-line
+  }, [])
+  React.useEffect(() => {
     const interval = setInterval(async () => {
       getBTCRates({coin:active.Currency.code});
       getConversions();

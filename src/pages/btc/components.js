@@ -38,14 +38,15 @@ export const BuySection = ({
       let walletRate =
         state.wallet &&
         conversions &&
+        conversions[`USD${state.wallet}`] &&
         conversions[`USD${state.wallet}`].we_sell;
       console.log("wallet", walletRate);
-      setWallet_btc_rate(walletRate * buy_btc_usd_rate);
+      setWallet_btc_rate((walletRate ?? 0) * buy_btc_usd_rate);
     }
     // rates && rates.tickers && setBtc_ngn_rate(rates.tickers.BTCNGN.buy);
     // rates && rates.tickers && setBtc_ghs_rate(rates.tickers.BTCGHS.buy);
     // eslint-disable-next-line
-  }, [rates, state.wallet]);
+  }, [conversions, rates, state.wallet]);
   const handleChange = ({ target: { name, value } }) => {
     // let ticker = rates && rates.tickers;
     let btc, ngn, usd, ghs;
@@ -99,6 +100,18 @@ export const BuySection = ({
     });
   };
 
+  const currencyTicker = async (data) => {
+    rates && rates.ticker && setBtc_usd_rate(rates.ticker.sell);
+    if (state.wallet !== "USD") {
+      let walletRate =
+        conversions &&
+        conversions[`USD${data}`] &&
+        conversions[`USD${data}`].we_sell;
+      console.log("wallet", walletRate);
+      setWallet_btc_rate((walletRate ?? 0) * buy_btc_usd_rate);
+    }
+  };
+
   return (
     <div className={styles.transactionCard}>
       {console.log("buy", active)}
@@ -146,7 +159,7 @@ export const BuySection = ({
           value={state.wallet}
           name="wallet"
           onSelect={(value) => {
-            // currencyTicker(value.Currency.code);
+            currencyTicker(value.Currency.code);
             setState((state) => ({
               ...state,
               wallet: value.Currency.code,
@@ -251,7 +264,10 @@ export const SellSection = ({
     rates && rates.ticker && setSell_btc_usd_rate(rates.ticker.buy);
     if (state.wallet !== "USD") {
       let walletRate =
-        state.wallet && conversions && conversions[`USD${state.wallet}`].we_buy;
+        state.wallet &&
+        conversions &&
+        conversions[`USD${state.wallet}`] &&
+        conversions[`USD${state.wallet}`].we_buy;
       console.log("wallet", walletRate);
       setWallet_btc_rate(walletRate * sell_btc_usd_rate);
     }

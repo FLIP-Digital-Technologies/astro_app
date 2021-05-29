@@ -92,6 +92,7 @@ const CryptoPage = (props) => {
                   props.balance.cryptoWallets.length > 0 &&
                   props.balance.cryptoWallets.map((item, index) => (
                     <div
+                    key={index.toString()}
                       className={styles.crypto}
                       onClick={() => {
                         // console.log(index, item);
