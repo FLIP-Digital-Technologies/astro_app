@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Clipboard from "react-clipboard.js";
-import { Switch } from "antd";
+// import { Switch } from "antd";
 import Input from "../../components/input";
 import Select from "../../components/select";
 import Button from "../../components/button";

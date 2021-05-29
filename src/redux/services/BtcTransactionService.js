@@ -46,7 +46,7 @@ BTCTransactionServices.getWalletDetails = function (params) {
 BTCTransactionServices.getCurrentMarketTicker = function (params) {
   return fetch({
     url: `/coins/tickers/${
-      params.coin === "BTC" ? params.coin.toLowerCase() : "Ltc"
+      params.coin.toLowerCase()
     }/usd${params.coin === "BTC" ? "t" : "t"}`,
     method: "get",
     params: {

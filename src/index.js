@@ -10,9 +10,9 @@ import {
   SignIn,
   SignUp,
   Verification,
-  Landing,
+  // Landing,
   // About,
-  AboutRates,
+  // AboutRates,
 } from "./pages";
 import { PrivateRoute } from "./utils/PrivateRoute";
 import { WaitingComponent } from "./utils/helper";

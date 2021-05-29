@@ -7,7 +7,6 @@ import styles from "./styles.module.scss";
 import Input from "../input";
 import Select from "../select";
 import Button from "../button";
-import * as actionTypes from "../../redux/constants";
 import { Money } from "../../utils/helper";
 import {
   getBankListByCountry,

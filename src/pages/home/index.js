@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import { Drawer, notification, Row, Col, Timeline, Empty } from "antd";
 import {
   PlusOutlined,
-  UserSwitchOutlined,
-  ArrowRightOutlined,
-  RightOutlined,
+  // UserSwitchOutlined,
+  // ArrowRightOutlined,
+  // RightOutlined,
   DoubleRightOutlined,
   DoubleLeftOutlined,
   ReloadOutlined,
@@ -16,8 +16,8 @@ import homeStyles from "./styles.module.scss";
 import png from "../../assets/png";
 import { history } from "../../redux/store";
 import {
-  RightCircleOutlined,
-  LeftCircleOutlined,
+  // RightCircleOutlined,
+  // LeftCircleOutlined,
   DownOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
@@ -42,7 +42,7 @@ import {
   getBillPaymentCategory,
   initialBillPaymentByUser,
 } from "../../redux/actions/billPayment";
-import capitalizeFirstLetter, { date, Money } from "../../utils/helper";
+import capitalizeFirstLetter, { date } from "../../utils/helper";
 import {
   createFiatWallet,
   getCryptoCurrencies,
@@ -95,10 +95,10 @@ const Home = ({
       height,
     };
   }
-  const [windowDimensions, setWindowDimensions] = useState(
+  const [windowDimensions,] = useState(
     getWindowDimensions()
   );
-  const [wallet, setWallet] = useState("NGN");
+  // const [wallet, setWallet] = useState("NGN");
   let [fiatIndex, setFiatIndex] = useState(0);
   let [cryptoIndex, setCryptoIndex] = useState(0);
   const [renderBalance, setRenderBalance] = useState("0");
@@ -110,7 +110,7 @@ const Home = ({
   const [openModal, setOpenModal] = useState(false);
   const [openWithdrawal, setOpenWithdrawal] = useState(false);
   const [currencyHeader, setCurrencyHeader] = useState("Fiat Wallet Balance");
-  const [headerId, setHeaderId] = useState("1");
+  const [, setHeaderId] = useState("1");
   const [visible, setVisible] = useState(false);
   const [openAddWallet, setOpenAddWallet] = useState(false);
   const [opencryptoAddWallet, setOpencryptoAddWallet] = useState(false);
@@ -934,132 +934,7 @@ const Home = ({
                 </Row>
               </Col>
             </Row>
-            {/* <Row gutter={[8, 8]} style={{}}>
-            <Col span={6} xs={20} sm={20} lg={6} md={20} xxl={6} xl={6}>
-              <div
-                className={homeStyles.widgets__inner}
-                onClick={() => {
-                  userLoading
-                    ? notification.info({
-                        message: "Please wait",
-                      })
-                    : setShowPTWOP(true);
-                }}
-              >
-                <div className={homeStyles.widgets__image}>
-                  <img
-                    src={png.P2P}
-                    height="40"
-                    width="40"
-                    style={{ marginRight: 5 }}
-                    alt="wallet"
-                  />
-                </div>
-                <div className={homeStyles.widgets__info}>Astro Transfer</div>
-                <div className={homeStyles.widgets__description}>
-                  Send Money to another Astro user
-                </div>
-                <div className={homeStyles.widgets__arrow}>
-                  <DoubleRightOutlined
-                    className={homeStyles.widgets__arrow__inner}
-                  />
-                </div>
-              </div>
-            </Col>
-            <Col span={6} xs={20} sm={20} lg={6} md={20} xxl={6} xl={6}>
-              <div
-                className={homeStyles.widgets__inner}
-                onClick={() => {
-                  userLoading
-                    ? notification.info({
-                        message: "Please wait",
-                      })
-                    : setShowPTWOPcrypto(true);
-                }}
-              >
-                <div className={homeStyles.widgets__image}>
-                  <img
-                    src={png.CryptoPeer}
-                    height="40"
-                    width="40"
-                    style={{ marginRight: 5 }}
-                    alt="wallet"
-                  />
-                </div>
-                <div className={homeStyles.widgets__info}>Crypto Transfer</div>
-                <div className={homeStyles.widgets__description}>
-                  Send crypto to another Astro user
-                </div>
-                <div className={homeStyles.widgets__arrow}>
-                  <DoubleRightOutlined
-                    className={homeStyles.widgets__arrow__inner}
-                  />
-                </div>
-              </div>
-            </Col>
-            <Col span={6} xs={20} sm={20} lg={6} md={20} xxl={6} xl={6}>
-              <div
-                className={homeStyles.widgets__inner}
-                onClick={() => {
-                  userLoading
-                    ? notification.info({
-                        message: "Please wait",
-                      })
-                    : setShowPTWOP(true);
-                }}
-              >
-                <div className={homeStyles.widgets__image}>
-                  <img
-                    src={png.P2P}
-                    height="40"
-                    width="40"
-                    style={{ marginRight: 5 }}
-                    alt="wallet"
-                  />
-                </div>
-                <div className={homeStyles.widgets__info}>Astro Transfer</div>
-                <div className={homeStyles.widgets__description}>
-                  Send Money to another Astro user
-                </div>
-                <div className={homeStyles.widgets__arrow}>
-                  <DoubleRightOutlined
-                    className={homeStyles.widgets__arrow__inner}
-                  />
-                </div>
-              </div>
-            </Col>
-            <Col span={6} xs={20} sm={20} lg={6} md={20} xxl={6} xl={6}>
-              <div
-                className={homeStyles.widgets__inner}
-                onClick={() => {
-                  userLoading
-                    ? notification.info({
-                        message: "Please wait",
-                      })
-                    : setShowPTWOPcrypto(true);
-                }}
-              >
-                <div className={homeStyles.widgets__image}>
-                  <img
-                    src={png.CryptoPeer}
-                    height="40"
-                    width="40"
-                    style={{ marginRight: 5 }}
-                    alt="wallet"
-                  />
-                </div>
-                <div className={homeStyles.widgets__info}>Crypto Transfer</div>
-                <div className={homeStyles.widgets__description}>
-                  Send crypto to another Astro user
-                </div>
-                <div className={homeStyles.widgets__arrow}>
-                  <DoubleRightOutlined
-                    className={homeStyles.widgets__arrow__inner}
-                  />
-                </div>
-              </div>
-            </Col>
-          </Row> */}
+            
           </Col>
           <Col
             // span={1}

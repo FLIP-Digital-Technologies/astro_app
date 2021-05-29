@@ -125,7 +125,7 @@ generalService.addBankAccount = function (params, payload) {
   data.details = {
     accountName: payload.accountName,
     currencyId: payload.currencyId,
-    bankName:payload.bankName,
+    bankName: payload.bankName,
   };
   return fetch({
     url: `/user-account/${params.userId}/bank-accounts`,
@@ -175,6 +175,13 @@ generalService.createCryptoWallet = function (params, data) {
     url: `/user-account/${params.userId}/create-crypto-wallet`,
     method: "post",
     data: data,
+  });
+};
+
+generalService.getCurrencyConversions = function () {
+  return fetch({
+    url: "/fiats/tickers",
+    method: "get",
   });
 };
 

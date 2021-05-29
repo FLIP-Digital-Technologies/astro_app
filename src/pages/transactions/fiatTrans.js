@@ -1,28 +1,30 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Tabs } from "antd";
-import { DashboardLayout } from "../../components/layout";
+// import { DashboardLayout } from "../../components/layout";
 // import { TableSort } from "../../assets/svg";
 import { Money } from "../../utils/helper";
 import styles from "../styles.module.scss";
 import {
   DepositsTab,
   WithdrawalsTab,
-  GiftCardTradesTab,
+  // GiftCardTradesTab,
   BillPaymentTab,
   PTwoPTab,
-  BuyGiftCardTab,
+  // BuyGiftCardTab,
 } from "./components";
-import TransactionModalBig, {
+import 
+// TransactionModalBig
+ {
   TransactionModalBillPayment,
   TransactionModalBuyGiftCard,
   TransactionModalP2P,
 } from "../../components/Modals/transaction-info-modal-big";
 import TransactionModal from "../../components/Modals/transaction-info-modal";
-import {
-  getGiftCardTransactionHistory,
-  getGiftCardTransaction,
-} from "../../redux/actions/giftCard";
+// import {
+//   getGiftCardTransactionHistory,
+//   getGiftCardTransaction,
+// } from "../../redux/actions/giftCard";
 import {
   getAllUserWithdrawalDetails,
   getWithdrawalDetailsById,
@@ -67,7 +69,7 @@ const Transactions = ({
   fiatLoading,
 }) => {
   const [depositTransDetails, setDepositTransDetails] = React.useState(false);
-  const [giftCardTransDetails, setGiftCardTransDetails] = React.useState(false);
+  // const [giftCardTransDetails, setGiftCardTransDetails] = React.useState(false);
   const [billPaymentDetails, setBillPaymentDetails] = React.useState(false);
   const [buyGiftCardDetails, setBuyGiftCardDetails] = React.useState(false);
   const [pairTwoPairFiatTransDetails, setPairTwoPairFiatTransDetails] =

@@ -15,6 +15,7 @@ const initState = {
   fiatCurrency:[],
   cryptoCurrency:[],
   userWallets:{},
+  conversions:{},
   userReferralTransaction: {
     referrals: [],
     meta: {},
@@ -44,6 +45,12 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         loading: true,
+        error: null,
+      };
+    case actionTypes.GET_CURRENCY_CONVERSIONS_PENDING:
+      return {
+        ...state,
+        // loading: true,
         error: null,
       };
     case actionTypes.CHECK_EMAIL_AVAILABILITY_FAILED:
@@ -280,7 +287,15 @@ const authReducer = (state = initState, action) => {
         loading: false,
         error: null,
       };
+    case actionTypes.GET_CURRENCY_CONVERSIONS_SUCCESS:
+      return {
+        ...state,
+        conversions:action.payload.tickers,
+        loading: false,
+        error: null,
+      };
     case actionTypes.CREATE_USER_WALLET_FAILED:
+    case actionTypes.GET_CURRENCY_CONVERSIONS_FAILED:
     case actionTypes.GET_CRYPTO_CURRENCY_FAILED:
     case actionTypes.GET_FIAT_CURRENCY_FAILED:
     case actionTypes.GET_USER_WALLETS_FAILED:

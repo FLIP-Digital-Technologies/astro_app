@@ -4,7 +4,7 @@ import Input from "../../components/input";
 import Select from "../../components/select";
 import Button from "../../components/button";
 import { history } from "../../redux/store";
-import { notification, Switch } from "antd";
+import { notification } from "antd";
 
 export const Step1 = ({ user, submitForm }) => {
   const INITIAL_STATE = {

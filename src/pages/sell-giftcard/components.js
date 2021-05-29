@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Progress, Modal, notification } from "antd";
+import { Progress, notification } from "antd";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import Input from "../../components/input";
 import Select from "../../components/select";
@@ -30,6 +30,7 @@ import {
 //     .map((word) => `${word[0].toUpperCase()}${word.slice(1)}`)
 //     .join(" ");
 
+// eslint-disable-next-line
 const getTerm = (item) => {
   switch (item) {
     case "itunes":
@@ -482,6 +483,7 @@ const getTerm = (item) => {
           <p>If you need to ask a question, pls reach us via the live chat.</p>
         </div>
       );
+      // eslint-disable-next-line
       break;
   }
 };
@@ -518,7 +520,7 @@ const GiftCardForm = ({
   // const [rate, setRate] = useState({});
   const [progress, setProgress] = useState();
   const [open, setOpen] = useState(false);
-  const [openTerm, setOpenTerm] = useState(true);
+  const [, setOpenTerm] = useState(true);
   // const [canTrade, SetCanTrade] = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false);
   const [total, setTotal] = useState(0);
@@ -615,6 +617,7 @@ const GiftCardForm = ({
     setDetails((details) => ({ ...details, file: [...details.file, file] }));
   };
 
+  // eslint-disable-next-line
   const onWalletChange = (value) => {
     let fiatCurrencyUsed = fiatCurrency.filter(
       (item) => item.code === value.Currency.code
@@ -670,10 +673,12 @@ const GiftCardForm = ({
     setUploadLoading(false);
   };
 
+  // eslint-disable-next-line
   const handleOk = () => {
     setOpenTerm(false);
   };
 
+  // eslint-disable-next-line
   const handleCancel = () => {
     setOpenTerm(false);
   };

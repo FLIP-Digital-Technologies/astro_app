@@ -1,15 +1,19 @@
-import React, { useState } from "react";
-import { useHistory, Link, useLocation } from "react-router-dom";
-import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
-import { LogoNav, AstroLogoWhite, AstroLogoFull } from "../../assets/svg";
-import Button from "../button";
+import React, {  } from "react";
+import { 
+  // useHistory,
+   Link,
+    // useLocation
+   } from "react-router-dom";
+import { MenuOutlined } from "@ant-design/icons";
+import { AstroLogoWhite } from "../../assets/svg";
+// import Button from "../button";
 import styles from "./style.module.scss";
 
 const LandingHeader = ({ form, type }) => {
-  const [show, setShow] = useState(false);
-  let location = useLocation();
-  const { pathname } = location;
-  const history = useHistory();
+  // const [show, setShow] = useState(false);
+  // let location = useLocation();
+  // const { pathname } = location;
+  // const history = useHistory();
   return (
     <div
       className={`${styles.landingHeader} ${form === "white" && styles.rev}`}

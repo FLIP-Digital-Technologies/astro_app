@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { DashboardLayout } from "../../components/layout";
 import {
-  BarChartOutlined,
-  PayCircleOutlined,
+  // BarChartOutlined,
+  // PayCircleOutlined,
   DoubleRightOutlined,
 } from "@ant-design/icons";
 // import Flyout from "./components";

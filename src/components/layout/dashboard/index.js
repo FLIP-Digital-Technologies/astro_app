@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Layout, Menu, Avatar } from "antd";
+import { Layout, Menu, 
+  // Avatar
+ } from "antd";
 import { Link, useLocation } from "react-router-dom";
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  CreditCardOutlined,
-} from "@ant-design/icons";
 import {
   CaretDown,
   // Profile,
   Power,
-  LogoNav,
-  AstroLogoNav,
+  // LogoNav,
+  // AstroLogoNav,
   AstroLogoWhite,
-  AstroLogoFull,
+  // AstroLogoFull,
 } from "../../../assets/svg";
 import { navigation } from "./data";
 // import { history } from "../../../redux/store";
@@ -23,7 +20,9 @@ import styles from "./styles.module.scss";
 import { logOutUser } from "../../../redux/actions/Auths";
 import capitalizeFirstLetter from "../../../utils/helper";
 
-const { Header, Content, Sider, Footer } = Layout;
+const { Header, Content, Sider, 
+  // Footer
+ } = Layout;
 
 function Toggle() {
   return (
@@ -56,8 +55,8 @@ function getWindowDimensions() {
 const DashboardLayout = ({ children, bg, user, logout }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [showSideBar, setShowSideBar] = useState(true);
-  const [collapsed, setCollapsed] = useState(false);
-  const [windowDimensions, setWindowDimensions] = useState(
+  // const [collapsed, setCollapsed] = useState(false);
+  const [windowDimensions,] = useState(
     getWindowDimensions()
   );
 

@@ -22,6 +22,7 @@ import {
 } from "../../redux/actions/btc";
 import { getUserWallets } from "../../redux/actions/Auths";
 import * as SVG from "../../assets/svg";
+import { getCurrencyConversions } from "../../redux/actions/user";
 
 const BuyCoin = ({
   active,
@@ -39,6 +40,8 @@ const BuyCoin = ({
   sellCoinsExternal,
   sellBTCExternal,
   fiatWallets,
+  conversions,
+  getConversions,
 }) => {
   const [state, setState] = useState({
     btc: 0,
@@ -52,13 +55,14 @@ const BuyCoin = ({
   React.useEffect(() => {
     const interval = setInterval(async () => {
       getBTCRates({coin:active.Currency.code});
+      getConversions();
     }, 60000);
     return () => clearInterval(interval);
-  }, [getBTCRates]);
+  }, [getBTCRates, getConversions, active.Currency.code]);
   React.useEffect(() => {
     receiveBTC({cryptoWalletId:active.id});
     getBTCRates({coin:active.Currency.code});
-  }, [receiveBTC, getBTCRates]);
+  }, [receiveBTC, getBTCRates, active.Currency.code, active.id]);
   return (
     <>
       <div className={styles.gitcard__form}>
@@ -183,6 +187,7 @@ const BuyCoin = ({
                   balance={balance}
                   rates={btcRates}
                   fiatWallets={fiatWallets}
+                  conversions={conversions}
                   {...{ state, setState, buyCoins, buyBTC, loading, active }}
                 />
               )}
@@ -192,6 +197,7 @@ const BuyCoin = ({
                   balance={balance}
                   rates={btcRates}
                   fiatWallets={fiatWallets}
+                  conversions={conversions}
                   {...{ state, setState, sellCoins, sellBTC, loading, active }}
                 />
               )}
@@ -234,7 +240,8 @@ const mapStateToProps = (state) => ({
   loading: state.btc.loading,
   sellBTC: state.btc.sellBTC,
   sellBTCExternal: state.btc.sellBTCExternal,
-  btcTicker: state.btc.btcTicker
+  btcTicker: state.btc.btcTicker,
+  conversions:state.user.conversions,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -243,6 +250,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getBTCRates: (data) => {
     dispatch(getBTCCurrentMarketTicker(data));
+  },
+  getConversions: () => {
+    dispatch(getCurrencyConversions())
   },
   buyCoins: (data) => {
     dispatch(initialBTCBuyTransaction(data));

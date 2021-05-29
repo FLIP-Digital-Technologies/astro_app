@@ -1,24 +1,24 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Tabs } from "antd";
-import { DashboardLayout } from "../../components/layout";
+// import { DashboardLayout } from "../../components/layout";
 // import { TableSort } from "../../assets/svg";
-import { Money } from "../../utils/helper";
+// import { Money } from "../../utils/helper";
 import styles from "../styles.module.scss";
 import {
-  DepositsTab,
-  WithdrawalsTab,
+  // DepositsTab,
+  // WithdrawalsTab,
   GiftCardTradesTab,
-  BillPaymentTab,
-  PTwoPTab,
+  // BillPaymentTab,
+  // PTwoPTab,
   BuyGiftCardTab,
 } from "./components";
 import TransactionModalBig, {
-  TransactionModalBillPayment,
+  // TransactionModalBillPayment,
   TransactionModalBuyGiftCard,
-  TransactionModalP2P
+  // TransactionModalP2P
 } from "../../components/Modals/transaction-info-modal-big";
-import TransactionModal from "../../components/Modals/transaction-info-modal";
+// import TransactionModal from "../../components/Modals/transaction-info-modal";
 import {
   getGiftCardTransactionHistory,
   getGiftCardTransaction,

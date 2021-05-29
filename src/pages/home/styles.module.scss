@@ -44,14 +44,21 @@
         font-size: 14px;
         font-weight: 500;
         color: rgb(78, 79, 80);
+
     } 
     &__description {
-        font-size: 13px;
+        font-size: 10px;
         color: rgb(113, 115, 116);
+        @media (max-width: 800px) {
+          font-size:1.5vw
+        }
     }
     &__info{
-        font-size: 20px;
+        font-size: 19px;
         font-weight: 600;
+        @media (max-width: 800px) {
+          font-size:3vw
+        }
     }
 }
 
@@ -159,8 +166,11 @@
     } 
     &__description {
         font-size: 13px;
-        @media (max-width:600px) {
-          font-size: 10px;
+        @media (max-width:800px) {
+          font-size: 1.5vw;
+        }
+        @media (min-width: 1200px) {
+          font-size:13px
         }
     }
     &__images {
@@ -171,8 +181,8 @@
     &__info{
         font-size: 22px;
         font-weight: 600;
-        @media (max-width:600px) {
-          font-size: 13px;
+        @media (max-width:800px) {
+          font-size: 3vw;
         }
     }
     &__arrow {

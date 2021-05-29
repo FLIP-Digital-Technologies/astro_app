@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import { Modal, Input as AntInput } from "antd";
+import { Modal, 
+  // Input as AntInput
+ } from "antd";
 import { AuthHeader } from "../../components/header";
 import Input from "../../components/input";
 import Button from "../../components/button";

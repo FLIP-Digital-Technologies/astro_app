@@ -414,7 +414,7 @@ const BuyGiftCard = (props) => {
                   text="Buy"
                   form="full"
                   disabled={
-                    card.quantity == 0 ||
+                    card.quantity === 0 ||
                     !card.quantity ||
                     !card.amount ||
                     !card.cardValue ||

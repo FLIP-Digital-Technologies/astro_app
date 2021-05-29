@@ -49,7 +49,7 @@ const UpdateUserDetails = (data) => async (dispatch) => {
       });
       notification.success({
         message: "Successful updated user details.",
-        duration:2.5,
+        duration: 2.5,
         key,
       });
       dispatch(GetUserDetails());
@@ -181,7 +181,6 @@ const GetUserBankAccount = () => async (dispatch) => {
   await generalService
     .getBankDetails({ userId })
     .then((response) => {
-      
       dispatch({
         type: actionTypes.GET_BANK_ACCOUNT_SUCCESS,
         payload: response.data,
@@ -233,7 +232,7 @@ const RedeemUserReferralBonus = (data) => async (dispatch) => {
   });
 
   await referralService
-    .redeemUserReferralBonus({...data, userId})
+    .redeemUserReferralBonus({ ...data, userId })
     .then((response) => {
       dispatch({
         type: actionTypes.REDEEM_USER_REFERRAL_SUCCESS,
@@ -259,7 +258,7 @@ const GetUserReferrals = (data) => async (dispatch) => {
   });
 
   await referralService
-    .getUserReferrals({...data, userId})
+    .getUserReferrals({ ...data, userId })
     .then((response) => {
       dispatch({
         type: actionTypes.GET_USER_REFERRALS_SUCCESS,
@@ -276,4 +275,29 @@ const GetUserReferrals = (data) => async (dispatch) => {
 
 export const getUserReferrals = (data) => (dispatch) => {
   dispatch(GetUserReferrals(data));
+};
+
+const GetCurrencyConversions = (data) => async (dispatch) => {
+  dispatch({
+    type: actionTypes.GET_CURRENCY_CONVERSIONS_PENDING,
+  });
+
+  await generalService
+    .getCurrencyConversions(data)
+    .then((response) => {
+      dispatch({
+        type: actionTypes.GET_CURRENCY_CONVERSIONS_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.GET_CURRENCY_CONVERSIONS_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const getCurrencyConversions = (data) => (dispatch) => {
+  dispatch(GetCurrencyConversions(data));
 };

@@ -10,7 +10,7 @@ export { default as SignIn } from "./sign-in";
 export { default as SignUp } from "./sign-up";
 export { default as Profile } from "./profile";
 export { default as Verification } from "./Verification";
-export { default as Landing } from "./landing";
+export { default as Landing } from "./landing"; 
 export { default as About } from "./about";
 export { default as AboutRates } from "./about-rates";
 export { default as BTC } from "./btc";

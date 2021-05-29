@@ -2,14 +2,14 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import {
-  Home,
+  // Home,
   // Coin,
-  GiftCard,
+  // GiftCard,
   // Wallet,
-  Transactions,
+  // Transactions,
   // RateIcon,
   ArrowLeft,
-  Settings,
+  // Settings,
   // Logout,
 } from "../../../assets/svg";
 import {
