@@ -130,7 +130,7 @@ export const BuySection = ({
           <span className={styles.main}>You will be debited</span>
           <span className={styles.sub}>
             {`${state.wallet ?? ""} `}
-            {state[state.wallet === "NGN" ? "ngn" : "ghs"].toLocaleString()}
+            {state.wallet && state[state.wallet.toLowerCase()]}
           </span>
         </div>
         <div className={styles.detailsCard__list__item}>
@@ -224,9 +224,10 @@ export const BuySection = ({
         </div>
         <Button
           disabled={
-            parseInt(state.ngn, 10) < 499
-              ? true
-              : false || loading || !state.wallet
+            parseFloat(state.btc) === 0 ||
+            state.btc === "" ||
+            loading ||
+            !state.wallet
           }
           onClick={() => showPromiseConfirm()}
           className={styles.sellPage__btn}
@@ -357,7 +358,7 @@ export const SellSection = ({
           <span className={styles.main}>You will receive</span>
           <span className={styles.sub}>
             {`${state.wallet ?? ""} `}
-            {state[state.wallet === "NGN" ? "ngn" : "ghs"]}
+            {state.wallet && state[state.wallet.toLowerCase()]}
           </span>
         </div>
         <div className={styles.detailsCard__list__item}>
@@ -479,11 +480,10 @@ export const SellSection = ({
         </div>
         <Button
           disabled={
-            // state.btc > 0
-            //   ? true
-            //   : false
-            // ||
-            loading || !state.wallet
+            parseFloat(state.btc) === 0 ||
+            state.btc === "" ||
+            loading ||
+            !state.wallet
           }
           onClick={() => showPromiseConfirm()}
           className={styles.sellPage__btn}
@@ -595,10 +595,10 @@ export const SendSection = ({
           <span className={styles.main}>Amount in USD</span>
           <span className={styles.sub}>{Money(state.usd, "USD")}</span>
         </div> */}
-        <div className={styles.detailsCard__list__item}>
+        {/* <div className={styles.detailsCard__list__item}>
           <span className={styles.main}>Fees</span>
           <span className={`${styles.sub} ${styles.light}`}>US$ 0</span>
-        </div>
+        </div> */}
         <div className={styles.detailsCard__list__item}>
           <span className={styles.main}>Should arrive</span>
           <span className={`${styles.sub} ${styles.light}`}>In 5 Seconds</span>
