@@ -1,6 +1,6 @@
 import * as actionTypes from "../constants";
 import authService from "../services/AuthService";
-import generalService from "../services/GeneralService"
+import generalService from "../services/GeneralService";
 import { history } from "../store";
 
 const CheckEmailAvailability = (data) => async (dispatch) => {
@@ -9,11 +9,10 @@ const CheckEmailAvailability = (data) => async (dispatch) => {
   });
   let payload = {};
   payload.email = data.email;
-  
+
   await authService
     .checkEmailAvailability(payload)
     .then((response) => {
-      
       if (response.message === "Email does not exist'}") {
       }
       dispatch({
@@ -23,7 +22,6 @@ const CheckEmailAvailability = (data) => async (dispatch) => {
       dispatch(RegisterUser(data));
     })
     .catch((err) => {
-      
       dispatch({
         type: actionTypes.CHECK_EMAIL_AVAILABILITY_FAILED,
         payload: err,
@@ -36,7 +34,7 @@ export const checkEmailAvailability = (data) => (dispatch) => {
 }; // done
 
 const RegisterUser = (data) => async (dispatch) => {
-  console.log('signup',data)
+  console.log("signup", data);
   dispatch({
     type: actionTypes.REGISTER_PENDING,
   });
@@ -57,7 +55,6 @@ const RegisterUser = (data) => async (dispatch) => {
       });
     })
     .catch((err) => {
-      
       dispatch({
         type: actionTypes.REGISTER_FAILED,
         payload: err,
@@ -77,7 +74,6 @@ const LoginUser = (data) => async (dispatch) => {
   await authService
     .loginAccount(data)
     .then((response) => {
-
       dispatch({
         type: actionTypes.LOGIN_SUCCESS,
         payload: response.data,
@@ -113,13 +109,12 @@ const getUserDetails = (data) => async (dispatch) => {
   dispatch({
     type: actionTypes.GET_USER_DETAILS_BY_ID_PENDING,
   });
-  let data = {}
-  data.userId = userId
+  let data = {};
+  data.userId = userId;
 
   await authService
     .getUserDetails(data)
     .then((response) => {
-      
       dispatch({
         type: actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS,
         payload: response.data,
@@ -170,7 +165,6 @@ const VerifyEmailOTP = (payload) => async (dispatch) => {
   await authService
     .verifyEmail({ userId }, data)
     .then((response) => {
-     
       dispatch({
         type: actionTypes.VERIFY_EMAIL_OTP_SUCCESS,
         payload: response.data,
@@ -181,7 +175,6 @@ const VerifyEmailOTP = (payload) => async (dispatch) => {
       history.push("/app/onboarding");
     })
     .catch((err) => {
-      
       dispatch({
         type: actionTypes.VERIFY_EMAIL_OTP_FAILED,
         payload: err,
@@ -247,7 +240,6 @@ export const changePassword = (data) => (dispatch) => {
 };
 
 const ResetPassword = (data) => async (dispatch) => {
-
   dispatch({
     type: actionTypes.RESET_USER_PASSWORD_PENDING,
   });
@@ -274,12 +266,11 @@ export const resetPassword = (data) => (dispatch) => {
 
 const CompleteResetPassword = (payload) => async (dispatch) => {
   const reference = localStorage.getItem("reference");
-  let data = {...payload, reference}
+  let data = { ...payload, reference };
   dispatch({
     type: actionTypes.COMPLETE_RESET_USER_PASSWORD_PENDING,
-    payload:data
+    payload: data,
   });
-  
 
   await authService
     .completePasswordReset(data)
@@ -315,7 +306,6 @@ const GetFiatCurrencies = () => async (dispatch) => {
       });
     })
     .catch((err) => {
-     
       dispatch({
         type: actionTypes.GET_FIAT_CURRENCY_FAILED,
         payload: err,
@@ -341,7 +331,6 @@ const GetCryptoCurrencies = () => async (dispatch) => {
       });
     })
     .catch((err) => {
-      
       dispatch({
         type: actionTypes.GET_CRYPTO_CURRENCY_FAILED,
         payload: err,
@@ -360,7 +349,7 @@ const GetUserWallets = () => async (dispatch) => {
   });
 
   await generalService
-    .getUserWallets({userId})
+    .getUserWallets({ userId })
     .then((response) => {
       dispatch({
         type: actionTypes.GET_USER_WALLETS_SUCCESS,
@@ -368,7 +357,6 @@ const GetUserWallets = () => async (dispatch) => {
       });
     })
     .catch((err) => {
-      
       dispatch({
         type: actionTypes.GET_USER_WALLETS_FAILED,
         payload: err,
@@ -387,7 +375,7 @@ const CreateFiatWallet = (data) => async (dispatch) => {
   });
 
   await generalService
-    .createFiatWallet({userId}, data)
+    .createFiatWallet({ userId }, data)
     .then((response) => {
       dispatch({
         type: actionTypes.CREATE_USER_WALLET_SUCCESS,
@@ -396,7 +384,6 @@ const CreateFiatWallet = (data) => async (dispatch) => {
       dispatch(GetUserWallets());
     })
     .catch((err) => {
-      
       dispatch({
         type: actionTypes.CREATE_USER_WALLET_FAILED,
         payload: err,
@@ -415,7 +402,7 @@ const CreateCryptoWallet = (data) => async (dispatch) => {
   });
 
   await generalService
-    .createCryptoWallet({userId}, data)
+    .createCryptoWallet({ userId }, data)
     .then((response) => {
       dispatch({
         type: actionTypes.CREATE_USER_WALLET_SUCCESS,
@@ -424,7 +411,6 @@ const CreateCryptoWallet = (data) => async (dispatch) => {
       dispatch(GetUserWallets());
     })
     .catch((err) => {
-      
       dispatch({
         type: actionTypes.CREATE_USER_WALLET_FAILED,
         payload: err,
@@ -434,4 +420,85 @@ const CreateCryptoWallet = (data) => async (dispatch) => {
 
 export const createCryptoWallet = (data) => (dispatch) => {
   dispatch(CreateCryptoWallet(data));
+};
+
+const ChangePin = (data) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.CHANGE_USER_PIN_PENDING,
+  });
+
+  await authService
+    .changePin({ userId }, data)
+    .then((response) => {
+      dispatch({
+        type: actionTypes.CHANGE_USER_PIN_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.CHANGE_USER_PIN_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const changePin = (data) => (dispatch) => {
+  dispatch(ChangePin(data));
+};
+
+const ResetPin = (data) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  dispatch({
+    type: actionTypes.RESET_USER_PIN_PENDING,
+  });
+  await authService
+    .resetPin({ userId }, data)
+    .then((response) => {
+      localStorage.setItem("reference", response.data.reference);
+      dispatch({
+        type: actionTypes.RESET_USER_PIN_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.RESET_USER_PIN_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const resetPin = (data) => (dispatch) => {
+  dispatch(ResetPin(data));
+};
+
+const CompleteResetPin = (payload) => async (dispatch) => {
+  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+  const reference = localStorage.getItem("reference");
+  let data = { ...payload, reference };
+  dispatch({
+    type: actionTypes.COMPLETE_RESET_USER_PIN_PENDING,
+    payload: data,
+  });
+
+  await authService
+    .completePinReset({ userId }, data)
+    .then((response) => {
+      dispatch({
+        type: actionTypes.COMPLETE_RESET_USER_PIN_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.COMPLETE_RESET_USER_PIN_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const completeResetPin = (data) => (dispatch) => {
+  dispatch(CompleteResetPin(data));
 };

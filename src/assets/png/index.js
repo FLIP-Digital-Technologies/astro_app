@@ -9,6 +9,8 @@ import AppleUniversalCard from "./apple2.png";
 import BestBuySmallCard from "./bestbuy1.png";
 import CableTv from "./television.png"
 import CashAppCard from "./cashapp1.png";
+import ChangePassword from "./change-password.png";
+import ChangePin from "./change-pin.png"
 import ChimeCard from "./chimes.png";
 import CryptoPeer from "./peer-to-peer.png"
 import CryptoTrans from "./crypto-trans.png"
@@ -42,6 +44,7 @@ import P2P from "./lending.png"
 import QuickAction from "./action.png"
 import RazorGoldCard from "./razergold1.png"
 import Referrals from "./referrals.png"
+import ResetPin from "./reset.png"
 import SellGiftCard from "./sell-card.png"
 import SellBitcoin from "./exchange.png"
 import SephoraSmallCard from "./sephora.png"
@@ -75,6 +78,8 @@ png = {
   BestBuySmallCard,
   CableTv,
   CashAppCard,
+  ChangePassword,
+  ChangePin,
   ChimeCard,
   CryptoPeer,
   CryptoTrans,
@@ -108,6 +113,7 @@ png = {
   QuickAction,
   RazorGoldCard,
   Referrals,
+  ResetPin,
   SellGiftCard,
   SellBitcoin,
   SephoraSmallCard,

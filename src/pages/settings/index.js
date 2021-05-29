@@ -8,12 +8,24 @@ import Button from "../../components/button";
 import { DashboardLayout } from "../../components/layout";
 import { Copy } from "../../assets/svg";
 import styles from "../styles.module.scss";
-
+import homeStyles from "../home/styles.module.scss";
+import { Row, Col, Modal } from "antd";
+import png from "../../assets/png";
+import AppFetch from "../../redux/services/FetchInterceptor";
+import * as actionTypes from "../../redux/constants";
+import {
+  // BarChartOutlined,
+  // PayCircleOutlined,
+  DoubleRightOutlined,
+} from "@ant-design/icons";
 import {
   changePassword,
+  changePin,
+  completeResetPin,
   getCryptoCurrencies,
   getFiatCurrencies,
   GetUserDetails,
+  resetPin,
 } from "../../redux/actions/Auths";
 import { getBTCWalletDetails } from "../../redux/actions/btc";
 import {
@@ -23,6 +35,7 @@ import {
   getUserReferrals,
   redeemUserReferralBonus,
 } from "../../redux/actions/user";
+import ModalWrapper from "../../components/Modals";
 import {
   getBankListByCountry,
   verifyBankAccountDetails,
@@ -158,6 +171,7 @@ const Profile = ({
   removeUserBankDetails,
   bankList,
   changePassword,
+  changePin,
   getBankBranchList,
   branchList,
   getUserReferrals,
@@ -167,6 +181,8 @@ const Profile = ({
   fiatCurrency,
   getMainFiatCurrency,
   getMainCryptoCurrency,
+  ResetPinViaEmail,
+  completeResetPin,
 }) => {
   useEffect(() => {
     getCurrentUser();
@@ -195,12 +211,26 @@ const Profile = ({
   };
 
   const [state, setState] = useState(INITIAL_STATE);
+  const [switchReset, setSwitch] = useState(true);
+  const [resetCode, setResetCode] = useState("");
+  const [resetEmail, handleResetEmail] = useState("");
+  const [newPin, handleNewPin] = useState("");
+  const [passwordModal, setPasswordModal] = useState(false);
+  const [pinModal, setPinModal] = useState(false);
+  const [resetPinModal, setResetPinModal] = useState(false);
   const [pass, setNewPassword] = useState({
     currentPassword: "",
     newPassword: "",
   });
+  const [pin, setNewPin] = useState({
+    currentPin: "",
+    newPin: "",
+  });
   const handlePasswordChange = ({ target: { name, value } }) => {
     setNewPassword((pass) => ({ ...pass, [name]: value }));
+  };
+  const handlePinChange = ({ target: { name, value } }) => {
+    setNewPin((pass) => ({ ...pass, [name]: value }));
   };
 
   const handleChange = ({ target: { name, value } }) => {
@@ -237,7 +267,7 @@ const Profile = ({
       console.log("mobile");
       verifyBankAccount({
         bankCode: state.bankCode,
-        accountNumber: `233${state.accountNumber.substring(1,)}`,
+        accountNumber: `233${state.accountNumber.substring(1)}`,
       });
     }
     // eslint-disable-next-line
@@ -313,6 +343,68 @@ const Profile = ({
       e.preventDefault();
     }
     changePassword(pass);
+  };
+  const handleChangePin = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+    changePin(pin);
+  };
+  const resetPin = (e) => {
+    if (resetEmail.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$/)) {
+      const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+    AppFetch({
+      url: `/user-account/${userId}/reset-pin`,
+      method: "post",
+      headers: {
+        "public-request": "true",
+      },
+      data: {
+        email: resetEmail,
+      },
+    })
+      .then((response) => {
+        console.log("reset", response);
+        localStorage.setItem("reference", response.data.reference);
+        notification.success({
+          message:'Otp sent to email successfully'
+        })
+        // setWallet_btc_rate(response.data.ticker.sell);
+        setSwitch(false);
+      })
+      .catch((err) => {
+        notification.error({
+          message: "Try Again",
+          duration: 2.5,
+        });
+        setSwitch(true);
+      });
+    } else {
+      notification.error({
+        message:'Invalid email'
+      })
+    }
+    
+    // ResetPinViaEmail({
+    //   email: resetEmail,
+    // });
+
+    
+  };
+
+  const completePinReset = (e) => {
+    completeResetPin({
+      email: resetEmail,
+      resetCode,
+      newPin,
+    });
+    handleCancel();
+    setSwitch(true);
+  };
+
+  const handleCancel = () => {
+    setResetPinModal(false);
+    setSwitch(true);
   };
   return (
     <DashboardLayout bg="#fff">
@@ -674,6 +766,251 @@ const Profile = ({
           <div className={styles.profileSection}>
             <div className={styles.profileSectionLeft}>
               <span className={styles.main}>Security</span>
+              <span className={styles.sub}>Change your security keys</span>
+            </div>
+          </div>
+          <div className={styles.profileSecurityWidgets}>
+            <Row gutter={[16, 16]}>
+              <Col span={8} xs={10} sm={12} md={8} lg={8} xl={8} xxl={8}>
+                <div
+                  className={homeStyles.widgets__inner}
+                  onClick={() => {
+                    setPasswordModal(true);
+                  }}
+                >
+                  <div className={homeStyles.widgets__image}>
+                    <img
+                      src={png.ChangePassword}
+                      className={homeStyles.widgets__images}
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                  </div>
+                  <div className={homeStyles.widgets__info}>Password</div>
+                  <div className={homeStyles.widgets__description}>
+                    Change your Password
+                  </div>
+                  <div className={homeStyles.widgets__arrow}>
+                    <DoubleRightOutlined
+                      className={homeStyles.widgets__arrow__inner}
+                    />
+                  </div>
+                </div>
+              </Col>
+              <Col span={8} xs={10} sm={12} md={8} lg={8} xl={8} xxl={8}>
+                <div
+                  className={homeStyles.widgets__inner}
+                  onClick={() => {
+                    setPinModal(true);
+                  }}
+                >
+                  <div className={homeStyles.widgets__image}>
+                    <img
+                      src={png.ChangePin}
+                      className={homeStyles.widgets__images}
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                  </div>
+                  <div className={homeStyles.widgets__info}>Change Pin</div>
+                  <div className={homeStyles.widgets__description}>
+                    Change your Pin
+                  </div>
+                  <div className={homeStyles.widgets__arrow}>
+                    <DoubleRightOutlined
+                      className={homeStyles.widgets__arrow__inner}
+                    />
+                  </div>
+                </div>
+              </Col>
+              <Col span={8} xs={10} sm={12} md={8} lg={8} xl={8} xxl={8}>
+                <div
+                  className={homeStyles.widgets__inner}
+                  onClick={() => {
+                    setResetPinModal(true);
+                  }}
+                >
+                  <div className={homeStyles.widgets__image}>
+                    <img
+                      src={png.ResetPin}
+                      className={homeStyles.widgets__images}
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                  </div>
+                  <div className={homeStyles.widgets__info}>Reset Pin</div>
+                  <div className={homeStyles.widgets__description}>
+                    Reset Your Pin
+                  </div>
+                  <div className={homeStyles.widgets__arrow}>
+                    <DoubleRightOutlined
+                      className={homeStyles.widgets__arrow__inner}
+                    />
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </div>
+        </div>
+        <ModalWrapper
+          isModalVisible={passwordModal}
+          setIsModalVisible={() => {
+            setPasswordModal(false);
+          }}
+        >
+          <form
+            onSubmit={handleChangePassword}
+            className={styles.profileSecurityContents}
+          >
+            <h1>
+              <span className={styles.sub}>Change your Password</span>
+            </h1>
+            <Input
+              placeholder="Current Password"
+              label="Current Password"
+              name="currentPassword"
+              onChange={handlePasswordChange}
+              required={true}
+              minLength={"8"}
+              type="password"
+              pattern={"^{8,}$"}
+              value={pass.currentPassword}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+            />
+            <Input
+              placeholder="New Password"
+              label="New Password"
+              name="newPassword"
+              onChange={handlePasswordChange}
+              required={true}
+              minLength={"8"}
+              type="password"
+              pattern={"^{8,}$"}
+              value={pass.newPassword}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+            />
+            <div className={styles.btnPair} style={{ marginTop: 20 }}>
+              <Button form="full" type="submit" text="Change Password" />
+            </div>
+          </form>
+        </ModalWrapper>
+        <ModalWrapper
+          isModalVisible={pinModal}
+          setIsModalVisible={() => {
+            setPinModal(false);
+          }}
+        >
+          <form
+            onSubmit={handleChangePin}
+            className={styles.profileSecurityContents}
+          >
+            <h1>
+              <span className={styles.sub}>Change your Pin</span>
+            </h1>
+            <Input
+              placeholder="Current Pin"
+              label="Current Pin"
+              name="currentPin"
+              onChange={handlePinChange}
+              required={true}
+              maxLength={"4"}
+              type="number"
+              // pattern={"^{8,}$"}
+              value={pin.currentPin}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+            />
+            <Input
+              placeholder="New Pin"
+              label="New Pin"
+              name="newPin"
+              onChange={handlePinChange}
+              required={true}
+              maxLength={"4"}
+              type="number"
+              // pattern={"^{8,}$"}
+              value={pin.newPin}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+            />
+            <div className={styles.btnPair} style={{ marginTop: 20 }}>
+              <Button form="full" type="submit" text="Change Pin" />
+            </div>
+          </form>
+        </ModalWrapper>
+        <Modal
+          footer={null}
+          title="Reset Transaction Pin"
+          visible={resetPinModal}
+          onCancel={handleCancel}
+        >
+          {switchReset ? (
+            <div>
+              <Input
+                className={styles.auth__content__input__body}
+                inputClass={styles.auth__content__input}
+                placeholder="Email"
+                onChange={(e) => handleResetEmail(e.target.value)}
+                value={resetEmail}
+                type="email"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
+                required={true}
+                label="Please enter your registered email."
+              />
+              <Button
+                className={styles.auth__content__button}
+                form="full"
+                disabled={!resetEmail}
+                onClick={(e) => resetPin(e)}
+                text="Submit"
+              />
+            </div>
+          ) : (
+            <div>
+              <Input
+                className={styles.auth__content__input__body}
+                inputClass={styles.auth__content__input}
+                placeholder="123456"
+                onChange={(e) => setResetCode(e.target.value)}
+                value={resetCode}
+                type="number"
+                required={true}
+                label="Please enter the OTP sent to your email."
+              />
+              <Input
+                className={styles.auth__content__input__body}
+                inputClass={styles.auth__content__input}
+                placeholder="New Pin"
+                onChange={(e) => handleNewPin(e.target.value)}
+                value={newPin}
+                type="number"
+                required={true}
+                label="New Pin"
+              />
+              {/* <Button
+              className={styles.auth__content__button}
+              form="full"
+              
+              onClick={(e) => completePinReset(e)}
+              text="Submit"
+            /> */}
+              <div className={styles.btnPair} style={{ marginTop: 20 }}>
+                <Button
+                  form="full"
+                  type="submit"
+                  text="Submit"
+                  onClick={(e) => completePinReset(e)}
+                />
+              </div>
+            </div>
+          )}
+        </Modal>
+        {/* <div className={styles.profileSecurity}>
+          <div className={styles.profileSection}>
+            <div className={styles.profileSectionLeft}>
+              <span className={styles.main}>Security</span>
               <span className={styles.sub}>Change password</span>
             </div>
           </div>
@@ -711,7 +1048,8 @@ const Profile = ({
               <Button form="full" type="submit" text="Change Password" />
             </div>
           </form>
-        </div>
+          
+        </div> */}
       </div>
     </DashboardLayout>
   );
@@ -763,11 +1101,20 @@ const mapDispatchToProps = (dispatch) => ({
   changePassword: (data) => {
     dispatch(changePassword(data));
   },
+  changePin: (data) => {
+    dispatch(changePin(data));
+  },
   getUserReferrals: (data) => {
     dispatch(getUserReferrals(data));
   },
   redeemReferralBonus: (data) => {
     dispatch(redeemUserReferralBonus(data));
+  },
+  ResetPinViaEmail: (data) => {
+    dispatch(resetPin(data));
+  },
+  completeResetPin: (data) => {
+    dispatch(completeResetPin(data));
   },
 });
 

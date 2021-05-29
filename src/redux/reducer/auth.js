@@ -37,6 +37,7 @@ const authReducer = (state = initState, action) => {
     case actionTypes.VERIFY_EMAIL_OTP_PENDING:
     case actionTypes.GET_USER_DETAILS_BY_ID_PENDING:
     case actionTypes.CHANGE_USER_PASSWORD_PENDING:
+    case actionTypes.CHANGE_USER_PIN_PENDING:
       notification.info({
         message: "Loading.....",
         duration: 0,
@@ -219,6 +220,18 @@ const authReducer = (state = initState, action) => {
         loading: false,
         error: null,
       };
+    case actionTypes.CHANGE_USER_PIN_SUCCESS:
+      notification.success({
+        message: "Successful",
+        description: "Pin Changed Successfully",
+        duration:2.5,
+        key,
+      });
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
     case actionTypes.SET_TRANSACTION_PIN_SUCCESS:
       notification.success({
         message: "Successful",
@@ -274,6 +287,18 @@ const authReducer = (state = initState, action) => {
         loading: false,
         error: null,
       };
+    case actionTypes.COMPLETE_RESET_USER_PIN_SUCCESS:
+      notification.success({
+        message: "Successful",
+        description: "Pin Reset Complete",
+        duration:2.5,
+        key,
+      });
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
     case actionTypes.CREATE_USER_WALLET_SUCCESS:
       notification.success({
         message: "Successful",
@@ -306,6 +331,7 @@ const authReducer = (state = initState, action) => {
     case actionTypes.VERIFY_EMAIL_OTP_FAILED:
     case actionTypes.GET_USER_DETAILS_BY_ID_FAILED:
     case actionTypes.CHANGE_USER_PASSWORD_FAILED:
+    case actionTypes.CHANGE_USER_PIN_FAILED:
     case actionTypes.UPDATE_USER_DETAILS_FAILED:
     case actionTypes.ADD_BANK_ACCOUNT_FAILED:
     case actionTypes.SET_TRANSACTION_PIN_FAILED:

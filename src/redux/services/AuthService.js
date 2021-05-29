@@ -144,4 +144,53 @@ authService.completePasswordReset = function (payload) {
   });
 };
 
+authService.changePin = function (params, payload) {
+  // {
+  //   "currentPassword": "Try-Guessing-this123.",
+  //   "newPassword": "passwordwl"
+  // }
+  let data = {};
+  data.currentPin = payload.currentPin;
+  data.newPin = payload.newPin;
+  return fetch({
+    url: `/user-account/${params.userId}/transaction-pin`,
+    method: "put",
+    data: data,
+  });
+};
+
+authService.resetPin = function (params ,data) {
+  return fetch({
+    url: `/user-account/reset-pin`,
+    method: "post",
+    headers: {
+      "public-request": "true",
+    },
+    data: {
+      email: data.email,
+    },
+  });
+};
+
+authService.completePinReset = function (params, payload) {
+  // {
+  //   "resetCode": "028251",
+  //   "newPassword": "Try-Guessing-this123.",
+  //   "email": "user@email.com",
+  // }
+  let data = {};
+  data.resetCode = payload.resetCode;
+  data.newPin = payload.newPin;
+  // data.email = payload.email;
+  data.reference = payload.reference;
+  return fetch({
+    url: `/user-account/${params.userId}/complete-pin-reset`,
+    method: "post",
+    data: data,
+    headers: {
+      "public-request": "true",
+    },
+  });
+};
+
 export default authService;
