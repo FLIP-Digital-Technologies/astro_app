@@ -123,11 +123,11 @@ giftCardService.initialSellGiftCard = function (params, payload) {
   // }
   let data = {};
   data.amount = payload.amount;
-  data.cardCurrencyId = payload.cardCurrencyId;
+  data.walletId = payload.walletId;
   data.giftCardId = payload.giftCardId;
-  data.cardType = payload.cardType;
   data.imageURLs = payload.imageURLs;
-  data.fiatCurrencyId = payload.fiatCurrencyId;
+  data.cardEntryId = payload.cardEntryId;
+  data.walletType = payload.walletType;
   data.sellerRemarks = payload.remark;
   
   return fetch({

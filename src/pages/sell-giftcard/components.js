@@ -622,13 +622,13 @@ const GiftCardForm = ({
       )
     );
     const payload = {
-      sellerRemarks: details.remark,
-      imageURLs: resFile,
-      amount: parseInt(details.amount),
-      fiatCurrencyId: details.fiatCurrencyId,
-      cardType: details.cardType,
-      cardCurrencyId: details.cardCurrencyId,
+      amount: details.amount,
+      walletId: details.fiatCurrencyId,
       giftCardId: active._id,
+      imageURLs: resFile,
+      cardEntryId: details.cardCurrencyId,
+      walletType:currencyType ? "FIAT" : "CRYPTO",
+      sellerRemarks: details.remark,
     };
     if (resFile[0] === "error") {
       return notification.error({
@@ -988,8 +988,8 @@ const GiftCardForm = ({
                 details.file.length === 0 ||
                 !details.amount ||
                 // !details.total ||
-                !details.cardType ||
-                !details.country ||
+                !details.cardCurrencyId ||
+                !details.wallet ||
                 // loading ||
                 // !canTrade ||
                 uploadLoading

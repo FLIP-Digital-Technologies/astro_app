@@ -6,6 +6,7 @@ import { getCryptoCurrencies, getUserWallets } from "../../redux/actions/Auths";
 import styles from "../styles.module.scss";
 import BTC from "../btc";
 import AddCryptoWallet from "../../components/Modals/addCryptoWallet";
+import { LoadingOutlined } from "@ant-design/icons";
 
 // const data = [
 //   { name: "Bitcoin", code: "BTC", price: 61000, balance: "0.096" },
@@ -87,86 +88,103 @@ const CryptoPage = (props) => {
           <span className={styles.gitcard__top__title}>Crypto </span>
           <div className={styles.home}>
             <div className={styles.home__welcome}>
-              <div className={styles.home__top}>
-                {props.balance &&
-                  props.balance.cryptoWallets.length > 0 &&
-                  props.balance.cryptoWallets.map((item, index) => (
-                    <div
-                    key={index.toString()}
-                      className={styles.crypto}
-                      onClick={() => {
-                        // console.log(index, item);
-                        setActive({ ...item, icon: getIcon(item.Currency.code) });
-                      }}
-                    >
-                      <div className={styles.crypto__ta}>
-                        <div className={styles.crypto__value}>
-                          {getIcon(item.Currency.code)}
-                          <span>{item.Currency.name}</span>
-                          {""}
-                          
-                        </div>
-                      </div>
+              {props.balance && props.balance.cryptoWallets && (
+                <div className={styles.home__top}>
+                  {props.balance &&
+                    props.balance.cryptoWallets.length > 0 &&
+                    props.balance.cryptoWallets.map((item, index) => (
                       <div
-                        className={styles.crypto__ta}
+                        key={index.toString()}
+                        className={styles.crypto}
+                        onClick={() => {
+                          // console.log(index, item);
+                          setActive({
+                            ...item,
+                            icon: getIcon(item.Currency.code),
+                          });
+                        }}
                       >
-
-                        
-                        <div className={styles.crypto__value}>
-                          <span>{item.balance}</span>
-                          {` ${item.Currency.code}`}
-                          {/* {wallet === "BTC" && <span>{wallet}</span>} */}
+                        <div className={styles.crypto__ta}>
+                          <div className={styles.crypto__value}>
+                            {getIcon(item.Currency.code)}
+                            <span>{item.Currency.name}</span>
+                            {""}
+                          </div>
                         </div>
-                        {/* <div className={styles.crypto__price}>
+                        <div className={styles.crypto__ta}>
+                          <div className={styles.crypto__value}>
+                            <span>{item.balance}</span>
+                            {` ${item.Currency.code}`}
+                            {/* {wallet === "BTC" && <span>{wallet}</span>} */}
+                          </div>
+                          {/* <div className={styles.crypto__price}>
                           <span>{"USD $ "}</span>
                           
                           55,000
                         </div> */}
+                        </div>
                       </div>
-                      
-                    </div>
-                  ))}
-                {props.balance && props.balance.cryptoWallets.length === 0 && (
-                  <div
-                    className={styles.crypto}
-                    onClick={() => {
-                      // add code for adding wallet
-                      // setActive({...item, icon:getIcon(item.code)})
-                    }}
-                  >
-                    <div onClick={()=> setOpencryptoAddWallet(true)}
-                    className={styles.crypto__ta}>
-                      <div className={styles.crypto__value}>
-                        <i class="fas fa-coins" style={{ marginRight: 14 }}></i>
-                        <span>{"Add Crypto wallet"}</span>
-                        {""}
-                        {/* {wallet === "BTC" && <span>{wallet}</span>} */}
-                      </div>
-                    </div>
+                    ))}
+                  {props.balance && props.balance.cryptoWallets && (
                     <div
-                      className={styles.crypto__ta}
-                      
+                      className={styles.crypto}
+                      onClick={() => {
+                        // add code for adding wallet
+                        // setActive({...item, icon:getIcon(item.code)})
+                      }}
                     >
-                      
-
-                      
-                      <div className={styles.crypto__value}>
-                        {/* <span>{item.balance}</span>{` ${item.code}`} */}
-                        {/* {wallet === "BTC" && <span>{wallet}</span>} */}
+                      <div
+                        onClick={() => setOpencryptoAddWallet(true)}
+                        className={styles.crypto__ta}
+                      >
+                        <div className={styles.crypto__value}>
+                          <i
+                            class="fas fa-coins"
+                            style={{ marginRight: 14 }}
+                          ></i>
+                          <span>{"Add Crypto wallet"}</span>
+                          {""}
+                          {/* {wallet === "BTC" && <span>{wallet}</span>} */}
+                        </div>
                       </div>
-                      <div className={styles.crypto__price}>
-                        {/* <span>{"USD $ "}</span>{` ${item.price.toLocaleString()}`} */}
-                        {/* {wallet === "BTC" && <span>{wallet}</span>} */}
+                      <div className={styles.crypto__ta}>
+                        <div className={styles.crypto__value}>
+                          {/* <span>{item.balance}</span>{` ${item.code}`} */}
+                          {/* {wallet === "BTC" && <span>{wallet}</span>} */}
+                        </div>
+                        <div className={styles.crypto__price}>
+                          {/* <span>{"USD $ "}</span>{` ${item.price.toLocaleString()}`} */}
+                          {/* {wallet === "BTC" && <span>{wallet}</span>} */}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
+              )}
+              {!props.balance && (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flex: 1,
+                    height:300,
+                  }}
+                >
+                  <LoadingOutlined style={{ fontSize: 50, color: "#921946", fontWeight:'bold' }} />
+                </div>
+              )}
             </div>
           </div>
         </>
       )}
-      {active && <BTC handleBack={() => setActive(null)} active={active} fiatWallets={props.balance.fiatWallets} />}
+      {active && (
+        <BTC
+          handleBack={() => setActive(null)}
+          active={active}
+          fiatWallets={props.balance.fiatWallets}
+        />
+      )}
       <AddCryptoWallet
         setIsModalVisible={setOpencryptoAddWallet}
         isModalVisible={opencryptoAddWallet}
@@ -178,7 +196,7 @@ const CryptoPage = (props) => {
 
 const mapStateToProps = (state) => ({
   balance: state.btc.balance,
-  cryptoCurrency:state.user.cryptoCurrency,
+  cryptoCurrency: state.user.cryptoCurrency,
 });
 
 const mapDispatchToProps = (dispatch) => ({

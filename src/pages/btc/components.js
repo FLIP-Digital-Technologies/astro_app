@@ -646,7 +646,7 @@ export const SendSection = ({
       <Button
         text="Send"
         disabled={
-          !state.btcAddress || state.btc <= active.balance ? true : false
+          !state.btcAddress || state.btc > active.balance ? true : false
         }
         onClick={() => showPromiseConfirm()}
         form="full"
