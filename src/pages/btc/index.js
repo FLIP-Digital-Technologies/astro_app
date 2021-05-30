@@ -64,7 +64,7 @@ const BuyCoin = ({
     return () => clearInterval(interval);
   }, [getBTCRates, getConversions, active.Currency.code]);
   React.useEffect(() => {
-    receiveBTC({cryptoWalletId:active.Currency.id});
+    receiveBTC({cryptoWalletId:active.id});
     getBTCRates({coin:active.Currency.code});
   }, [receiveBTC, getBTCRates, active.Currency.code, active.id]);
   return (
