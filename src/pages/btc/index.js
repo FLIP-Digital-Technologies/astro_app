@@ -20,7 +20,7 @@ import {
   initialBTCSellTransaction,
   initialBTCSellToExternalWalletTransaction,
 } from "../../redux/actions/btc";
-import { getUserWallets } from "../../redux/actions/Auths";
+import { getFiatCurrencies, getUserWallets } from "../../redux/actions/Auths";
 import * as SVG from "../../assets/svg";
 import { getCurrencyConversions } from "../../redux/actions/user";
 
@@ -42,6 +42,8 @@ const BuyCoin = ({
   fiatWallets,
   conversions,
   getConversions,
+  fiatCurrency,
+  getMainFiatCurrency,
 }) => {
   const [state, setState] = useState({
     btc: 0,
@@ -54,6 +56,7 @@ const BuyCoin = ({
   const [mode, setMode] = useState("buy");
   React.useEffect(() => {
     getConversions()
+    getMainFiatCurrency()
     // eslint-disable-next-line
   }, [])
   React.useEffect(() => {
@@ -192,6 +195,7 @@ const BuyCoin = ({
                   rates={btcRates}
                   fiatWallets={fiatWallets}
                   conversions={conversions}
+                  fiatCurrency={fiatCurrency}
                   {...{ state, setState, buyCoins, buyBTC, loading, active }}
                 />
               )}
@@ -202,6 +206,7 @@ const BuyCoin = ({
                   rates={btcRates}
                   fiatWallets={fiatWallets}
                   conversions={conversions}
+                  fiatCurrency={fiatCurrency}
                   {...{ state, setState, sellCoins, sellBTC, loading, active }}
                 />
               )}
@@ -246,6 +251,7 @@ const mapStateToProps = (state) => ({
   sellBTCExternal: state.btc.sellBTCExternal,
   btcTicker: state.btc.btcTicker,
   conversions:state.user.conversions,
+  fiatCurrency: state.user.fiatCurrency,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -269,6 +275,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getBalance: () => {
     dispatch(getUserWallets());
+  },
+  getMainFiatCurrency: () => {
+    dispatch(getFiatCurrencies());
   },
 });
 

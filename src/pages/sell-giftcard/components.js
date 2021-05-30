@@ -509,7 +509,7 @@ const GiftCardForm = ({
     cardType: "",
     fiatCurrencyId: "",
     value: null,
-    amount: 0,
+    amount: "",
     number: 1,
     total: 0,
     file: [],
@@ -537,46 +537,53 @@ const GiftCardForm = ({
   }, []);
 
   useEffect(() => {
-   if (details.wallet !== "USD") {
     let walletRate =
-    details.wallet &&
-    conversions &&
-    conversions[`USD${details.wallet}`].we_buy;
+      fiatCurrency &&
+      fiatCurrency.length > 0 &&
+      fiatCurrency.filter((item) => item.code === details.wallet)[0];
+    walletRate &&
+      walletRate.we_buy &&
+      details &&
+      details.value &&
+      setTotal(details.amount * walletRate.we_buy * details.value.rate);
 
-  details &&
-    details.value &&
-    setTotal(details.amount * walletRate * details.value.rate);
-   } else {
-    details &&
-    details.value &&
-     setTotal(details.amount * details.value.rate)
-   }
-    
-  }, [details.wallet, details.value, details.amount]);
+    // if (details.wallet !== "USD") {
+    //   let walletRate =
+    //     details.wallet &&
+    //     conversions &&
+    //     conversions[`USD${details.wallet}`].we_buy;
 
-  // useEffect(() => {
-  //   let fiatCurrencyUsed = fiatCurrency.filter(
-  //     (item) => item.code === details.wallet
-  //   )[0];
-  //   details && details.cardType && details.cardType === "physical"
-  //     ? setTotal(
-  //         details.amount &&
-  //           details.value.physical[details.amount] *
-  //             details.amount *
-  //             parseFloat(fiatCurrencyUsed.we_buy, 10)
-  //       )
-  //     : details.cardType === "ecode"
-  //     ? setTotal(
-  //         details.amount &&
-  //           details.value.ecode[details.amount] *
-  //             details.amount *
-  //             parseFloat(fiatCurrencyUsed.we_buy, 10)
-  //       )
-  //     : setTotal(0);
+    //   details &&
+    //     details.value &&
+    //     setTotal(details.amount * walletRate * details.value.rate);
+    // } else {
+    //   details && details.value && setTotal(details.amount * details.value.rate);
+    // }
+  }, [fiatCurrency, details.wallet, details.value, details.amount]);
 
-  //   // getCardDetails({ cardCode: active.uid });
-  //   // eslint-disable-next-line
-  // }, [details]);
+  useEffect(() => {
+    let fiatCurrencyUsed = fiatCurrency.filter(
+      (item) => item.code === details.wallet
+    )[0];
+    // details && details.cardType && details.cardType === "physical"
+    //   ? setTotal(
+    //       details.amount &&
+    //         details.value.physical[details.amount] *
+    //           details.amount *
+    //           parseFloat(fiatCurrencyUsed.we_buy, 10)
+    //     )
+    //   : details.cardType === "ecode"
+    //   ? setTotal(
+    //       details.amount &&
+    //         details.value.ecode[details.amount] *
+    //           details.amount *
+    //           parseFloat(fiatCurrencyUsed.we_buy, 10)
+    //     )
+    //   : setTotal(0);
+
+    // getCardDetails({ cardCode: active.uid });
+    // eslint-disable-next-line
+  }, [details]);
 
   const onHandleFile = (file) => {
     setDetails((details) => ({ ...details, file: [...details.file, file] }));
@@ -712,7 +719,9 @@ const GiftCardForm = ({
                 style={{ marginTop: 10 }}
               >
                 <Radio value={true}>Fiat Wallet</Radio>
-                <Radio disabled value={false}>Crypto Wallet</Radio>
+                <Radio disabled value={false}>
+                  Crypto Wallet
+                </Radio>
               </Radio.Group>
             </div>
             {userWallets && (
@@ -739,6 +748,7 @@ const GiftCardForm = ({
                     className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
                     label="Select wallet to credit"
                     labelClass={styles.label}
+                    placeholder={"Wallet to Credit"}
                   />
                 </div>
                 <br />
@@ -775,6 +785,7 @@ const GiftCardForm = ({
                     className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
                     label="Select Card Category"
                     labelClass={styles.label}
+                    placeholder={"Card Category"}
                   />
                 </div>
                 <br />
@@ -985,7 +996,7 @@ const GiftCardForm = ({
               }
               onClick={() => handleSubmit()}
             />
-            <div style={{marginBottom:100, marginTop:40}}>
+            <div style={{ marginBottom: 100, marginTop: 40 }}>
               <p>This trade is for {active.displayName}</p>
               {details && details.value && details.value.tac}
               {/* <p>

@@ -29,6 +29,7 @@ const Input = ({
   const textInput = useRef(null);
   const [validate, setValidValue] = useState(false);
 
+  
   const handleValidity = () => {
     if (value && value.length > 1)
       setValidValue(
@@ -76,6 +77,9 @@ const Input = ({
           style={style}
           disabled={disabled}
           pattern={pattern}
+          onWheelCapture={e => {
+            e.target.blur()
+          }}
           defaultValue={defaultValue}
           inputMode={inputMode}
           {...prop}

@@ -31,6 +31,7 @@ export const BuySection = ({
   loading,
   active,
   conversions,
+  fiatCurrency
 }) => {
   useEffect(() => {
     state.wallet = undefined;
@@ -39,17 +40,14 @@ export const BuySection = ({
 
   useEffect(() => {
     rates && rates.ticker && setBtc_usd_rate(rates.ticker.sell);
-    if (state.wallet !== "USD") {
+    
       let walletRate =
         state.wallet &&
-        conversions &&
-        conversions[`USD${state.wallet}`] &&
-        conversions[`USD${state.wallet}`].we_sell;
-      // console.log("wallet", walletRate);
-      setWallet_btc_rate((walletRate ?? 0) * buy_btc_usd_rate);
-    }
-    // rates && rates.tickers && setBtc_ngn_rate(rates.tickers.BTCNGN.buy);
-    // rates && rates.tickers && setBtc_ghs_rate(rates.tickers.BTCGHS.buy);
+        fiatCurrency &&
+        fiatCurrency.length > 0 &&
+      fiatCurrency.filter((item) => item.code === state.wallet)[0];
+      walletRate && walletRate.we_sell && 
+      setWallet_btc_rate((walletRate.we_sell ?? 0) * buy_btc_usd_rate);
     // eslint-disable-next-line
   }, [conversions, rates, state.wallet]);
   const handleChange = ({ target: { name, value } }) => {
@@ -261,6 +259,7 @@ export const SellSection = ({
   loading,
   active,
   conversions,
+  fiatCurrency,
 }) => {
   useEffect(() => {
     state.wallet = undefined;
@@ -274,15 +273,13 @@ export const SellSection = ({
   // }, [balance, state.wallet]);
   useEffect(() => {
     rates && rates.ticker && setSell_btc_usd_rate(rates.ticker.buy);
-    if (state.wallet !== "USD") {
-      let walletRate =
+    let walletRate =
         state.wallet &&
-        conversions &&
-        conversions[`USD${state.wallet}`] &&
-        conversions[`USD${state.wallet}`].we_buy;
-      console.log("wallet", walletRate);
-      setWallet_btc_rate(walletRate * sell_btc_usd_rate);
-    }
+        fiatCurrency &&
+        fiatCurrency.length > 0 &&
+      fiatCurrency.filter((item) => item.code === state.wallet)[0];
+      walletRate && walletRate.we_buy && 
+      setWallet_btc_rate((walletRate.we_buy ?? 0) * sell_btc_usd_rate);
     // eslint-disable-next-line
   }, [rates, state.wallet]);
   const handleChange = ({ target: { name, value } }) => {
