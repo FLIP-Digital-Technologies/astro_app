@@ -537,14 +537,21 @@ const GiftCardForm = ({
   }, []);
 
   useEffect(() => {
+   if (details.wallet !== "USD") {
     let walletRate =
-      details.wallet &&
-      conversions &&
-      conversions[`USD${details.wallet}`].we_buy;
+    details.wallet &&
+    conversions &&
+    conversions[`USD${details.wallet}`].we_buy;
 
+  details &&
+    details.value &&
+    setTotal(details.amount * walletRate * details.value.rate);
+   } else {
     details &&
-      details.value &&
-      setTotal(details.amount * walletRate * details.value.rate);
+    details.value &&
+     setTotal(details.amount * details.value.rate)
+   }
+    
   }, [details.wallet, details.value, details.amount]);
 
   // useEffect(() => {
@@ -697,15 +704,15 @@ const GiftCardForm = ({
                 className={`${labelStyles.input__label} ${styles.label}`}
                 style={{ marginTop: 10 }}
               >
-                {"Select Currency type to credit"}
+                {"Select Wallet type to credit"}
               </label>
               <Radio.Group
                 onChange={onRadioChange}
                 value={currencyType}
                 style={{ marginTop: 10 }}
               >
-                <Radio value={true}>Fiat Currency</Radio>
-                <Radio value={false}>Crypto Currency</Radio>
+                <Radio value={true}>Fiat Wallet</Radio>
+                <Radio disabled value={false}>Crypto Wallet</Radio>
               </Radio.Group>
             </div>
             {userWallets && (

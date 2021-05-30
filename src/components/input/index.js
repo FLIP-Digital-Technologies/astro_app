@@ -72,6 +72,7 @@ const Input = ({
           type={type}
           minLength={minlength}
           maxLength={maxlength}
+          min={type === "number" && 0 }
           style={style}
           disabled={disabled}
           pattern={pattern}
