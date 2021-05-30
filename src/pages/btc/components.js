@@ -7,7 +7,12 @@ import Select from "../../components/select";
 import styles from "../styles.module.scss";
 import Clipboard from "react-clipboard.js";
 import { Copy } from "../../assets/svg";
-import { QRCode, Money } from "../../utils/helper";
+import {
+  QRCode,
+  // Money,
+  // CurrencyFormatted,
+  CommaFormatted,
+} from "../../utils/helper";
 import { BitcoinInput } from "../../assets/svg";
 import { SuccessfulModal } from "../transactions/components";
 import { history } from "../../redux/store";
@@ -40,7 +45,7 @@ export const BuySection = ({
         conversions &&
         conversions[`USD${state.wallet}`] &&
         conversions[`USD${state.wallet}`].we_sell;
-      console.log("wallet", walletRate);
+      // console.log("wallet", walletRate);
       setWallet_btc_rate((walletRate ?? 0) * buy_btc_usd_rate);
     }
     // rates && rates.tickers && setBtc_ngn_rate(rates.tickers.BTCNGN.buy);
@@ -130,7 +135,7 @@ export const BuySection = ({
           <span className={styles.main}>You will be debited</span>
           <span className={styles.sub}>
             {`${state.wallet ?? ""} `}
-            {state.wallet && state[state.wallet.toLowerCase()]}
+            {state.wallet && CommaFormatted(state[state.wallet.toLowerCase()])}
           </span>
         </div>
         <div className={styles.detailsCard__list__item}>
@@ -173,7 +178,7 @@ export const BuySection = ({
             value: item,
           }))}
           hint={`Current Balance ${state.wallet ?? ""} ${
-            (state.wallet && state.walletBalance) ?? ""
+            CommaFormatted(state.wallet && state.walletBalance) ?? ""
           } `}
         />
 
@@ -185,7 +190,9 @@ export const BuySection = ({
             value={isFinite(state.btc) ? state.btc : 0}
             name="btc"
             onChange={handleChange}
-            hint={`Current rate USD ${buy_btc_usd_rate} / ${active.Currency.code}`}
+            hint={`Current rate USD ${CommaFormatted(buy_btc_usd_rate)} / ${
+              active.Currency.code
+            }`}
             placeholder="e.g 0.000011"
           />
           <Input
@@ -205,7 +212,9 @@ export const BuySection = ({
               label={`Amount in ${state.wallet}`}
               type="number"
               value={isNaN(state.ngn) ? "" : state.ngn}
-              hint={`Current rate ${state.wallet} ${wallet_btc_rate} / ${active.Currency.code}`}
+              hint={`Current rate ${state.wallet} ${CommaFormatted(
+                wallet_btc_rate
+              )} / ${active.Currency.code}`}
               name="ngn"
               onChange={handleChange}
             />
@@ -216,7 +225,9 @@ export const BuySection = ({
               label={`Amount in ${state.wallet}`}
               type="number"
               value={isNaN(state.ngn) ? "" : state.ngn}
-              hint={`Current rate ${state.wallet} ${wallet_btc_rate} / ${active.Currency.code}`}
+              hint={`Current rate ${state.wallet} ${CommaFormatted(
+                wallet_btc_rate
+              )} / ${active.Currency.code}`}
               name="ngn"
               onChange={handleChange}
             />
@@ -348,17 +359,16 @@ export const SellSection = ({
         <div className={styles.detailsCard__list__item}>
           <span className={styles.main}>You are selling</span>
           <span className={styles.sub}>
-            {Money(
-              isFinite(state.btc) ? state.btc : 0,
-              `${active.Currency.code}`
-            )}
+            {isFinite(state.btc)
+              ? `${active.Currency.code} ${state.btc}`
+              : `${active.Currency.code} 0.00`}
           </span>
         </div>
         <div className={styles.detailsCard__list__item}>
           <span className={styles.main}>You will receive</span>
           <span className={styles.sub}>
             {`${state.wallet ?? ""} `}
-            {state.wallet && state[state.wallet.toLowerCase()]}
+            {state.wallet && CommaFormatted(state[state.wallet.toLowerCase()])}
           </span>
         </div>
         <div className={styles.detailsCard__list__item}>
@@ -397,28 +407,12 @@ export const SellSection = ({
               walletInfo: value,
             }));
           }}
-          // options={[
-          //   {
-          //     render: "NGN wallet",
-          //     value: "NGN",
-          //     disabled: rates?.availability?.sell?.value,
-          //   },
-          //   {
-          //     render: "GHS wallet",
-          //     value: "GHS",
-          //     disabled: rates?.availability?.sell?.value,
-          //   },
-          // ]}
-          // hint={`Current Balance ${Money(
-          //   wallet_current_balance,
-          //   state.wallet
-          // )} `}
           options={balance.fiatWallets.map((item) => ({
             render: `${item.Currency.code} wallet`,
             value: item,
           }))}
           hint={`Current Balance ${state.wallet ?? ""} ${
-            (state.wallet && state.walletBalance) ?? ""
+            CommaFormatted(state.wallet && state.walletBalance) ?? ""
           } `}
         />
 
@@ -429,14 +423,16 @@ export const SellSection = ({
             value={isFinite(state.btc) ? state.btc : 0}
             name="btc"
             onChange={handleChange}
-            hint={`Current rate USD ${sell_btc_usd_rate} / ${active.Currency.code}`}
+            hint={`Current rate USD ${CommaFormatted(sell_btc_usd_rate)} / ${
+              active.Currency.code
+            }`}
             hintClass={styles.largeMarginHint}
             placeholder="e.g 0.000011"
           />
           <Input
             labelClass={styles.largeMarginLabel}
             label="Amount in USD"
-            value={isNaN(state.usd) ? 0 : state.usd.toLocaleString()}
+            value={isNaN(state.usd) ? 0 : state.usd}
             name="usd"
             onChange={handleChange}
           />
@@ -447,9 +443,9 @@ export const SellSection = ({
               labelClass={styles.largeMarginLabel}
               label="Amount in NGN"
               value={isNaN(state.ngn) ? 0 : state.ngn.toLocaleString()}
-              hint={`Current rate ${state.wallet ?? ""} ${wallet_btc_rate} / ${
-                active.Currency.code
-              }`}
+              hint={`Current rate ${state.wallet ?? ""} ${CommaFormatted(
+                wallet_btc_rate
+              )} / ${active.Currency.code}`}
               name="ngn"
               onChange={handleChange}
             />
@@ -460,9 +456,9 @@ export const SellSection = ({
               label={`Amount in ${state.wallet}`}
               type="number"
               value={isNaN(state.ngn) ? "" : state.ngn}
-              hint={`Current rate ${state.wallet ?? ""} ${wallet_btc_rate} / ${
-                active.Currency.code
-              }`}
+              hint={`Current rate ${state.wallet ?? ""} ${CommaFormatted(
+                wallet_btc_rate
+              )} / ${active.Currency.code}`}
               name="ngn"
               onChange={handleChange}
             />
@@ -633,7 +629,9 @@ export const SendSection = ({
           value={isNaN(state.btc) ? 0 : state.btc}
           name="btc"
           onChange={handleChange}
-          hint={`Current rate USD ${sell_btc_usd_rate} / ${active.Currency.code}`}
+          hint={`Current rate USD ${CommaFormatted(sell_btc_usd_rate)} / ${
+            active.Currency.code
+          }`}
           hintClass={styles.largeMarginHint}
           placeholder=""
         />
@@ -684,7 +682,7 @@ export const RecieveSection = ({
             style={{ display: "flex", justifyContent: "center" }}
           >
             <span style={{ border: "1px  solid grey", padding: 8 }}>
-              <small>{btcWalletAddress}</small>
+              <>{btcWalletAddress}</>
             </span>
             <Clipboard
               style={{ padding: 8 }}

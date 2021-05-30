@@ -42,7 +42,11 @@ import {
   getBillPaymentCategory,
   initialBillPaymentByUser,
 } from "../../redux/actions/billPayment";
-import capitalizeFirstLetter, { date } from "../../utils/helper";
+import capitalizeFirstLetter, {
+  CommaFormatted,
+  CurrencyFormatted,
+  date,
+} from "../../utils/helper";
 import {
   createFiatWallet,
   getCryptoCurrencies,
@@ -95,9 +99,7 @@ const Home = ({
       height,
     };
   }
-  const [windowDimensions,] = useState(
-    getWindowDimensions()
-  );
+  const [windowDimensions] = useState(getWindowDimensions());
   // const [wallet, setWallet] = useState("NGN");
   let [fiatIndex, setFiatIndex] = useState(0);
   let [cryptoIndex, setCryptoIndex] = useState(0);
@@ -137,11 +139,13 @@ const Home = ({
               balance &&
               balance.fiatWallets &&
               balance.fiatWallets[fiatIndex].Currency.code
-            } ${
-              balance &&
-              balance.fiatWallets &&
-              balance.fiatWallets[fiatIndex].balance
-            }`
+            } ${CommaFormatted(
+              CurrencyFormatted(
+                balance &&
+                  balance.fiatWallets &&
+                  balance.fiatWallets[fiatIndex].balance
+              )
+            )}`
           );
       }
     }
@@ -934,7 +938,6 @@ const Home = ({
                 </Row>
               </Col>
             </Row>
-            
           </Col>
           <Col
             // span={1}
