@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Tabs } from "antd";
 // import { DashboardLayout } from "../../components/layout";
 // import { TableSort } from "../../assets/svg";
-import { Money } from "../../utils/helper";
+import { CommaFormatted, Money } from "../../utils/helper";
 import styles from "../styles.module.scss";
 import {
   DepositsTab,
@@ -13,9 +13,8 @@ import {
   PTwoPTab,
   // BuyGiftCardTab,
 } from "./components";
-import 
-// TransactionModalBig
- {
+import {
+  // TransactionModalBig
   TransactionModalBillPayment,
   TransactionModalBuyGiftCard,
   TransactionModalP2P,
@@ -86,17 +85,15 @@ const Transactions = ({
         style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
         <div
-          
           style={{
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            marginLeft:15
+            marginLeft: 15,
           }}
         >
-          <div onClick={() => goBack(true)} style={{cursor:'pointer'}}>
-          <ArrowLeftOutlined style={{ fontSize: 25 }} />
-
+          <div onClick={() => goBack(true)} style={{ cursor: "pointer" }}>
+            <ArrowLeftOutlined style={{ fontSize: 25 }} />
           </div>
           <span className={styles.gitcard__top__title}>
             {" "}
@@ -119,15 +116,25 @@ const Transactions = ({
       {/* <span className={styles.gitcard__top__title}> Fiat Transactions</span> */}
       {viewP2PTrans && (
         <TransactionModalP2P
-          dateData={viewP2PTrans.createdAt}
-          amountSent={Money(
-            viewP2PTrans?.amount_sent_object?.value,
-            viewP2PTrans?.amountSent?.currency
-          )}
-          amountReceived={Money(
-            viewP2PTrans?.amount_received_object?.value,
-            viewP2PTrans?.amountReceived?.currency
-          )}
+          dateData={viewP2PTrans.created_at}
+          amountSent={`${
+            viewP2PTrans &&
+            viewP2PTrans.amount_sent_object &&
+            viewP2PTrans.amount_sent_object.currency
+          } ${
+            viewP2PTrans &&
+            viewP2PTrans.amount_sent_object &&
+            CommaFormatted(viewP2PTrans.amount_sent_object.value)
+          }`}
+          amountReceived={`${
+            viewP2PTrans &&
+            viewP2PTrans.amount_received_object &&
+            viewP2PTrans.amount_received_object.currency
+          } ${
+            viewP2PTrans &&
+            viewP2PTrans.amount_received_object &&
+            CommaFormatted(viewP2PTrans.amount_received_object.value)
+          }`}
           status={viewP2PTrans.status}
           reference={viewP2PTrans.reference}
           rate={`Transfer at ${viewP2PTrans.rate.value}`}
