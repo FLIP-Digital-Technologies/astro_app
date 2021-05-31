@@ -19,10 +19,10 @@ import styles from "../styles.module.scss";
 const AboutRates = ({ btcRates, giftCardList, getBTCRates, getCards }) => {
   let b = giftCardList;
   let list = sortData(b).map((i) => i[0]);
-  React.useEffect(() => {
-    getBTCRates();
-    getCards({ cardCode: "all" });
-  }, [getBTCRates, getCards]);
+  // React.useEffect(() => {
+  //   getBTCRates();
+  //   getCards({ cardCode: "all" });
+  // }, [getBTCRates, getCards]);
 
   const [buy, setBuy] = useState(false);
   const [meta, setMeta] = useState(null);

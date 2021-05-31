@@ -12,7 +12,7 @@ import {
   Verification,
   // Landing,
   // About,
-  // AboutRates,
+  AboutRates,
 } from "./pages";
 import { PrivateRoute } from "./utils/PrivateRoute";
 import { WaitingComponent } from "./utils/helper";
@@ -28,9 +28,9 @@ ReactDOM.render(
           {/* <Landing /> */}
           <SignIn />
         </Route>
-        {/* <Route path="/rates">
+        <Route path="/rates">
           <AboutRates />
-        </Route> */}
+        </Route>
         <Route path="/signin">
           <SignIn />
         </Route>
