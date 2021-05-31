@@ -9,7 +9,7 @@ import {
   // Profile,
   Power,
   // LogoNav,
-  // AstroLogoNav,
+  AstroLogoNav,
   AstroLogoWhite,
   // AstroLogoFull,
 } from "../../../assets/svg";
@@ -98,7 +98,8 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
         }}
       >
         <div className={styles.logo}>
-          <AstroLogoWhite />
+          {/* <AstroLogoWhite /> */}
+          <AstroLogoNav/>
         </div>
         <Menu
           style={{
