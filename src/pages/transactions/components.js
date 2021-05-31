@@ -679,8 +679,9 @@ export const BTCTradesTab = ({ fetchTrans, transaction, handleAction }) => {
       dataIndex: "amount",
     },
     {
-      title: "Transaction Type",
-      dataIndex: "transactionType",
+      title: "Crypto Type",
+      dataIndex: "CreditCryptoCurrency",
+      render:(a) => `${a.name}`
     },
     {
       title: "Status",

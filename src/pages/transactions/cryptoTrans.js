@@ -18,7 +18,7 @@ import TransactionModalBig, {
   TransactionModalBTC,
   TransactionModalBillPayment,
   TransactionModalBuyGiftCard,
-  TransactionModalP2P
+  TransactionModalP2P,
 } from "../../components/Modals/transaction-info-modal-big";
 import TransactionModal from "../../components/Modals/transaction-info-modal";
 import {
@@ -108,36 +108,59 @@ const Transactions = ({
 }) => {
   const [depositTransDetails, setDepositTransDetails] = React.useState(false);
   const [btcTransDetails, setBtcTransDetails] = React.useState(false);
-  const [buyCryptoTransDetails, setBuyCryptoTransDetails] = React.useState(false);
-  const [sellCryptoTransDetails, setSellCryptoTransDetails] = React.useState(false);
-  const [sendCryptoTransDetails, setSendCryptoTransDetails] = React.useState(false);
-  const [p2pCryptoTransDetails, setP2PCryptoTransDetails] = React.useState(false);
+  const [buyCryptoTransDetails, setBuyCryptoTransDetails] =
+    React.useState(false);
+  const [sellCryptoTransDetails, setSellCryptoTransDetails] =
+    React.useState(false);
+  const [sendCryptoTransDetails, setSendCryptoTransDetails] =
+    React.useState(false);
+  const [p2pCryptoTransDetails, setP2PCryptoTransDetails] =
+    React.useState(false);
   const [giftCardTransDetails, setGiftCardTransDetails] = React.useState(false);
   const [billPaymentDetails, setBillPaymentDetails] = React.useState(false);
   const [buyGiftCardDetails, setBuyGiftCardDetails] = React.useState(false);
-  const [
-    pairTwoPairFiatTransDetails,
-    setPairTwoPairFiatTransDetails,
-  ] = React.useState(false);
-  const [withdrawalTransDetails, setWithdrawalTransDetails] = React.useState(
-    false
-  );
+  const [pairTwoPairFiatTransDetails, setPairTwoPairFiatTransDetails] =
+    React.useState(false);
+  const [withdrawalTransDetails, setWithdrawalTransDetails] =
+    React.useState(false);
   const { TabPane } = Tabs;
   function callback(key) {
     console.log(key);
   }
   return (
     <>
-    <div onClick={()=> goBack(true)} style={{display:"flex", flexDirection:"row", alignItems:'center'}}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          marginLeft: 15,
+        }}
+      >
+        <div onClick={() => goBack(true)} style={{ cursor: "pointer" }}>
+          <ArrowLeftOutlined style={{ fontSize: 25 }} />
+        </div>
+        <span className={styles.gitcard__top__title}>
+          {" "}
+          Crypto Transactions{" "}
+        </span>
+      </div>
+      {/* <div onClick={()=> goBack(true)} style={{display:"flex", flexDirection:"row", alignItems:'center'}}>
     <ArrowLeftOutlined style={{fontSize:20}}/>
       <span className={styles.gitcard__top__title}>Crypto Transactions</span>
-    </div>
+    </div> */}
       {/* <span className={styles.gitcard__top__title}> Fiat Transactions</span> */}
       {viewP2PTrans && (
         <TransactionModalP2P
           dateData={viewP2PTrans.createdAt}
-          amountSent={Money(viewP2PTrans?.amount_sent_object?.value, viewP2PTrans?.amountSent?.currency)}
-          amountReceived={Money(viewP2PTrans?.amount_received_object?.value, viewP2PTrans?.amountReceived?.currency)}
+          amountSent={Money(
+            viewP2PTrans?.amount_sent_object?.value,
+            viewP2PTrans?.amountSent?.currency
+          )}
+          amountReceived={Money(
+            viewP2PTrans?.amount_received_object?.value,
+            viewP2PTrans?.amountReceived?.currency
+          )}
           status={viewP2PTrans.status}
           reference={viewP2PTrans.reference}
           rate={`Transfer at ${viewP2PTrans.rate.value}`}
@@ -159,7 +182,9 @@ const Transactions = ({
           isModalVisible={buyGiftCardDetails}
           cardCurrency={viewBuyGiftCardTrans?.cardDetails?.cardCurrency}
           cardSlug={viewBuyGiftCardTrans.cardSlug}
-          estimatedUSDValue={viewBuyGiftCardTrans?.cardDetails?.estimatedUSDValue}
+          estimatedUSDValue={
+            viewBuyGiftCardTrans?.cardDetails?.estimatedUSDValue
+          }
         />
       )}
       {viewDepositTrans && (
@@ -179,7 +204,7 @@ const Transactions = ({
           isModalVisible={btcTransDetails}
           type={viewBTCTrans.type}
           status={viewBTCTrans.status}
-          dateData={viewBTCTrans.createdAt}
+          dateData={viewBTCTrans.created_at}
           transactionType={viewBTCTrans.transactionType}
           reference={viewBTCTrans.reference}
           rate={viewBTCTrans.rate.amount}
@@ -194,9 +219,9 @@ const Transactions = ({
         <TransactionModalBTC
           setIsModalVisible={setBuyCryptoTransDetails}
           isModalVisible={buyCryptoTransDetails}
-          type={viewBuyTrans.type}
+          type={"Buy"}
           status={viewBuyTrans.status}
-          dateData={viewBuyTrans.createdAt}
+          dateData={viewBuyTrans.created_at}
           transactionType={viewBuyTrans.transactionType}
           reference={viewBuyTrans.reference}
           rate={viewBuyTrans.rate.amount}
@@ -205,15 +230,16 @@ const Transactions = ({
           quidaxTransactionId={viewBuyTrans.quidaxTransactionId}
           txid={viewBuyTrans.txid}
           transactionFee={viewBuyTrans.transactionFee}
+          data={viewBuyTrans}
         />
       )}
       {viewSellTrans && (
         <TransactionModalBTC
           setIsModalVisible={setSellCryptoTransDetails}
           isModalVisible={sellCryptoTransDetails}
-          type={viewSellTrans.type}
+          type={"Sell"}
           status={viewSellTrans.status}
-          dateData={viewSellTrans.createdAt}
+          dateData={viewSellTrans.created_at}
           transactionType={viewSellTrans.transactionType}
           reference={viewSellTrans.reference}
           rate={viewSellTrans.rate.amount}
@@ -222,15 +248,16 @@ const Transactions = ({
           quidaxTransactionId={viewSellTrans.quidaxTransactionId}
           txid={viewSellTrans.txid}
           transactionFee={viewSellTrans.transactionFee}
+          data={viewSellTrans}
         />
       )}
-       {viewSendTrans && (
+      {viewSendTrans && (
         <TransactionModalBTC
           setIsModalVisible={setSendCryptoTransDetails}
           isModalVisible={sendCryptoTransDetails}
-          type={viewSendTrans.type}
+          type={"Send"}
           status={viewSendTrans.status}
-          dateData={viewSendTrans.createdAt}
+          dateData={viewSendTrans.created_at}
           transactionType={viewSendTrans.transactionType}
           reference={viewSendTrans.reference}
           rate={viewSendTrans.rate.amount}
@@ -239,15 +266,16 @@ const Transactions = ({
           quidaxTransactionId={viewSendTrans.quidaxTransactionId}
           txid={viewSendTrans.txid}
           transactionFee={viewSendTrans.transactionFee}
+          data={viewSendTrans}
         />
       )}
       {viewP2PCryptoTrans && (
         <TransactionModalBTC
           setIsModalVisible={setP2PCryptoTransDetails}
           isModalVisible={p2pCryptoTransDetails}
-          type={viewP2PCryptoTrans.type}
+          type={"Peer to Peer"}
           status={viewP2PCryptoTrans.status}
-          dateData={viewP2PCryptoTrans.createdAt}
+          dateData={viewP2PCryptoTrans.created_at}
           transactionType={viewP2PCryptoTrans.transactionType}
           reference={viewP2PCryptoTrans.reference}
           rate={viewP2PCryptoTrans.rate.amount}
@@ -256,6 +284,7 @@ const Transactions = ({
           quidaxTransactionId={viewP2PCryptoTrans.quidaxTransactionId}
           txid={viewP2PCryptoTrans.txid}
           transactionFee={viewP2PCryptoTrans.transactionFee}
+          data={viewP2PCryptoTrans}
         />
       )}
       {viewGiftCardTrans && (
@@ -426,7 +455,7 @@ const Transactions = ({
                 }}
               />
             </TabPane>
-            
+
             {/* <TabPane
               tab={
                 <div className={styles.transactions__tab__item}>
@@ -517,7 +546,9 @@ const mapStateToProps = (state) => ({
   pairTwoPairFiatTrans: state.pairTwoPair.pairTwoPairFiatTransaction,
   withdrawalTrans: state.withdrawals.WithdrawalTransaction,
   depositTransaction: state.payment.DepositTransaction,
-  viewP2PTrans: state.pairTwoPair.pairTwoPairFiatTransactionDetails && state.pairTwoPair.pairTwoPairFiatTransactionDetails.transaction,
+  viewP2PTrans:
+    state.pairTwoPair.pairTwoPairFiatTransactionDetails &&
+    state.pairTwoPair.pairTwoPairFiatTransactionDetails.transaction,
   viewBTCTrans: state.btc.btcDetails,
   viewBuyTrans: state.btc.buyDetails,
   viewSellTrans: state.btc.sellDetails,
@@ -535,28 +566,28 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getBTCTransactionHistory(data));
   },
   getBuyCryptoTrans: (data) => {
-    dispatch(getCryptoBuyTransactionHistory(data))
+    dispatch(getCryptoBuyTransactionHistory(data));
   },
-  getSellCryptoTrans:(data) => {
-    dispatch(getCryptoSellTransactionHistory(data))
+  getSellCryptoTrans: (data) => {
+    dispatch(getCryptoSellTransactionHistory(data));
   },
-  getSendCryptoTrans:(data) => {
-    dispatch(getCryptoSendTransactionHistory(data))
+  getSendCryptoTrans: (data) => {
+    dispatch(getCryptoSendTransactionHistory(data));
   },
-  getP2PCryptoTrans:(data) => {
-    dispatch(getCryptoP2PTransactionHistory(data))
+  getP2PCryptoTrans: (data) => {
+    dispatch(getCryptoP2PTransactionHistory(data));
   },
-  getBuyCryptoById:(data) => {
-    dispatch(getCryptoBuyTransactionDetails(data))
+  getBuyCryptoById: (data) => {
+    dispatch(getCryptoBuyTransactionDetails(data));
   },
-  getSellCryptoById:(data) => {
-    dispatch(getCryptoSellTransactionDetails(data))
+  getSellCryptoById: (data) => {
+    dispatch(getCryptoSellTransactionDetails(data));
   },
-  getSendCryptoById:(data) => {
-    dispatch(getCryptoSendTransactionDetails(data))
+  getSendCryptoById: (data) => {
+    dispatch(getCryptoSendTransactionDetails(data));
   },
-  getP2PCryptoById:(data)=>{
-    dispatch(getCryptoP2PTransactionDetails(data))
+  getP2PCryptoById: (data) => {
+    dispatch(getCryptoP2PTransactionDetails(data));
   },
   getGiftCardTrans: (data) => {
     dispatch(getGiftCardTransactionHistory(data));

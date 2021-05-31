@@ -281,6 +281,7 @@ export const TransactionModalBTC = ({
   transactionFee,
   setIsModalVisible,
   isModalVisible,
+  data,
 }) => {
   return (
     <ModalWrapper
@@ -292,7 +293,7 @@ export const TransactionModalBTC = ({
     >
       <div className={styles.transactionBig}>
         <div className={styles.transactionBig__tag}>
-          <span>Transaction</span> <span> #{quidaxTransactionId} </span>
+          <span>Transaction</span> <span> #{data.quidax_transaction_id} </span>
         </div>
         <div className={styles.transactionBig__top}>
           <div className={styles.transactionBig__top__left}>
@@ -336,7 +337,7 @@ export const TransactionModalBTC = ({
             </div>
             <div className={styles.text}>
               <div className={`${styles.title} ${styles.main}`}>
-                BTC Transaction
+                {data.CreditCryptoCurrency.code} Transaction
               </div>
               <div className={`${styles.sub}`}>{date(dateData)}</div>
             </div>
@@ -354,19 +355,19 @@ export const TransactionModalBTC = ({
           </div>
           <div className={styles.transactionBig__main__holder}>
             <div className={styles.transactionBig__main__content}>
-              <span>Amount Paid</span> <span>{amount} BTC</span>
+              <span>Amount</span> <span>{amount} {data.CreditCryptoCurrency.code}</span>
             </div>
-            <div className={styles.transactionBig__main__content}>
+            {/* <div className={styles.transactionBig__main__content}>
               <span>Transaction Rate</span> <span>{Money(rate, "NGN")}/$</span>
-            </div>
+            </div> */}
             <div className={styles.transactionBig__main__content}>
-              <span>Transaction Type</span> <span>{transactionType}</span>
+              <span>Transaction Type</span> <span>{data.CreditCryptoCurrency.name}</span>
             </div>
           </div>
           <div className={styles.transactionBig__main__holder}>
-            <div className={styles.transactionBig__main__content}>
+            {/* <div className={styles.transactionBig__main__content}>
               <span>Transaction fee</span> <span>{transactionFee} BTC</span>
-            </div>
+            </div> */}
             <div className={styles.transactionBig__main__content}>
               <span>Type</span> <span>{type}</span>
             </div>

@@ -50,10 +50,28 @@ const Transactions = ({
   }
   return (
     <>
-    <div onClick={()=> goBack(true)} style={{display:"flex", flexDirection:"row", alignItems:'center'}}>
+    <div
+          
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            marginLeft:15
+          }}
+        >
+          <div onClick={() => goBack(true)} style={{cursor:'pointer'}}>
+          <ArrowLeftOutlined style={{ fontSize: 25 }} />
+
+          </div>
+          <span className={styles.gitcard__top__title}>
+            {" "}
+            Gift Card Transactions{" "}
+          </span>
+        </div>
+    {/* <div onClick={()=> goBack(true)} style={{display:"flex", flexDirection:"row", alignItems:'center'}}>
       <ArrowLeftOutlined style={{fontSize:20}}/>
       <span className={styles.gitcard__top__title}> Gift Card Transactions</span>
-    </div>
+    </div> */}
       {/* <span className={styles.gitcard__top__title}> Fiat Transactions</span> */}
       
       {viewBuyGiftCardTrans && (

@@ -43,8 +43,8 @@ import {
 } from "../../redux/actions/pairTwoPair";
 import {
   ArrowLeftOutlined,
-  LoadingOutlined,
-  ReloadOutlined,
+  // LoadingOutlined,
+  // ReloadOutlined,
 } from "@ant-design/icons";
 
 const Transactions = ({
@@ -86,20 +86,24 @@ const Transactions = ({
         style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
         <div
-          onClick={() => goBack(true)}
+          
           style={{
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+            marginLeft:15
           }}
         >
-          <ArrowLeftOutlined style={{ fontSize: 20 }} />
+          <div onClick={() => goBack(true)} style={{cursor:'pointer'}}>
+          <ArrowLeftOutlined style={{ fontSize: 25 }} />
+
+          </div>
           <span className={styles.gitcard__top__title}>
             {" "}
             Fiat Transactions{" "}
           </span>
         </div>
-        <div style={{display:'flex', alignItems:'center', marginLeft:20}}>
+        {/* <div style={{display:'flex', alignItems:'center', marginLeft:20}}>
           {" "}
           {!fiatLoading ? (
             <ReloadOutlined
@@ -109,7 +113,7 @@ const Transactions = ({
           ) : (
             <LoadingOutlined style={{ fontSize: 25 }} />
           )}
-        </div>
+        </div> */}
       </div>
 
       {/* <span className={styles.gitcard__top__title}> Fiat Transactions</span> */}

@@ -10,7 +10,7 @@ import { SuccessfulModal } from "../transactions/components";
 import {
   // countryOptions,
   processImageToCloudinary,
-  Money,
+  // Money,
   CommaFormatted,
 } from "../../utils/helper";
 import { history } from "../../redux/store";
@@ -519,7 +519,7 @@ const GiftCardForm = ({
   // const INITIAL_STATE2 = {};
 
   const [details, setDetails] = useState(INITIAL_STATE);
-  const [amount, setAmount] = useState(0);
+  // const [amount, setAmount] = useState(0);
   const [currencyType, setCurrencyType] = useState(true);
   // const [state, setState] = useState(INITIAL_STATE2);
   // const [rate, setRate] = useState({});
@@ -559,31 +559,31 @@ const GiftCardForm = ({
     // } else {
     //   details && details.value && setTotal(details.amount * details.value.rate);
     // }
-  }, [fiatCurrency, details.wallet, details.value, details.amount]);
+  }, [fiatCurrency, details, details.wallet, details.value, details.amount]);
 
-  useEffect(() => {
-    let fiatCurrencyUsed = fiatCurrency.filter(
-      (item) => item.code === details.wallet
-    )[0];
-    // details && details.cardType && details.cardType === "physical"
-    //   ? setTotal(
-    //       details.amount &&
-    //         details.value.physical[details.amount] *
-    //           details.amount *
-    //           parseFloat(fiatCurrencyUsed.we_buy, 10)
-    //     )
-    //   : details.cardType === "ecode"
-    //   ? setTotal(
-    //       details.amount &&
-    //         details.value.ecode[details.amount] *
-    //           details.amount *
-    //           parseFloat(fiatCurrencyUsed.we_buy, 10)
-    //     )
-    //   : setTotal(0);
+  // useEffect(() => {
+  //   let fiatCurrencyUsed = fiatCurrency.filter(
+  //     (item) => item.code === details.wallet
+  //   )[0];
+  //   // details && details.cardType && details.cardType === "physical"
+  //   //   ? setTotal(
+  //   //       details.amount &&
+  //   //         details.value.physical[details.amount] *
+  //   //           details.amount *
+  //   //           parseFloat(fiatCurrencyUsed.we_buy, 10)
+  //   //     )
+  //   //   : details.cardType === "ecode"
+  //   //   ? setTotal(
+  //   //       details.amount &&
+  //   //         details.value.ecode[details.amount] *
+  //   //           details.amount *
+  //   //           parseFloat(fiatCurrencyUsed.we_buy, 10)
+  //   //     )
+  //   //   : setTotal(0);
 
-    // getCardDetails({ cardCode: active.uid });
-    // eslint-disable-next-line
-  }, [details]);
+  //   // getCardDetails({ cardCode: active.uid });
+  //   // eslint-disable-next-line
+  // }, [details]);
 
   const onHandleFile = (file) => {
     setDetails((details) => ({ ...details, file: [...details.file, file] }));
@@ -987,11 +987,8 @@ const GiftCardForm = ({
               disabled={
                 details.file.length === 0 ||
                 !details.amount ||
-                // !details.total ||
                 !details.cardCurrencyId ||
                 !details.wallet ||
-                // loading ||
-                // !canTrade ||
                 uploadLoading
               }
               onClick={() => handleSubmit()}
