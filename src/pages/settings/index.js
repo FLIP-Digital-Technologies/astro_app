@@ -184,6 +184,16 @@ const Profile = ({
   ResetPinViaEmail,
   completeResetPin,
 }) => {
+  function getWindowDimensions() {
+    const { screen } = window;
+    let width = screen.width;
+    let height = screen.height;
+    return {
+      width,
+      height,
+    };
+  }
+  const [windowDimensions] = useState(getWindowDimensions());
   useEffect(() => {
     getCurrentUser();
     // console.log("abh", [...fiatCurrency, ...cryptoCurrency]);

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { DashboardLayout } from "../../components/layout";
 import {
+  ArrowLeftOutlined,
   // BarChartOutlined,
   // PayCircleOutlined,
   DoubleRightOutlined,
@@ -13,8 +14,19 @@ import GiftCardTrans from "./giftCardTrans";
 import homeStyles from "../home/styles.module.scss";
 import { Row, Col } from "antd";
 import png from "../../assets/png";
+import history from "../../redux/history";
 
 const Transactions = () => {
+  function getWindowDimensions() {
+    const { screen } = window;
+    let width = screen.width;
+    let height = screen.height;
+    return {
+      width,
+      height,
+    };
+  }
+  const [windowDimensions] = useState(getWindowDimensions());
   const [showFiatTrans, setShowFiatTrans] = useState(false);
   const [showCryptoTrans, setShowCryptoTrans] = useState(false);
   const [showGiftTrans, setShowGiftTrans] = useState(false);
@@ -44,11 +56,19 @@ const Transactions = () => {
       )}
       {active && (
         <>
-          <span className={styles.gitcard__top__title}>Transactions </span>
+          <span className={styles.gitcard__top__title}>
+            {windowDimensions.width < 600 && (
+              <ArrowLeftOutlined
+                onClick={() => history.goBack()}
+                style={{ marginRight: 10, cursor: "pointer" }}
+              />
+            )}
+            Transactions{" "}
+          </span>
           <div className={styles.transactioncards}>
             <Row gutter={[16, 16]}>
               <Col span={6} xs={10} sm={12} md={8} lg={8} xl={6} xxl={6}>
-              <div
+                <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
                     setShowFiatTrans(true);
@@ -67,9 +87,7 @@ const Transactions = () => {
                       alt="wallet"
                     />
                   </div>
-                  <div className={homeStyles.widgets__info}>
-                    Fiat
-                  </div>
+                  <div className={homeStyles.widgets__info}>Fiat</div>
                   <div className={homeStyles.widgets__description}>
                     Details of your Fiat Currency Transactions
                   </div>
@@ -81,7 +99,7 @@ const Transactions = () => {
                 </div>
               </Col>
               <Col span={6} xs={10} sm={12} md={8} lg={8} xl={6} xxl={6}>
-              <div
+                <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
                     setShowCryptoTrans(true);
@@ -98,11 +116,9 @@ const Transactions = () => {
                       alt="wallet"
                     />
                   </div>
-                  <div className={homeStyles.widgets__info}>
-                    Crypto
-                  </div>
+                  <div className={homeStyles.widgets__info}>Crypto</div>
                   <div className={homeStyles.widgets__description}>
-                  Details of your Crypto Currency Transactions
+                    Details of your Crypto Currency Transactions
                   </div>
                   <div className={homeStyles.widgets__arrow}>
                     <DoubleRightOutlined
@@ -112,8 +128,7 @@ const Transactions = () => {
                 </div>
               </Col>
               <Col span={6} xs={10} sm={12} md={8} lg={8} xl={6} xxl={6}>
-              
-              <div
+                <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
                     setShowCryptoTrans(false);
@@ -130,11 +145,9 @@ const Transactions = () => {
                       alt="wallet"
                     />
                   </div>
-                  <div className={homeStyles.widgets__info}>
-                    GiftCards
-                  </div>
+                  <div className={homeStyles.widgets__info}>GiftCards</div>
                   <div className={homeStyles.widgets__description}>
-                  Details of your GiftCards Transactions
+                    Details of your GiftCards Transactions
                   </div>
                   <div className={homeStyles.widgets__arrow}>
                     <DoubleRightOutlined

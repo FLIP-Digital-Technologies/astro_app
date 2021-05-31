@@ -6,7 +6,8 @@ import { getCryptoCurrencies, getUserWallets } from "../../redux/actions/Auths";
 import styles from "../styles.module.scss";
 import BTC from "../btc";
 import AddCryptoWallet from "../../components/Modals/addCryptoWallet";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import history from "../../redux/history";
 
 // const data = [
 //   { name: "Bitcoin", code: "BTC", price: 61000, balance: "0.096" },
@@ -75,6 +76,16 @@ const getIcon = (name) => {
 };
 
 const CryptoPage = (props) => {
+  function getWindowDimensions() {
+    const { screen } = window;
+    let width = screen.width;
+    let height = screen.height;
+    return {
+      width,
+      height,
+    };
+  }
+  const [windowDimensions] = useState(getWindowDimensions());
   const [opencryptoAddWallet, setOpencryptoAddWallet] = useState(false);
   const [active, setActive] = useState(null);
   useEffect(() => {
@@ -85,7 +96,15 @@ const CryptoPage = (props) => {
     <DashboardLayout>
       {!active && (
         <>
-          <span className={styles.gitcard__top__title}>Crypto </span>
+          <span className={styles.gitcard__top__title}>
+            {windowDimensions.width < 600 && (
+              <ArrowLeftOutlined
+                onClick={() => history.goBack()}
+                style={{ marginRight: 10, cursor: "pointer" }}
+              />
+            )}
+            Crypto{" "}
+          </span>
           <div className={styles.home}>
             <div className={styles.home__welcome}>
               {props.balance && props.balance.cryptoWallets && (
@@ -168,10 +187,16 @@ const CryptoPage = (props) => {
                     alignItems: "center",
                     justifyContent: "center",
                     flex: 1,
-                    height:300,
+                    height: 300,
                   }}
                 >
-                  <LoadingOutlined style={{ fontSize: 50, color: "#921946", fontWeight:'bold' }} />
+                  <LoadingOutlined
+                    style={{
+                      fontSize: 50,
+                      color: "#921946",
+                      fontWeight: "bold",
+                    }}
+                  />
                 </div>
               )}
             </div>

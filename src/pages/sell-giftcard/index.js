@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Row, Col } from "antd";
-import {
-  DoubleRightOutlined,
-} from "@ant-design/icons";
+import { DoubleRightOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { DashboardLayout } from "../../components/layout";
 import GiftCardForm from "./components";
 import styles from "../styles.module.scss";
@@ -17,12 +15,23 @@ import homeStyles from "../home/styles.module.scss";
 // import { cardList } from "../../utils/helper";
 import { getFiatCurrencies, getUserWallets } from "../../redux/actions/Auths";
 import { getCurrencyConversions } from "../../redux/actions/user";
+import history from "../../redux/history";
 
 // const getHumanForm = (name) => (
 //   name.replace("-", " ").split(" ").map(word => `${word[0].toUpperCase()}${word.slice(1,)}`).join(" ")
 // )
 
 const SellGiftcard = (props) => {
+  function getWindowDimensions() {
+    const { screen } = window;
+    let width = screen.width;
+    let height = screen.height;
+    return {
+      width,
+      height,
+    };
+  }
+  const [windowDimensions] = useState(getWindowDimensions());
   let b = props.giftCardList;
 
   let list = b;
@@ -60,37 +69,30 @@ const SellGiftcard = (props) => {
     return (
       // <div onClick={handleClick} className={styles.gitcard__content__card}>
       //   <div className={styles.holder}>
-          
+
       //     <img src={data.image} height="151.692" width="241" alt="card" />
       //   </div>
       //   {data.name}
-        
+
       // </div>
-      <div
-      className={homeStyles.widgets__inner}
-      onClick={handleClick}
-    >
-      <div className={homeStyles.widgets__image}>
-        <img
-          src={data.image}
-          height="40"
-          width="40"
-          style={{ marginRight: 5 }}
-          alt="wallet"
-        />
+      <div className={homeStyles.widgets__inner} onClick={handleClick}>
+        <div className={homeStyles.widgets__image}>
+          <img
+            src={data.image}
+            height="40"
+            width="40"
+            style={{ marginRight: 5 }}
+            alt="wallet"
+          />
+        </div>
+        <div className={homeStyles.widgets__info}>{data.name}</div>
+        <div className={homeStyles.widgets__description}>
+          {`Sell your ${data.name} giftcard`}
+        </div>
+        <div className={homeStyles.widgets__arrow}>
+          <DoubleRightOutlined className={homeStyles.widgets__arrow__inner} />
+        </div>
       </div>
-      <div className={homeStyles.widgets__info}>
-        {data.name}
-      </div>
-      <div className={homeStyles.widgets__description}>
-      {`Sell your ${data.name} giftcard`}
-      </div>
-      <div className={homeStyles.widgets__arrow}>
-        <DoubleRightOutlined
-          className={homeStyles.widgets__arrow__inner}
-        />
-      </div>
-    </div>
     );
   };
 
@@ -100,13 +102,24 @@ const SellGiftcard = (props) => {
         {!active && (
           <>
             <div className={styles.gitcard__top}>
-              <span className={styles.gitcard__top__title}>Gift cards </span>
+              <span className={styles.gitcard__top__title}>
+                {windowDimensions.width < 600 && (
+                  <ArrowLeftOutlined
+                    onClick={() => history.goBack()}
+                    style={{ marginRight: 10, cursor: "pointer" }}
+                  />
+                )}
+                Gift cards{" "}
+              </span>
               {/* <div className={styles.gitcard__top__search}>
                 <SearchIcon />
                 <input placeholder="Search for giftcards" />
               </div> */}
             </div>
-            <Row gutter={{ xs: 0, sm: 0, md: 0, lg: 0 }} style={{marginLeft:25, marginTop:20}}>
+            <Row
+              gutter={{ xs: 0, sm: 0, md: 0, lg: 0 }}
+              style={{ marginLeft: 25, marginTop: 20 }}
+            >
               {list && list.length < 1 ? (
                 <div style={{ width: "100%" }}>
                   <EmptyEntryWithTitle title="GiftCard" action={false} />
@@ -124,7 +137,7 @@ const SellGiftcard = (props) => {
                       xl={4}
                       className="gutter-row"
                       span={6}
-                      style={{marginBottom:28, marginRight:12}}
+                      style={{ marginBottom: 28, marginRight: 12 }}
                     >
                       <CardItem key={key} data={item} item={item[0]} />
                     </Col>
@@ -158,7 +171,7 @@ const mapStateToProps = (state) => ({
   cardDetails: state.giftCard.cardDetails,
   userWallets: state.user.userWallets,
   fiatCurrency: state.user.fiatCurrency,
-  conversions:state.user.conversions,
+  conversions: state.user.conversions,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -178,7 +191,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getFiatCurrencies());
   },
   getConversions: () => {
-    dispatch(getCurrencyConversions())
+    dispatch(getCurrencyConversions());
   },
 });
 

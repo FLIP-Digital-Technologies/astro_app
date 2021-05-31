@@ -1,13 +1,25 @@
 import React, { useState } from "react";
 import { DashboardLayout } from "../../components/layout";
-import { BarChartOutlined, DoubleRightOutlined } from "@ant-design/icons";
+import { BarChartOutlined, DoubleRightOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import Flyout from "./components";
 import styles from "../styles.module.scss";
 import homeStyles from "../home/styles.module.scss";
 import { Row, Col } from "antd";
 import png from "../../assets/png";
+import history from "../../redux/history";
+// import { ArrowLeftOutlined } from "@ant-design/icons"
 
 const Bills = () => {
+  function getWindowDimensions() {
+    const { screen } = window;
+    let width = screen.width;
+    let height = screen.height;
+    return {
+      width,
+      height,
+    };
+  }
+  const [windowDimensions] = useState(getWindowDimensions());
   const INITIAL_STATE = {
     title: "",
     close: () => setFormState(INITIAL_STATE),
@@ -17,43 +29,55 @@ const Bills = () => {
     {
       title: "Cable",
       Icon: BarChartOutlined,
-      details:"Pay for your Cable Subscriptions",
-      img:png.CableTv
+      details: "Pay for your Cable Subscriptions",
+      img: png.CableTv,
     },
     {
       title: "Airtime",
       Icon: BarChartOutlined,
       details: "Buy your preferred Airtime",
-      img:png.Phone
+      img: png.Phone,
     },
     {
       title: "Internet",
       Icon: BarChartOutlined,
-      details:"Pay for your Internet Subscriptions",
-      img:png.Internet
+      details: "Pay for your Internet Subscriptions",
+      img: png.Internet,
     },
     {
       title: "Electricity",
       Icon: BarChartOutlined,
-      details:"Pay your Electricity bill",
-      img:png.Electricity
+      details: "Pay your Electricity bill",
+      img: png.Electricity,
     },
   ];
   const [formState, setFormState] = useState(INITIAL_STATE);
   return (
     <DashboardLayout>
-      <span className={styles.gitcard__top__title}>Bills </span>
+      <span className={styles.gitcard__top__title}>
+        {windowDimensions.width < 600 && (
+          <ArrowLeftOutlined
+            onClick={() => history.goBack()}
+            style={{ marginRight: 10, cursor: "pointer" }}
+          />
+        )}
+        Bills{" "}
+      </span>
       <Flyout state={formState} setState={setFormState} />
       <div className={styles.bills}>
         {/* <div className={styles.bills__content}> */}
-          <Row gutter={[8,20]}>
+        <Row gutter={[8, 20]}>
           {BILLS &&
             BILLS.map((item, index) => (
               <Col span={6} xs={10} sm={10} md={10} lg={8} xl={6} xxl={6}>
-              <div
+                <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
-                    setFormState((state) => ({ ...state, ...item, show: true }));
+                    setFormState((state) => ({
+                      ...state,
+                      ...item,
+                      show: true,
+                    }));
                     setFormState((state) => ({ ...state, show: true }));
                   }}
                   key={index.toString()}
@@ -66,11 +90,9 @@ const Bills = () => {
                       alt="wallet"
                     />
                   </div>
-                  <div className={homeStyles.widgets__info}>
-                    {item.title}
-                  </div>
+                  <div className={homeStyles.widgets__info}>{item.title}</div>
                   <div className={homeStyles.widgets__description}>
-                  {item.details}
+                    {item.details}
                   </div>
                   <div className={homeStyles.widgets__arrow}>
                     <DoubleRightOutlined
@@ -80,7 +102,7 @@ const Bills = () => {
                 </div>
               </Col>
             ))}
-          </Row>
+        </Row>
         {/* </div> */}
       </div>
     </DashboardLayout>

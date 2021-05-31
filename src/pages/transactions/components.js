@@ -4,7 +4,7 @@ import { TransactionIcon, Eye, ArrowRight } from "../../assets/svg";
 import { Modal } from "antd";
 import styles from "../styles.module.scss";
 import Button from "../../components/button";
-import { date, Money } from "../../utils/helper";
+import { CommaFormatted, date, Money } from "../../utils/helper";
 
 export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
   const [loading, setLoading] = useState(false);
@@ -62,7 +62,7 @@ export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
       render: (cardDetails) => (
         <p>
           {cardDetails && cardDetails.currency}{" "}
-          {cardDetails && cardDetails.value}{" | USD"} 
+          {CommaFormatted(cardDetails && cardDetails.value)}{" | USD"} 
           {cardDetails && cardDetails.usd_value}
         </p>
       ),
@@ -173,7 +173,7 @@ export const PTwoPTab = ({ fetchTrans, transaction, handleAction }) => {
       dataIndex: "amount_sent_object",
       render: (amountSent) => (
         <p>
-          {Money(amountSent && amountSent.value, amountSent && amountSent.currency)}
+          {amountSent && amountSent.currency}{" "}{CommaFormatted(amountSent && amountSent.value)}
         </p>
       ),
     },{
@@ -181,7 +181,7 @@ export const PTwoPTab = ({ fetchTrans, transaction, handleAction }) => {
       dataIndex: "amount_received_object",
       render: (amountReceived) => (
         <p>
-          {Money(amountReceived && amountReceived.value, amountReceived && amountReceived.currency)}
+          {amountReceived && amountReceived.currency}{" "}{CommaFormatted(amountReceived && amountReceived.value)}
         </p>
       ),
     },
@@ -272,6 +272,7 @@ export const BillPaymentTab = ({ fetchTrans, transaction, handleAction }) => {
     {
       title: "Amount",
       dataIndex: "amount",
+      render:(amount) => `${CommaFormatted(amount && amount)}`
     },
     {
       title: "Reference",
@@ -382,6 +383,7 @@ export const DepositsTab = ({ fetchTrans, transaction, handleAction }) => {
     {
       title: "Amount",
       dataIndex: "amount",
+      render:(amount) => `${CommaFormatted(amount && amount)}`
     },
     {
       title: "Reference",
@@ -479,6 +481,7 @@ export const WithdrawalsTab = ({ fetchTrans, transaction, handleAction }) => {
     {
       title: "Amount",
       dataIndex: "amount",
+      render:(amount) => `${CommaFormatted(amount && amount)}`
     },
     {
       title: "Bank Account",

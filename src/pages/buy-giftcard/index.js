@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import { Row, Col, Card, Drawer, Typography, Badge, Modal } from "antd";
-import { ExclamationCircleOutlined, LoadingOutlined } from "@ant-design/icons";
+import { ExclamationCircleOutlined, LoadingOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { useHistory, useLocation } from "react-router-dom";
 import _ from "lodash";
 
@@ -33,6 +33,16 @@ const { Title, Text } = Typography;
 const { confirm } = Modal;
 
 const BuyGiftCard = (props) => {
+  function getWindowDimensions() {
+    const { screen } = window;
+    let width = screen.width;
+    let height = screen.height;
+    return {
+      width,
+      height,
+    };
+  }
+  const [windowDimensions] = useState(getWindowDimensions());
   // eslint-disable-next-line
   const delayedQuery = useCallback(
     _.debounce(
@@ -122,6 +132,12 @@ const BuyGiftCard = (props) => {
                 className={styles.gitcard__top__title}
                 style={{ marginLeft: 0 }}
               >
+                {windowDimensions.width < 600 && (
+                  <ArrowLeftOutlined
+                    onClick={() => history.goBack()}
+                    style={{ marginRight: 10, cursor: "pointer" }}
+                  />
+                )}
                 Buy Gift cards{" "}
               </span>
             </Row>
