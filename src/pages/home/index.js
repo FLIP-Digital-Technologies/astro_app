@@ -477,7 +477,7 @@ const Home = ({
                 </div>
               </div>
             )}
-            <Row gutter={[16,16]} style={{}}>
+            <Row gutter={[8,8]} style={{}}>
               <Col
                 span={12}
                 xs={24}
