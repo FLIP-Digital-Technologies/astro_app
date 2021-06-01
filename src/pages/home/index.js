@@ -477,13 +477,13 @@ const Home = ({
                 </div>
               </div>
             )}
-            <Row gutter={[8, 8]} style={{}}>
+            <Row gutter={[16,16]} style={{}}>
               <Col
                 span={12}
-                xs={20}
-                sm={20}
+                xs={24}
+                sm={24}
                 lg={12}
-                md={20}
+                md={24}
                 xxl={12}
                 xl={12}
                 // style={{ marginRight: 25, marginBottom: 28 }}
@@ -785,10 +785,10 @@ const Home = ({
                 <Row gutter={[8, 25]}>
                   <Col
                     span={12}
-                    xs={10}
-                    sm={8}
+                    xs={12}
+                    sm={12}
                     lg={12}
-                    md={10}
+                    md={12}
                     xxl={12}
                     xl={12}
                   >
@@ -819,10 +819,10 @@ const Home = ({
                   </Col>
                   <Col
                     span={12}
-                    xs={10}
-                    sm={8}
+                    xs={12}
+                    sm={12}
                     lg={12}
-                    md={10}
+                    md={12}
                     xxl={12}
                     xl={12}
                   >
@@ -853,12 +853,12 @@ const Home = ({
                   </Col>
                 </Row>
                 <Row gutter={[8, 25]}>
-                  <Col
+                <Col
                     span={12}
-                    xs={10}
-                    sm={8}
+                    xs={12}
+                    sm={12}
                     lg={12}
-                    md={10}
+                    md={12}
                     xxl={12}
                     xl={12}
                   >
@@ -896,10 +896,10 @@ const Home = ({
                   </Col>
                   <Col
                     span={12}
-                    xs={10}
-                    sm={8}
+                    xs={12}
+                    sm={12}
                     lg={12}
-                    md={10}
+                    md={12}
                     xxl={12}
                     xl={12}
                   >
@@ -966,10 +966,10 @@ const Home = ({
           <Col
             // span={5}
             span={5}
-            xs={20}
-            sm={20}
+            xs={24}
+            sm={24}
             lg={5}
-            md={20}
+            md={24}
             xxl={5}
             xl={5}
             style={{

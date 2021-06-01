@@ -66,8 +66,8 @@ const Transactions = () => {
             Transactions{" "}
           </span>
           <div className={styles.transactioncards}>
-            <Row gutter={[16, 16]}>
-              <Col span={6} xs={10} sm={12} md={8} lg={8} xl={6} xxl={6}>
+            <Row gutter={[8, 25]}>
+              <Col span={6} xs={12} sm={12} md={12} lg={8} xl={6} xxl={6}>
                 <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
@@ -98,7 +98,7 @@ const Transactions = () => {
                   </div>
                 </div>
               </Col>
-              <Col span={6} xs={10} sm={12} md={8} lg={8} xl={6} xxl={6}>
+              <Col span={6} xs={12} sm={12} md={12} lg={8} xl={6} xxl={6}>
                 <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
@@ -127,7 +127,7 @@ const Transactions = () => {
                   </div>
                 </div>
               </Col>
-              <Col span={6} xs={10} sm={12} md={8} lg={8} xl={6} xxl={6}>
+              <Col span={6} xs={12} sm={12} md={12} lg={8} xl={6} xxl={6}>
                 <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {

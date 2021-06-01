@@ -117,7 +117,8 @@ const SellGiftcard = (props) => {
               </div> */}
             </div>
             <Row
-              gutter={{ xs: 0, sm: 0, md: 0, lg: 0 }}
+              // gutter={{ xs: 0, sm: 0, md: 0, lg: 0 }}
+              gutter={[8,8]}
               style={{ marginLeft: 25, marginTop: 20 }}
             >
               {list && list.length < 1 ? (
@@ -130,9 +131,9 @@ const SellGiftcard = (props) => {
                   return (
                     <Col
                       key={key}
-                      xs={10}
-                      sm={10}
-                      md={6}
+                      xs={11}
+                      sm={11}
+                      md={11}
                       lg={4}
                       xl={4}
                       className="gutter-row"
