@@ -51,7 +51,7 @@ export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
         <p>
           Ordered: {cardSlug.replace("-", " ").replace("_", " ")}
           <br/>
-          Quantity: {rec.cardDetails && rec.cardDetails.quantity}
+          Quantity: {rec.card_detail && rec.card_detail.quantity}
         </p>
         </div>
       ),
@@ -272,7 +272,7 @@ export const BillPaymentTab = ({ fetchTrans, transaction, handleAction }) => {
     {
       title: "Amount",
       dataIndex: "amount",
-      render:(amount) => `${CommaFormatted(amount && amount)}`
+      render:(amount, full) => `${full.FiatCurrency.code} ${CommaFormatted(amount && amount)}`
     },
     {
       title: "Reference",

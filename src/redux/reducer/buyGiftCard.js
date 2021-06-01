@@ -37,10 +37,10 @@ const buyGiftCardReducer = (state = initState, action) => {
         initBuyGiftCardTransaction: null,
       };
     case actionTypes.GET_CARD_SEARCH_PENDING:
-      notification.info({
-        message: "Loading.....",
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   key,
+      // });
       return {
         ...state,
         loading: true,
@@ -48,10 +48,10 @@ const buyGiftCardReducer = (state = initState, action) => {
         buyGiftCards: [],
       };
     case actionTypes.GET_SINGLE_CARD_DETAILS_PENDING:
-      notification.info({
-        message: "Loading.....",
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   key,
+      // });
       return {
         ...state,
         loading: true,
@@ -59,10 +59,10 @@ const buyGiftCardReducer = (state = initState, action) => {
         buyGiftCardDetails: null,
       };
     case actionTypes.GET_BUY_GIFT_CARD_TRANSACTION_DETAIL_PENDING:
-      notification.info({
-        message: "Loading.....",
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   key,
+      // });
       return {
         ...state,
         loading: true,
@@ -70,10 +70,10 @@ const buyGiftCardReducer = (state = initState, action) => {
         buyGiftCardTransactionDetails: null,
       };
     case actionTypes.GET_BUY_GIFT_CARD_TRANSACTIONS_PENDING:
-      notification.info({
-        message: "Loading.....",
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   key,
+      // });
       return {
         ...state,
         loading: true,

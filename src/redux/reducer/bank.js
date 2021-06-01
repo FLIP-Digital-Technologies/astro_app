@@ -35,12 +35,12 @@ const bankReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.VERIFY_BANK_ACCOUNT_DETAILS_PENDING:
-      notification.info({
-        message: "Loading.....",
-        duration: 0,
-        description: "Getting Bank details",
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   duration: 0,
+      //   description: "Getting Bank details",
+      //   key,
+      // });
       return {
         ...state,
         loading: true,
@@ -48,12 +48,12 @@ const bankReducer = (state = initState, action) => {
         bankDetails: null,
       };
     case actionTypes.DEL_BANK_ACCOUNT_PENDING:
-      notification.info({
-        message: "Loading.....",
-        duration: 1.5,
-        description: "Deleting Bank details",
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   duration: 1.5,
+      //   description: "Deleting Bank details",
+      //   key,
+      // });
       return {
         ...state,
         loading: true,
@@ -86,11 +86,11 @@ const bankReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.VERIFY_BANK_ACCOUNT_DETAILS_SUCCESS:
-      notification.success({
-        message: "Successful",
-        description: "Successfully Fetched Bank details",
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   description: "Successfully Fetched Bank details",
+      //   key,
+      // });
       return {
         ...state,
         bankDetails: action.payload.bankDetails,
@@ -98,12 +98,12 @@ const bankReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_BANK_ACCOUNT_SUCCESS:
-      notification.success({
-        message: "Successful",
-        description: "Successfully Fetched Bank Accounts",
-        duration:2.5,
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   description: "Successfully Fetched Bank Accounts",
+      //   duration:2.5,
+      //   key,
+      // });
       return {
         ...state,
         bankAccounts: action.payload.bankAccounts,

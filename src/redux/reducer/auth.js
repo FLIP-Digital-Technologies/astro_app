@@ -38,11 +38,11 @@ const authReducer = (state = initState, action) => {
     case actionTypes.GET_USER_DETAILS_BY_ID_PENDING:
     case actionTypes.CHANGE_USER_PASSWORD_PENDING:
     case actionTypes.CHANGE_USER_PIN_PENDING:
-      notification.info({
-        message: "Loading.....",
-        duration: 0,
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   duration: 0,
+      //   key,
+      // });
       return {
         ...state,
         loading: true,
@@ -55,23 +55,23 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.CHECK_EMAIL_AVAILABILITY_FAILED:
-      notification.warn({
-        message: "Email exists",
-        duration: 0,
-        key,
-      });
+      // notification.warn({
+      //   message: "Email exists",
+      //   duration: 0,
+      //   key,
+      // });
       return {
         ...state,
         loading: false,
         error: null,
       };
     case actionTypes.UPDATE_USER_DETAILS_PENDING:
-      notification.info({
-        message: "Loading.....",
-        duration: 0,
-        description: "Updating user details",
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   duration: 0,
+      //   description: "Updating user details",
+      //   key,
+      // });
       return {
         ...state,
         updatedUser: false,
@@ -123,11 +123,11 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_USER_WALLETS_SUCCESS:
-      notification.success({
-        message: "Successful",
-        duration:2.5,
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   duration:2.5,
+      //   key,
+      // });
       return {
         ...state,
         userWallets: action.payload,
@@ -135,11 +135,11 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_CRYPTO_CURRENCY_SUCCESS:
-      notification.success({
-        message: "Successful",
-        duration:2.5,
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   duration:2.5,
+      //   key,
+      // });
       return {
         ...state,
         // user: action.payload.user,
@@ -148,11 +148,11 @@ const authReducer = (state = initState, action) => {
         cryptoCurrency:action.payload.crypto
       };
     case actionTypes.GET_FIAT_CURRENCY_SUCCESS:
-      notification.success({
-        message: "Successful",
-        duration:2.5,
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   duration:2.5,
+      //   key,
+      // });
       return {
         ...state,
         // user: action.payload.user,
@@ -162,10 +162,10 @@ const authReducer = (state = initState, action) => {
       };
     case actionTypes.REGISTER_SUCCESS:
     case actionTypes.LOGIN_SUCCESS:
-      notification.success({
-        message: "Successful",
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   key,
+      // });
       return {
         ...state,
         user: action.payload.user,
@@ -173,11 +173,11 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS:
-      notification.success({
-        message: "Successful",
-        duration:2.5,
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   duration:2.5,
+      //   key,
+      // });
       return {
         ...state,
         user: action.payload.user,
@@ -185,12 +185,12 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.ADD_BANK_ACCOUNT_SUCCESS:
-      notification.success({
-        message: "Successful",
-        description: "Added Bank details",
-        duration:2.5,
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   description: "Added Bank details",
+      //   duration:2.5,
+      //   key,
+      // });
       return {
         ...state,
         updatedUser: false,
@@ -248,12 +248,12 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.REDEEM_USER_REFERRAL_SUCCESS:
-      notification.success({
-        message: "Successful",
-        // description: "Redeemed referral bonus successfully",
-        duration:2.5,
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   // description: "Redeemed referral bonus successfully",
+      //   duration:2.5,
+      //   key,
+      // });
       return {
         ...state,
         userReferral: action.payload,
@@ -261,11 +261,11 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_USER_REFERRALS_SUCCESS:
-      notification.success({
-        message: "Successful",
-        duration:2.5,
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   duration:2.5,
+      //   key,
+      // });
       return {
         ...state,
         userReferralTransaction: {
@@ -300,12 +300,12 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.CREATE_USER_WALLET_SUCCESS:
-      notification.success({
-        message: "Successful",
-        // description: "You can now Login with your new password.",
-        duration:2.5,
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   // description: "You can now Login with your new password.",
+      //   duration:2.5,
+      //   key,
+      // });
       return {
         ...state,
         createWallet:action.payload,

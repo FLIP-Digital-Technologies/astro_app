@@ -156,12 +156,12 @@ export const TransactionModalBillPayment = ({
           </div>
           <div className={styles.transactionBig__main__holder}>
             <div className={styles.transactionBig__main__content}>
-              <span>Amount Paid</span> <span>{Money(amount, referenceCurrency)}</span>
+              <span>Amount Paid</span> <span>{amount}</span>
             </div>
           </div>
           <div className={styles.transactionBig__main__holder}>
             <div className={styles.transactionBig__main__content}>
-              <span>Transaction Fee</span> <span>{Money(transactionFee, referenceCurrency)}</span>
+              <span>Transaction Fee</span> <span>{transactionFee}</span>
             </div>
           </div>
         </div>

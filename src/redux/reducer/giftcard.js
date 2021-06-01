@@ -78,12 +78,12 @@ const giftCardReducers = (state = initState, action) => {
         giftCardDetails: null,
       };
     case actionTypes.GET_CARD_CODES_PENDING:
-      notification.info({
-        message: "Loading.....",
-        duration: 0,
-        description: "Getting Gift Cards",
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   duration: 0,
+      //   description: "Getting Gift Cards",
+      //   key,
+      // });
       return {
         ...state,
         loading: true,
@@ -150,11 +150,11 @@ const giftCardReducers = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_CARD_CODES_SUCCESS:
-      notification.success({
-        message: "Successful",
-        description: "Successfully Fetched Gift Cards",
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   description: "Successfully Fetched Gift Cards",
+      //   key,
+      // });
       return {
         ...state,
         giftCardList: action.payload.cards,

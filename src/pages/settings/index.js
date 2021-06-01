@@ -780,8 +780,8 @@ const Profile = ({
             </div>
           </div>
           <div className={styles.profileSecurityWidgets}>
-            <Row gutter={[16, 16]}>
-              <Col span={8} xs={10} sm={12} md={8} lg={8} xl={8} xxl={8}>
+            <Row gutter={[8, 25]}>
+              <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
                 <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
@@ -807,7 +807,7 @@ const Profile = ({
                   </div>
                 </div>
               </Col>
-              <Col span={8} xs={10} sm={12} md={8} lg={8} xl={8} xxl={8}>
+              <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
                 <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
@@ -833,7 +833,7 @@ const Profile = ({
                   </div>
                 </div>
               </Col>
-              <Col span={8} xs={10} sm={12} md={8} lg={8} xl={8} xxl={8}>
+              <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
                 <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {

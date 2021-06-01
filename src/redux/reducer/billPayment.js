@@ -46,11 +46,11 @@ const billPaymentReducer = (state = initState, action) => {
         billPaymentDetails: null,
       };
     case actionTypes.GET_BILL_PAYMENT_DETAILS_PENDING:
-      notification.info({
-        message: "Loading.....",
-        duration: 0,
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   duration: 0,
+      //   key,
+      // });
       return {
         ...state,
         loading: true,
@@ -82,12 +82,12 @@ const billPaymentReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_BILL_PAYMENT_DETAILS_SUCCESS:
-      notification.success({
-        message: "Successful",
-        duration:2.5,
-        description: "Successfully fetched Bill Payment transaction.",
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   duration:2.5,
+      //   description: "Successfully fetched Bill Payment transaction.",
+      //   key,
+      // });
       return {
         ...state,
         BillPaymentTransactionDetails: action.payload.transaction,
