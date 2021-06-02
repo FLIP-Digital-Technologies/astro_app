@@ -38,11 +38,11 @@ const authReducer = (state = initState, action) => {
     case actionTypes.GET_USER_DETAILS_BY_ID_PENDING:
     case actionTypes.CHANGE_USER_PASSWORD_PENDING:
     case actionTypes.CHANGE_USER_PIN_PENDING:
-      notification.info({
-        message: "Loading.....",
-        duration: 0,
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   duration: 0,
+      //   key,
+      // });
       return {
         ...state,
         loading: true,
@@ -123,11 +123,11 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_USER_WALLETS_SUCCESS:
-      notification.success({
-        message: "Successful",
-        duration:1,
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   duration:1,
+      //   key,
+      // });
       return {
         ...state,
         userWallets: action.payload,
@@ -135,11 +135,11 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_CRYPTO_CURRENCY_SUCCESS:
-      notification.success({
-        message: "Successful",
-        duration:1,
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   duration:1,
+      //   key,
+      // });
       return {
         ...state,
         // user: action.payload.user,
@@ -148,11 +148,11 @@ const authReducer = (state = initState, action) => {
         cryptoCurrency:action.payload.crypto
       };
     case actionTypes.GET_FIAT_CURRENCY_SUCCESS:
-      notification.success({
-        message: "Successful",
-        duration:1,
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   duration:1,
+      //   key,
+      // });
       return {
         ...state,
         // user: action.payload.user,
@@ -173,11 +173,11 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS:
-      notification.success({
-        message: "Successful",
-        duration:1,
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   duration:1,
+      //   key,
+      // });
       return {
         ...state,
         user: action.payload.user,
@@ -248,12 +248,12 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.REDEEM_USER_REFERRAL_SUCCESS:
-      // notification.success({
-      //   message: "Successful",
-      //   // description: "Redeemed referral bonus successfully",
-      //   duration:1,
-      //   key,
-      // });
+      notification.success({
+        message: "Successful",
+        // description: "Redeemed referral bonus successfully",
+        duration:1,
+        key,
+      });
       return {
         ...state,
         userReferral: action.payload,

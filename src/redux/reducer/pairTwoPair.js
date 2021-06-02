@@ -73,11 +73,11 @@ const pairTwoPairReducer = (state = initState, action) => {
         pairTwoPairBTCDetails: null,
       };
     case actionTypes.GET_FIAT_P2P_TRANSFER_DETAILS_PENDING:
-      notification.info({
-        message: "Loading.....",
-        duration: 0,
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   duration: 0,
+      //   key,
+      // });
       return {
         ...state,
         loading: true,
@@ -121,11 +121,11 @@ const pairTwoPairReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_FIAT_P2P_TRANSFER_DETAILS_SUCCESS:
-      notification.success({
-        message: "Successful",
-        description: "Successfully fetched Fiat P2P Transfer transaction details.",
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   description: "Successfully fetched Fiat P2P Transfer transaction details.",
+      //   key,
+      // });
       return {
         ...state,
         pairTwoPairFiatTransactionDetails: action.payload,
