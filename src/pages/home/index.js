@@ -440,7 +440,7 @@ const Home = ({
                     Handle Your Bills
                   </div>
                 </div>
-                <div
+                {/* <div
                   className={homeStyles.topbox__inner}
                   onClick={() => history.push("/app/settings")}
                 >
@@ -458,7 +458,7 @@ const Home = ({
                   <div className={homeStyles.topbox__description}>
                     Go to Settings
                   </div>
-                </div>
+                </div> */}
                 <div className={homeStyles.topbox__inner}>
                   <div className={homeStyles.topbox__topic}>
                     <img
@@ -905,28 +905,29 @@ const Home = ({
                   >
                     <div
                       className={homeStyles.widgets__inner}
-                      onClick={() => {
-                        balance && balance.cryptoWallets.length > 0
-                          ? setShowPTWOPcrypto(true)
-                          : notification.info({
-                              message: "No crypto wallet",
-                              duration: 2.5,
-                            });
-                      }}
+                      // onClick={() => {
+                      //   // balance && balance.cryptoWallets.length > 0
+                      //   //   ? setShowPTWOPcrypto(true)
+                      //   //   : notification.info({
+                      //   //       message: "No crypto wallet",
+                      //   //       duration: 2.5,
+                      //   //     });
+                      // }}
+                      onClick={() => history.push("/app/settings")}
                     >
                       <div className={homeStyles.widgets__image}>
                         <img
-                          src={png.CryptoPeer}
+                          src={png.Settings}
                           className={homeStyles.widgets__images}
                           style={{ marginRight: 5 }}
                           alt="wallet"
                         />
                       </div>
                       <div className={homeStyles.widgets__info}>
-                        Crypto Transfer
+                        Settings
                       </div>
                       <div className={homeStyles.widgets__description}>
-                        Send crypto to another Astro user
+                      Go to Settings
                       </div>
                       <div className={homeStyles.widgets__arrow}>
                         <DoubleRightOutlined

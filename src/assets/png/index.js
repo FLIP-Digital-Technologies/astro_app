@@ -48,6 +48,7 @@ import ResetPin from "./reset.png"
 import SellGiftCard from "./sell-card.png"
 import SellBitcoin from "./exchange.png"
 import SephoraSmallCard from "./sephora.png"
+import Settings from "./settings.png"
 import SparCard from "./spar1.png"
 import StarbucksCard from "./starbuck1.png"
 import SteamCard from "./steam.png"
@@ -117,6 +118,7 @@ png = {
   SellGiftCard,
   SellBitcoin,
   SephoraSmallCard,
+  Settings,
   SparCard,
   StarbucksCard,
   SteamCard,
