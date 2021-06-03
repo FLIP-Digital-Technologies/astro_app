@@ -49,11 +49,11 @@ const giftCardReducers = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_CARD_DETAILS_PENDING:
-      notification.info({
-        message: "Loading.....",
-        duration: 0,
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   duration: 0,
+      //   key,
+      // });
       return {
         ...state,
         loading: true,
@@ -66,11 +66,11 @@ const giftCardReducers = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_TRANSACTION_DETAILS_GIFTCARD_PENDING:
-      notification.info({
-        message: "Loading.....",
-        duration: 0,
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   duration: 0,
+      //   key,
+      // });
       return {
         ...state,
         loading: true,
@@ -138,11 +138,11 @@ const giftCardReducers = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_TRANSACTION_DETAILS_GIFTCARD_SUCCESS:
-      notification.success({
-        message: "Successful",
-        description: "Successful Fetch GiftCard transaction",
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   description: "Successful Fetch GiftCard transaction",
+      //   key,
+      // });
       return {
         ...state,
         giftCardDetails: action.payload.transaction,
@@ -162,11 +162,11 @@ const giftCardReducers = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_CARD_DETAILS_SUCCESS:
-      notification.success({
-        message: "Successful",
-        description: "Successfully Fetched Card Details",
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   description: "Successfully Fetched Card Details",
+      //   key,
+      // });
       return {
         ...state,
         cardDetails: action.payload.cardRateDetails,

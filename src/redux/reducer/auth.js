@@ -162,10 +162,10 @@ const authReducer = (state = initState, action) => {
       };
     case actionTypes.REGISTER_SUCCESS:
     case actionTypes.LOGIN_SUCCESS:
-      notification.success({
-        message: "Successful",
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   key,
+      // });
       return {
         ...state,
         user: action.payload.user,
