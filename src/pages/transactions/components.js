@@ -859,6 +859,27 @@ export const EmptyEntryWithTitle = ({
   );
 };
 
+export const EmptyLoading = ({
+  title,
+  action = true,
+  onClick = () => {},
+  actionText = "Top up your account",
+}) => {
+  return (
+    <div className={styles.transactions__empty} style={{ height: 300 }}>
+      <div
+        className={styles.transactions__empty__content}
+        style={{ marginTop: 60 }}
+      >
+        <Eye className={styles.transactions__empty__content__eye} />
+        <span className={styles.transactions__empty__content__text}>
+          Loading ...
+        </span>
+      </div>
+    </div>
+  );
+};
+
 function RocketIcon() {
   return (
     <svg

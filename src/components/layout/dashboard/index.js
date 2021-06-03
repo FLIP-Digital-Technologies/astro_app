@@ -21,7 +21,7 @@ import { logOutUser } from "../../../redux/actions/Auths";
 import capitalizeFirstLetter from "../../../utils/helper";
 
 const { Header, Content, Sider, 
-  // Footer
+  Footer
  } = Layout;
 
 function Toggle() {
@@ -199,7 +199,18 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
         >
           {children}
         </Content>
+        {/* <Footer>
+        <footer className="footer">
+			<span>Copyright  &copy;  {`${new Date().getFullYear()}`} <span className="font-weight-semibold">{`${'Astro africa'}`}</span> All rights reserved.</span>
+			<div>
+				<a className="text-gray" href="/#" onClick={e => e.preventDefault()}>Term & Conditions</a>
+				<span className="mx-2 text-muted"> | </span>
+				<a className="text-gray" href="/#" onClick={e => e.preventDefault()}>Privacy & Policy</a>
+			</div>
+		</footer>
+        </Footer> */}
       </Layout>
+     
     </Layout>
   );
 };

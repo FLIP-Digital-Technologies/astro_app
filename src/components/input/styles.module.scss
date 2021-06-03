@@ -8,6 +8,11 @@
    input::-webkit-inner-spin-button {
    -webkit-appearance: none;
   margin: 0;
+  background-color: transparent;
+}
+::placeholder {
+  color: #6a6a6d;
+  font-size: 15px;
 }
 
 
@@ -31,7 +36,7 @@ input[type=number] {
     div {
       width: 10px;
       height: 10px;
-      border-radius: 50%;
+      // border-radius: 50%;
       background-color: #8d909e;
       display: flex;
       align-items: center;
@@ -56,7 +61,7 @@ input[type=number] {
     background: #fcfcfd;
     border: 1px solid #cfd0d7;
     box-sizing: border-box;
-    border-radius: 2px;
+    // border-radius: 2px;
     font-size: 14px;
     line-height: 20px;
     height: 46px;
@@ -69,7 +74,7 @@ input[type=number] {
       background: #fcfcfd;
       border: 1px solid #cfd0d7;
       box-sizing: border-box;
-      border-radius: 2px;
+      // border-radius: 2px;
       font-size: 14px;
       line-height: 20px;
       height: 46px;
@@ -106,9 +111,9 @@ input[type=number] {
 
   &__input {
     background: #fcfcfd;
-    // border: 1px solid #cfd0d7 !important;
+    border: 1px solid #cfd0d7 !important;
     box-sizing: border-box;
-    border-radius: 20px;
+    // border-radius: 20px;
     font-size: 14px;
     line-height: 20px;
     padding: 12px 11px;
@@ -125,26 +130,29 @@ input[type=number] {
       background: #fcfcfd;
       border: 1px solid #ff4d4f !important;
       box-sizing: border-box;
-      box-shadow: 0px 0px 4px rgba(255, 77, 79, 0.41);
-      border-radius: 2px;
+      // box-shadow: 0px 0px 4px rgba(255, 77, 79, 0.41);
+      // border-radius: 2px;
+    }
+    &_password {
+      background-color: transparent;
     }
 
     &:active,
     &:focus {
       outline: none;
       background: #fcfcfd;
-      border: 1px solid #0066f5 !important;
+      // border: 2px solid #d2e2f8 !important;
       box-sizing: border-box;
       box-shadow: 0px 0px 4px rgba(52, 133, 254, 0.41);
-      border-radius: 2px;
+      // border-radius: 2px;
     }
 
     &:invalid {
       outline: none;
       background: #fcfcfd;
-      border: 1px solid #ff4d4f !important;
+      // border: 1px solid #ff4d4f !important;
       box-sizing: border-box;
-      box-shadow: 0px 0px 4px rgba(255, 77, 79, 0.41);
+      // box-shadow: 0px 0px 4px rgba(255, 77, 79, 0.41);
       border-radius: 2px;
     }
 
@@ -153,12 +161,12 @@ input[type=number] {
       background: #fcfcfd;
       border: 1px solid #53c41a;
       box-sizing: border-box;
-      box-shadow: 0px 0px 4px rgba(83, 196, 26, 0.41);
-      border-radius: 2px;
+      // box-shadow: 0px 0px 4px rgba(83, 196, 26, 0.41);
+      // border-radius: 2px;
     }
 
     &::placeholder {
-      color: rgba(26, 32, 61, 0.3);
+      color: #6a6a6d;
     }
   }
 }

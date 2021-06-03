@@ -7,6 +7,7 @@ import Button from "../../components/button";
 import { getBTCCurrentMarketTicker } from "../../redux/actions/btc";
 import { getGiftCardCodes } from "../../redux/actions/giftCard";
 import { BitcoinInput } from "../../assets/svg";
+import AppFetch from "../../redux/services/FetchInterceptor";
 import {
   Money,
   countryOptions,
@@ -15,16 +16,35 @@ import {
   sortData,
 } from "../../utils/helper";
 import styles from "../styles.module.scss";
+import {
+  getCryptoCurrencies,
+  getFiatCurrencies,
+} from "../../redux/actions/Auths";
+import { notification } from "antd";
 
-const AboutRates = ({ btcRates, giftCardList, getBTCRates, getCards }) => {
+const AboutRates = ({
+  btcRates,
+  giftCardList,
+  getBTCRates,
+  getCards,
+  getMainFiatCurrency,
+  getMainCryptoCurrency,
+  cryptoCurrency,
+}) => {
   let b = giftCardList;
   let list = sortData(b).map((i) => i[0]);
-  // React.useEffect(() => {
-  //   getBTCRates();
-  //   getCards({ cardCode: "all" });
-  // }, [getBTCRates, getCards]);
+  React.useEffect(() => {
+    getMainCryptoCurrency();
+    getMainFiatCurrency();
+    Coins()
+    fetchTickers()
+    // getBTCRates();
+    // getCards({ cardCode: "all" });
+  }, [getBTCRates, getCards, getMainCryptoCurrency, getMainFiatCurrency]);
 
   const [buy, setBuy] = useState(false);
+  const [coins, setCoins] = useState([]);
+  const [coinsData, setCoinsData] = useState([])
   const [meta, setMeta] = useState(null);
   const [avaCurr, setAvaCurr] = useState([]);
   const [avaCard, setAvaCard] = useState([]);
@@ -38,6 +58,42 @@ const AboutRates = ({ btcRates, giftCardList, getBTCRates, getCards }) => {
     amount: 0,
     total: 0,
   });
+  const fetchTickers = () => {
+    AppFetch({
+      url: `/coins/tickers`,
+      method: "get",
+      headers: {
+        "public-request": "true",
+      },
+    })
+      .then((res) => {
+        setCoins(res.data);
+      })
+      .catch((err) => {
+        notification.error({
+          message: "erros",
+        });
+      });
+  };
+  const Coins = () => {
+    AppFetch({
+      url: `/coins`,
+      method: "get",
+      headers: {
+        "public-request": "true",
+      },
+    })
+      .then((res) => {
+        setCoinsData(res.data.crypto);
+      })
+      .catch((err) => {
+        notification.error({
+          message: "erros",
+        });
+        setCoinsData([])
+      });
+  };
+  
 
   const onAssetChange = (value) => {
     if (value !== "BTC") {
@@ -111,10 +167,14 @@ const AboutRates = ({ btcRates, giftCardList, getBTCRates, getCards }) => {
             ) : (
               <>
                 <Select
-                  options={DigitalAsset.filter(
-                    (it) =>
-                      list.filter((i) => i === it.name || "btc").length > 0
-                  )}
+                  // options={DigitalAsset.filter(
+                  //   (it) =>
+                  //     list.filter((i) => i === it.name || "btc").length > 0
+                  // )}
+                  options={coinsData && coinsData.map((item) => ({
+                    render:`${item.name}`,
+                    value:item
+                  }))}
                   value={state.asset}
                   onSelect={onAssetChange}
                   label="How much are you willing to sell?"
@@ -231,6 +291,8 @@ const AboutRates = ({ btcRates, giftCardList, getBTCRates, getCards }) => {
 const mapStateToProps = (state) => ({
   btcRates: state.btc.btcTicker,
   giftCardList: state.giftCard.giftCardList,
+  fiatCurrency: state.user.fiatCurrency,
+  cryptoCurrency: state.user.cryptoCurrency,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -239,6 +301,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getCards: (data) => {
     dispatch(getGiftCardCodes(data));
+  },
+  getMainFiatCurrency: () => {
+    dispatch(getFiatCurrencies());
+  },
+  getMainCryptoCurrency: () => {
+    dispatch(getCryptoCurrencies());
   },
 });
 

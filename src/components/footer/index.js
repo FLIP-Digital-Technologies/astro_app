@@ -35,30 +35,30 @@ const Footer = () => {
           </div> */}
           <div style={{ textAlign: "center" }}>
             <div className={styles.link} style={{display: "flex", justifyContent: "center"}}>
-              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://twitter.com/AstroAfrika">
+              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://twitter.com/myastroafrica">
                 <i class="fab text-dark fa-twitter"></i>
               </a>
-              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://web.facebook.com/AstroAfrika">
+              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://web.facebook.com/myastroafrica">
                 <i class="fab text-dark fa-facebook"></i>
               </a>
-              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://www.instagram.com/AstroAfrika">
+              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://www.instagram.com/myastroafrica">
                 <i class="fab text-dark fa-instagram"></i>
               </a>
             </div>
             <div style={{marginBottom: 8}} className={styles.link}>
               <a
                 style={{ color: "white" }}
-                href="mailto:support@Astroafrika.com"
+                href="mailto:hello@astroafrica.site"
               >
-                Email Us: support@Astroafrika.com
+                Email Us: hello@astroafrica.site
               </a>
             </div>
             <div className={styles.link}>
-              <address>Lagos Address - Magodo Lagos</address>
-              <address>Accra Address - 2,Anumansa street, accra ghana.</address>
+              <address>Lagos Address - 2, Olayinka Balogun Crescent, Magodo Phase 2, Lagos State, Nigeria.</address>
+              <address>Accra Address - 2, Anumansa street, Accra Ghana.</address>
             </div>
             <div className={styles.link}>
-              <p>All Rights Reserved. Astro 2020</p>
+              <p>All Rights Reserved. Astro Africa 2020</p>
             </div>
           </div>
         </div>

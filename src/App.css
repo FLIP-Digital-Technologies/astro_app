@@ -119,6 +119,10 @@ body {
   /* min-width: 300px; */
 }
 
+.ant-picker-input-placeholder > input {
+  color: #302d2d;
+}
+
 .anticon .anticon-menu svg {
   fill: #fff !important;
 }

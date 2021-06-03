@@ -10,7 +10,7 @@ import {
   getGiftCardDetails,
   initialGiftCardSale,
 } from "../../redux/actions/giftCard";
-import { EmptyEntryWithTitle } from "../transactions/components";
+import { EmptyEntryWithTitle, EmptyLoading } from "../transactions/components";
 import homeStyles from "../home/styles.module.scss";
 // import { cardList } from "../../utils/helper";
 import { getFiatCurrencies, getUserWallets } from "../../redux/actions/Auths";
@@ -123,7 +123,7 @@ const SellGiftcard = (props) => {
             >
               {list && list.length < 1 ? (
                 <div style={{ width: "100%" }}>
-                  <EmptyEntryWithTitle title="GiftCard" action={false} />
+                  <EmptyLoading action={false} />
                 </div>
               ) : (
                 list &&

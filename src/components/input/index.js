@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import styles from "./styles.module.scss";
+import { Input as AntInput } from "antd";
 
 const Input = ({
   label,
@@ -24,17 +25,26 @@ const Input = ({
   defaultValue,
   pattern,
   inputMode,
+  min,
+  anotherClass,
   ...prop
 }) => {
   const textInput = useRef(null);
   const [validate, setValidValue] = useState(false);
 
-  
   const handleValidity = () => {
     if (value && value.length > 1)
       setValidValue(
         textInput && textInput.current && !textInput.current.checkValidity()
       );
+  };
+  const handlePasswordToggle = () => {
+    var x = document.getElementById("myInput");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
   };
 
   return (
@@ -62,36 +72,77 @@ const Input = ({
           )}
         </>
       ) : (
-        <input
-          value={value}
-          onChange={(e) => {
-            onChange(e);
-            handleValidity();
-          }}
-          name={name}
-          ref={textInput}
-          type={type}
-          minLength={minlength}
-          maxLength={maxlength}
-          min={type === "number" && 0 }
-          style={style}
-          disabled={disabled}
-          pattern={pattern}
-          onWheelCapture={e => {
-            e.target.blur()
-          }}
-          defaultValue={defaultValue}
-          inputMode={inputMode}
-          {...prop}
-          placeholder={placeholder ? placeholder : ""}
-          className={`${
-            value?.length < 1
-              ? `${styles.input__input_placeholder}  ${styles.input__input}`
-              : error
-              ? styles.input__input_invalid
-              : styles.input__input
-          } ${inputClass || ""}`}
-        />
+        <>
+          {type !== "password" && (
+            <AntInput
+              value={value}
+              onChange={(e) => {
+                onChange(e);
+                // handleValidity();
+              }}
+              name={name}
+              ref={textInput}
+              type={type}
+              minLength={minlength}
+              maxLength={maxlength}
+              min={type === "number" && 0}
+              style={style}
+              disabled={disabled}
+              pattern={pattern}
+              onWheelCapture={(e) => {
+                e.target.blur();
+              }}
+              id="myInput"
+              defaultValue={defaultValue}
+              inputMode={inputMode}
+              {...prop}
+              placeholder={placeholder ? placeholder : ""}
+              className={`${
+                value?.length < 1
+                  ? `${styles.input__input_placeholder}  ${styles.input__input}`
+                  : error
+                  ? styles.input__input_invalid
+                  : styles.input__input
+              } ${inputClass || ""}`}
+            />
+          )}
+          {type === "password" && (
+            <AntInput.Password
+              value={value}
+              onChange={(e) => {
+                onChange(e);
+                // handleValidity();
+              }}
+              name={name}
+              ref={textInput}
+              type={type}
+              minLength={minlength}
+              maxLength={maxlength}
+              min={type === "number"? 0: min}
+              style={style}
+              disabled={disabled}
+              pattern={pattern}
+              onWheelCapture={(e) => {
+                e.target.blur();
+              }}
+              id="myInput"
+              defaultValue={defaultValue}
+              inputMode={inputMode}
+              {...prop}
+              
+              placeholder={placeholder ? placeholder: ""}
+              className={`${
+                value.length == 0
+                  ? `${styles.input__input_placeholder}  ${styles.input__input}`
+                  : error
+                  ? styles.input__input_invalid
+                  : styles.input__input
+              } ${inputClass || ""} ${styles.input__input_password}`}
+            />
+          )}
+
+          {/* {type == "password" && (<input type="checkbox" onClick={handlePasswordToggle} style={{marginTop:10}} />)} */}
+        </>
       )}
       <div style={{ display: "flex", flexDirection: "column" }}>
         {validate && (

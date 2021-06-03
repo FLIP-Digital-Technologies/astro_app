@@ -5,11 +5,13 @@ import { AuthHeader } from "../../components/header";
 import Input from "../../components/input";
 import Button from "../../components/button";
 import styles from "../styles.module.scss";
+import { Input as AntInput, } from "antd";
 import {
   checkEmailAvailability,
   registerUser,
 } from "../../redux/actions/Auths";
 import { notification } from "antd";
+import Footer from "../../components/footer";
 
 const SignUp = (props) => {
   const [email, handleEmail] = useState("");
@@ -34,27 +36,27 @@ const SignUp = (props) => {
     if (password !== confirmPassword) {
       notification.error({
         message: "Password does not match",
-        duration:2.5,
+        duration: 2.5,
       });
       return;
     }
-    console.log("resulted", { 
+    console.log("resulted", {
       referralCode,
       email,
       password,
       firstName,
       lastName,
-      username
+      username,
     });
 
-    if(referralCode === null){
-      props.checkEmailAvailable({ 
+    if (referralCode === null) {
+      props.checkEmailAvailable({
         email,
         password,
         firstName,
         lastName,
-        username
-      })
+        username,
+      });
     } else {
       props.checkEmailAvailable({
         referralCode,
@@ -62,8 +64,8 @@ const SignUp = (props) => {
         password,
         firstName,
         lastName,
-        username
-      })
+        username,
+      });
     }
   };
   return (
@@ -128,6 +130,18 @@ const SignUp = (props) => {
             type="password"
             label="Password"
           />
+          {/* <>
+          
+          <AntInput.Password
+          className={styles.auth__content__input__body}
+
+          placeholder="Password"
+          onChange={(e) => handlePassword(e.target.value)}
+          required={true}
+          minLength={'6'}
+          value={password}
+          />
+          </> */}
           <Input
             className={styles.auth__content__input__body}
             inputClass={styles.auth__content__input}
@@ -185,6 +199,7 @@ const SignUp = (props) => {
           </div>
         </form>
       </AuthHeader>
+      <Footer />
     </div>
   );
 };
