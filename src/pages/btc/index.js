@@ -168,16 +168,16 @@ const BuyCoin = ({
               <div
               
                 onClick={() => {
-                  alert('Service Unavailable')
-                  // setMode("send");
-                  // setState({
-                  //   ...state,
-                  //   btc: 0,
-                  //   usd: 0,
-                  //   ngn: 0,
-                  //   ghs: 0,
-                  //   walletBalance: 0,
-                  // });
+                  // alert('Service Unavailable')
+                  setMode("send");
+                  setState({
+                    ...state,
+                    btc: 0,
+                    usd: 0,
+                    ngn: 0,
+                    ghs: 0,
+                    walletBalance: 0,
+                  });
                 }}
                 className={`${styles.actionBtn} ${styles.btcButton} ${
                   mode === "send" && styles.active
