@@ -54,8 +54,8 @@ const Footer = () => {
               </a>
             </div>
             <div className={styles.link}>
-              <address>Lagos Address - 2, Olayinka Balogun Crescent, Magodo Phase 2, Lagos State, Nigeria.</address>
-              <address>Accra Address - 2, Anumansa street, Accra Ghana.</address>
+              <address>Lagos Address - Magodo, Lagos State, Nigeria.</address>
+              <address>Accra Address - Osu, Accra, Ghana.</address>
             </div>
             <div className={styles.link}>
               <p>All Rights Reserved. Astro Africa {new Date().getFullYear()}</p>
