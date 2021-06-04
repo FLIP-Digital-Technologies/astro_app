@@ -58,7 +58,7 @@ const Footer = () => {
               <address>Accra Address - 2, Anumansa street, Accra Ghana.</address>
             </div>
             <div className={styles.link}>
-              <p>All Rights Reserved. Astro Africa 2020</p>
+              <p>All Rights Reserved. Astro Africa {new Date().getFullYear()}</p>
             </div>
           </div>
         </div>
