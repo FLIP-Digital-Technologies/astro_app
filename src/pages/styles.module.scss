@@ -859,6 +859,7 @@
     justify-content: flex-start;
     align-items: center;
     
+    
 
     &__title {
       font-size: 36px;
@@ -932,7 +933,8 @@
       &__link {
         color: #0066f5;
         padding-bottom: 2px;
-        border-bottom: 1px solid #0066f5;
+        text-decoration: underline;
+        // border-bottom: 1px solid #0066f5;
         cursor: pointer;
       }
     }
@@ -948,13 +950,30 @@
       &__link {
         color: #0066f5;
         padding-bottom: 2px;
-        border-bottom: 1px solid #0066f5;
+        text-decoration: underline;
+        // border-bottom: 1px solid #0066f5;
         cursor: pointer;
+      }
+      &__link:hover {
+        color: #921946;
+        // padding-bottom: 2px;
+        border-bottom: 1px solid #921946;
+        cursor: pointer;
+        // text-decoration: none;
       }
     }
 
     &__forgot {
       color: #0066f5;
+      padding-bottom: 2px;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 20px;
+      width: 100%;
+      text-align: end;
+    }
+    &__forgot:hover {
+      color: #921946;
       padding-bottom: 2px;
       cursor: pointer;
       font-size: 16px;
@@ -1609,6 +1628,7 @@
 }
 
 .landing {
+  background-color: #eeebeb;
   &__top {
     background: #890F3C;
     display: flex;
@@ -2082,6 +2102,7 @@
     margin: 0 auto;
     align-items: center;
     min-height: 90vh;
+    
 
     @include md {
       width: 500px;
@@ -2852,4 +2873,27 @@
 .verifylink:hover {
   color: #921946;
   text-decoration: underline;
+}
+.ratesleft {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  span {
+    font-size: 10px;
+  }
+  h3 {
+    font-size: 20px;
+  }
+}
+.ratecontainer {
+  display: flex;
+  height: 600px;
+  // align-items: center;
+  // justify-content: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #dbdad9;
 }

@@ -508,7 +508,7 @@ const GiftCardForm = ({
     giftCardId: "",
     cardType: "",
     fiatCurrencyId: "",
-    value: null,
+    value: {},
     amount: "",
     number: 1,
     total: 0,
@@ -627,7 +627,7 @@ const GiftCardForm = ({
       giftCardId: active._id,
       imageURLs: resFile,
       cardEntryId: details.cardCurrencyId,
-      walletType:currencyType ? "FIAT" : "CRYPTO",
+      walletType: currencyType ? "FIAT" : "CRYPTO",
       sellerRemarks: details.remark,
     };
     if (resFile[0] === "error") {
@@ -969,6 +969,15 @@ const GiftCardForm = ({
               <h3>Info</h3>
               <div>
                 <strong>Rate</strong>&emsp;
+                <span>
+                  {"USD"}{" "}
+                  {CommaFormatted(
+                    details && details.value.rate && details.value.rate
+                  )}
+                </span>
+              </div>
+              <div>
+                <strong>Exchange</strong>&emsp;
                 <span>
                   {details && details.wallet} {CommaFormatted(rate_selected)}
                 </span>
