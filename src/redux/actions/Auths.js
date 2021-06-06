@@ -1,3 +1,4 @@
+import { notification } from "antd";
 import * as actionTypes from "../constants";
 import authService from "../services/AuthService";
 import generalService from "../services/GeneralService";
@@ -119,7 +120,14 @@ const getUserDetails = (data) => async (dispatch) => {
         type: actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS,
         payload: response.data,
       });
-      // localStorage.setItem(actionTypes.AUTH_TOKEN, response.data.token);
+      localStorage.setItem("pinCheck", response.data.user.boarded);
+      history.location.pathname == "/app" && !(response.data.user.boarded) && notification.info({
+        placement:"bottomLeft",
+        message:"Go to Settings to Set Your Pin",
+        onClick:()=> {history.push("/app/settings")},
+        duration:2
+      })
+      console.log(history.location)
       // localStorage.setItem(actionTypes.AUTH_TOKEN_ID, response.data.user.id);
       // localStorage.setItem("type", response.data.user.type);
       // history.push("/app/onboarding");
@@ -172,7 +180,7 @@ const VerifyEmailOTP = (payload) => async (dispatch) => {
       localStorage.setItem(actionTypes.AUTH_TOKEN, response.data.token);
       // localStorage.setItem(actionTypes.AUTH_TOKEN_ID, response.data.user.id);
       // localStorage.setItem("type", response.data.user.type);
-      history.push("/app/onboarding");
+      history.push("/app");
     })
     .catch((err) => {
       dispatch({

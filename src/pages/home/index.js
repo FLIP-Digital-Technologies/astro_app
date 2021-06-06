@@ -100,6 +100,7 @@ const Home = ({
     };
   }
   const [windowDimensions] = useState(getWindowDimensions());
+  const [pinCheck, setPinCheck] = useState(false);
   // const [wallet, setWallet] = useState("NGN");
   let [fiatIndex, setFiatIndex] = useState(0);
   let [cryptoIndex, setCryptoIndex] = useState(0);
@@ -187,6 +188,10 @@ const Home = ({
     getP2PTrans({ skip: 0, limit: 4 });
     // getLatestBTCTrans({ skip: 0, limit: 5 });
     getLatestGiftCardTrans({ skip: 1, limit: 5 });
+    try {
+      const pinCheck = localStorage.getItem("pinCheck");
+      setPinCheck(pinCheck);
+    } catch (error) {}
     // getLatestWithdrawalTrans({ skip: 0, limit: 5 });
     // eslint-disable-next-line
   }, []);
@@ -477,7 +482,7 @@ const Home = ({
                 </div>
               </div>
             )}
-            <Row gutter={[8,8]} style={{}}>
+            <Row gutter={[8, 8]} style={{}}>
               <Col
                 span={12}
                 xs={24}
@@ -753,11 +758,20 @@ const Home = ({
                     <div
                       className={homeStyles.extras__text}
                       onClick={() => {
-                        balance && balance.fiatWallets.length > 0
-                          ? setOpenWithdrawal(true)
+                        pinCheck
+                          ? balance && balance.fiatWallets.length > 0
+                            ? setOpenWithdrawal(true)
+                            : notification.info({
+                                message: "Please try again",
+                                duration: 2.5,
+                              })
                           : notification.info({
-                              message: "Please wait",
-                              duration: 2.5,
+                              placement: "bottomLeft",
+                              message: "Go to Settings to Set Your Pin",
+                              onClick: () => {
+                                history.push("/app/settings");
+                              },
+                              duration: 2,
                             });
                       }}
                     >
@@ -853,7 +867,7 @@ const Home = ({
                   </Col>
                 </Row>
                 <Row gutter={[8, 25]}>
-                <Col
+                  <Col
                     span={12}
                     xs={12}
                     sm={12}
@@ -923,11 +937,9 @@ const Home = ({
                           alt="wallet"
                         />
                       </div>
-                      <div className={homeStyles.widgets__info}>
-                        Settings
-                      </div>
+                      <div className={homeStyles.widgets__info}>Settings</div>
                       <div className={homeStyles.widgets__description}>
-                      Go to Settings
+                        Go to Settings
                       </div>
                       <div className={homeStyles.widgets__arrow}>
                         <DoubleRightOutlined

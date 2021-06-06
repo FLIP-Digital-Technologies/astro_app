@@ -26,6 +26,7 @@ const Input = ({
   pattern,
   inputMode,
   min,
+  onInput,
   anotherClass,
   ...prop
 }) => {
@@ -74,18 +75,19 @@ const Input = ({
       ) : (
         <>
           {type !== "password" && (
-            <AntInput
+            <input
               value={value}
               onChange={(e) => {
                 onChange(e);
-                // handleValidity();
+                handleValidity();
               }}
               name={name}
               ref={textInput}
               type={type}
+              onInput={onInput}
               minLength={minlength}
               maxLength={maxlength}
-              min={type === "number" && 0}
+              min={type === "number"? 0: min}
               style={style}
               disabled={disabled}
               pattern={pattern}

@@ -62,6 +62,7 @@ export const Step1 = ({ user, submitForm }) => {
             value={state.email}
             onChange={handleChange}
             type="email"
+            inputMode={"email"}
             label="Email Address"
             placeholder="Enter a valid email address"
             hint="This is the only way we can keep in touch with you"

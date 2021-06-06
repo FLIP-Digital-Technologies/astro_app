@@ -110,6 +110,7 @@ const SignUp = (props) => {
             onChange={(e) => handleEmail(e.target.value)}
             required={true}
             name="email"
+            inputMode={"email"}
             id="email"
             value={email}
             // pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"

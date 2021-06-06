@@ -34,6 +34,7 @@ import {
   removeUserBankAccount,
   getUserReferrals,
   redeemUserReferralBonus,
+  setTransactionPin,
 } from "../../redux/actions/user";
 import ModalWrapper from "../../components/Modals";
 import {
@@ -183,6 +184,7 @@ const Profile = ({
   getMainCryptoCurrency,
   ResetPinViaEmail,
   completeResetPin,
+  submitPin,
 }) => {
   function getWindowDimensions() {
     const { screen } = window;
@@ -194,6 +196,7 @@ const Profile = ({
     };
   }
   const [windowDimensions] = useState(getWindowDimensions());
+  const [pinCheck, setPinCheck] = useState(false);
   useEffect(() => {
     getCurrentUser();
     // console.log("abh", [...fiatCurrency, ...cryptoCurrency]);
@@ -202,8 +205,15 @@ const Profile = ({
     getMainCryptoCurrency();
     // getBankList();
     getBalance();
+    
     // eslint-disable-next-line
   }, []);
+  useEffect(() => {
+    try {
+      const pinChecks = localStorage.getItem("pinCheck");
+      setPinCheck(pinChecks);
+    } catch (error) {}
+  }, [pinCheck])
   const INITIAL_STATE = {
     accountNumber: "",
     bankCode: "",
@@ -227,6 +237,10 @@ const Profile = ({
   const [newPin, handleNewPin] = useState("");
   const [passwordModal, setPasswordModal] = useState(false);
   const [pinModal, setPinModal] = useState(false);
+  const [nPinModal, setNPinModal] = useState(false);
+  const [nPin, setNPin] = useState({
+    pin: "",
+  });
   const [resetPinModal, setResetPinModal] = useState(false);
   const [pass, setNewPassword] = useState({
     currentPassword: "",
@@ -241,6 +255,10 @@ const Profile = ({
   };
   const handlePinChange = ({ target: { name, value } }) => {
     setNewPin((pass) => ({ ...pass, [name]: value }));
+  };
+  const handleNPinChange = ({ target: { name, value } }) => {
+    setNPin((pass) => ({ ...pass, [name]: value }));
+    console.log(value);
   };
 
   const handleChange = ({ target: { name, value } }) => {
@@ -360,46 +378,50 @@ const Profile = ({
     }
     changePin(pin);
   };
+  const handleSetPin = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+    submitPin(nPin);
+  };
   const resetPin = (e) => {
     if (resetEmail.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$/)) {
       const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
-    AppFetch({
-      url: `/user-account/${userId}/reset-pin`,
-      method: "post",
-      headers: {
-        "public-request": "true",
-      },
-      data: {
-        email: resetEmail,
-      },
-    })
-      .then((response) => {
-        console.log("reset", response);
-        localStorage.setItem("reference", response.data.reference);
-        notification.success({
-          message:'Otp sent to email successfully'
-        })
-        // setWallet_btc_rate(response.data.ticker.sell);
-        setSwitch(false);
+      AppFetch({
+        url: `/user-account/${userId}/reset-pin`,
+        method: "post",
+        headers: {
+          "public-request": "true",
+        },
+        data: {
+          email: resetEmail,
+        },
       })
-      .catch((err) => {
-        notification.error({
-          message: "Try Again",
-          duration: 2.5,
+        .then((response) => {
+          console.log("reset", response);
+          localStorage.setItem("reference", response.data.reference);
+          notification.success({
+            message: "Otp sent to email successfully",
+          });
+          // setWallet_btc_rate(response.data.ticker.sell);
+          setSwitch(false);
+        })
+        .catch((err) => {
+          notification.error({
+            message: "Try Again",
+            duration: 2.5,
+          });
+          setSwitch(true);
         });
-        setSwitch(true);
-      });
     } else {
       notification.error({
-        message:'Invalid email'
-      })
+        message: "Invalid email",
+      });
     }
-    
+
     // ResetPinViaEmail({
     //   email: resetEmail,
     // });
-
-    
   };
 
   const completePinReset = (e) => {
@@ -807,6 +829,32 @@ const Profile = ({
                   </div>
                 </div>
               </Col>
+             {!pinCheck && ( <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
+                <div
+                  className={homeStyles.widgets__inner}
+                  onClick={() => {
+                    setNPinModal(true);
+                  }}
+                >
+                  <div className={homeStyles.widgets__image}>
+                    <img
+                      src={png.ChangePin}
+                      className={homeStyles.widgets__images}
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                  </div>
+                  <div className={homeStyles.widgets__info}>Set Pin</div>
+                  <div className={homeStyles.widgets__description}>
+                    Set your transaction Pin
+                  </div>
+                  <div className={homeStyles.widgets__arrow}>
+                    <DoubleRightOutlined
+                      className={homeStyles.widgets__arrow__inner}
+                    />
+                  </div>
+                </div>
+              </Col>)}
               <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
                 <div
                   className={homeStyles.widgets__inner}
@@ -925,6 +973,13 @@ const Profile = ({
               name="currentPin"
               onChange={handlePinChange}
               required={true}
+              onInput={(e) => {
+                if (e.target.value.length > e.target.maxLength) {
+                  e.target.value = e.target.value.slice(0, e.target.maxLength);
+                } else {
+                  e.target.value = e.target.value;
+                }
+              }}
               maxLength={"4"}
               type="number"
               // pattern={"^{8,}$"}
@@ -938,6 +993,13 @@ const Profile = ({
               name="newPin"
               onChange={handlePinChange}
               required={true}
+              onInput={(e) => {
+                if (e.target.value.length > e.target.maxLength) {
+                  e.target.value = e.target.value.slice(0, e.target.maxLength);
+                } else {
+                  e.target.value = e.target.value;
+                }
+              }}
               maxLength={"4"}
               type="number"
               // pattern={"^{8,}$"}
@@ -947,6 +1009,44 @@ const Profile = ({
             />
             <div className={styles.btnPair} style={{ marginTop: 20 }}>
               <Button form="full" type="submit" text="Change Pin" />
+            </div>
+          </form>
+        </ModalWrapper>
+        <ModalWrapper
+          isModalVisible={nPinModal}
+          setIsModalVisible={() => {
+            setNPinModal(false);
+          }}
+        >
+          <form
+            onSubmit={handleSetPin}
+            className={styles.profileSecurityContents}
+          >
+            <h1>
+              <span className={styles.sub}>Set your Transaction Pin</span>
+            </h1>
+            <Input
+              placeholder="Transaction Pin"
+              label="Transaction Pin"
+              name="pin"
+              onChange={handleNPinChange}
+              required={true}
+              maxLength="4"
+              type="number"
+              onInput={(e) => {
+                if (e.target.value.length > e.target.maxLength) {
+                  e.target.value = e.target.value.slice(0, e.target.maxLength);
+                } else {
+                  e.target.value = e.target.value;
+                }
+              }}
+              // pattern={"^{5,}$"}
+              value={nPin.pin}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+            />
+            <div className={styles.btnPair} style={{ marginTop: 20 }}>
+              <Button form="full" type="submit" text="Set Pin" />
             </div>
           </form>
         </ModalWrapper>
@@ -996,6 +1096,16 @@ const Profile = ({
                 onChange={(e) => handleNewPin(e.target.value)}
                 value={newPin}
                 type="number"
+                onInput={(e) => {
+                  if (e.target.value.length > e.target.maxLength) {
+                    e.target.value = e.target.value.slice(
+                      0,
+                      e.target.maxLength
+                    );
+                  } else {
+                    e.target.value = e.target.value;
+                  }
+                }}
                 required={true}
                 label="New Pin"
               />
@@ -1125,6 +1235,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   completeResetPin: (data) => {
     dispatch(completeResetPin(data));
+  },
+  submitPin: (data) => {
+    dispatch(setTransactionPin(data));
   },
 });
 
