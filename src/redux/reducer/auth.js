@@ -25,6 +25,17 @@ const key = actionTypes.KEY;
 
 const authReducer = (state = initState, action) => {
   switch (action.type) {
+    case actionTypes.REGISTER_PENDING:
+       notification.info({
+        message: "Loading.....",
+        duration: 0,
+        key,
+      });
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
     case actionTypes.CHECK_EMAIL_AVAILABILITY_PENDING:
     case actionTypes.CREATE_USER_WALLET_PENDING:
     case actionTypes.GET_FIAT_CURRENCY_PENDING:
@@ -33,7 +44,6 @@ const authReducer = (state = initState, action) => {
     case actionTypes.GET_USER_REFERRALS_PENDING:
     case actionTypes.REDEEM_USER_REFERRAL_PENDING:
     case actionTypes.LOGIN_PENDING:
-    case actionTypes.REGISTER_PENDING:
     case actionTypes.VERIFY_EMAIL_OTP_PENDING:
     case actionTypes.GET_USER_DETAILS_BY_ID_PENDING:
     case actionTypes.CHANGE_USER_PASSWORD_PENDING:
@@ -161,11 +171,17 @@ const authReducer = (state = initState, action) => {
         fiatCurrency:action.payload.fiat
       };
     case actionTypes.REGISTER_SUCCESS:
+      notification.success({
+        message: "Successful",
+        key,
+      });
+      return {
+        ...state,
+        user: action.payload.user,
+        loading: false,
+        error: null,
+      };
     case actionTypes.LOGIN_SUCCESS:
-      // notification.success({
-      //   message: "Successful",
-      //   key,
-      // });
       return {
         ...state,
         user: action.payload.user,

@@ -52,7 +52,7 @@ const VerifyOtp = (props) => {
               display: "flex",
               justifyContent: "space-around",
               paddingBottom: 30,
-              maxWidth: 300,
+              maxWidth: 280,
               margin: "auto",
             }}
             inputStyle={{
@@ -63,6 +63,7 @@ const VerifyOtp = (props) => {
               background: "#f6f7f9",
             }}
             separator={<span>-</span>}
+            isInputNum
           />
           <Button
             className={styles.auth__content__button}

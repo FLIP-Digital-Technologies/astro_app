@@ -937,6 +937,20 @@
         // border-bottom: 1px solid #0066f5;
         cursor: pointer;
       }
+      &__link:active {
+        color: #921946;
+        padding-bottom: 2px;
+        text-decoration: underline;
+        // border-bottom: 1px solid #0066f5;
+        cursor: pointer;
+      }
+      &__link:hover {
+        color: #921946;
+        padding-bottom: 2px;
+        text-decoration: underline;
+        // border-bottom: 1px solid #0066f5;
+        cursor: pointer;
+      }
     }
 
     &__alt {
@@ -961,6 +975,13 @@
         cursor: pointer;
         // text-decoration: none;
       }
+      &__link::selection {
+        color: #921946;
+        // padding-bottom: 2px;
+        border-bottom: 1px solid #921946;
+        cursor: pointer;
+        // text-decoration: none;
+      }
     }
 
     &__forgot {
@@ -973,6 +994,15 @@
       text-align: end;
     }
     &__forgot:hover {
+      color: #921946;
+      padding-bottom: 2px;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 20px;
+      width: 100%;
+      text-align: end;
+    }
+    &__forgot::selection {
       color: #921946;
       padding-bottom: 2px;
       cursor: pointer;
