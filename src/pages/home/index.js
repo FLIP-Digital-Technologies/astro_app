@@ -853,10 +853,10 @@ const Home = ({
                         />
                       </div>
                       <div className={homeStyles.widgets__info}>
-                        Sell Bitcoin
+                        Trade Crypto
                       </div>
                       <div className={homeStyles.widgets__description}>
-                        Convert Bitcoin to your preferred currency
+                        Convert bitcoin to your preferred currency
                       </div>
                       <div className={homeStyles.widgets__arrow}>
                         <DoubleRightOutlined
@@ -896,7 +896,7 @@ const Home = ({
                         />
                       </div>
                       <div className={homeStyles.widgets__info}>
-                        Astro Transfer
+                        Astro Send
                       </div>
                       <div className={homeStyles.widgets__description}>
                         Send Money to another Astro user
