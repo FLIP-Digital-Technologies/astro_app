@@ -40,6 +40,8 @@ import offGamersCard from "./offgamers.png"
 import Phone from "./call.png"
 import PlayCard from "./ps1.jpeg"
 import PlayStationStoreCard from "./psstore.png"
+import Pin from "./unlock.png"
+import Profile from "./user.png"
 import P2P from "./lending.png"
 import QuickAction from "./action.png"
 import RazorGoldCard from "./razergold1.png"
@@ -110,6 +112,8 @@ png = {
   Phone,
   PlayCard,
   PlayStationStoreCard,
+  Pin,
+  Profile,
   P2P,
   QuickAction,
   RazorGoldCard,

@@ -35,6 +35,7 @@ import {
   getUserReferrals,
   redeemUserReferralBonus,
   setTransactionPin,
+  updateUserDetails,
 } from "../../redux/actions/user";
 import ModalWrapper from "../../components/Modals";
 import {
@@ -185,6 +186,7 @@ const Profile = ({
   ResetPinViaEmail,
   completeResetPin,
   submitPin,
+  submitUserDetails
 }) => {
   function getWindowDimensions() {
     const { screen } = window;
@@ -214,6 +216,19 @@ const Profile = ({
       setPinCheck(pinChecks);
     } catch (error) {}
   }, [pinCheck])
+  const INITIAL_STATE1 = {
+    firstName: (user && user.Profile.first_name) || "",
+    lastName: (user && user.Profile.last_name) || "",
+    email: (user && user.email) || "",
+    phoneNumber: (user && user.phoneNumber) || "",
+    country: "NGN",
+    username: (user && user.username) || "",
+  };
+  useEffect(() => {
+    setStates(INITIAL_STATE1);
+    // eslint-disable-next-line
+  }, [user]);
+  const [states, setStates] = useState(INITIAL_STATE1);
   const INITIAL_STATE = {
     accountNumber: "",
     bankCode: "",
@@ -229,13 +244,13 @@ const Profile = ({
       country: "",
     },
   };
-
   const [state, setState] = useState(INITIAL_STATE);
   const [switchReset, setSwitch] = useState(true);
   const [resetCode, setResetCode] = useState("");
   const [resetEmail, handleResetEmail] = useState("");
   const [newPin, handleNewPin] = useState("");
   const [passwordModal, setPasswordModal] = useState(false);
+  const [profileModal, setProfileModal] = useState(false)
   const [pinModal, setPinModal] = useState(false);
   const [nPinModal, setNPinModal] = useState(false);
   const [nPin, setNPin] = useState({
@@ -263,6 +278,15 @@ const Profile = ({
 
   const handleChange = ({ target: { name, value } }) => {
     setState((state) => ({ ...state, [name]: value }));
+  };
+  const handleProfileChange = ({ target: { name, value } }) => {
+    setStates((state) => ({ ...state, [name]: value }));
+  };
+  const handleProfileFormSubmit = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+    submitUserDetails(states);
   };
 
   useEffect(() => {
@@ -803,6 +827,33 @@ const Profile = ({
           </div>
           <div className={styles.profileSecurityWidgets}>
             <Row gutter={[8, 25]}>
+            <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
+                <div
+                  className={homeStyles.widgets__inner}
+                  onClick={() => {
+                    // alert("Not Yet available")
+                    setProfileModal(true)
+                  }}
+                >
+                  <div className={homeStyles.widgets__image}>
+                    <img
+                      src={png.Profile}
+                      className={homeStyles.widgets__images}
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                  </div>
+                  <div className={homeStyles.widgets__info}>Profile</div>
+                  <div className={homeStyles.widgets__description}>
+                    Edit your Profile
+                  </div>
+                  <div className={homeStyles.widgets__arrow}>
+                    <DoubleRightOutlined
+                      className={homeStyles.widgets__arrow__inner}
+                    />
+                  </div>
+                </div>
+              </Col>
               <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
                 <div
                   className={homeStyles.widgets__inner}
@@ -838,7 +889,7 @@ const Profile = ({
                 >
                   <div className={homeStyles.widgets__image}>
                     <img
-                      src={png.ChangePin}
+                      src={png.Pin}
                       className={homeStyles.widgets__images}
                       style={{ marginRight: 5 }}
                       alt="wallet"
@@ -951,6 +1002,83 @@ const Profile = ({
             />
             <div className={styles.btnPair} style={{ marginTop: 20 }}>
               <Button form="full" type="submit" text="Change Password" />
+            </div>
+          </form>
+        </ModalWrapper>
+        <ModalWrapper
+          isModalVisible={profileModal}
+          setIsModalVisible={() => {
+            setProfileModal(false);
+          }}
+        >
+          <form
+            // onSubmit={handleChangePassword}
+            onSubmit={(e) => handleProfileFormSubmit(e)}
+            className={styles.profileSecurityContents}
+          >
+            <h1>
+              <span className={styles.sub}>Edit your Profile</span>
+            </h1>
+            <Input
+            name="firstName"
+            value={states.firstName}
+            onChange={handleProfileChange}
+            label="First Name"
+            placeholder="Enter First Name here"
+            required={true}
+            labelClass={styles.profileBankInputLabel}
+            className={styles.input}
+          />
+          <Input
+            name="lastName"
+            value={states.lastName}
+            onChange={handleProfileChange}
+            label="Last Name"
+            placeholder="Enter Last Name here"
+            required={true}
+            labelClass={styles.profileBankInputLabel}
+            className={styles.input}
+          />
+          <Input
+            name="username"
+            value={states.username}
+            onChange={handleProfileChange}
+            type="text"
+            label="Username"
+            required={true}
+            labelClass={styles.profileBankInputLabel}
+            className={styles.input}
+            // readOnly
+          />
+          <Input
+            name="email"
+            value={states.email}
+            onChange={handleProfileChange}
+            type="email"
+            inputMode={"email"}
+            label="Email Address"
+            placeholder="Enter a valid email address"
+            hint="This is the only way we can keep in touch with you"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
+            required={true}
+            labelClass={styles.profileBankInputLabel}
+            className={styles.input}
+          />
+          <Input
+            name="phoneNumber"
+            value={states.phoneNumber}
+            onChange={handleProfileChange}
+            type="tel"
+            label="Phone Number"
+            placeholder="Enter a valid Phone number"
+            errorMessage="phone number should be the right format. e.g. +23xxxxxxxxxxxx"
+            required={true}
+            labelClass={styles.profileBankInputLabel}
+            className={styles.input}
+          />
+          
+            <div className={styles.btnPair} style={{ marginTop: 20 }}>
+              <Button form="full" type="submit" text="Save" />
             </div>
           </form>
         </ModalWrapper>
@@ -1238,6 +1366,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   submitPin: (data) => {
     dispatch(setTransactionPin(data));
+  },
+  submitUserDetails: (data) => {
+    dispatch(updateUserDetails(data));
   },
 });
 
