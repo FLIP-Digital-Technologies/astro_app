@@ -21,6 +21,7 @@ import {
   DownOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
+import TimeAgo from 'react-timeago'
 import { Menu, Dropdown } from "antd";
 import {
   getBTCWalletDetails,
@@ -1029,7 +1030,8 @@ const Home = ({
                               item.BankAccount.details.currencyId === 1
                                 ? `NGN ${item.amount}`
                                 : `GHS ${item.amount}`
-                            } ${date(item.created_at)}`}
+                            } `}
+                            <TimeAgo date={item.created_at} />
                           </Timeline.Item>
                         </>
                       ))
@@ -1073,7 +1075,8 @@ const Home = ({
                           <Timeline.Item>
                             {` ${item.amount_sent_object.currency} ${
                               item.amount_sent_object.value
-                            } sent by ${date(item.created_at)}`}
+                            } sent `}
+                            <TimeAgo date={item.created_at} />
                           </Timeline.Item>
                         </>
                       ))
