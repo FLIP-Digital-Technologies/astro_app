@@ -76,7 +76,7 @@ const BuyCoin = ({
         <div
           className={styles.gitcard__form__holder}
           style={{ alignItems: "flex-start" }}
-        >
+        >{console.log({active})}
           <div onClick={handleBack} className={styles.gitcard__form__link}>
             <SVG.ArrowLeft /> {active.Currency.name}
           </div>

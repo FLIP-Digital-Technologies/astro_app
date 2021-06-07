@@ -31,7 +31,7 @@ export const BuySection = ({
   loading,
   active,
   conversions,
-  fiatCurrency
+  fiatCurrency,
 }) => {
   useEffect(() => {
     state.wallet = undefined;
@@ -40,13 +40,14 @@ export const BuySection = ({
 
   useEffect(() => {
     rates && rates.ticker && setBtc_usd_rate(rates.ticker.sell);
-    
-      let walletRate =
-        state.wallet &&
-        fiatCurrency &&
-        fiatCurrency.length > 0 &&
+
+    let walletRate =
+      state.wallet &&
+      fiatCurrency &&
+      fiatCurrency.length > 0 &&
       fiatCurrency.filter((item) => item.code === state.wallet)[0];
-      walletRate && walletRate.we_sell && 
+    walletRate &&
+      walletRate.we_sell &&
       setWallet_btc_rate((walletRate.we_sell ?? 0) * buy_btc_usd_rate);
     // eslint-disable-next-line
   }, [conversions, rates, state.wallet]);
@@ -265,20 +266,16 @@ export const SellSection = ({
     state.wallet = undefined;
     // eslint-disable-next-line
   }, []);
-  // useEffect(() => {
-  //   // balance && balance.BTC && setBtc_current_balance(balance.BTC.balance);
-  //   balance &&
-  //     balance[state.wallet] &&
-  //     setWallet_current_balance(balance[state.wallet].balance);
-  // }, [balance, state.wallet]);
+
   useEffect(() => {
     rates && rates.ticker && setSell_btc_usd_rate(rates.ticker.buy);
     let walletRate =
-        state.wallet &&
-        fiatCurrency &&
-        fiatCurrency.length > 0 &&
+      state.wallet &&
+      fiatCurrency &&
+      fiatCurrency.length > 0 &&
       fiatCurrency.filter((item) => item.code === state.wallet)[0];
-      walletRate && walletRate.we_buy && 
+    walletRate &&
+      walletRate.we_buy &&
       setWallet_btc_rate((walletRate.we_buy ?? 0) * sell_btc_usd_rate);
     // eslint-disable-next-line
   }, [rates, state.wallet]);
@@ -325,6 +322,7 @@ export const SellSection = ({
   const [sell_btc_usd_rate, setSell_btc_usd_rate] = useState(0);
   // const [sell_btc_ghs_rate, setSell_btc_ghs_rate] = useState(0);
   // const [sell_btc_ngn_rate, setSell_btc_ngn_rate] = useState(0);
+  const [afterFees, setAfterFees] = useState(0);
   const [wallet_btc_rate, setWallet_btc_rate] = useState(0);
   const [open, setOpen] = useState(false);
   const showPromiseConfirm = () => {
@@ -370,7 +368,15 @@ export const SellSection = ({
         </div>
         <div className={styles.detailsCard__list__item}>
           <span className={styles.main}>Fees</span>
-          <span className={`${styles.sub} ${styles.light}`}>0</span>
+          <span className={`${styles.sub} ${styles.light}`}>
+            {active.Currency.code} {active.Currency.props.send_fees}
+          </span>
+        </div>
+        <div className={styles.detailsCard__list__item}>
+          <span className={styles.main}>Minimum Transaction</span>
+          <span className={`${styles.sub} ${styles.light}`}>
+            {active.Currency.code} {active.Currency.props.minimum_send_amount}
+          </span>
         </div>
         <div className={styles.detailsCard__list__item}>
           <span className={styles.main}>Should arrive</span>
@@ -473,6 +479,7 @@ export const SellSection = ({
         </div>
         <Button
           disabled={
+            parseFloat(state.btc) < parseFloat(active.Currency.props.minimum_send_amount) ||
             parseFloat(state.btc) === 0 ||
             state.btc === "" ||
             loading ||
@@ -588,10 +595,18 @@ export const SendSection = ({
           <span className={styles.main}>Amount in USD</span>
           <span className={styles.sub}>{Money(state.usd, "USD")}</span>
         </div> */}
-        {/* <div className={styles.detailsCard__list__item}>
+        <div className={styles.detailsCard__list__item}>
           <span className={styles.main}>Fees</span>
-          <span className={`${styles.sub} ${styles.light}`}>US$ 0</span>
-        </div> */}
+          <span className={`${styles.sub} ${styles.light}`}>
+            {active.Currency.code} {active.Currency.props.send_fees}
+          </span>
+        </div>
+        <div className={styles.detailsCard__list__item}>
+          <span className={styles.main}>Minimum Transaction</span>
+          <span className={`${styles.sub} ${styles.light}`}>
+            {active.Currency.code} {active.Currency.props.minimum_send_amount}
+          </span>
+        </div>
         <div className={styles.detailsCard__list__item}>
           <span className={styles.main}>Should arrive</span>
           <span className={`${styles.sub} ${styles.light}`}>In 5 Seconds</span>
@@ -646,7 +661,10 @@ export const SendSection = ({
       <Button
         text="Send"
         disabled={
-          !state.btcAddress || state.btc > active.balance ? true : false
+          parseFloat(state.btc) < parseFloat(active.Currency.props.minimum_send_amount) 
+          ||
+          !state.btcAddress 
+          || state.btc > active.balance 
         }
         onClick={() => showPromiseConfirm()}
         form="full"
