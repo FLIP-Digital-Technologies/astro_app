@@ -53,7 +53,7 @@ authService.loginAccount = function (payload) {
 
 authService.getUserDetails = function (params) {
   return fetch({
-    url: `/user-account/${params.userId}`,
+    url: `/user-accoun/${params.userId}`,
     method: "get",
   });
 };

@@ -116,6 +116,7 @@ const getUserDetails = (data) => async (dispatch) => {
   await authService
     .getUserDetails(data)
     .then((response) => {
+      console.log('code',response.headers)
       dispatch({
         type: actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS,
         payload: response.data,
@@ -127,7 +128,7 @@ const getUserDetails = (data) => async (dispatch) => {
         onClick:()=> {history.push("/app/settings")},
         duration:2
       })
-      console.log(history.location)
+      // console.log(history.location)
       // localStorage.setItem(actionTypes.AUTH_TOKEN_ID, response.data.user.id);
       // localStorage.setItem("type", response.data.user.type);
       // history.push("/app/onboarding");
@@ -137,7 +138,11 @@ const getUserDetails = (data) => async (dispatch) => {
         type: actionTypes.GET_USER_DETAILS_BY_ID_FAILED,
         payload: err,
       });
-      dispatch(LogOutUser());
+      console.log(err.response.status)
+      if (err.response.status === 401 || err.response.status === 403 ) {
+        dispatch(LogOutUser());  
+      } else {}
+      
     });
 };
 
