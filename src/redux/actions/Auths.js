@@ -138,7 +138,7 @@ const getUserDetails = (data) => async (dispatch) => {
         type: actionTypes.GET_USER_DETAILS_BY_ID_FAILED,
         payload: err,
       });
-      console.log(err.response.status)
+      // console.log(err.response.status)
       if (err.response.status === 401 || err.response.status === 403 ) {
         dispatch(LogOutUser());  
       } else {}
