@@ -515,6 +515,7 @@ const GiftCardForm = ({
     file: [],
     wallet: "",
     remark: "",
+    rate:0,
   };
   // const INITIAL_STATE2 = {};
 
@@ -529,7 +530,10 @@ const GiftCardForm = ({
   // const [canTrade, SetCanTrade] = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false);
   const [total, setTotal] = useState(0);
+  const [rate_conv, setRate_conv] = useState(0)
   const [rate_selected, setRate_selected] = useState("");
+  
+
 
   useEffect(() => {
     getCardDetails({ cardCode: active.uid });
@@ -546,7 +550,11 @@ const GiftCardForm = ({
       details &&
       details.value &&
       setTotal(details.amount * walletRate.we_buy * details.value.rate);
-
+      walletRate &&
+      walletRate.we_buy &&
+      details &&
+      details.value &&
+      setRate_conv(details.value.rate * walletRate.we_buy)
     // if (details.wallet !== "USD") {
     //   let walletRate =
     //     details.wallet &&
@@ -561,29 +569,10 @@ const GiftCardForm = ({
     // }
   }, [fiatCurrency, details, details.wallet, details.value, details.amount]);
 
-  // useEffect(() => {
-  //   let fiatCurrencyUsed = fiatCurrency.filter(
-  //     (item) => item.code === details.wallet
-  //   )[0];
-  //   // details && details.cardType && details.cardType === "physical"
-  //   //   ? setTotal(
-  //   //       details.amount &&
-  //   //         details.value.physical[details.amount] *
-  //   //           details.amount *
-  //   //           parseFloat(fiatCurrencyUsed.we_buy, 10)
-  //   //     )
-  //   //   : details.cardType === "ecode"
-  //   //   ? setTotal(
-  //   //       details.amount &&
-  //   //         details.value.ecode[details.amount] *
-  //   //           details.amount *
-  //   //           parseFloat(fiatCurrencyUsed.we_buy, 10)
-  //   //     )
-  //   //   : setTotal(0);
-
-  //   // getCardDetails({ cardCode: active.uid });
-  //   // eslint-disable-next-line
-  // }, [details]);
+  useEffect(() => {
+    
+    // eslint-disable-next-line
+  }, [details.country]);
 
   const onHandleFile = (file) => {
     setDetails((details) => ({ ...details, file: [...details.file, file] }));
@@ -970,10 +959,10 @@ const GiftCardForm = ({
               <div>
                 <strong>Rate</strong>&emsp;
                 <span>
-                  {"USD"}{" "}
+                  {details && details.wallet}{" "}
                   {CommaFormatted(
-                    details && details.value.rate && details.value.rate
-                  )}
+                    rate_conv
+                  )} {"/ $"}
                 </span>
               </div>
               <div>

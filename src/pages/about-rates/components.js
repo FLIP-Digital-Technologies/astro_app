@@ -5,6 +5,7 @@ import labelStyles from "../../components/select/styles.module.scss";
 import styles from "../styles.module.scss";
 import Input from "../../components/input";
 import { CommaFormatted } from "../../utils/helper";
+import SellCrypto from "./SellCrypto";
 
 export const BuySide = () => {
   const [currencyType, setCurrencyType] = useState(true);
@@ -63,6 +64,7 @@ export const SellSide = ({ fiatCurrency, getCardDetails, cardDetails, cryptoCurr
   const [total, setTotal] = useState(0);
   const [currencyType, setCurrencyType] = useState(true);
   const [rate_selected, setRate_selected] = useState("");
+
   const onRadioChange = (e) => {
     console.log("radio checked", e.target.value);
     setCurrencyType(e.target.value);
@@ -95,7 +97,11 @@ export const SellSide = ({ fiatCurrency, getCardDetails, cardDetails, cryptoCurr
     let cryptoCurrencyUsed = cryptoCurrency.filter(
       (item) => item.code === value.code
     )[0];
-    
+
+setCrypto((crypto) => ({
+  ...crypto,
+  currency:value.code
+}))    
   };
   const onCardChange = (value) => {
     console.log(value);
@@ -238,19 +244,7 @@ export const SellSide = ({ fiatCurrency, getCardDetails, cardDetails, cryptoCurr
         </>
       )}
       {!currencyType && (
-          <div>
-              <div style={{ marginBottom: 20 }}>
-            <Select
-              options={cryptoCurrency.map((item) => ({
-                render: item.name,
-                value: item,
-              }))}
-              label="Select Currency"
-              value={crypto.currency}
-              onSelect={onCryptoWalletChange}
-            />
-          </div>
-         </div>
+          <SellCrypto />
       )}
     </div>
   );
