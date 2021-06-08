@@ -137,6 +137,7 @@ const getUserDetails = (data) => async (dispatch) => {
         type: actionTypes.GET_USER_DETAILS_BY_ID_FAILED,
         payload: err,
       });
+      dispatch(LogOutUser());
     });
 };
 
