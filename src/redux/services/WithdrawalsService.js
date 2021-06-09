@@ -77,4 +77,11 @@ withdrawalsService.getWithdrawalRequestByUser = function (params) {
   });
 };
 
+withdrawalsService.getWithdrawalSettings = function (params) {
+  return fetch({
+    url: `/misc/settings/withdrawal/`,
+    method: "get",
+  });
+};
+
 export default withdrawalsService;

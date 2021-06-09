@@ -33,6 +33,7 @@ import { getBankListByCountry } from "../../redux/actions/bank";
 import {
   getAllUserWithdrawalDetails,
   getLastUserWithdrawalDetails,
+  getWithdrawalSettings,
 } from "../../redux/actions/withdrawals";
 import PTwoPFlyout, { AirtimeFlyout, FundFlyout } from "./components";
 import PTwoPCrypto from "./components2";
@@ -90,6 +91,8 @@ const Home = ({
   pairTwoPairFiatTrans,
   pairTwoPairLoading,
   withdrawalLoading,
+  getWithdrawSettings,
+  withdrawalSettings,
 }) => {
   function getWindowDimensions() {
     const { screen } = window;
@@ -189,6 +192,7 @@ const Home = ({
     getP2PTrans({ skip: 0, limit: 4 });
     // getLatestBTCTrans({ skip: 0, limit: 5 });
     getLatestGiftCardTrans({ skip: 1, limit: 5 });
+    getWithdrawSettings();
     try {
       const pinCheck = localStorage.getItem("pinCheck");
       setPinCheck(pinCheck);
@@ -259,6 +263,9 @@ const Home = ({
       <WithdrawInitial
         setIsModalVisible={setOpenWithdrawal}
         isModalVisible={openWithdrawal}
+        fiatCurrency={fiatCurrency}
+        settings={withdrawalSettings}
+        balance={balance}
       />
 
       <AddWallet
@@ -1118,6 +1125,7 @@ const mapStateToProps = (state) => ({
   pairTwoPairLoading: state.pairTwoPair.loading,
   withdrawalTrans: state.withdrawals.WithdrawalTransaction,
   withdrawalLoading: state.withdrawals.loading,
+  withdrawalSettings: state.withdrawals.settings,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -1166,6 +1174,9 @@ const mapDispatchToProps = (dispatch) => ({
   getP2PTrans: (data) => {
     dispatch(getAllUserFiatP2PTransferDetails(data));
   },
+  getWithdrawSettings:() => {
+    dispatch(getWithdrawalSettings())
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

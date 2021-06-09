@@ -26,6 +26,7 @@ const Input = ({
   pattern,
   inputMode,
   min,
+  max,
   onInput,
   anotherClass,
   ...prop
@@ -39,7 +40,6 @@ const Input = ({
         textInput && textInput.current && !textInput.current.checkValidity()
       );
   };
-  
 
   return (
     <div className={`${styles.input} ${className}`}>
@@ -80,14 +80,15 @@ const Input = ({
               onInput={onInput}
               minLength={minlength}
               maxLength={maxlength}
-              min={type === "number"? 0: min}
+              // min={type === "number"? 0: min}
+              min={name === "withdrawal" ? min : type === "number" ? 0 : min}
+              max={max}
               style={style}
               disabled={disabled}
               pattern={pattern}
               onWheelCapture={(e) => {
                 e.target.blur();
               }}
-              
               defaultValue={defaultValue}
               inputMode={inputMode}
               {...prop}
@@ -113,7 +114,7 @@ const Input = ({
               type={type}
               minLength={minlength}
               maxLength={maxlength}
-              min={type === "number"? 0: min}
+              min={type === "number" ? 0 : min}
               style={style}
               disabled={disabled}
               pattern={pattern}
@@ -124,8 +125,7 @@ const Input = ({
               defaultValue={defaultValue}
               inputMode={inputMode}
               {...prop}
-              
-              placeholder={placeholder ? placeholder: ""}
+              placeholder={placeholder ? placeholder : ""}
               className={`${
                 value.length == 0
                   ? `${styles.input__input_placeholder}  ${styles.input__input}`
