@@ -39,14 +39,7 @@ const Input = ({
         textInput && textInput.current && !textInput.current.checkValidity()
       );
   };
-  const handlePasswordToggle = () => {
-    var x = document.getElementById("myInput");
-    if (x.type === "password") {
-      x.type = "text";
-    } else {
-      x.type = "password";
-    }
-  };
+  
 
   return (
     <div className={`${styles.input} ${className}`}>
@@ -94,7 +87,7 @@ const Input = ({
               onWheelCapture={(e) => {
                 e.target.blur();
               }}
-              id="myInput"
+              
               defaultValue={defaultValue}
               inputMode={inputMode}
               {...prop}

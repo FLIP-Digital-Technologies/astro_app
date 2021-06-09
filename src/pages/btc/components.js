@@ -555,7 +555,7 @@ export const SendSection = ({
       setState((state) => ({ ...state, btc, usd, ngn, ghs }));
     }
     if (!value) {
-      setState((state) => ({ ...state, btc: 0, usd: 0, ngn: 0, ghs: 0 }));
+      setState((state) => ({ ...state, btc: "", usd: "", ngn: "", ghs: "" }));
     }
   };
 
@@ -645,7 +645,7 @@ export const SendSection = ({
             active.Currency.code
           }`}
           hintClass={styles.largeMarginHint}
-          placeholder=""
+          placeholder={`Amount in ${active.Currency.code}`}
         />
         {/* <Input
           labelClass={styles.largeMarginLabel}
@@ -665,6 +665,7 @@ export const SendSection = ({
           ||
           !state.btcAddress 
           || state.btc > active.balance 
+          || loading
         }
         onClick={() => showPromiseConfirm()}
         form="full"

@@ -106,10 +106,10 @@ const BuyCoin = ({
                   setMode("buy");
                   setState({
                     ...state,
-                    btc: 0,
-                    usd: 0,
-                    ngn: 0,
-                    ghs: 0,
+                    btc: "",
+                    usd: "",
+                    ngn: "",
+                    ghs: "",
                     walletBalance: 0,
                   });
                 }}
@@ -127,10 +127,10 @@ const BuyCoin = ({
                   setMode("sell");
                   setState({
                     ...state,
-                    btc: 0,
-                    usd: 0,
-                    ngn: 0,
-                    ghs: 0,
+                    btc: "",
+                    usd: "",
+                    ngn: "",
+                    ghs: "",
                     walletBalance: 0,
                   });
                 }}
@@ -149,10 +149,10 @@ const BuyCoin = ({
                   setMode("recieve");
                   setState({
                     ...state,
-                    btc: 0,
-                    usd: 0,
-                    ngn: 0,
-                    ghs: 0,
+                    btc: "",
+                    usd: "",
+                    ngn: "",
+                    ghs: "",
                     walletBalance: 0,
                   });
                 }}
@@ -172,10 +172,10 @@ const BuyCoin = ({
                   setMode("send");
                   setState({
                     ...state,
-                    btc: 0,
-                    usd: 0,
-                    ngn: 0,
-                    ghs: 0,
+                    btc: "",
+                    usd: "",
+                    ngn: "",
+                    ghs: "",
                     walletBalance: 0,
                   });
                 }}

@@ -37,7 +37,7 @@ export const BuySide = () => {
   );
 };
 
-export const SellSide = ({ fiatCurrency, getCardDetails, cardDetails, cryptoCurrency }) => {
+export const SellSide = ({ rates, fiatCurrency, getCardDetails, cardDetails, cryptoCurrency }) => {
   const INITIAL_STATE = {
     card: "",
     creditCurrency: "",
@@ -64,6 +64,14 @@ export const SellSide = ({ fiatCurrency, getCardDetails, cardDetails, cryptoCurr
   const [total, setTotal] = useState(0);
   const [currencyType, setCurrencyType] = useState(true);
   const [rate_selected, setRate_selected] = useState("");
+  const [state, setState] = useState({
+    btc: 0,
+    usd: 0,
+    ngn: 0,
+    ghs: 0,
+    walletBalance: 0,
+    // creditCoinsWalletId:
+  });
 
   const onRadioChange = (e) => {
     console.log("radio checked", e.target.value);
@@ -244,7 +252,11 @@ setCrypto((crypto) => ({
         </>
       )}
       {!currencyType && (
-          <SellCrypto />
+          <SellCrypto
+          rates={rates}
+          state={state}
+          setState={setState}
+          />
       )}
     </div>
   );
