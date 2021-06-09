@@ -165,18 +165,18 @@ const WithDrawModalPersonal = ({
         }))}
         hint={
           acc.currency && acc.amount > walletBalance ? (
-            <span style={{ color: "red" }}>
+            <span style={{ color: "#921946" }}>
               That's more than you have in your wallet{" "}
               <i class="fas fa-exclamation-circle"></i>
             </span>
           ): show_min ? (
-            <span style={{ color: "red" }}>
+            <span style={{ color: "#921946" }}>
               Minimum withdrawal amount is {acc.currency}{" "}
               {CommaFormatted(min_amount)}{" "}
               <i class="fas fa-exclamation-circle"></i>
             </span>
           ) : show_max ? (
-            <span style={{ color: "red" }}>
+            <span style={{ color: "#921946" }}>
               Maximum withdrawal amount is {acc.currency}{" "}
               {CommaFormatted(max_amount)}{" "}
               <i class="fas fa-exclamation-circle"></i>

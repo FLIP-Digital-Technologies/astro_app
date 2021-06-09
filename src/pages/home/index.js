@@ -1000,10 +1000,19 @@ const Home = ({
               justifyContent: "flex-start",
               display: "flex",
               flexDirection: "column",
+              // backgroundColor:"red"
             }}
           >
-            <Row style={{ marginBottom: 15 }}>
-              <Col>
+            <Row style={{ marginBottom: 15 }} gutter={[8,8]}>
+              <Col span={24}
+              xs={24}
+              sm={24}
+              lg={24}
+              md={24}
+              xxl={24}
+              xl={24}
+              className={homeStyles.rightinnerbody}
+              >
                 <div className={homeStyles.rightbody__headercontainer}>
                   <div className={homeStyles.rightbody__header}>
                     <img
@@ -1052,7 +1061,9 @@ const Home = ({
               </Col>
             </Row>
             <Row>
-              <Col>
+              <Col
+              className={homeStyles.rightinnerbody}
+              >
                 <div className={homeStyles.rightbody__headercontainer}>
                   <div className={homeStyles.rightbody__header}>
                     <img
