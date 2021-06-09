@@ -766,7 +766,8 @@ const Home = ({
                     <div
                       className={homeStyles.extras__text}
                       onClick={() => {
-                        pinCheck
+                        user &&
+                        user.boarded
                           ? balance && balance.fiatWallets.length > 0
                             ? setOpenWithdrawal(true)
                             : notification.info({
@@ -784,6 +785,7 @@ const Home = ({
                       }}
                     >
                       {"Withdraw Funds"}
+                      
                       {/* <DoubleRightOutlined />{" "} */}
                     </div>
                     <div
