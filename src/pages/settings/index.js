@@ -880,7 +880,7 @@ const Profile = ({
                   </div>
                 </div>
               </Col>
-             {!pinCheck && ( <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
+             {user && !user.boarded && ( <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
                 <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
