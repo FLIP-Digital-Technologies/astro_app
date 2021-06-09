@@ -214,6 +214,7 @@ const AboutRates = ({
                cardDetails={cardDetails}
                getCardDetails={getCardDetails}
                cryptoCurrency={cryptoCurrency}
+               rates={btcRates}
                />
               
             ) : (

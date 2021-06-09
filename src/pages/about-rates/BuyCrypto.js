@@ -10,7 +10,7 @@ import Input from "../../components/input";
 import styles from "../styles.module.scss";
 import { CommaFormatted } from "../../utils/helper";
 
-function SellCrypto({
+function BuyCrypto({
   getBTCRates,
   fiatCurrency,
   cryptoCurrency,
@@ -35,7 +35,8 @@ function SellCrypto({
   }, [crypto.currency]);
 
   useEffect(() => {
-    rates && rates.ticker && setSell_btc_usd_rate(rates.ticker.buy);
+      console.log('rates',rates)
+    rates && rates.ticker && setSell_btc_usd_rate(rates.ticker.sell);
     let walletRate =
       state.wallet &&
       fiatCurrency &&
@@ -193,4 +194,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SellCrypto);
+export default connect(mapStateToProps, mapDispatchToProps)(BuyCrypto);

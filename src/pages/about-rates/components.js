@@ -6,38 +6,69 @@ import styles from "../styles.module.scss";
 import Input from "../../components/input";
 import { CommaFormatted } from "../../utils/helper";
 import SellCrypto from "./SellCrypto";
+import BuyCrypto from "./BuyCrypto";
 
-export const BuySide = () => {
+export const BuySide = ({
+  rates,
+  fiatCurrency,
+  getCardDetails,
+  cardDetails,
+  cryptoCurrency,
+}) => {
   const [currencyType, setCurrencyType] = useState(true);
+  const [state, setState] = useState({
+    btc: 0,
+    usd: 0,
+    ngn: 0,
+    ghs: 0,
+    walletBalance: 0,
+    // creditCoinsWalletId:
+  });
   const onRadioChange = (e) => {
     console.log("radio checked", e.target.value);
     setCurrencyType(e.target.value);
   };
   return (
     <div>
-      <div style={{ marginBottom: 20 }}>
+      <div
+        style={{ marginBottom: 20, display: "flex", flexDirection: "column" }}
+      >
         <label
           className={`${labelStyles.input__label} ${styles.label}`}
           style={{ marginTop: 10 }}
         >
-          {"Select Wallet type to credit"}
+          {"Select Transaction type"}
         </label>
         <Radio.Group
           onChange={onRadioChange}
           value={currencyType}
-          style={{ marginTop: 10 }}
+          style={{ marginTop: 10, color:"#921946" }}
         >
           <Radio value={true}>Gift Card</Radio>
-          <Radio disabled value={false}>
-            Cryptocurrency
-          </Radio>
+          <Radio value={false}>Cryptocurrency</Radio>
         </Radio.Group>
       </div>
+      {/* {currencyType && (
+        
+      )} */}
+      {!currencyType && (
+        <BuyCrypto 
+        rates={rates}
+        state={state} 
+        setState={setState}
+        />
+      )}
     </div>
   );
 };
 
-export const SellSide = ({ rates, fiatCurrency, getCardDetails, cardDetails, cryptoCurrency }) => {
+export const SellSide = ({
+  rates,
+  fiatCurrency,
+  getCardDetails,
+  cardDetails,
+  cryptoCurrency,
+}) => {
   const INITIAL_STATE = {
     card: "",
     creditCurrency: "",
@@ -60,10 +91,11 @@ export const SellSide = ({ rates, fiatCurrency, getCardDetails, cardDetails, cry
   };
 
   const [details, setDetails] = useState(INITIAL_STATE);
-  const [crypto, setCrypto] = useState(INITIAL_STATE2)
+  const [crypto, setCrypto] = useState(INITIAL_STATE2);
   const [total, setTotal] = useState(0);
   const [currencyType, setCurrencyType] = useState(true);
   const [rate_selected, setRate_selected] = useState("");
+  const [rate_conv, setRate_conv] = useState(0)
   const [state, setState] = useState({
     btc: 0,
     usd: 0,
@@ -82,14 +114,20 @@ export const SellSide = ({ rates, fiatCurrency, getCardDetails, cardDetails, cry
       fiatCurrency &&
       fiatCurrency.length > 0 &&
       fiatCurrency.filter((item) => item.code === details.creditCurrency)[0];
-      console.log(details.creditCurrency)
+    console.log(details.creditCurrency);
     walletRate &&
       walletRate.we_buy &&
       details &&
       details.category &&
       setTotal(details.amount * walletRate.we_buy * details.category.rate);
+
+      walletRate &&
+      walletRate.we_buy &&
+      details &&
+      details.category &&
+      setRate_conv(details.category.rate * walletRate.we_buy)
   }, [fiatCurrency, details.creditCurrency, details.category, details.amount]);
-  
+
   const onWalletChange = (value) => {
     let fiatCurrencyUsed = fiatCurrency.filter(
       (item) => item.code === value.code
@@ -106,19 +144,19 @@ export const SellSide = ({ rates, fiatCurrency, getCardDetails, cardDetails, cry
       (item) => item.code === value.code
     )[0];
 
-setCrypto((crypto) => ({
-  ...crypto,
-  currency:value.code
-}))    
+    setCrypto((crypto) => ({
+      ...crypto,
+      currency: value.code,
+    }));
   };
   const onCardChange = (value) => {
     console.log(value);
     getCardDetails({ cardCode: value });
     setDetails((state) => ({
-        ...state,
-        card: value,
-        // category: value,
-      }));
+      ...state,
+      card: value,
+      // category: value,
+    }));
   };
   let data = [
     {
@@ -160,7 +198,7 @@ setCrypto((crypto) => ({
         <Radio.Group
           onChange={onRadioChange}
           value={currencyType}
-          style={{ marginTop: 10 }}
+          style={{ marginTop: 10, color:"#921946" }}
         >
           <Radio value={true}>Gift Card</Radio>
           <Radio value={false}>Cryptocurrency</Radio>
@@ -190,7 +228,7 @@ setCrypto((crypto) => ({
               placeholder="Select Card"
               value={details.card}
               onSelect={onCardChange}
-            //   className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
+              //   className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
             />
           </div>
 
@@ -206,7 +244,7 @@ setCrypto((crypto) => ({
               }
               value={details.category}
               onSelect={(value) => {
-                  console.log(value)
+                console.log(value);
                 setDetails((state) => ({
                   ...state,
                   cardCategory: value,
@@ -239,24 +277,37 @@ setCrypto((crypto) => ({
           </div>
           <br />
           <div style={{ marginTop: 20 }}>
-              <div className={styles.rate}>
-                   <span>{`Rate `}
-                   </span>
-                   <span>{`${details.creditCurrency && details.creditCurrency} ${CommaFormatted(total)}`}
-                   </span>
-                   </div>
-              {/* <div>{CommaFormatted(total)}</div> */}
-            
+            <div className={styles.rate}>
+              <span>{`Currency Rate`}</span>
+              <span>
+                {`${
+                  details.creditCurrency && details.creditCurrency
+                } ${CommaFormatted(rate_selected)} / $`}
+              </span>
+            </div>
+            <div className={styles.rate}>
+              <span>{`Card Rate`}</span>
+              <span>
+                {`${
+                  details.creditCurrency && details.creditCurrency
+                } ${CommaFormatted(rate_conv)} / $`}
+              </span>
+            </div>
+            <div className={styles.rate}>
+              <span>{`Rate`}</span>
+              <span>
+                {`${
+                  details.creditCurrency && details.creditCurrency
+                } ${CommaFormatted(total)}`}
+              </span>
+            </div>
+            {/* <div>{CommaFormatted(total)}</div> */}
           </div>
           <br />
         </>
       )}
       {!currencyType && (
-          <SellCrypto
-          rates={rates}
-          state={state}
-          setState={setState}
-          />
+        <SellCrypto rates={rates} state={state} setState={setState} />
       )}
     </div>
   );
