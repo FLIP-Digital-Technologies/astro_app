@@ -215,13 +215,13 @@ const WithDrawModalPersonal = ({
         value={acc.amount}
         // min={500}
         onChange={(e) =>
-          setAcc({ ...acc, amount: e.target.value, pin: "", narration: "" })
+          setAcc({ ...acc, amount: e.target.value, })
         }
         hint={
           acc.currency && acc.amount ? (
             <span>
               You will be charged{" "}
-              <strong>{Money(fee, acc.currency || "")}</strong> for this
+              <strong>{acc.currency && acc.currency}{" "} {CommaFormatted(fee)}</strong> for this
               withdrawal.
             </span>
           ) : null
@@ -251,6 +251,7 @@ const WithDrawModalPersonal = ({
         onClick={() => showPromiseConfirm()}
         className={styles.button}
         disabled={
+          acc.amount > walletBalance ||
           acc.amount < min_amount ||
           acc.amount > max_amount ||
           !acc.bankAccountId ||
