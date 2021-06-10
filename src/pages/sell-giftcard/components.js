@@ -965,12 +965,12 @@ const GiftCardForm = ({
                   )} {"/ $"}
                 </span>
               </div>
-              <div>
+              {/* <div>
                 <strong>Exchange</strong>&emsp;
                 <span>
                   {details && details.wallet} {CommaFormatted(rate_selected)}
                 </span>
-              </div>
+              </div> */}
               <div>
                 <strong>Value</strong>&emsp;
                 <span>
