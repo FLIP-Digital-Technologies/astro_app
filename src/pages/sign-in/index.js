@@ -133,7 +133,7 @@ const SignIn = (props) => {
             placeholder="Email"
             onChange={(e) => handleEmail(e.target.value)}
             value={email}
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
+            pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-zA-Z]{2,9}$"
             type="email"
             required={true}
             label="Email"

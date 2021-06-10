@@ -131,7 +131,10 @@ const WithDrawModalPersonal = ({
           bankAccounts &&
           bankAccounts.map((item) => ({
             value: item.id,
-            render: `${item.account_number} - ${item.details.bankName} - ${item.details.account_name}`,
+            render:
+              item.type.value !== "gh-mobile"
+                ? `${item.account_number} - ${item.details.bankName} - ${item.details.account_name}`
+                : `${item.account_number} - ${item.bank_code} - ${item.details.account_name}`,
           }))
         }
         value={acc.bankAccountId}
@@ -169,7 +172,7 @@ const WithDrawModalPersonal = ({
               That's more than you have in your wallet{" "}
               <i class="fas fa-exclamation-circle"></i>
             </span>
-          ): show_min ? (
+          ) : show_min ? (
             <span style={{ color: "#921946" }}>
               Minimum withdrawal amount is {acc.currency}{" "}
               {CommaFormatted(min_amount)}{" "}
@@ -214,15 +217,15 @@ const WithDrawModalPersonal = ({
         max={max_amount}
         value={acc.amount}
         // min={500}
-        onChange={(e) =>
-          setAcc({ ...acc, amount: e.target.value, })
-        }
+        onChange={(e) => setAcc({ ...acc, amount: e.target.value })}
         hint={
           acc.currency && acc.amount ? (
             <span>
               You will be charged{" "}
-              <strong>{acc.currency && acc.currency}{" "} {CommaFormatted(fee)}</strong> for this
-              withdrawal.
+              <strong>
+                {acc.currency && acc.currency} {CommaFormatted(fee)}
+              </strong>{" "}
+              for this withdrawal.
             </span>
           ) : null
         }
