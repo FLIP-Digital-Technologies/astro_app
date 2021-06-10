@@ -8,10 +8,13 @@ import { verifyEmailToken } from "../../redux/actions/Auths";
 
 function VerifyEmail({ loading, verifyEmail }) {
   useEffect(() => {
-    const url = new URL(window.location.href);
-    const token = url.searchParams.get("token");
-    const userId = url.searchParams.get("userId");
-    verifyEmail({ userId: "4", token: "345435353434r4fsdcsdcsdc" });
+    try {
+      const url = new URL(window.location.href);
+      const token = url.searchParams.get("token");
+      const userId = url.searchParams.get("userId");
+      verifyEmail({ userId, token });
+    } catch (error) {}
+
     // setOtp_code(token);
     // setUserId(userIds)
   }, []);
