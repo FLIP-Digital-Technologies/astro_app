@@ -11,11 +11,11 @@ const initState = {
   updatedUserBank: false,
   updatedTransactionPin: false,
   userReferral: null,
-  createWallet:null,
-  fiatCurrency:[],
-  cryptoCurrency:[],
-  userWallets:{},
-  conversions:{},
+  createWallet: null,
+  fiatCurrency: [],
+  cryptoCurrency: [],
+  userWallets: {},
+  conversions: {},
   userReferralTransaction: {
     referrals: [],
     meta: {},
@@ -26,7 +26,7 @@ const key = actionTypes.KEY;
 const authReducer = (state = initState, action) => {
   switch (action.type) {
     case actionTypes.REGISTER_PENDING:
-       notification.info({
+      notification.info({
         message: "Loading.....",
         duration: 0,
         key,
@@ -36,6 +36,7 @@ const authReducer = (state = initState, action) => {
         loading: true,
         error: null,
       };
+    case actionTypes.VERIFY_EMAIL_TOKEN_PENDING:
     case actionTypes.CHECK_EMAIL_AVAILABILITY_PENDING:
     case actionTypes.CREATE_USER_WALLET_PENDING:
     case actionTypes.GET_FIAT_CURRENCY_PENDING:
@@ -120,15 +121,20 @@ const authReducer = (state = initState, action) => {
         loading: true,
         error: null,
       };
+    case actionTypes.VERIFY_EMAIL_TOKEN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
     case actionTypes.VERIFY_EMAIL_OTP_SUCCESS:
       notification.success({
         message: "Successful",
-        duration:1,
+        duration: 1,
         key,
       });
       return {
         ...state,
-        // user: action.payload.user,
         loading: false,
         error: null,
       };
@@ -155,7 +161,7 @@ const authReducer = (state = initState, action) => {
         // user: action.payload.user,
         loading: false,
         error: null,
-        cryptoCurrency:action.payload.crypto
+        cryptoCurrency: action.payload.crypto,
       };
     case actionTypes.GET_FIAT_CURRENCY_SUCCESS:
       // notification.success({
@@ -168,12 +174,12 @@ const authReducer = (state = initState, action) => {
         // user: action.payload.user,
         loading: false,
         error: null,
-        fiatCurrency:action.payload.fiat
+        fiatCurrency: action.payload.fiat,
       };
     case actionTypes.REGISTER_SUCCESS:
       notification.success({
         message: "Successful",
-        description:"Check your email for the otp",
+        description: "Check your email for the otp",
         key,
       });
       return {
@@ -205,7 +211,7 @@ const authReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         description: "Added Bank details",
-        duration:1,
+        duration: 1,
         key,
       });
       return {
@@ -229,7 +235,7 @@ const authReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         description: "Password Changed Successfully",
-        duration:1,
+        duration: 1,
         key,
       });
       return {
@@ -241,7 +247,7 @@ const authReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         description: "Pin Changed Successfully",
-        duration:1,
+        duration: 1,
         key,
       });
       return {
@@ -253,7 +259,7 @@ const authReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         description: "Transaction Pin Set",
-        duration:1,
+        duration: 1,
         key,
       });
       return {
@@ -268,7 +274,7 @@ const authReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         // description: "Redeemed referral bonus successfully",
-        duration:1,
+        duration: 1,
         key,
       });
       return {
@@ -296,7 +302,7 @@ const authReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         description: "You can now Login with your new password.",
-        duration:1,
+        duration: 1,
         key,
       });
       return {
@@ -308,7 +314,7 @@ const authReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         description: "Pin Reset Complete",
-        duration:1,
+        duration: 1,
         key,
       });
       return {
@@ -320,22 +326,23 @@ const authReducer = (state = initState, action) => {
       notification.success({
         message: "Successful",
         // description: "You can now Login with your new password.",
-        duration:1,
+        duration: 1,
         key,
       });
       return {
         ...state,
-        createWallet:action.payload,
+        createWallet: action.payload,
         loading: false,
         error: null,
       };
     case actionTypes.GET_CURRENCY_CONVERSIONS_SUCCESS:
       return {
         ...state,
-        conversions:action.payload.tickers,
+        conversions: action.payload.tickers,
         loading: false,
         error: null,
       };
+    case actionTypes.VERIFY_EMAIL_TOKEN_FAILED:
     case actionTypes.CREATE_USER_WALLET_FAILED:
     case actionTypes.GET_CURRENCY_CONVERSIONS_FAILED:
     case actionTypes.GET_CRYPTO_CURRENCY_FAILED:

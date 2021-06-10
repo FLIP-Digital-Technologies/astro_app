@@ -88,6 +88,20 @@ authService.verifyEmail = function (params, payload) {
   });
 };
 
+authService.verifyEmailToken = function (payload) {
+  
+  let data = {};
+  data.token = payload.token;
+  return fetch({
+    url: `/user-account/${payload.userId}/verify-email-token`,
+    method: "post",
+    data: data,
+    headers: {
+      "public-request": "true",
+    },
+  });
+};
+
 authService.resendVerificationCode = function (params) {
   return fetch({
     url: `/user-account/${params.userId}/resend-email-otp`,

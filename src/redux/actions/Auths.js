@@ -227,6 +227,33 @@ export const resendEmailVerificationCode = () => (dispatch) => {
   dispatch(ResendEmailVerificationCode());
 }; // done
 
+const VerifyEmailToken = (data) => async (dispatch) => {
+  dispatch({
+    type: actionTypes.VERIFY_EMAIL_TOKEN_PENDING,
+    payload: data,
+  });
+
+  await authService
+    .verifyEmailToken(data)
+    .then((response) => {
+      dispatch({
+        type: actionTypes.VERIFY_EMAIL_TOKEN_SUCCESS,
+        payload: response.data,
+      });
+      // history.push("/signin");
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.VERIFY_EMAIL_TOKEN_FAILED,
+        payload: err,
+      });
+    });
+}; // done
+
+export const verifyEmailToken = (data) => (dispatch) => {
+  dispatch(VerifyEmailToken(data));
+}; // done
+
 const ChangePassword = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
   dispatch({
