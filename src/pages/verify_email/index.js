@@ -11,7 +11,7 @@ function VerifyEmail({ loading, verifyEmail }) {
     try {
       const url = new URL(window.location.href);
       const token = url.searchParams.get("token");
-      const userId = url.searchParams.get("userId");
+      const userId = url.searchParams.get("tokenId");
       verifyEmail({ userId, token });
     } catch (error) {}
 
