@@ -61,7 +61,8 @@ function App(props) {
         <Coin />
       </Route> */}
       <Route path="/app/crypto">
-        <CryptoView />
+      <Home />
+        {/* <CryptoView /> */}
         {/* <Route path="/app/btc">
         <BTC /> */}
       </Route>
