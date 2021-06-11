@@ -304,7 +304,7 @@ const Profile = ({
     } else if (
       state.accountType.value === "gh-account" &&
       state.bankCode &&
-      state.accountNumber.length === 12 &&
+      state.accountNumber.length === 13 &&
       !state.isMobileMoney
     ) {
       console.log("gh - account");

@@ -46,24 +46,24 @@ const WithDrawModalPersonal = ({
     currency: "",
     pin: "",
   });
-  React.useEffect(() => {
-    if (acc.currency && acc.amount && acc.amount >= 500) {
-      function api() {
-        setFee(0);
-        return fetch({
-          url: `/payments/outwards/get-transaction-fee`,
-          method: "get",
-          params: {
-            amount: acc.amount,
-            currencyId: acc.currencyId,
-          },
-        });
-      }
-      api().then((res) => {
-        setFee(res.data.fee);
-      });
-    }
-  }, [acc.currencyId, acc.amount, acc.currency]);
+  // React.useEffect(() => {
+  //   if (acc.currency && acc.amount && acc.amount >= 500) {
+  //     function api() {
+  //       setFee(0);
+  //       return fetch({
+  //         url: `/payments/outwards/get-transaction-fee`,
+  //         method: "get",
+  //         params: {
+  //           amount: acc.amount,
+  //           currencyId: acc.currencyId,
+  //         },
+  //       });
+  //     }
+  //     api().then((res) => {
+  //       setFee(res.data.fee);
+  //     });
+  //   }
+  // }, [acc.currencyId, acc.amount, acc.currency]);
 
   useEffect(() => {
     let fiatCurrencyUsed =
@@ -103,7 +103,7 @@ const WithDrawModalPersonal = ({
           acc.amount,
           acc.currency
         )} into ${data.details.account_name} ${data.account_number} ${
-          data.details.bankName
+          data.details.bankName ? data.details.bankName : data.bank_code
         }`,
         onOk() {
           return submitBankDetails({ ...acc });
@@ -125,7 +125,7 @@ const WithDrawModalPersonal = ({
       setIsModalVisible={setIsModalVisible}
     >
       <div className={styles.title}>Withdraw</div>
-      {console.log("bank accounts", bankAccounts)}
+      {/* {console.log("bank accounts", bankAccounts)} */}
       <Select
         options={
           bankAccounts &&
@@ -166,26 +166,26 @@ const WithDrawModalPersonal = ({
           render: `${item.Currency.name}`,
           value: item,
         }))}
-        hint={
-          acc.currency && acc.amount > walletBalance ? (
-            <span style={{ color: "#921946" }}>
-              That's more than you have in your wallet{" "}
-              <i class="fas fa-exclamation-circle"></i>
-            </span>
-          ) : show_min ? (
-            <span style={{ color: "#921946" }}>
-              Minimum withdrawal amount is {acc.currency}{" "}
-              {CommaFormatted(min_amount)}{" "}
-              <i class="fas fa-exclamation-circle"></i>
-            </span>
-          ) : show_max ? (
-            <span style={{ color: "#921946" }}>
-              Maximum withdrawal amount is {acc.currency}{" "}
-              {CommaFormatted(max_amount)}{" "}
-              <i class="fas fa-exclamation-circle"></i>
-            </span>
-          ) : null
-        }
+        // hint={
+        //   acc.currency && acc.amount > walletBalance ? (
+        //     <span style={{ color: "#921946" }}>
+        //       That's more than you have in your wallet{" "}
+        //       <i class="fas fa-exclamation-circle"></i>
+        //     </span>
+        //   ) : show_min ? (
+        //     <span style={{ color: "#921946" }}>
+        //       Minimum withdrawal amount is {acc.currency}{" "}
+        //       {CommaFormatted(min_amount)}{" "}
+        //       <i class="fas fa-exclamation-circle"></i>
+        //     </span>
+        //   ) : show_max ? (
+        //     <span style={{ color: "#921946" }}>
+        //       Maximum withdrawal amount is {acc.currency}{" "}
+        //       {CommaFormatted(max_amount)}{" "}
+        //       <i class="fas fa-exclamation-circle"></i>
+        //     </span>
+        //   ) : null
+        // }
       />
       {/* <div>
       <span>
@@ -219,13 +219,31 @@ const WithDrawModalPersonal = ({
         // min={500}
         onChange={(e) => setAcc({ ...acc, amount: e.target.value })}
         hint={
-          acc.currency && acc.amount ? (
-            <span>
-              You will be charged{" "}
-              <strong>
-                {acc.currency && acc.currency} {CommaFormatted(fee)}
-              </strong>{" "}
-              for this withdrawal.
+          // acc.currency && acc.amount ? (
+          //   <span>
+          //     You will be charged{" "}
+          //     <strong>
+          //       {acc.currency && acc.currency} {CommaFormatted(fee)}
+          //     </strong>{" "}
+          //     for this withdrawal.
+          //   </span>
+          // ) : null
+          acc.currency && acc.amount > walletBalance ? (
+            <span style={{ color: "#921946" }}>
+              That's more than you have in your wallet{" "}
+              <i class="fas fa-exclamation-circle"></i>
+            </span>
+          ) : show_min ? (
+            <span style={{ color: "#921946" }}>
+              Minimum withdrawal amount is {acc.currency}{" "}
+              {CommaFormatted(min_amount)}{" "}
+              <i class="fas fa-exclamation-circle"></i>
+            </span>
+          ) : show_max ? (
+            <span style={{ color: "#921946" }}>
+              Maximum withdrawal amount is {acc.currency}{" "}
+              {CommaFormatted(max_amount)}{" "}
+              <i class="fas fa-exclamation-circle"></i>
             </span>
           ) : null
         }
@@ -260,8 +278,8 @@ const WithDrawModalPersonal = ({
           !acc.bankAccountId ||
           !acc.pin ||
           !acc.amount ||
-          loading ||
-          !fee
+          loading 
+          // ||!fee
         }
         text="Withdraw"
         form="full"
