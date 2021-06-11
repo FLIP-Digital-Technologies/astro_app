@@ -97,11 +97,10 @@ const WithDrawModalPersonal = ({
         bankAccounts &&
         bankAccounts.filter((item) => item.id === acc.bankAccountId)[0];
       confirm({
-        title: `Withdrawing ${Money(acc.amount, "NGN")}`,
+        title: `Withdrawing ${acc.currency} ${CommaFormatted(acc.amount)}`,
         icon: <ExclamationCircleOutlined style={{ color: "#19a9de" }} />,
-        content: `Confirm the withdrawal of ${Money(
-          acc.amount,
-          acc.currency
+        content: `Confirm the withdrawal of ${acc.currency} ${CommaFormatted(
+          acc.amount
         )} into ${data.details.account_name} ${data.account_number} ${
           data.details.bankName ? data.details.bankName : data.bank_code
         }`,
@@ -278,7 +277,7 @@ const WithDrawModalPersonal = ({
           !acc.bankAccountId ||
           !acc.pin ||
           !acc.amount ||
-          loading 
+          loading
           // ||!fee
         }
         text="Withdraw"
