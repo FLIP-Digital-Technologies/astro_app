@@ -409,8 +409,7 @@ const Profile = ({
     submitPin(nPin);
   };
   const resetPin = (e) => {
-    if (resetEmail.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$/)) {
-      const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+    const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
       AppFetch({
         url: `/user-account/${userId}/reset-pin`,
         method: "post",
@@ -418,7 +417,7 @@ const Profile = ({
           "public-request": "true",
         },
         data: {
-          email: resetEmail,
+          email: user.email,
         },
       })
         .then((response) => {
@@ -437,11 +436,39 @@ const Profile = ({
           });
           setSwitch(true);
         });
-    } else {
-      notification.error({
-        message: "Invalid email",
-      });
-    }
+    // if (resetEmail.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$/)) {
+    //   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+    //   AppFetch({
+    //     url: `/user-account/${userId}/reset-pin`,
+    //     method: "post",
+    //     headers: {
+    //       "public-request": "true",
+    //     },
+    //     data: {
+    //       email: resetEmail,
+    //     },
+    //   })
+    //     .then((response) => {
+    //       console.log("reset", response);
+    //       localStorage.setItem("reference", response.data.reference);
+    //       notification.success({
+    //         message: "Otp sent to email successfully",
+    //       });
+    //       // setWallet_btc_rate(response.data.ticker.sell);
+    //       setSwitch(false);
+    //     })
+    //     .catch((err) => {
+    //       notification.error({
+    //         message: "Try Again",
+    //         duration: 2.5,
+    //       });
+    //       setSwitch(true);
+    //     });
+    // } else {
+    //   notification.error({
+    //     message: "Invalid email",
+    //   });
+    // }
 
     // ResetPinViaEmail({
     //   email: resetEmail,
@@ -1190,18 +1217,23 @@ const Profile = ({
                 className={styles.auth__content__input__body}
                 inputClass={styles.auth__content__input}
                 placeholder="Email"
-                onChange={(e) => handleResetEmail(e.target.value)}
-                value={resetEmail}
+                // onChange={(e) => handleResetEmail(e.target.value)}
+                value={user? user.email :""}
                 type="email"
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
                 required={true}
+                readOnly={true}
                 label="Please enter your registered email."
               />
               <Button
                 className={styles.auth__content__button}
                 form="full"
-                disabled={!resetEmail}
-                onClick={(e) => resetPin(e)}
+                // disabled={!resetEmail}
+                onClick={(e) => {
+                 user ? resetPin(e) : notification.info({
+                   message:'Please try again'
+                 })
+                }}
                 text="Submit"
               />
             </div>
