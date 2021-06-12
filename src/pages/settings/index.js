@@ -1223,6 +1223,7 @@ const Profile = ({
                 placeholder="New Pin"
                 onChange={(e) => handleNewPin(e.target.value)}
                 value={newPin}
+                maxlength={4}
                 type="number"
                 onInput={(e) => {
                   if (e.target.value.length > e.target.maxLength) {
