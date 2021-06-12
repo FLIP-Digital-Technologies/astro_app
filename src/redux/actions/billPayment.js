@@ -1,6 +1,6 @@
 import * as actionTypes from "../constants";
 import billPayment from "../services/BillPayment";
-// import { history } from "../store";
+import { history } from "../store";
 
 const InitialBillPaymentByUser = (billCategory, data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
@@ -15,6 +15,7 @@ const InitialBillPaymentByUser = (billCategory, data) => async (dispatch) => {
         type: actionTypes.INITIAL_BILL_PAYMENT_SUCCESS,
         payload: response.data,
       });
+      history.push("/app")
     })
     .catch((err) => {
       dispatch({

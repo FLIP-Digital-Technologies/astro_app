@@ -17,7 +17,8 @@ import { getBTCWalletDetails } from "../../redux/actions/btc";
 import { getFiatCurrencies } from "../../redux/actions/Auths";
 
 function validateEmail(email) {
-  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
 
@@ -96,7 +97,7 @@ export const DiscoFlyout = ({
             _id: item.id,
           }))}
         />
-        
+
         {state.currency in { NGN: "0" } && (
           <Select
             labelClass={styles.largeMarginLabel}
@@ -284,7 +285,6 @@ export const InternetFlyout = ({
               value={state.amount}
               readOnly={true}
               name="amount"
-              
               onChange={(e) =>
                 setState((state) => ({ ...state, amount: e.target.value }))
               }
@@ -467,6 +467,8 @@ export const AirtimeFlyout = ({
   BillPaymentCategory = [],
   loading,
   fiatCurrency,
+  setShowAirtime,
+  setAirtimeState,
   buyAirtime = () => {},
 }) => {
   const handleAirtime = () => {
@@ -481,6 +483,10 @@ export const AirtimeFlyout = ({
       payload
     );
     setState({});
+    try {
+      setAirtimeState({});
+      setShowAirtime(false);
+    } catch (error) {}
   };
   return (
     <div>
@@ -679,9 +685,7 @@ const PTwoPFlyout = ({
   useEffect(() => {
     getFiatP2PRate();
   }, [getFiatP2PRate]);
-  useEffect(() => {
-    
-  }, [convertedAmount])
+  useEffect(() => {}, [convertedAmount]);
   useEffect(() => {
     if (pairTwoPairBTC && state.amount) {
       setState({});
@@ -700,13 +704,12 @@ const PTwoPFlyout = ({
   }, [pairTwoPairFiatDetails]);
 
   const onConfirm = (data) => {
-    
     return convertedCurrency({
       amount: data,
       from: state.referenceCurrency,
       to: state.recipientCurrency,
     });
-  }
+  };
 
   const handleP2PTransfer = () => {
     if (state.referenceCurrency === "BTC") {
@@ -737,7 +740,7 @@ const PTwoPFlyout = ({
       } else {
         return alert("Please enter a valid email address");
       }
-      
+
       initializeFiatPairTwoPairTransaction(data);
     }
     // setOpenModal(false);
@@ -839,7 +842,7 @@ const PTwoPFlyout = ({
             type={"number"}
             name="amount"
             onChange={(e) => {
-              onConfirm(e.target.value)
+              onConfirm(e.target.value);
               setState((state) => ({ ...state, amount: e.target.value }));
             }}
             hint={

@@ -335,6 +335,8 @@ const Home = ({
             state={AirtimeState}
             setState={setAirtimeState}
             fiatCurrency={balance.fiatWallets}
+            setShowAirtime={setShowAirtime}
+            setAirtimeState={setAirtimeState}
           />
         </Drawer>
       )}

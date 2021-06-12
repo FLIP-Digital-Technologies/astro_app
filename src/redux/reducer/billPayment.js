@@ -104,7 +104,7 @@ const billPaymentReducer = (state = initState, action) => {
       return {
         ...state,
         billPayment: true,
-        billPaymentDetails: action.payload.transaction,
+        billPaymentDetails: action.payload,
         loading: false,
         error: null,
       };
