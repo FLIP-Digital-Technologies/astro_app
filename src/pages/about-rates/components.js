@@ -277,14 +277,14 @@ export const SellSide = ({
           </div>
           <br />
           <div style={{ marginTop: 20 }}>
-            <div className={styles.rate}>
+            {/* <div className={styles.rate}>
               <span>{`Currency Rate`}</span>
               <span>
                 {`${
                   details.creditCurrency && details.creditCurrency
                 } ${CommaFormatted(rate_selected)} / $`}
               </span>
-            </div>
+            </div> */}
             <div className={styles.rate}>
               <span>{`Card Rate`}</span>
               <span>
