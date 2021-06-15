@@ -655,17 +655,6 @@ const GiftCardForm = ({
           onClick={() => history.push("/app")}
         />
       )}
-
-      {/* <Modal
-        header={null}
-        footer={null}
-        visible={openTerm}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <h3>Trade Terms</h3>
-        {getTerm(active.name)}
-      </Modal> */}
       <div
         className={styles.gitcard__form__holder}
         style={{ alignItems: "flex-start" }}
@@ -993,47 +982,26 @@ const GiftCardForm = ({
                 marginTop: 40,
                 overflow: "auto",
                 backgroundColor: "#fcfcfd",
-                paddingTop:10,
-                paddingBottom:10,
-                paddingLeft:8,
-                paddingRight:8
+                paddingTop: 10,
+                paddingBottom: 10,
+                paddingLeft: 8,
+                paddingRight: 8,
+                width:"100%"
               }}
             >
-              <div style={{marginBottom:15}}>
-              <strong>
-                <u>
-                  {" "}
-                  TERMS OF TRADE{" "}
-                  {active.displayName &&
-                    `FOR ${active.displayName.toUpperCase()}`}
-                </u>
-              </strong>
+              <div style={{ marginBottom: 15 }}>
+                <strong>
+                  <u>
+                    {" "}
+                    TERMS OF TRADE{" "}
+                    {active.displayName &&
+                      `FOR ${active.displayName.toUpperCase()}`}
+                  </u>
+                </strong>
               </div>
               <pre style={{ lineHeight: 1.1 }}>
                 {details && details.value && details.value.tac}
               </pre>
-              {/* <p>
-                confirm that all info (Card value, Card quantity,country, etc.)
-                are accurately uploaded before submission. You will not be able
-                to update or modify this once a transacton has been submitted
-                and confirmed.
-              </p>
-              <p>
-                Make sure that the gift card is properly scratched and the code
-                is clear and complete. You do not require a receipt for this
-                trade, you can upload it if you have.
-              </p>
-              <p>
-                Giftcards uploaded in a wrong section will be forwarded to the
-                right column and credited at the current rate in that section.
-              </p>
-              <p>
-                This trade will take only a few minutes. a notification will be
-                sent to you after confirmation
-              </p>
-              <p>
-                If you need to ask a question, pls reach us via the live chat.
-              </p> */}
             </div>
           </div>
         </div>
