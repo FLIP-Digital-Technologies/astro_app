@@ -60,7 +60,8 @@ function BuyCrypto({
     setState((state) => ({
         ...state,
         // wallet: value.code,
-        ngn:""
+        ngn:"",
+        btc:""
       }));
   };
 
@@ -142,7 +143,7 @@ function BuyCrypto({
         <div style={{ marginBottom: 20 }}>
           <Input
             labelClass={styles.largeMarginLabel}
-            label={crypto.currency ? `Amount (${crypto.currency})` : `Amount`}
+            label={crypto.currency ? `Amount (${crypto.currency})` : `Crypto Amount`}
             value={isFinite(state.btc) ? state.btc : 0}
             name="btc"
             onChange={handleChange}
@@ -159,7 +160,7 @@ function BuyCrypto({
         <div style={{ marginBottom: 20 }}>
           <Input
             labelClass={styles.largeMarginLabel}
-            label={state.wallet? `Amount in ${state.wallet}` : `Amount`}
+            label={state.wallet? `Amount in ${state.wallet}` : `Fiat Amount`}
             value={isNaN(state.ngn) ? 0 : state.ngn.toLocaleString()}
             hint={state.wallet &&
                 `Current rate ${state.wallet ?? ""} ${CommaFormatted(
@@ -167,6 +168,7 @@ function BuyCrypto({
             )} / ${crypto.currency}`}
             name="ngn"
             onChange={handleChange}
+            placeholder="e.g NGN 4000"
           />
         </div>
       </div>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Select from "../../components/select";
-import { Radio } from "antd";
+import { notification, Radio } from "antd";
 import labelStyles from "../../components/select/styles.module.scss";
 import styles from "../styles.module.scss";
 import Input from "../../components/input";
 import { CommaFormatted } from "../../utils/helper";
 import SellCrypto from "./SellCrypto";
 import BuyCrypto from "./BuyCrypto";
+import AppFetch from "../../redux/services/FetchInterceptor";
 
 export const BuySide = ({
   rates,
@@ -17,9 +18,9 @@ export const BuySide = ({
 }) => {
   const [currencyType, setCurrencyType] = useState(true);
   const [state, setState] = useState({
-    btc: 0,
+    btc: "",
     usd: 0,
-    ngn: 0,
+    ngn: "",
     ghs: 0,
     walletBalance: 0,
     // creditCoinsWalletId:
@@ -30,7 +31,7 @@ export const BuySide = ({
   };
   return (
     <div>
-      <div
+      {/* <div
         style={{ marginBottom: 20, display: "flex", flexDirection: "column" }}
       >
         <label
@@ -47,17 +48,17 @@ export const BuySide = ({
           <Radio value={true}>Gift Card</Radio>
           <Radio value={false}>Cryptocurrency</Radio>
         </Radio.Group>
-      </div>
+      </div> */}
       {/* {currencyType && (
         
       )} */}
-      {!currencyType && (
+      {/* {!currencyType && ( */}
         <BuyCrypto 
         rates={rates}
         state={state} 
         setState={setState}
         />
-      )}
+      {/* )} */}
     </div>
   );
 };
@@ -69,6 +70,9 @@ export const SellSide = ({
   cardDetails,
   cryptoCurrency,
 }) => {
+  useEffect(() => {
+    getCards()
+  }, [])
   const INITIAL_STATE = {
     card: "",
     creditCurrency: "",
@@ -91,6 +95,7 @@ export const SellSide = ({
   };
 
   const [details, setDetails] = useState(INITIAL_STATE);
+  const [cards, setCards] = useState([])
   const [crypto, setCrypto] = useState(INITIAL_STATE2);
   const [total, setTotal] = useState(0);
   const [currencyType, setCurrencyType] = useState(true);
@@ -104,6 +109,24 @@ export const SellSide = ({
     walletBalance: 0,
     // creditCoinsWalletId:
   });
+  const getCards = () => {
+    AppFetch({
+      url: `/cards`,
+      method: "get",
+      headers: {
+        "public-request": "true",
+      },
+    })
+      .then((res) => {
+        setCards(res.data.cards);
+      })
+      .catch((err) => {
+        notification.error({
+          message: "erros",
+        });
+        setCards([]);
+      });
+  };
 
   const onRadioChange = (e) => {
     console.log("radio checked", e.target.value);
@@ -220,7 +243,7 @@ export const SellSide = ({
           </div>
           <div style={{ marginBottom: 20 }}>
             <Select
-              options={data.map((item) => ({
+              options={cards.map((item) => ({
                 render: item.name,
                 value: item.uid,
               }))}
