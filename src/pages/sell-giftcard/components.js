@@ -515,7 +515,7 @@ const GiftCardForm = ({
     file: [],
     wallet: "",
     remark: "",
-    rate:0,
+    rate: 0,
   };
   // const INITIAL_STATE2 = {};
 
@@ -530,10 +530,8 @@ const GiftCardForm = ({
   // const [canTrade, SetCanTrade] = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false);
   const [total, setTotal] = useState(0);
-  const [rate_conv, setRate_conv] = useState(0)
+  const [rate_conv, setRate_conv] = useState(0);
   const [rate_selected, setRate_selected] = useState("");
-  
-
 
   useEffect(() => {
     getCardDetails({ cardCode: active.uid });
@@ -550,11 +548,11 @@ const GiftCardForm = ({
       details &&
       details.value &&
       setTotal(details.amount * walletRate.we_buy * details.value.rate);
-      walletRate &&
+    walletRate &&
       walletRate.we_buy &&
       details &&
       details.value &&
-      setRate_conv(details.value.rate * walletRate.we_buy)
+      setRate_conv(details.value.rate * walletRate.we_buy);
     // if (details.wallet !== "USD") {
     //   let walletRate =
     //     details.wallet &&
@@ -570,7 +568,6 @@ const GiftCardForm = ({
   }, [fiatCurrency, details, details.wallet, details.value, details.amount]);
 
   useEffect(() => {
-    
     // eslint-disable-next-line
   }, [details.country]);
 
@@ -959,10 +956,8 @@ const GiftCardForm = ({
               <div>
                 <strong>Rate</strong>&emsp;
                 <span>
-                  {details && details.wallet}{" "}
-                  {CommaFormatted(
-                    rate_conv
-                  )} {"/ $"}
+                  {details && details.wallet} {CommaFormatted(rate_conv)}{" "}
+                  {"/ $"}
                 </span>
               </div>
               {/* <div>
@@ -991,9 +986,32 @@ const GiftCardForm = ({
               }
               onClick={() => handleSubmit()}
             />
-            <div style={{ marginBottom: 100, marginTop: 40 }}>
-              <p>This trade is for {active.displayName}</p>
-              {details && details.value && details.value.tac}
+
+            <div
+              style={{
+                marginBottom: 100,
+                marginTop: 40,
+                overflow: "auto",
+                backgroundColor: "#fcfcfd",
+                paddingTop:10,
+                paddingBottom:10,
+                paddingLeft:8,
+                paddingRight:8
+              }}
+            >
+              <div style={{marginBottom:15}}>
+              <strong>
+                <u>
+                  {" "}
+                  TERMS OF TRADE{" "}
+                  {active.displayName &&
+                    `FOR ${active.displayName.toUpperCase()}`}
+                </u>
+              </strong>
+              </div>
+              <pre style={{ lineHeight: 1.1 }}>
+                {details && details.value && details.value.tac}
+              </pre>
               {/* <p>
                 confirm that all info (Card value, Card quantity,country, etc.)
                 are accurately uploaded before submission. You will not be able
