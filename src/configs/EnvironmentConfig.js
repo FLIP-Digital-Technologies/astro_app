@@ -7,19 +7,19 @@ const prod = {
 };
 
 const test = {
-  API_ENDPOINT_URL: "https://myflipapp-297309.uc.r.appspot.com/",
+  API_ENDPOINT_URL: "https://api.astroafrica.xyz/v1/",
 };
 
 const stage = {
   API_ENDPOINT_URL:  "https://api.astroafrica.xyz/v1/",
-                   
+
 };
 
 const getEnv = () => {
   if (process.env.NODE_ENV === "development") {
     return dev;
   }
-  
+
   switch (process.env.REACT_APP_ENV) {
     case "development":
       return dev;
