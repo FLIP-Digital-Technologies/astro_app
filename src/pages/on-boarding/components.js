@@ -519,7 +519,17 @@ export const Step3 = ({ submitForm }) => {
             placeholder="1234"
             required={true}
             maxLength="4"
-            max={9999}
+            onInput={(e) => {
+              if (e.target.value.length > e.target.maxLength) {
+                e.target.value = e.target.value.slice(
+                  0,
+                  e.target.maxLength
+                );
+              } else {
+                e.target.value = e.target.value;
+              }
+            }}
+            // max={9999}
             type="number"
             pattern="\d{4}$"
             errorMessage={"PIn must be 4 numbers"}

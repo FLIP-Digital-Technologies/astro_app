@@ -69,7 +69,7 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
 
   return (
     <Layout>
-      {console.log("dimension", windowDimensions)}
+      {/* {console.log("dimension", windowDimensions)} */}
       <Sider
         breakpoint="lg"
         collapsedWidth={windowDimensions.width < 866 ? "0" : "80"}

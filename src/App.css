@@ -134,6 +134,11 @@ body {
   }
 }
 
+.ant-message-info .anticon,
+.ant-message-loading .anticon {
+  color: #8b294d;
+}
+
 /* .ant-radio-wrapper:hover .ant-radio,
 .ant-radio:hover .ant-radio-inner,
 .ant-radio-input:focus + .ant-radio-inner {

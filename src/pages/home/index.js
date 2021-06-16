@@ -769,21 +769,14 @@ const Home = ({
                       className={homeStyles.extras__text}
                       onClick={() => {
                         user &&
-                        user.boarded
+                        !user.boarded
                           ? balance && balance.fiatWallets.length > 0
                             ? setOpenWithdrawal(true)
                             : notification.info({
                                 message: "Please try again",
                                 duration: 2.5,
                               })
-                          : notification.info({
-                              placement: "bottomLeft",
-                              message: "Go to Settings to Set Your Pin",
-                              onClick: () => {
-                                history.push("/app/settings");
-                              },
-                              duration: 2,
-                            });
+                          : history.push("/app/onboarding")
                       }}
                     >
                       {"Withdraw Funds"}
@@ -793,12 +786,15 @@ const Home = ({
                     <div
                       className={homeStyles.extras__text}
                       onClick={() => {
-                        balance && balance.fiatWallets.length > 0
-                          ? setShowAirtime(true)
-                          : notification.info({
-                              message: "Please wait",
-                              duration: 2.5,
-                            });
+                        user &&
+                        !user.boarded
+                          ? balance && balance.fiatWallets.length > 0
+                            ? setShowAirtime(true)
+                            : notification.info({
+                                message: "Please try again",
+                                duration: 2.5,
+                              })
+                          : history.push("/app/onboarding")
                       }}
                     >
                       {"Buy Airtime"}
@@ -891,12 +887,17 @@ const Home = ({
                     <div
                       className={homeStyles.widgets__inner}
                       onClick={() => {
-                        balance && balance.fiatWallets.length > 0
-                          ? setShowPTWOP(true)
-                          : notification.info({
-                              message: "Please wait",
-                              duration: 2.5,
-                            });
+                        user &&
+                        !user.boarded
+                          ? balance && balance.fiatWallets.length > 0
+                            ? setShowPTWOP(true)
+                            : notification.info({
+                                message: "Please try again",
+                                duration: 2.5,
+                              })
+                          : history.push("/app/onboarding")
+                        
+                        
                       }}
                     >
                       <div className={homeStyles.widgets__image}>
