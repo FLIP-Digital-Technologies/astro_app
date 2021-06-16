@@ -45,6 +45,8 @@ jobs:
 
       #
       - name: yarn install, build, and test
+        env:
+          CI: false
         run: |
           npm install
           npm run stage
