@@ -58,4 +58,4 @@ jobs:
           username: ${{ secrets.STAGING_FTP_USER }}
           password: ${{ secrets.STAGING_FTP_PASSWORD }}
           local-dir: ./build/
-          server-dir: './api.astroafrica.site/'
+          server-dir: './app.astroafrica.site/'
