@@ -1,4 +1,4 @@
-name: CI
+name: STAGING BUILD AND DEPLOY
 
 # Controls when the action will run.
 on:
@@ -29,13 +29,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install -g yarn # Extra Step
 
       #
       - name: yarn install, build, and test
         run: |
-          yarn install
-          yarn stage
+          npm install
+          npm run stage
 
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
