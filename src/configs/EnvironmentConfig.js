@@ -1,5 +1,5 @@
 const dev = {
-  API_ENDPOINT_URL: "https://api.astroafrica.xyz/v1/",
+  API_ENDPOINT_URL: "https://api.astroafrica.site/v1/",
 };
 
 const prod = {

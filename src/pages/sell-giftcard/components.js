@@ -681,7 +681,7 @@ const GiftCardForm = ({
               <strong>{active.displayName}</strong>
             </h2>
             <br />
-            <div style={{ marginBottom: 20 }}>
+            {/* <div style={{ marginBottom: 20 }}>
               <label
                 className={`${labelStyles.input__label} ${styles.label}`}
                 style={{ marginTop: 10 }}
@@ -698,7 +698,7 @@ const GiftCardForm = ({
                   Crypto Wallet
                 </Radio>
               </Radio.Group>
-            </div>
+            </div> */}
             {userWallets && (
               <>
                 <div style={{ marginBottom: 20 }}>

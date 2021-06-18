@@ -21,7 +21,7 @@ import {
   DownOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
-import TimeAgo from 'react-timeago'
+import TimeAgo from "react-timeago";
 import { Menu, Dropdown } from "antd";
 import {
   getBTCWalletDetails,
@@ -251,9 +251,11 @@ const Home = ({
 
   const menu = () => {
     return (
-      <Menu onClick={handleMenuClick}>
+      <Menu 
+      // onClick={handleMenuClick}
+      >
         <Menu.Item key="1">Fiat Wallet Balance</Menu.Item>
-        <Menu.Item key="2">Crypto Wallet Balance</Menu.Item>
+        {/* <Menu.Item key="2">Crypto Wallet Balance</Menu.Item> */}
       </Menu>
     );
   };
@@ -361,7 +363,7 @@ const Home = ({
           />
         </Drawer>
       )}
-      {showPTWOPcrypto && (
+      {/* {showPTWOPcrypto && (
         <Drawer
           title="Pair 2 Pair (p2p) Crypto Transfer"
           placement="right"
@@ -380,7 +382,7 @@ const Home = ({
             fiatCurrency={cryptoCurrency}
           />
         </Drawer>
-      )}
+      )} */}
       {showFund && (
         <Drawer
           title="Fund wallet"
@@ -419,7 +421,7 @@ const Home = ({
               <div className={homeStyles.topbox}>
                 <div
                   className={homeStyles.topbox__inner}
-                  onClick={() => history.push("/app/crypto")}
+                  onClick={() => history.push("/app/transactions")}
                 >
                   <div className={homeStyles.topbox__topic}>
                     <img
@@ -431,9 +433,9 @@ const Home = ({
                     />
                     Quick Action
                   </div>
-                  <div className={homeStyles.topbox__info}>Crypto</div>
+                  <div className={homeStyles.topbox__info}>Transactions</div>
                   <div className={homeStyles.topbox__description}>
-                    Manage your crypto wallets
+                    Details of your past transactions
                   </div>
                 </div>
                 <div
@@ -516,8 +518,9 @@ const Home = ({
                         style={{ cursor: "pointer" }}
                         // onClick={(e) => e.preventDefault()}
                       >
-                        {currencyHeader} {"  "}
-                        <DownOutlined />
+                        {"Wallet Balance"} {"  "}
+                        {/* {currencyHeader} */}
+                        {/* <DownOutlined /> */}
                       </span>
                     </Dropdown>
                     {!balanceLoading ? (
@@ -768,33 +771,31 @@ const Home = ({
                     <div
                       className={homeStyles.extras__text}
                       onClick={() => {
-                        user &&
-                        !user.boarded
+                        user && !user.boarded
                           ? balance && balance.fiatWallets.length > 0
                             ? setOpenWithdrawal(true)
                             : notification.info({
                                 message: "Please try again",
                                 duration: 2.5,
                               })
-                          : history.push("/app/onboarding")
+                          : history.push("/app/onboarding");
                       }}
                     >
                       {"Withdraw Funds"}
-                      
+
                       {/* <DoubleRightOutlined />{" "} */}
                     </div>
                     <div
                       className={homeStyles.extras__text}
                       onClick={() => {
-                        user &&
-                        !user.boarded
+                        user && !user.boarded
                           ? balance && balance.fiatWallets.length > 0
                             ? setShowAirtime(true)
                             : notification.info({
                                 message: "Please try again",
                                 duration: 2.5,
                               })
-                          : history.push("/app/onboarding")
+                          : history.push("/app/onboarding");
                       }}
                     >
                       {"Buy Airtime"}
@@ -850,21 +851,21 @@ const Home = ({
                   >
                     <div
                       className={homeStyles.widgets__inner}
-                      onClick={() => history.push("/app/crypto")}
+                      onClick={() => history.push("/app/buy-giftcard")}
                     >
                       <div className={homeStyles.widgets__image}>
                         <img
-                          src={png.SellBitcoin}
+                          src={png.GiftCardTrans}
                           className={homeStyles.widgets__images}
                           style={{ marginRight: 5 }}
                           alt="wallet"
                         />
                       </div>
                       <div className={homeStyles.widgets__info}>
-                        Trade Crypto
+                        Buy Gift Cards
                       </div>
                       <div className={homeStyles.widgets__description}>
-                        Convert bitcoin to your preferred currency
+                        Buy the Gift Card of your choice
                       </div>
                       <div className={homeStyles.widgets__arrow}>
                         <DoubleRightOutlined
@@ -887,17 +888,14 @@ const Home = ({
                     <div
                       className={homeStyles.widgets__inner}
                       onClick={() => {
-                        user &&
-                        !user.boarded
+                        user && !user.boarded
                           ? balance && balance.fiatWallets.length > 0
                             ? setShowPTWOP(true)
                             : notification.info({
                                 message: "Please try again",
                                 duration: 2.5,
                               })
-                          : history.push("/app/onboarding")
-                        
-                        
+                          : history.push("/app/onboarding");
                       }}
                     >
                       <div className={homeStyles.widgets__image}>
@@ -908,9 +906,7 @@ const Home = ({
                           alt="wallet"
                         />
                       </div>
-                      <div className={homeStyles.widgets__info}>
-                        Astro Send
-                      </div>
+                      <div className={homeStyles.widgets__info}>Astro Send</div>
                       <div className={homeStyles.widgets__description}>
                         Send Money to another Astro user
                       </div>
@@ -1006,15 +1002,16 @@ const Home = ({
               // backgroundColor:"red"
             }}
           >
-            <Row style={{ marginBottom: 15 }} gutter={[8,8]}>
-              <Col span={24}
-              xs={24}
-              sm={24}
-              lg={24}
-              md={24}
-              xxl={24}
-              xl={24}
-              className={homeStyles.rightinnerbody}
+            <Row style={{ marginBottom: 15 }} gutter={[8, 8]}>
+              <Col
+                span={24}
+                xs={24}
+                sm={24}
+                lg={24}
+                md={24}
+                xxl={24}
+                xl={24}
+                className={homeStyles.rightinnerbody}
               >
                 <div className={homeStyles.rightbody__headercontainer}>
                   <div className={homeStyles.rightbody__header}>
@@ -1064,9 +1061,7 @@ const Home = ({
               </Col>
             </Row>
             <Row>
-              <Col
-              className={homeStyles.rightinnerbody}
-              >
+              <Col className={homeStyles.rightinnerbody}>
                 <div className={homeStyles.rightbody__headercontainer}>
                   <div className={homeStyles.rightbody__header}>
                     <img
@@ -1096,9 +1091,7 @@ const Home = ({
                       pairTwoPairFiatTrans.transactions.map((item) => (
                         <>
                           <Timeline.Item>
-                            {` ${item.amount_sent_object.currency} ${
-                              item.amount_sent_object.value
-                            } sent `}
+                            {` ${item.amount_sent_object.currency} ${item.amount_sent_object.value} sent `}
                             <TimeAgo date={item.created_at} />
                           </Timeline.Item>
                         </>
@@ -1190,9 +1183,9 @@ const mapDispatchToProps = (dispatch) => ({
   getP2PTrans: (data) => {
     dispatch(getAllUserFiatP2PTransferDetails(data));
   },
-  getWithdrawSettings:() => {
-    dispatch(getWithdrawalSettings())
-  }
+  getWithdrawSettings: () => {
+    dispatch(getWithdrawalSettings());
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
