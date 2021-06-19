@@ -98,7 +98,7 @@ const Transactions = () => {
                   </div>
                 </div>
               </Col>
-              <Col span={6} xs={12} sm={12} md={12} lg={8} xl={6} xxl={6}>
+              {/* <Col span={6} xs={12} sm={12} md={12} lg={8} xl={6} xxl={6}>
                 <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
@@ -126,7 +126,7 @@ const Transactions = () => {
                     />
                   </div>
                 </div>
-              </Col>
+              </Col> */}
               <Col span={6} xs={12} sm={12} md={12} lg={8} xl={6} xxl={6}>
                 <div
                   className={homeStyles.widgets__inner}

@@ -49,41 +49,41 @@ function App(props) {
       <Route path="/app/onboarding">
         <OnBoarding />
       </Route>
-      <CustomRoute
+      {/* <CustomRoute
         condition="completeRegistration"
         path="/app/sell-giftcard"
         component={SellGiftcard}
-      />
-      {/* <Route path="/app/sell-giftcard">
+      /> */}
+      <Route path="/app/sell-giftcard">
         <SellGiftcard />
-      </Route> */}
-      <CustomRoute
+      </Route>
+      {/* <CustomRoute
         condition="completeRegistration"
         path="/app/buy-giftcard"
         component={BuyGiftCard}
-      />
-      {/* <Route path="/app/buy-giftcard">
+      /> */}
+      <Route path="/app/buy-giftcard">
         <BuyGiftCard />
-      </Route> */}
-      <CustomRoute
+      </Route>
+      {/* <CustomRoute
         condition="completeRegistration"
         path="/app/crypto"
         component={Home}
         // component={CryptoView}
-      />
+      /> */}
 
      
       <Route path="/app/transactions">
         <Transactions />
       </Route>
-      <CustomRoute
+      {/* <CustomRoute
         condition="completeRegistration"
         path="/app/bills"
         component={Bills}
-      />
-      {/* <Route path="/app/bills">
+      /> */}
+      <Route path="/app/bills">
         <Bills />
-      </Route> */}
+      </Route>
 
       <Route path="/app/settings">
         <Settings />
