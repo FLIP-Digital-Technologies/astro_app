@@ -2,18 +2,24 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import {
-  Home,
+  // Home,
   // Coin,
-  GiftCard,
+  // GiftCard,
   // Wallet,
-  Transactions,
+  // Transactions,
   // RateIcon,
   ArrowLeft,
-  Settings,
+  // Settings,
   // Logout,
 } from "../../../assets/svg";
 import {
   TransactionOutlined,
+  ProjectOutlined,
+  SettingOutlined,
+  CreditCardOutlined,
+  GiftOutlined,
+  MoneyCollectOutlined,
+  HomeOutlined
 } from '@ant-design/icons';
 
 export const Routes = {
@@ -31,13 +37,13 @@ export const Routes = {
 };
 
 export const navigation = [
-  { Icon: Home, Name: "Home", route: Routes.home },
-  { Icon: () => <i class="fas fa-gift" style={{marginRight: 14}}></i>, Name: "Sell Gift Cards", route: Routes.sellgiftcard },
-  { Icon: GiftCard, Name: "Buy Gift Cards", route: Routes.buygiftcard },
-  { Icon: () => <i class="fas fa-coins" style={{marginRight: 14}}></i>, Name: "Crypto", route: Routes.CryptoView },
+  { Icon: HomeOutlined, Name: "Home", route: Routes.home },
+  { Icon: GiftOutlined, Name: "Sell Gift Cards", route: Routes.sellgiftcard },
+  { Icon: CreditCardOutlined, Name: "Buy Gift Cards", route: Routes.buygiftcard },
+  // { Icon: MoneyCollectOutlined, Name: "Crypto", route: Routes.CryptoView },
   { Icon: TransactionOutlined, Name: "Transactions", route: Routes.transactions },
-  { Icon: Transactions, Name: "Bills", route: Routes.bills },
-  { Icon: Settings, Name: "Settings", route: Routes.settings },
+  { Icon: ProjectOutlined, Name: "Bills", route: Routes.bills },
+  { Icon: SettingOutlined, Name: "Settings", route: Routes.settings },
   // { Icon: Logout, Name: "Log out", route: "" },
 ];
 

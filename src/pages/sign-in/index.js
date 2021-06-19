@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import { Modal, Input as AntInput } from "antd";
+import {
+  Modal,
+  // Input as AntInput
+} from "antd";
 import { AuthHeader } from "../../components/header";
 import Input from "../../components/input";
 import Button from "../../components/button";
 import styles from "../styles.module.scss";
-import { loginUser, resetPassword, completeResetPassword } from "../../redux/actions/Auths";
+import {
+  loginUser,
+  resetPassword,
+  completeResetPassword,
+} from "../../redux/actions/Auths";
+import Footer from "../../components/footer";
 
 const SignIn = (props) => {
   const history = useHistory();
@@ -40,14 +48,14 @@ const SignIn = (props) => {
     props.ResetPasswordViaEmail({
       email: resetEmail,
     });
-    setSwitch(false)
+    setSwitch(false);
   };
 
   const completeResetPassword = (e) => {
     props.completeResetPassword({
       email: resetEmail,
       resetCode,
-      newPassword
+      newPassword,
     });
     handleCancel();
     setSwitch(true);
@@ -83,7 +91,6 @@ const SignIn = (props) => {
           </div>
         ) : (
           <div>
-            
             <Input
               className={styles.auth__content__input__body}
               inputClass={styles.auth__content__input}
@@ -117,33 +124,40 @@ const SignIn = (props) => {
         <form className={styles.auth__content} onSubmit={(e) => login(e)}>
           <h2 className={styles.auth__content__title}>Welcome back!</h2>
           <h3 className={styles.auth__content__subTitle}>
-            Sign in to your Flip account
+            Sign in to your Astro account
           </h3>
-          
+
           <Input
             className={styles.auth__content__input__body}
             inputClass={styles.auth__content__input}
             placeholder="Email"
             onChange={(e) => handleEmail(e.target.value)}
             value={email}
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
+            pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-zA-Z]{2,9}$"
             type="email"
             required={true}
             label="Email"
-            style={{borderRadius:10}}
+            style={{ borderRadius: 10 }}
           />
           <Input
             className={styles.auth__content__input__body}
             inputClass={styles.auth__content__input}
+            anotherClass={"blue"}
             placeholder="Password"
             onChange={(e) => handlePassword(e.target.value)}
             value={password}
             type="password"
             required={true}
             label="Password"
-            style={{borderRadius:10}}
+            style={{ borderRadius: 10, backgroundColor: "red" }}
           />
-          <div  onClick={showModal} style={{cursor: "pointer"}} className={styles.auth__content__forgot}>Forgot Password?</div>
+          <div
+            onClick={showModal}
+            style={{ cursor: "pointer" }}
+            className={styles.auth__content__forgot}
+          >
+            Forgot Password?
+          </div>
           <Button
             className={styles.auth__content__button}
             form="full"
@@ -156,11 +170,12 @@ const SignIn = (props) => {
             }}
             className={styles.auth__content__alt}
           >
-            <span>New to Flip? </span>
+            <span>New to Astro? </span>
             <span className={styles.auth__content__alt__link}>Sign Up</span>
           </div>
         </form>
       </AuthHeader>
+      <Footer />
     </div>
   );
 };

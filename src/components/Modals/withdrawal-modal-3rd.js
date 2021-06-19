@@ -7,7 +7,6 @@ import styles from "./styles.module.scss";
 import Input from "../input";
 import Select from "../select";
 import Button from "../button";
-import * as actionTypes from "../../redux/constants";
 import { Money } from "../../utils/helper";
 import {
   getBankListByCountry,
@@ -15,7 +14,7 @@ import {
   getBankBranchByID,
 } from "../../redux/actions/bank";
 import { initialWithdrawalByUser } from "../../redux/actions/withdrawals";
-import generalService from "../../redux/services/GeneralService";
+// import generalService from "../../redux/services/GeneralService";
 import fetch from "../../redux/services/FetchInterceptor";
 import { getBTCWalletDetails } from "../../redux/actions/btc";
 
@@ -33,6 +32,7 @@ const WithDrawModal3rd = ({
   branchList,
   getBankList,
   submitBankDetails,
+  balance
 }) => {
   const INITIAL_STATE = {
     accountNumber: "",
@@ -114,7 +114,7 @@ const WithDrawModal3rd = ({
   };
 
   const handleFormSubmit = (e) => {
-    const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+    // const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
     if (e) {
       e.preventDefault();
     }
@@ -130,24 +130,19 @@ const WithDrawModal3rd = ({
     data.accountName = state.accountName;
     data.bankCode = state.bankCode;
     data.bankName = state.bankName;
-    data.currency = state.currency === "NG" ? "NGN" : "GHS";
-    generalService
-      .addBankAccount({userId}, data)
-      .then(res => {
-        const {bankAccount} = res.data;
-        setAcc((acc) => ({...acc, bankAccountId: bankAccount.id, currency: state.currency}) )
-        confirm({
-          title: `Withdrawing ${Money(acc.amount, "NGN")}`,
-          icon: <ExclamationCircleOutlined style={{ color: "#19a9de" }} />,
-          content: `Confirm the withdrawal of ${Money(acc.amount, "NGN")} into ${
-            data.accountName
-          } ${data.accountNumber} ${data.bankName}`,
-          onOk() {
-            return submitBankDetails({ ...acc, bankAccountId: bankAccount.id, currency: state.currency === "NG" ? "NGN" : "GHS" });
-          },
-          onCancel() {},
-        });
-      })
+    data.currency = state.currency;
+    
+    confirm({
+      title: `Withdrawing ${Money(acc.amount, state.currency)}`,
+      icon: <ExclamationCircleOutlined style={{ color: "#19a9de" }} />,
+      content: `Confirm the withdrawal of ${Money(acc.amount, state.currency)} into ${
+        state.accountName
+      } ${state.accountNumber} ${state.bankName}`,
+      onOk() {
+        // return submitBankDetails({ ...acc, bankAccountId: bankAccount.id, currency: state.currency});
+      },
+      onCancel() {},
+    });
   };
   
   return (
@@ -161,12 +156,14 @@ const WithDrawModal3rd = ({
       <Select
         labelClass={styles.profileBankInputLabel}
         className={styles.profileBankInput}
-        label="Select currency"
+        label="Select Wallet"
         value={state.currency}
         onSelect={(value) => {
+          
           setState((state) => ({
             ...state,
-            currency: value,
+            currency: value.Currency.code,
+            currencyId:value.Currency.id,
             accountNumber: "",
             bankCode: "",
             bvn: "",
@@ -175,13 +172,13 @@ const WithDrawModal3rd = ({
             bankBranchCode: "",
             bankBranchName: "",
           }));
-          getBankList({ country: value });
+          getBankList({ country: value.Currency.code.substring(0,2) });
         }}
         name="select payment currency"
-        options={[
-          { render: "NGN", value: "NG" },
-          { render: "GHS", value: "GH" },
-        ]}
+        options={balance.fiatWallets.map((item)=> ({
+          render:`${item.Currency.name}`,
+          value:item
+        }))}
       />
       <Select
         name="bankCode"
@@ -194,7 +191,7 @@ const WithDrawModal3rd = ({
           render: i.name,
         }))}
       />
-      {state.currency === "GH" && (
+      {state.currency === "GHS" && (
         <Select
           name="bankBranchName"
           labelClass={styles.profileBankInputLabel}
@@ -247,7 +244,7 @@ const WithDrawModal3rd = ({
         onChange={(e) => setAcc({ ...acc, amount: e.target.value })}
         hint={state.currency && acc.amount ?
           <span>
-            You will be charged <strong>{Money(fee, state.currency === "NG" ? "NGN" : "GHS" || "")}</strong> for this withdrawal.
+            You will be charged <strong>{Money(fee, state.currency || "")}</strong> for this withdrawal.
           </span> : null
         }
       />

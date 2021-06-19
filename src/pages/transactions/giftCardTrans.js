@@ -1,24 +1,24 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Tabs } from "antd";
-import { DashboardLayout } from "../../components/layout";
+// import { DashboardLayout } from "../../components/layout";
 // import { TableSort } from "../../assets/svg";
-import { Money } from "../../utils/helper";
+// import { Money } from "../../utils/helper";
 import styles from "../styles.module.scss";
 import {
-  DepositsTab,
-  WithdrawalsTab,
+  // DepositsTab,
+  // WithdrawalsTab,
   GiftCardTradesTab,
-  BillPaymentTab,
-  PTwoPTab,
+  // BillPaymentTab,
+  // PTwoPTab,
   BuyGiftCardTab,
 } from "./components";
 import TransactionModalBig, {
-  TransactionModalBillPayment,
+  // TransactionModalBillPayment,
   TransactionModalBuyGiftCard,
-  TransactionModalP2P
+  // TransactionModalP2P
 } from "../../components/Modals/transaction-info-modal-big";
-import TransactionModal from "../../components/Modals/transaction-info-modal";
+// import TransactionModal from "../../components/Modals/transaction-info-modal";
 import {
   getGiftCardTransactionHistory,
   getGiftCardTransaction,
@@ -50,26 +50,44 @@ const Transactions = ({
   }
   return (
     <>
-    <div onClick={()=> goBack(true)} style={{display:"flex", flexDirection:"row", alignItems:'center'}}>
+    <div
+          
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            marginLeft:15
+          }}
+        >
+          <div onClick={() => goBack(true)} style={{cursor:'pointer'}}>
+          <ArrowLeftOutlined style={{ fontSize: 25 }} />
+
+          </div>
+          <span className={styles.gitcard__top__title}>
+            {" "}
+            Gift Card Transactions{" "}
+          </span>
+        </div>
+    {/* <div onClick={()=> goBack(true)} style={{display:"flex", flexDirection:"row", alignItems:'center'}}>
       <ArrowLeftOutlined style={{fontSize:20}}/>
       <span className={styles.gitcard__top__title}> Gift Card Transactions</span>
-    </div>
+    </div> */}
       {/* <span className={styles.gitcard__top__title}> Fiat Transactions</span> */}
       
       {viewBuyGiftCardTrans && (
         <TransactionModalBuyGiftCard
-          dateData={viewBuyGiftCardTrans.createdAt}
+          dateData={viewBuyGiftCardTrans.created_at}
           amount={viewBuyGiftCardTrans.amount}
           status={viewBuyGiftCardTrans.status}
-          cardValue={viewBuyGiftCardTrans?.cardDetails?.cardValue}
+          cardValue={viewBuyGiftCardTrans?.card_detail?.value}
           reference={viewBuyGiftCardTrans.reference}
-          referenceCurrency={viewBuyGiftCardTrans.referenceCurrency}
-          quan={viewBuyGiftCardTrans?.cardDetails?.quantity}
+          referenceCurrency={viewBuyGiftCardTrans.description}
+          quan={viewBuyGiftCardTrans?.card_detail?.quantity}
           setIsModalVisible={setBuyGiftCardDetails}
           isModalVisible={buyGiftCardDetails}
-          cardCurrency={viewBuyGiftCardTrans?.cardDetails?.cardCurrency}
-          cardSlug={viewBuyGiftCardTrans.cardSlug}
-          estimatedUSDValue={viewBuyGiftCardTrans?.cardDetails?.estimatedUSDValue}
+          cardCurrency={viewBuyGiftCardTrans?.card_detail?.currency}
+          cardSlug={viewBuyGiftCardTrans.card_slug}
+          estimatedUSDValue={viewBuyGiftCardTrans?.card_detail?.estimatedUSDValue}
         />
       )}
       

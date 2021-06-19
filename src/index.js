@@ -10,9 +10,10 @@ import {
   SignIn,
   SignUp,
   Verification,
-  Landing,
+  // Landing,
   // About,
   AboutRates,
+  VerifyEmail,
 } from "./pages";
 import { PrivateRoute } from "./utils/PrivateRoute";
 import { WaitingComponent } from "./utils/helper";
@@ -28,9 +29,12 @@ ReactDOM.render(
           {/* <Landing /> */}
           <SignIn />
         </Route>
-        {/* <Route path="/rates">
+        <Route path="/verify-email">
+          <VerifyEmail />
+        </Route>
+        <Route path="/rates">
           <AboutRates />
-        </Route> */}
+        </Route>
         <Route path="/signin">
           <SignIn />
         </Route>
@@ -51,4 +55,4 @@ ReactDOM.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// reportWebVitals();

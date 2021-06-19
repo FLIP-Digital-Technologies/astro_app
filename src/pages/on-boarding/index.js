@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Tabs } from "antd";
+import { notification, Tabs, message } from "antd";
 import { connect } from "react-redux";
 import { DashboardLayout } from "../../components/layout";
 import { Step1, Step2, Step3 } from "./components";
@@ -22,9 +22,10 @@ const OnBoarding = (props) => {
   const [activeKey, setActiveKey] = useState("1");
 
   React.useEffect(() => {
-    props.getMainFiatCurrency()
+    props.getMainFiatCurrency();
+
     // eslint-disable-next-line
-  }, [])
+  }, []);
   React.useEffect(() => {
     if (props.updatedUser) {
       setActiveKey("2");
@@ -36,8 +37,17 @@ const OnBoarding = (props) => {
     }
   }, [props.addedBankDetails, setActiveKey]);
   React.useEffect(() => {
-    if (props.updatedTransactionPin) {
+    if (props.user.boarded) {
       history.push("/app");
+    } else {
+      message
+        .info({
+          content: `Chief, You need to update your 
+        Profile information to perform 
+        transactions on Astro`,
+          duration: 8,
+        })
+        .then(() => message.info("Add Bank details and transaction Pin", 5));
     }
   }, [props.updatedTransactionPin, setActiveKey]);
   function callback(key) {
@@ -56,7 +66,11 @@ const OnBoarding = (props) => {
             }
             key="1"
           >
-            <Step1 user={props.user} submitForm={props.submitUserDetails} {...{...props}} />
+            <Step1
+              user={props.user}
+              submitForm={props.submitUserDetails}
+              {...{ ...props }}
+            />
           </TabPane>
           <TabPane
             tab={
@@ -73,7 +87,7 @@ const OnBoarding = (props) => {
               bankName={props.bankName}
               fiatCurrency={props.fiatCurrency}
               submitForm={props.submitBankDetails}
-              {...{...props}} 
+              {...{ ...props }}
             />
           </TabPane>
           <TabPane
@@ -84,7 +98,11 @@ const OnBoarding = (props) => {
             }
             key="3"
           >
-            <Step3 user={props.user} submitForm={props.submitPin}  {...{...props}}  />
+            <Step3
+              user={props.user}
+              submitForm={props.submitPin}
+              {...{ ...props }}
+            />
           </TabPane>
         </Tabs>
       </div>
@@ -94,7 +112,7 @@ const OnBoarding = (props) => {
 
 const mapStateToProps = (state) => ({
   user: state.user.user,
-  fiatCurrency:state.user.fiatCurrency,
+  fiatCurrency: state.user.fiatCurrency,
   updatedUser: state.user.updatedUser,
   bankLink: state.bank.bankList,
   branchList: state.bank.bankBranchList,
@@ -125,9 +143,9 @@ const mapDispatchToProps = (dispatch) => ({
   getBankList: (data) => {
     dispatch(getBankListByCountry(data));
   },
-  getMainFiatCurrency:() => {
-    dispatch(getFiatCurrencies())
-  }
+  getMainFiatCurrency: () => {
+    dispatch(getFiatCurrencies());
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OnBoarding);

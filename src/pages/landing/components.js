@@ -22,7 +22,7 @@ import HappyFace from "../../assets/svg/happy.svg"
 export const Middle = () => {
   return (
     <div className={styles.landing__steps}>
-      <div className={styles.title}>Why Flip?</div>
+      <div className={styles.title}>Why Astro?</div>
       <div className={styles.stepHolder}>
         <div className={styles.step}>
           <div className={styles.step__icon}>
@@ -80,7 +80,7 @@ export const Cards = () => {
           Trade your Gift Cards without stress!
         </div>
         <div className={styles.sub}>
-          FlipAfrika (FLIP) is an ecommerce brand registered in Nigeria(FLIP digital services) Ghana (FLIP digital technologies).
+          AstroAfrika (Astro) is an ecommerce brand registered in Nigeria(Astro digital services) Ghana (Astro digital technologies).
           Primarily focused on providing payment solutions and trust worthy exchange services to young africans locally and in the diaspora.
         </div>
 
@@ -152,7 +152,7 @@ export const Customer = () => {
             <h3>Anthony Lamptey</h3>
             <h4>Accra Ghana</h4>
             <p>
-              Even a child in kindergarten can successfully initiate and complete any trade on FLIP platform. Thats how easy it is to use FLIP.
+              Even a child in kindergarten can successfully initiate and complete any trade on Astro platform. Thats how easy it is to use Astro.
             </p>
           </div>
         </div>
@@ -163,7 +163,7 @@ export const Customer = () => {
             <h3>Lordstrings</h3>
             <h4>Ibadan Nigeria</h4>
             <p>
-              I dont get stranded with FLIP app, i just come online and get my stuff done, trade and pay bills, easy as it sounds
+              I dont get stranded with Astro app, i just come online and get my stuff done, trade and pay bills, easy as it sounds
             </p>
           </div>
         </div>
@@ -184,7 +184,7 @@ export const Customer = () => {
             <h3>Ogunyemi Moses</h3>
             <h4>Abuja Nigeria</h4>
             <p>
-            I Can trade confidently with my eyes closed on FLIP. i trust Flip that  Much
+            I Can trade confidently with my eyes closed on Astro. i trust Astro that  Much
             </p>
           </div>
         </div>

@@ -10,9 +10,10 @@
 }
 
 .home {
-  margin-top: 40px;
+  margin-top: 20px;
   margin-left: 11px;
   margin-right: 11px;
+  background-color: #F5F5F5;
   &__welcome {
     &__top {
       color: #012169;
@@ -150,10 +151,12 @@
 }
 .onboarding {
   padding: 23px 41px 33px 30px;
-  background-color: #fff;
+  background-color: #f7f4f4;
 
   &__section {
     margin-bottom: 30px;
+    width:100%;
+    // background-color: steelblue;
   }
 
   &__title {
@@ -167,7 +170,21 @@
   }
   &__inputList1 {
     display: flex;
-    width: 70%;
+    width:90%;
+    // background-color: tan;
+    flex-wrap: wrap;
+    justify-content:space-between;
+
+    div:first-child {
+      margin-right: 50px;
+    }
+  }
+  &__inputList5 {
+    display: flex;
+    width:70%;
+    // background-color: tan;
+    flex-wrap: wrap;
+    justify-content:space-between;
 
     div:first-child {
       margin-right: 50px;
@@ -235,12 +252,30 @@
 
 .btnPair {
   display: flex;
-  width: 300px;
+  flex-wrap: wrap;
+  width: 30%;
   align-items: center;
   justify-content: space-between;
+  // background-color: steelblue;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 
-  button:first-child {
-    margin-right: 20px;
+  
+  @media (max-width: 600px) {
+    // flex-direction: column;
+    width:80%;
+  }
+  @media (min-width:866px) {
+    margin-top: 50px;
+  }
+  &__inner{
+    margin-bottom: 10px;
+  //   padding-left: 10px;
+  // padding-right: 10px;
+  // padding-top: 10px;
+  // padding-bottom: 10px;
   }
 }
 
@@ -291,6 +326,7 @@
   &__top {
     display: flex;
     margin-bottom: 37px;
+    background-color: #F7F4F4;
 
     @media (max-width: 1024px) {
       flex-direction: column;
@@ -300,7 +336,7 @@
 
 .transactionCard {
   padding: 33px 0px;
-  background-color: #fff;
+  background-color: #F7F4F4;
   width: 100%;
   margin-bottom: 20px;
 
@@ -417,16 +453,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 50px;
+    // margin-bottom: 50px;
+    
 
     &__title {
-      font-size: 24px;
-      line-height: 28px;
-      color: #0d0d0b;
+      font-size: 26px;
+      line-height: 35px;
+      font-family: 'Maven Pro';
+      color: #8C6966;
       font-weight: 500;
       margin-left: 30px;
-      @include sm {
-        margin-left: 0px;
+      background-color:'transparent';
+      
+      
+      @media (max-width:600px) {
+        margin-left: 18px;
+        
       }
 
     &__subtitle {
@@ -523,6 +565,7 @@
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 50px;
+    padding: 2px 2px 2px 2px;
 
     &__left {
       width: clamp(300px, 400px, 600px);
@@ -538,6 +581,10 @@
       width: clamp(200px, 300px, 400px);
       display: flex;
       flex-direction: column;
+
+      @include sm {
+        width: clamp(200px, 360px, 400px);
+      }
 
       button {
         height: fit-content;
@@ -564,7 +611,7 @@
     }
 
     &__body {
-      background: #ffffff;
+      background: #f7f4f4;
       border-radius: 5px;
       margin-top: 10px;
       display: flex;
@@ -577,11 +624,11 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
-        width: 400px;
+        width: 420px;
         flex-direction: row;
 
         @include sm {
-          width: 300px;
+          width: 350px;
         }
 
         @include xl {
@@ -816,6 +863,7 @@
     justify-content: flex-start;
     align-items: center;
     
+    
 
     &__title {
       font-size: 36px;
@@ -847,11 +895,11 @@
 
     &__input {
       height: 48px;
-      border: 1px solid #777777 !important;
-      background: #f6f7f9 !important;
+      // border: 1px solid #777777 !important;
+      background: #fcfcfd !important;
       padding-left: 19px !important;
       margin-bottom: 0px;
-      border-radius:20px;
+      // border-radius:20px;
       
 
       &::placeholder {
@@ -875,7 +923,9 @@
       line-height: 20px !important;
       padding: 13px !important;
       margin-top: 30px;
-      border-radius:30px;
+      border-radius:3px !important;
+      // perspective: 1px;
+      overflow: hidden;
       background-image: linear-gradient(to right, #921946 , #e53b7a)
     }
 
@@ -887,7 +937,22 @@
       &__link {
         color: #0066f5;
         padding-bottom: 2px;
-        border-bottom: 1px solid #0066f5;
+        text-decoration: underline;
+        // border-bottom: 1px solid #0066f5;
+        cursor: pointer;
+      }
+      &__link:active {
+        color: #921946;
+        padding-bottom: 2px;
+        text-decoration: underline;
+        // border-bottom: 1px solid #0066f5;
+        cursor: pointer;
+      }
+      &__link:hover {
+        color: #921946;
+        padding-bottom: 2px;
+        text-decoration: underline;
+        // border-bottom: 1px solid #0066f5;
         cursor: pointer;
       }
     }
@@ -903,13 +968,46 @@
       &__link {
         color: #0066f5;
         padding-bottom: 2px;
-        border-bottom: 1px solid #0066f5;
+        text-decoration: underline;
+        // border-bottom: 1px solid #0066f5;
         cursor: pointer;
+      }
+      &__link:hover {
+        color: #921946;
+        // padding-bottom: 2px;
+        border-bottom: 1px solid #921946;
+        cursor: pointer;
+        // text-decoration: none;
+      }
+      &__link::selection {
+        color: #921946;
+        // padding-bottom: 2px;
+        border-bottom: 1px solid #921946;
+        cursor: pointer;
+        // text-decoration: none;
       }
     }
 
     &__forgot {
       color: #0066f5;
+      padding-bottom: 2px;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 20px;
+      width: 100%;
+      text-align: end;
+    }
+    &__forgot:hover {
+      color: #921946;
+      padding-bottom: 2px;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 20px;
+      width: 100%;
+      text-align: end;
+    }
+    &__forgot::selection {
+      color: #921946;
       padding-bottom: 2px;
       cursor: pointer;
       font-size: 16px;
@@ -953,6 +1051,9 @@
   &__tab {
     background-color: #fff;
     border-radius: 2px 2px 0px 0px;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 10px;
 
     &__item {
       font-size: 12px;
@@ -1342,6 +1443,7 @@
       display: flex;
       margin-bottom: 38px;
       align-items: center;
+      flex-wrap: wrap;
 
       @media (max-width: 700px) {
         width: 100%;
@@ -1398,6 +1500,14 @@
       align-items: center;
       justify-content: center;
       padding: 11px 38px;
+    }
+    &New {
+      margin-bottom: 150px;
+      padding-bottom: 21px;
+    // display: flex;
+    // justify-content: space-between;
+    // align-items: flex-end;
+      border-bottom: 1px solid #c4c4c4;
     }
   }
 
@@ -1470,6 +1580,10 @@
   }
 
   &Security {
+    &Widgets {
+      margin-top: 20px;
+      margin-bottom: 150px;
+    }
     &Content {
       margin-top: 29px;
       width: 100%;
@@ -1478,7 +1592,7 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: flex-end;
-      margin-bottom: 150px;
+      margin-bottom: 15px;
       
 
       @media (max-width: 700px) {
@@ -1488,6 +1602,40 @@
 
       .input {
         width: 45%;
+        flex: none !important;
+
+        @media (max-width: 700px) {
+          width: 100%;
+        }
+      }
+
+      .deleteButton {
+        background: #e82127;
+        color: #fff;
+        height: fit-content;
+        height: 46px;
+        width: 45%;
+        flex: none;
+      }
+    }
+    &Contents {
+      margin-top: 29px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      
+
+      @media (max-width: 700px) {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .input {
+        width: 80%;
         flex: none !important;
 
         @media (max-width: 700px) {
@@ -1514,6 +1662,7 @@
 }
 
 .landing {
+  background-color: #eeebeb;
   &__top {
     background: #890F3C;
     display: flex;
@@ -1987,6 +2136,7 @@
     margin: 0 auto;
     align-items: center;
     min-height: 90vh;
+    
 
     @include md {
       width: 500px;
@@ -2203,6 +2353,7 @@
     font-weight: 700;
     margin-top: 5px;
     text-align: center;
+    font-family: 'Arvo';
   }
 
   &__sub {
@@ -2258,6 +2409,7 @@
   margin-bottom: 20px;
   margin-top: 30px;
   margin-right: 30px;
+  cursor: pointer;
   // justify-items: center;
 
   @include md {
@@ -2329,7 +2481,7 @@
 
 .fund {
   cursor: pointer;
-  background-color: #efefef;
+  background-color: #f3f0f0;
   margin-left: 30px;
   border-radius: 5px;
   display: flex;
@@ -2342,6 +2494,7 @@
   flex-direction: row;
   padding: 10px 20px;
   margin-top: 30px;
+  box-shadow: -3px 4px 20px #00000026;
 
   @include md {
     width: 200px;
@@ -2572,10 +2725,26 @@
     border: 1px solid #890F3C;
 
     .buy {
-      background-color: red;
+      background-color: #921946;
     }
     .sell {
       background-color: green;
+    }
+    .selling {
+      background-color: green;
+      -webkit-transform: rotate(315deg);
+      -moz-transform: rotate(315deg);
+      -ms-transform: rotate(315deg);
+      -o-transform: rotate(315deg);
+      transform: rotate(315deg);
+    }
+    .buying {
+      background-color: #921946;
+      -webkit-transform: rotate(315deg);
+      -moz-transform: rotate(315deg);
+      -ms-transform: rotate(315deg);
+      -o-transform: rotate(315deg);
+      transform: rotate(315deg);
     }
   }
 
@@ -2606,6 +2775,12 @@
 }
 
 .airttime {
+  width:100%;
+  // @media (max-width: 576px) {
+  //   width: 100px;
+  //   max-zoom: 1;
+  //   // margin-right: 20px;
+  // }
   &__title {
     font-weight: 700;
     font-size: 24px;
@@ -2621,8 +2796,8 @@
 }
 
 .bills {
-  margin-top: 40px;
-
+  margin-top: 30px;
+  margin-left: 30px;
   &__content {
     width: 100%;
     margin: 0 auto;
@@ -2643,14 +2818,15 @@
 }
 
 .transactioncards {
-  margin-top: 40px;
+  margin-top: 30px;
+  margin-left: 30px;
 
   &__content {
     width: 100%;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-between;
     margin-bottom: 60px;
     padding: 0 20px;
 
@@ -2709,7 +2885,49 @@
     }
   }
   span {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 500;
   }
+}
+.buygiftcardloader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width:100%;
+  height: 500px;
+  font-size: 60px;
+  color: #921946;
+}
+
+.verifylink {
+  color: rgba(19, 30, 77, 0.6);
+  
+}
+
+.verifylink:hover {
+  color: #921946;
+  text-decoration: underline;
+}
+.ratesleft {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  span {
+    font-size: 10px;
+  }
+  h3 {
+    font-size: 20px;
+  }
+}
+.ratecontainer {
+  display: flex;
+  height: 600px;
+  // align-items: center;
+  // justify-content: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #dbdad9;
 }

@@ -52,6 +52,7 @@ service.interceptors.response.use(
   (error) => {
     let notificationParam = {
       message: "",
+      duration:2.5,
       key,
     };
     // console.log("err" + error); // for debug

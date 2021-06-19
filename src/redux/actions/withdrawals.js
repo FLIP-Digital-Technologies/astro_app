@@ -131,3 +131,28 @@ const GetLastUserWithdrawalDetails = (data) => async (dispatch) => {
 export const getLastUserWithdrawalDetails = (data) => (dispatch) => {
   dispatch(GetLastUserWithdrawalDetails(data));
 };
+
+const GetWithdrawalSettings = () => async (dispatch) => {
+  dispatch({
+    type: actionTypes.GET_WITHDRAWAL_SETTINGS_PENDING,
+  });
+
+  await withdrawalsService
+    .getWithdrawalSettings()
+    .then((response) => {
+      dispatch({
+        type: actionTypes.GET_WITHDRAWAL_SETTINGS_SUCCESS,
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.GET_WITHDRAWAL_SETTINGS_FAILED,
+        payload: err,
+      });
+    });
+};
+
+export const getWithdrawalSettings = () => (dispatch) => {
+  dispatch(GetWithdrawalSettings());
+};

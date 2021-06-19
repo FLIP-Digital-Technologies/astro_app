@@ -7,6 +7,7 @@ const initState = {
   loading: false,
   error: null,
   balance: null,
+  settings: null,
   newWithdrawal: null,
   withdrawalDetails: null,
   latestWithdrawalTransaction: null,
@@ -20,6 +21,7 @@ const key = actionTypes.KEY;
 const withdrawalReducer = (state = initState, action) => {
   switch (action.type) {
     case actionTypes.GET_ALL_WITHDRAWAL_BY_USER_PENDING:
+    case actionTypes.GET_WITHDRAWAL_SETTINGS_PENDING:
     case actionTypes.GET_LAST_WITHDRAWAL_BY_USER_PENDING:
       return {
         ...state,
@@ -92,6 +94,14 @@ const withdrawalReducer = (state = initState, action) => {
         loading: false,
         error: null,
       };
+    case actionTypes.GET_WITHDRAWAL_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        settings: action.payload.settings,
+        loading: false,
+        error: null,
+      };
+    case actionTypes.GET_WITHDRAWAL_SETTINGS_FAILED:
     case actionTypes.INITIAL_WITHDRAWAL_FAILED:
     case actionTypes.GET_WITHDRAWAL_DETAILS_FAILED:
     case actionTypes.GET_ALL_WITHDRAWAL_BY_USER_FAILED:

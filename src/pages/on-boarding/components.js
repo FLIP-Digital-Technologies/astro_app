@@ -4,7 +4,7 @@ import Input from "../../components/input";
 import Select from "../../components/select";
 import Button from "../../components/button";
 import { history } from "../../redux/store";
-import { Switch } from "antd";
+import { notification } from "antd";
 
 export const Step1 = ({ user, submitForm }) => {
   const INITIAL_STATE = {
@@ -62,6 +62,7 @@ export const Step1 = ({ user, submitForm }) => {
             value={state.email}
             onChange={handleChange}
             type="email"
+            inputMode={"email"}
             label="Email Address"
             placeholder="Enter a valid email address"
             hint="This is the only way we can keep in touch with you"
@@ -80,7 +81,7 @@ export const Step1 = ({ user, submitForm }) => {
             required={true}
           />
         </div>
-        <div className={styles.onboarding__inputList2}>
+        <div className={styles.onboarding__inputList1}>
           <Input
             name="username"
             value={state.username}
@@ -106,12 +107,16 @@ export const Step1 = ({ user, submitForm }) => {
         </div>
       </div>
       <div className={styles.btnPair}>
-        <Button text="Save" type="submit" form="full" />{" "}
-        <Button
-          text="Cancel"
-          onClick={() => history.push("/app")}
-          form="outline"
-        />
+        <div className={styles.btnPair__inner}>
+          <Button text="Save" type="submit" form="full" />{" "}
+        </div>
+        <div className={styles.btnPair__inner}>
+          <Button
+            text="Cancel"
+            onClick={() => history.push("/app")}
+            form="outline"
+          />
+        </div>
       </div>
     </form>
   );
@@ -137,22 +142,92 @@ export const Step2 = ({
     currency: "",
     bankBranchCode: "",
     bankBranchName: "",
+    accountType: {
+      value: "",
+      country: "",
+    },
   };
 
   const [state, setState] = useState(INITIAL_STATE);
   const handleChange = ({ target: { name, value } }) => {
     setState((state) => ({ ...state, [name]: value }));
   };
-
-  useEffect(() => {
-    if (state.bankCode && state.accountNumber.length === 10 && !state.isMobileMoney) {
+  const verifyAccount = () => {
+    if (
+      state.accountType.value === "ng-account" &&
+      state.bankCode &&
+      state.accountNumber.length === 10 &&
+      !state.isMobileMoney
+    ) {
+      console.log("ng- account");
       verifyBankAccount({
         bankCode: state.bankCode,
         accountNumber: state.accountNumber,
       });
+    } else if (
+      state.accountType.value === "gh-account" &&
+      state.bankCode &&
+      state.accountNumber.length === 12 &&
+      !state.isMobileMoney
+    ) {
+      console.log("gh - account");
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: state.accountNumber,
+      });
+    } else if (
+      state.accountType.value === "gh-mobile" &&
+      state.accountNumber.length === 11
+    ) {
+      console.log("mobile");
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: `233${state.accountNumber.substring(1,)}`,
+      });
+    } else {
+      notification.info({
+        message:"Please check the number"
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (
+      state.accountType.value === "ng-account" &&
+      state.bankCode &&
+      state.accountNumber.length === 10 &&
+      !state.isMobileMoney
+    ) {
+      console.log("ng- account");
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: state.accountNumber,
+      });
+    } else if (
+      state.accountType.value === "gh-account" &&
+      state.bankCode &&
+      state.accountNumber.length === 12 &&
+      !state.isMobileMoney
+    ) {
+      console.log("gh - account");
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: state.accountNumber,
+      });
+    } else if (
+      state.accountType.value === "gh-mobile" &&
+      state.accountNumber.length === 11
+    ) {
+      console.log("mobile");
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: `233${state.accountNumber.substring(1,)}`,
+      });
     }
     // eslint-disable-next-line
   }, [state.bankCode, state.accountNumber, verifyBankAccount]);
+
+
   useEffect(() => {
     if (branchList && branchList.length === 1) {
       setState((state) => ({
@@ -205,7 +280,7 @@ export const Step2 = ({
   return (
     <form
       onSubmit={(e) => handleFormSubmit(e)}
-      className={styles.onboarding__content__extra_margin}
+      className={styles.onboarding__content}
     >
       <div className={styles.onboarding__section}>
         <h2 className={styles.onboarding__title}>Bank Account Details</h2>
@@ -213,12 +288,13 @@ export const Step2 = ({
           <Select
             labelClass={styles.profileBankInputLabel}
             className={styles.profileBankInput}
-            label="Select currency"
+            label="Select Account Type"
             value={state.currency}
             onSelect={(value) => {
               setState((state) => ({
                 ...state,
-                currency: value.code.substring(0,2),
+                currency: value.country,
+                accountType: value,
                 accountNumber: "",
                 bankCode: "",
                 bvn: "",
@@ -228,68 +304,51 @@ export const Step2 = ({
                 bankBranchName: "",
                 isMobileMoney: false,
               }));
-              getBankList({ country: value.code.substring(0,2) });
+              if (value !== "US") {
+                getBankList({ country: value.country });
+              }
             }}
             name="select payment currency"
-            // options={[
-            //   { render: "NGN", value: "NG" },
-            //   { render: "GHS", value: "GH" },
-            // ]}
-            options={fiatCurrency.map((item) => ({
-              render: item.name,
-              value: {
-                code:item.code,
-              _id:item.id
+            // options={fiatCurrency.map((item)=> ({
+            //   render: item.name,
+            //   value:item.code.substring(0,2)
+            // }))}
+            options={[
+              {
+                render: "Nigeria Accounts",
+                value: {
+                  country: "NG",
+                  value: "ng-account",
+                  name: "Nigeria Account",
+                },
               },
-              _id: item.id,
-            }))}
+              {
+                render: "Ghana Accounts",
+                value: {
+                  country: "GH",
+                  value: "gh-account",
+                  name: "Ghana Account",
+                },
+              },
+              {
+                render: "Ghana Mobile Money",
+                value: {
+                  country: "GH",
+                  value: "gh-mobile",
+                  name: "Ghana Mobile Money",
+                },
+              },
+            ]}
           />
-          {state.currency === "GH" && (
-            <div
-              className={styles.profileBankInput}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                flex: "1 1",
-                position: "relative",
-                marginBottom: 15,
-              }}
-            >
-              <label
-                style={{
-                  fontSize: 14,
-                  color: "#0d0d0b",
-                  fontWeight: "450",
-                  marginBottom: 6,
-                }}
-                className={styles.profileBankInputLabel}
-              >
-                Mobile Money Account
-              </label>
-              <Switch
-                checked={state.isMobileMoney}
-                onChange={(value) => {
-                  setState((state) => ({
-                    ...state,
-                    isMobileMoney: value,
-                    bankName: "",
-                    bankBranchCode: "",
-                    bankBranchName: "",
-                    bankCode: "",
-                  }));
-                }}
-                checkedChildren="Yes"
-                unCheckedChildren="No"
-              />
-            </div>
-          )}
-          {state.currency === "NG" && (
+
+          {state.accountType.value === "ng-account" && (
             <Select
               name="bankCode"
+              labelClass={styles.profileBankInputLabel}
               className={styles.profileBankInput}
               value={state.bankCode}
               onSelect={(value) => handleBankCode(value)}
-              label="Bank"
+              label="Bank Name"
               placeholder="Select your bank"
               options={bankList?.map((i) => ({
                 value: `${i.code},${i.name}`,
@@ -297,9 +356,9 @@ export const Step2 = ({
               }))}
             />
           )}
-        </div>
-        <div className={styles.onboarding__inputList1}>
-          {state.currency === "GH" && !state.isMobileMoney && (
+          {/* </div> */}
+          {/* <div className={styles.onboarding__inputList1}> */}
+          {state.accountType.value === "gh-account" && (
             <Select
               name="bankCode"
               className={styles.profileBankInput}
@@ -313,7 +372,7 @@ export const Step2 = ({
               }))}
             />
           )}
-          {state.currency === "GH" && !state.isMobileMoney && (
+          {state.accountType.value === "gh-account" && (
             <Select
               name="bankBranchName"
               labelClass={styles.profileBankInputLabel}
@@ -337,20 +396,10 @@ export const Step2 = ({
               }
             />
           )}
-          {/* <Input
-            name="bvn"
-            value={state.bvn}
-            onChange={handleChange}
-            label="BVN"
-            type="number"
-            maxLength="11"
-            pattern="\d{11}$"
-            placeholder="Enter 10 digit BVN"
-            hint="We cannot gain entry into your account"
-          /> */}
-        </div>
-        <div className={styles.onboarding__inputList2}>
-          {state.currency === "GH" && state.isMobileMoney && (
+
+          {/* </div> */}
+          {/* <div className={styles.onboarding__inputList2}> */}
+          {state.accountType.value === "gh-mobile" && (
             <Select
               name="bankCode"
               className={styles.profileBankInput}
@@ -363,13 +412,10 @@ export const Step2 = ({
                 { render: "AIRTEL", value: "AIRTEL" },
                 { render: "TIGO", value: "TIGO" },
                 { render: "VODAFONE", value: "VODAFONE" },
-                { render: "VODAFONE", value: "VODAFONE" },
-                {},
-                {}
               ]}
             />
           )}
-          {state.currency && !state.isMobileMoney && (
+          {state.currency && state.accountType.value !== "gh-mobile" && (
             <Input
               name="accountNumber"
               value={state.accountNumber}
@@ -378,11 +424,16 @@ export const Step2 = ({
               onChange={handleChange}
               label="Account Number"
               placeholder="e.g 01236548"
-              maxLength="10"
-              hint="Please ensure to input the correct account number"
+              maxLength="15"
+              hint={
+                <p className={styles.verifylink} onClick={() => verifyAccount()}>
+                  Click to verify your account
+                </p>
+                
+              }
             />
           )}
-          {state.isMobileMoney && (
+          {state.accountType.value === "gh-mobile" && (
             <Input
               name="accountNumber"
               value={state.accountNumber}
@@ -391,24 +442,15 @@ export const Step2 = ({
               onChange={handleChange}
               label="Mobile Number"
               placeholder="e.g 01236548"
-              maxLength="10"
-              hint="Please ensure to input the correct account number"
+              maxLength="11"
+              hint={
+                <p className={styles.verifylink} onClick={() => verifyAccount()}>
+                  Click to verify your account
+                </p>
+              }
             />
           )}
-          {state.currency === "GH" && !state.isMobileMoney &&  (
-            <Input
-              name="accountName"
-              value={state.accountName}
-              labelClass={styles.profileBankInputLabel}
-              className={styles.profileBankInput}
-              onChange={handleChange}
-              label="Account Name"
-              placeholder="Enter your account name"
-              readOnly={true}
-              disabled
-            />
-          )}
-          {state.currency === "NG" &&  (
+          {state.accountType.value !== "gh-mobile" && (
             <Input
               name="accountName"
               value={state.accountName}
@@ -424,7 +466,10 @@ export const Step2 = ({
         </div>
       </div>
       <div className={styles.btnPair}>
-        <Button text="Save" type="submit" form="full" />{" "}
+        <div className={styles.btnPair__inner}>
+          <Button text="Save" type="submit" form="full" />{" "}
+        </div>
+        <div className={styles.btnPair__inner}>
         <Button
           text="Cancel"
           onClick={() => history.push("/app")}
@@ -436,7 +481,9 @@ export const Step2 = ({
             !state.amount
           }
         />
+        </div>
       </div>
+      
     </form>
   );
 };
@@ -459,11 +506,11 @@ export const Step3 = ({ submitForm }) => {
   return (
     <form
       onSubmit={(e) => handleFormSubmit(e)}
-      className={styles.onboarding__content__extra_margin}
+      className={styles.onboarding__content}
     >
       <div className={styles.onboarding__section}>
         <h2 className={styles.onboarding__title}>Set Transaction Pin</h2>
-        <div className={styles.onboarding__inputList1}>
+        <div className={styles.onboarding__inputList5}>
           <Input
             name="pin"
             value={state.pin}
@@ -472,7 +519,17 @@ export const Step3 = ({ submitForm }) => {
             placeholder="1234"
             required={true}
             maxLength="4"
-            max={9999}
+            onInput={(e) => {
+              if (e.target.value.length > e.target.maxLength) {
+                e.target.value = e.target.value.slice(
+                  0,
+                  e.target.maxLength
+                );
+              } else {
+                e.target.value = e.target.value;
+              }
+            }}
+            // max={9999}
             type="number"
             pattern="\d{4}$"
             errorMessage={"PIn must be 4 numbers"}
@@ -480,13 +537,25 @@ export const Step3 = ({ submitForm }) => {
         </div>
       </div>
       <div className={styles.btnPair}>
+        <div className={styles.btnPair__inner}>
+          <Button text="Save" type="submit" form="full" />{" "}
+        </div>
+        <div className={styles.btnPair__inner}>
+        <Button
+          text="Cancel"
+          onClick={() => history.push("/app")}
+          form="outline"
+        />
+        </div>
+      </div>
+      {/* <div className={styles.btnPair}>
         <Button text="Save" type="submit" form="full" />{" "}
         <Button
           text="Cancel"
           onClick={() => history.push("/app")}
           form="outline"
         />
-      </div>
+      </div> */}
     </form>
   );
 };

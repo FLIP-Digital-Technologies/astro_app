@@ -101,7 +101,7 @@ const PTwoPCrypto = ({
             }))
           }
           name="referenceCurrency"
-          placeholder="Select a network provider"
+          placeholder="Select Wallet"
           //   options={[
           //     { render: "NGN wallet", value: "NGN" },
           //     { render: "GHS wallet", value: "GHS" },
@@ -112,7 +112,7 @@ const PTwoPCrypto = ({
             value: item,
           }))}
           hint={`
-              Current Balance : ${state.walletBalance}
+              Current Balance : ${state.walletBalance ?? 0}
             `}
         />
         {state.referenceCurrency && (
@@ -186,7 +186,7 @@ const PTwoPCrypto = ({
         {state.recipientUsername && (
           <Input
             labelClass={styles.largeMarginLabel}
-            label={`Transfer Note(optional)`}
+            label={`Transfer Note (optional)`}
             value={state.transferNote}
             name="transferNote"
             onChange={(e) =>

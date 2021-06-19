@@ -26,11 +26,14 @@
 
 .slimModal {
   max-width: 447px;
+  @media (max-width:600px) {
+    max-width:95%
+  }
 }
 
 .withdrawInitial {
   max-width: 500px;
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     max-width: 400px;
     width: 300px !important;
   }

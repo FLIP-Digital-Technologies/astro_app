@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { useHistory, Link, useLocation } from "react-router-dom";
+import { 
+  useHistory,
+   Link,
+    useLocation
+   } from "react-router-dom";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
-import { LogoNav, AstroLogoNav, AstroLogoFull } from "../../assets/svg";
+import { AstroLogoWhite } from "../../assets/svg";
 import Button from "../button";
 import styles from "./style.module.scss";
 
@@ -16,18 +20,18 @@ const LandingHeader = ({ form, type }) => {
     >
       <div className={styles.landingHeaderLeft}>
         <Link to="/">
-          <AstroLogoFull className={styles.landingHeaderLeftLogo} />
+          <AstroLogoWhite className={styles.landingHeaderLeftLogo} />
         </Link>
       </div>
 
       <div onClick={() => {
-        // setShow(true)
+        setShow(true)
         console.log('pressed')
         }} className={styles.Hamburger}>
-        <MenuOutlined style={{ color: "transparent", fontSize: "24px" }} />
+        <MenuOutlined style={{ color: "white", fontSize: "24px" }} />
       </div>
 
-      {/* <div
+      <div
         className={`${styles.landingHeaderLeftLinks} ${
           show && styles.mobile__nav
         }`}
@@ -64,7 +68,7 @@ const LandingHeader = ({ form, type }) => {
             className={styles.signup}
           />
         ) : null}
-      </div> */}
+      </div>
     </div>
   );
 };

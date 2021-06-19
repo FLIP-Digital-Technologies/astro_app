@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from "react";
+import React, { useRef, useEffect } from "react";
 import Loading from "../components/Loading";
 import png from "../assets/png";
 import * as SVG from "../assets/svg";
@@ -9,26 +9,26 @@ import QRious from "qrious";
 import Axios from "axios";
 import { API_BASE_URL } from "../configs/AppConfig";
 
-export const QRCode = ({text, size}) => {
+export default function capitalizeFirstLetter(s) {
+  return s && s[0].toUpperCase() + s.slice(1);
+}
+
+export const QRCode = ({ text, size }) => {
   const canvas = useRef(null);
   useEffect(() => {
     if (canvas != null && canvas.current != null) {
       // eslint-disable-next-line
       let qr = new QRious({
         element: canvas.current,
-          value: text,
-          size: size
+        value: text,
+        size: size,
       });
     }
   });
-  return(<canvas ref={canvas}></canvas>);
-}
+  return <canvas ref={canvas}></canvas>;
+};
 
-export const processImageToCloudinary = async (
-  file,
-  error,
-  progress
-) => {
+export const processImageToCloudinary = async (file, error, progress) => {
   // `fieldName` and `meta` are not used for now${moment().format('DDMMMYYYY')}
 
   try {
@@ -37,14 +37,19 @@ export const processImageToCloudinary = async (
     data.append("file", file);
     // console.log('GCP Upload', url)
     let res = await Axios.post(`${url}`, data, {
-      onUploadProgress: progressEvent => {
-        progress(parseInt(Math.round(progressEvent.loaded * 100 / progressEvent.total)))
-      }
+      onUploadProgress: (progressEvent) => {
+        progress(
+          parseInt(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          )
+        );
+      },
     });
-    // error("urls", res.data)
+    error("urls", res);
     return res.data.data.publicUrl;
   } catch (err) {
-    // error(err);
+    error(err);
+    return "error";
   }
 };
 
@@ -109,11 +114,21 @@ export function WaitingComponent(Component) {
 }
 
 export function Money(data = 0, curr = "NGN") {
-  let money = typeof(data) === "number" ? data : parseFloat(data, 10);
-  return money.toLocaleString("en-NG", {
-    currency: curr,
-    style: "currency",
-  });
+  if (data === "" || data === null || data === undefined) {
+    let value = 0;
+    let money = typeof value === "number" ? value : parseFloat(value, 10);
+    return money.toLocaleString("en-NG", {
+      currency: curr,
+      style: "currency",
+    });
+  } else {
+    let value = data;
+    let money = typeof value === "number" ? value : parseFloat(value, 10);
+    return money.toLocaleString("en-NG", {
+      currency: curr,
+      style: "currency",
+    });
+  }
 }
 
 export function sortData(temp1) {
@@ -139,9 +154,7 @@ export const DigitalAsset = [
         className={styles.countryOption}
         style={{ display: "flex", alignItems: "center" }}
       >
-        <SVG.BitcoinInput
-          style={{ margin: 5 }}
-        />
+        <SVG.BitcoinInput style={{ margin: 5 }} />
         <span>BTC</span>
       </div>
     ),
@@ -224,7 +237,7 @@ export const DigitalAsset = [
   },
   {
     value: "Ebay",
-    name:  "ebay",
+    name: "ebay",
     render: (
       <div
         className={styles.countryOption}
@@ -355,7 +368,7 @@ export const DigitalAsset = [
       </div>
     ),
   },
-]
+];
 
 export const cardList = {
   itunes: { name: "iTunes", Image: SVG.CardItunes },
@@ -369,12 +382,7 @@ export const cardList = {
   sephora: {
     name: "Sephora",
     Image: () => (
-      <img
-        height="151.692"
-        width="241"
-        src={png.SephoraSmallCard}
-        alt="card"
-      />
+      <img height="151.692" width="241" src={png.SephoraSmallCard} alt="card" />
     ),
   },
   ebay: {
@@ -392,12 +400,7 @@ export const cardList = {
   amazon: {
     name: "Amazon",
     Image: () => (
-      <img
-        height="151.692"
-        width="241"
-        src={png.AmazonSmallCard}
-        alt="card"
-      />
+      <img height="151.692" width="241" src={png.AmazonSmallCard} alt="card" />
     ),
   },
   "amex-gold": {
@@ -835,9 +838,12 @@ export const cardOptions = [
     value: "physical",
     name: "Physical Card",
     render: (
-      <div className={styles.countryOption} style={{display: "flex",  alignItems: "center"}}>
+      <div
+        className={styles.countryOption}
+        style={{ display: "flex", alignItems: "center" }}
+      >
         <SVG.CardTypePhysical />
-        <span style={{marginLeft: 10}}>Physical Card</span>
+        <span style={{ marginLeft: 10 }}>Physical Card</span>
       </div>
     ),
   },
@@ -845,9 +851,12 @@ export const cardOptions = [
     value: "small-card",
     name: "Small Card",
     render: (
-      <div className={styles.countryOption} style={{display: "flex",  alignItems: "center"}}>
+      <div
+        className={styles.countryOption}
+        style={{ display: "flex", alignItems: "center" }}
+      >
         <SVG.CardTypePhysical />
-        <span style={{marginLeft: 10}}>Small Card</span>
+        <span style={{ marginLeft: 10 }}>Small Card</span>
       </div>
     ),
   },
@@ -855,9 +864,12 @@ export const cardOptions = [
     value: "big-card",
     name: "Large Card",
     render: (
-      <div className={styles.countryOption} style={{display: "flex",  alignItems: "center"}}>
+      <div
+        className={styles.countryOption}
+        style={{ display: "flex", alignItems: "center" }}
+      >
         <SVG.CardTypePhysical />
-        <span style={{marginLeft: 10}}>Large Card</span>
+        <span style={{ marginLeft: 10 }}>Large Card</span>
       </div>
     ),
   },
@@ -865,9 +877,12 @@ export const cardOptions = [
     value: "e-code",
     name: "E-Code",
     render: (
-      <div className={styles.countryOption} style={{display: "flex",  alignItems: "center"}}>
+      <div
+        className={styles.countryOption}
+        style={{ display: "flex", alignItems: "center" }}
+      >
         <SVG.CardTypePhysical />
-        <span style={{marginLeft: 10}}>E-Code</span>
+        <span style={{ marginLeft: 10 }}>E-Code</span>
       </div>
     ),
   },
@@ -944,4 +959,86 @@ export const country = [
 
 export const joinArray = (newDate, oldData) => {
   return [...oldData, ...newDate];
-}
+};
+
+export const CommaFormatted = (amount) => {
+  var i = parseFloat(amount);
+  if (isNaN(i)) {
+    i = 0.0;
+  }
+  var minus = "";
+  if (i < 0) {
+    minus = "-";
+  }
+  i = Math.abs(i);
+  i = parseInt((i + 0.005) * 100);
+  i = i / 100;
+  // eslint-disable-next-line
+  let s = new String(i);
+  if (s.indexOf(".") < 0) {
+    s += ".00";
+  }
+  if (s.indexOf(".") === s.length - 2) {
+    s += "0";
+  }
+  s = minus + s;
+
+  var delimiter = ","; // replace comma if desired
+  var a = s.split(".", 2);
+  var d = a[1];
+  // eslint-disable-next-line
+  var i = parseInt(a[0]);
+  if (isNaN(i)) {
+    return "";
+  }
+  // eslint-disable-next-line
+  var minus = "";
+  if (i < 0) {
+    minus = "-";
+  }
+  i = Math.abs(i);
+  // eslint-disable-next-line
+  var n = new String(i);
+  // eslint-disable-next-line
+  var a = [];
+  while (n.length > 3) {
+    var nn = n.substr(n.length - 3);
+    a.unshift(nn);
+    n = n.substr(0, n.length - 3);
+  }
+  if (n.length > 0) {
+    a.unshift(n);
+  }
+  n = a.join(delimiter);
+  if (d.length < 1) {
+    amount = n;
+  } else {
+    amount = n + "." + d;
+  }
+  amount = minus + amount;
+  return amount;
+};
+
+export const CurrencyFormatted = (amount) => {
+  var i = parseFloat(amount);
+  if (isNaN(i)) {
+    i = 0.0;
+  }
+  var minus = "";
+  if (i < 0) {
+    minus = "-";
+  }
+  i = Math.abs(i);
+  i = parseInt((i + 0.005) * 100);
+  i = i / 100;
+  // eslint-disable-next-line
+  let s = new String(i);
+  if (s.indexOf(".") < 0) {
+    s += ".00";
+  }
+  if (s.indexOf(".") === s.length - 2) {
+    s += "0";
+  }
+  s = minus + s;
+  return s;
+};

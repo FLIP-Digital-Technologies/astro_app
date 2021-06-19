@@ -14,7 +14,7 @@ giftCardService.getGiftCardCodes = function (params) {
 
 giftCardService.getGiftCardCode = function (params) {
   return fetch({
-    url: `/cards/${params.cardCode || ""}`,
+    url: `/cards/sell/${params.cardCode}`,
     method: "get",
     headers: {
       "public-request": "true",
@@ -123,15 +123,15 @@ giftCardService.initialSellGiftCard = function (params, payload) {
   // }
   let data = {};
   data.amount = payload.amount;
-  data.cardCurrencyId = payload.cardCurrencyId;
+  data.walletId = payload.walletId;
   data.giftCardId = payload.giftCardId;
-  data.cardType = payload.cardType;
   data.imageURLs = payload.imageURLs;
-  data.fiatCurrencyId = payload.fiatCurrencyId;
+  data.cardEntryId = payload.cardEntryId;
+  data.walletType = payload.walletType;
   data.sellerRemarks = payload.remark;
   
   return fetch({
-    url: `/cards/${params.userId}/sell`,
+    url: `/cards/sell/transactions/${params.userId}`,
     method: "post",
     data: data,
   });
@@ -139,25 +139,25 @@ giftCardService.initialSellGiftCard = function (params, payload) {
 
 giftCardService.cancelSellGiftCardTransaction = function (params) {
   return fetch({
-    url: `/cards/${params.userId}/${params.transactionId}`,
+    url: `/cards/sell/transactions/${params.userId}/${params.transactionId}`,
     method: "delete",
   });
 };
 
 giftCardService.getTransactionDetails = function (params) {
   return fetch({
-    url: `/cards/${params.userId}/${params.transactionId}`,
+    url: `/cards/sell/transactions/${params.userId}/${params.transactionId}`,
     method: "get",
   });
 };
 
 giftCardService.getTransactionHistory = function (params) {
   return fetch({
-    url: `/cards/${params.userId}/sell`,
+    url: `/cards/sell/transactions/${params.userId}`,
     method: "get",
     params: {
-      skip: params.skip,
-      limit: params.limit,
+      page: params.skip,
+      per_page: params.limit,
     },
   });
 };

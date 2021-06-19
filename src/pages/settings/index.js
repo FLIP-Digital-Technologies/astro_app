@@ -1,15 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Clipboard from "react-clipboard.js";
-import { Switch } from "antd";
+// import { Switch } from "antd";
 import Input from "../../components/input";
 import Select from "../../components/select";
 import Button from "../../components/button";
 import { DashboardLayout } from "../../components/layout";
 import { Copy } from "../../assets/svg";
 import styles from "../styles.module.scss";
-
-import { changePassword, getCryptoCurrencies, getFiatCurrencies, GetUserDetails } from "../../redux/actions/Auths";
+import homeStyles from "../home/styles.module.scss";
+import { Row, Col, Modal } from "antd";
+import png from "../../assets/png";
+import AppFetch from "../../redux/services/FetchInterceptor";
+import * as actionTypes from "../../redux/constants";
+import {
+  // BarChartOutlined,
+  // PayCircleOutlined,
+  DoubleRightOutlined,
+} from "@ant-design/icons";
+import {
+  changePassword,
+  changePin,
+  completeResetPin,
+  getCryptoCurrencies,
+  getFiatCurrencies,
+  GetUserDetails,
+  resetPin,
+} from "../../redux/actions/Auths";
 import { getBTCWalletDetails } from "../../redux/actions/btc";
 import {
   getUserBankAccount,
@@ -17,7 +34,10 @@ import {
   removeUserBankAccount,
   getUserReferrals,
   redeemUserReferralBonus,
+  setTransactionPin,
+  updateUserDetails,
 } from "../../redux/actions/user";
+import ModalWrapper from "../../components/Modals";
 import {
   getBankListByCountry,
   verifyBankAccountDetails,
@@ -153,6 +173,7 @@ const Profile = ({
   removeUserBankDetails,
   bankList,
   changePassword,
+  changePin,
   getBankBranchList,
   branchList,
   getUserReferrals,
@@ -161,18 +182,53 @@ const Profile = ({
   cryptoCurrency,
   fiatCurrency,
   getMainFiatCurrency,
-  getMainCryptoCurrency
+  getMainCryptoCurrency,
+  ResetPinViaEmail,
+  completeResetPin,
+  submitPin,
+  submitUserDetails
 }) => {
+  function getWindowDimensions() {
+    const { screen } = window;
+    let width = screen.width;
+    let height = screen.height;
+    return {
+      width,
+      height,
+    };
+  }
+  const [windowDimensions] = useState(getWindowDimensions());
+  const [pinCheck, setPinCheck] = useState(false);
   useEffect(() => {
     getCurrentUser();
-    console.log('abh',[...fiatCurrency, ...cryptoCurrency])
+    // console.log("abh", [...fiatCurrency, ...cryptoCurrency]);
     getUserBankDetails();
-    getMainFiatCurrency()
-    getMainCryptoCurrency()
+    getMainFiatCurrency();
+    getMainCryptoCurrency();
     // getBankList();
     getBalance();
+    
     // eslint-disable-next-line
   }, []);
+  useEffect(() => {
+    try {
+      const pinChecks = localStorage.getItem("pinCheck");
+      setPinCheck(pinChecks);
+    } catch (error) {}
+  }, [pinCheck])
+  const INITIAL_STATE1 = {
+    firstName: (user && user.Profile.first_name) || "",
+    lastName: (user && user.Profile.last_name) || "",
+    email: (user && user.email) || "",
+    phoneNumber: (user && user.phoneNumber) || "",
+    country: "NGN",
+    username: (user && user.username) || "",
+  };
+  useEffect(() => {
+    setStates(INITIAL_STATE1);
+    // eslint-disable-next-line
+  }, [user]);
+  const [states, setStates] = useState(INITIAL_STATE1);
   const INITIAL_STATE = {
     accountNumber: "",
     bankCode: "",
@@ -183,30 +239,87 @@ const Profile = ({
     currency: "",
     bankBranchCode: "",
     bankBranchName: "",
+    accountType: {
+      value: "",
+      country: "",
+    },
   };
-
   const [state, setState] = useState(INITIAL_STATE);
+  const [switchReset, setSwitch] = useState(true);
+  const [resetCode, setResetCode] = useState("");
+  const [resetEmail, handleResetEmail] = useState("");
+  const [newPin, handleNewPin] = useState("");
+  const [passwordModal, setPasswordModal] = useState(false);
+  const [profileModal, setProfileModal] = useState(false)
+  const [pinModal, setPinModal] = useState(false);
+  const [nPinModal, setNPinModal] = useState(false);
+  const [nPin, setNPin] = useState({
+    pin: "",
+  });
+  const [resetPinModal, setResetPinModal] = useState(false);
   const [pass, setNewPassword] = useState({
     currentPassword: "",
     newPassword: "",
   });
+  const [pin, setNewPin] = useState({
+    currentPin: "",
+    newPin: "",
+  });
   const handlePasswordChange = ({ target: { name, value } }) => {
     setNewPassword((pass) => ({ ...pass, [name]: value }));
+  };
+  const handlePinChange = ({ target: { name, value } }) => {
+    setNewPin((pass) => ({ ...pass, [name]: value }));
+  };
+  const handleNPinChange = ({ target: { name, value } }) => {
+    setNPin((pass) => ({ ...pass, [name]: value }));
+    console.log(value);
   };
 
   const handleChange = ({ target: { name, value } }) => {
     setState((state) => ({ ...state, [name]: value }));
   };
+  const handleProfileChange = ({ target: { name, value } }) => {
+    setStates((state) => ({ ...state, [name]: value }));
+  };
+  const handleProfileFormSubmit = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+    submitUserDetails(states);
+  };
 
   useEffect(() => {
     if (
+      state.accountType.value === "ng-account" &&
       state.bankCode &&
       state.accountNumber.length === 10 &&
       !state.isMobileMoney
     ) {
+      console.log("ng- account");
       verifyBankAccount({
         bankCode: state.bankCode,
         accountNumber: state.accountNumber,
+      });
+    } else if (
+      state.accountType.value === "gh-account" &&
+      state.bankCode &&
+      state.accountNumber.length === 13 &&
+      !state.isMobileMoney
+    ) {
+      console.log("gh - account");
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: state.accountNumber,
+      });
+    } else if (
+      state.accountType.value === "gh-mobile" &&
+      state.accountNumber.length === 11
+    ) {
+      console.log("mobile");
+      verifyBankAccount({
+        bankCode: state.bankCode,
+        accountNumber: `233${state.accountNumber.substring(1)}`,
       });
     }
     // eslint-disable-next-line
@@ -236,6 +349,7 @@ const Profile = ({
     submitBankDetails({
       ...state,
       currencyId: state.currency === "GH" ? 2 : 1,
+      accountType: state.accountType,
     });
     setTimeout(() => {
       setState((state) => ({
@@ -251,7 +365,6 @@ const Profile = ({
         isMobileMoney: false,
       }));
     }, 2000);
-    
   };
 
   const handleMobileMoneyBankCode = (value) => {
@@ -282,6 +395,99 @@ const Profile = ({
       e.preventDefault();
     }
     changePassword(pass);
+  };
+  const handleChangePin = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+    changePin(pin);
+  };
+  const handleSetPin = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+    submitPin(nPin);
+  };
+  const resetPin = (e) => {
+    const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+      AppFetch({
+        url: `/user-account/${userId}/reset-pin`,
+        method: "post",
+        headers: {
+          "public-request": "true",
+        },
+        data: {
+          email: user.email,
+        },
+      })
+        .then((response) => {
+          console.log("reset", response);
+          localStorage.setItem("reference", response.data.reference);
+          notification.success({
+            message: "Otp sent to email successfully",
+          });
+          // setWallet_btc_rate(response.data.ticker.sell);
+          setSwitch(false);
+        })
+        .catch((err) => {
+          notification.error({
+            message: "Try Again",
+            duration: 2.5,
+          });
+          setSwitch(true);
+        });
+    // if (resetEmail.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$/)) {
+    //   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+    //   AppFetch({
+    //     url: `/user-account/${userId}/reset-pin`,
+    //     method: "post",
+    //     headers: {
+    //       "public-request": "true",
+    //     },
+    //     data: {
+    //       email: resetEmail,
+    //     },
+    //   })
+    //     .then((response) => {
+    //       console.log("reset", response);
+    //       localStorage.setItem("reference", response.data.reference);
+    //       notification.success({
+    //         message: "Otp sent to email successfully",
+    //       });
+    //       // setWallet_btc_rate(response.data.ticker.sell);
+    //       setSwitch(false);
+    //     })
+    //     .catch((err) => {
+    //       notification.error({
+    //         message: "Try Again",
+    //         duration: 2.5,
+    //       });
+    //       setSwitch(true);
+    //     });
+    // } else {
+    //   notification.error({
+    //     message: "Invalid email",
+    //   });
+    // }
+
+    // ResetPinViaEmail({
+    //   email: resetEmail,
+    // });
+  };
+
+  const completePinReset = (e) => {
+    completeResetPin({
+      email: resetEmail,
+      resetCode,
+      newPin,
+    });
+    handleCancel();
+    setSwitch(true);
+  };
+
+  const handleCancel = () => {
+    setResetPinModal(false);
+    setSwitch(true);
   };
   return (
     <DashboardLayout bg="#fff">
@@ -330,7 +536,7 @@ const Profile = ({
                 component="div"
                 data-clipboard-text={`${
                   window && window.location && window.location.origin
-                }/signup?code=${user && user.referralCode}`}
+                }/signup?code=${user && user.referral_code}`}
                 onSuccess={() =>
                   notification.success({
                     message: "copied",
@@ -373,12 +579,14 @@ const Profile = ({
                     style={{ width: "100%" }}
                   >{`${item.account_number}`}</span>
                   <span style={{ width: "100%" }}>{`${
-                    item.isMobileMoney
+                    item.details.is_mobile_money
                       ? "Mobile Money Account"
-                      : item.account_name
+                      : item.details.account_name
                   }`}</span>
                   <span style={{ width: "100%" }}>{`${
-                    item.isMobileMoney ? item.bank_code : item.bank_name
+                    item.details.is_mobile_money
+                      ? item.bank_code
+                      : item.details.bankName
                   }`}</span>
                   <Button
                     className={styles.deleteButton}
@@ -410,12 +618,13 @@ const Profile = ({
             <Select
               labelClass={styles.profileBankInputLabel}
               className={styles.profileBankInput}
-              label="Select currency"
+              label="Select Account Type"
               value={state.currency}
               onSelect={(value) => {
                 setState((state) => ({
                   ...state,
-                  currency: value,
+                  currency: value.country,
+                  accountType: value,
                   accountNumber: "",
                   bankCode: "",
                   bvn: "",
@@ -425,21 +634,43 @@ const Profile = ({
                   bankBranchName: "",
                   isMobileMoney: false,
                 }));
-                if( value !== "US") {
-                  getBankList({ country: value });
+                if (value !== "US") {
+                  getBankList({ country: value.country });
                 }
               }}
               name="select payment currency"
-              options={fiatCurrency.map((item)=> ({
-                render: item.name,
-                value:item.code.substring(0,2)
-              }))}
-              // options={[
-              //   { render: "NGN", value: "NG" },
-              //   { render: "GHS", value: "GH" },
-              // ]}
+              // options={fiatCurrency.map((item)=> ({
+              //   render: item.name,
+              //   value:item.code.substring(0,2)
+              // }))}
+              options={[
+                {
+                  render: "Nigeria Accounts",
+                  value: {
+                    country: "NG",
+                    value: "ng-account",
+                    name: "Nigeria Account",
+                  },
+                },
+                {
+                  render: "Ghana Accounts",
+                  value: {
+                    country: "GH",
+                    value: "gh-account",
+                    name: "Ghana Account",
+                  },
+                },
+                {
+                  render: "Ghana Mobile Money",
+                  value: {
+                    country: "GH",
+                    value: "gh-mobile",
+                    name: "Ghana Mobile Money",
+                  },
+                },
+              ]}
             />
-            {state.currency === "GH" && (
+            {/* {state.currency === "GH" && (
               <div
                 className={styles.profileBankInput}
                 style={{
@@ -477,8 +708,8 @@ const Profile = ({
                   unCheckedChildren="No"
                 />
               </div>
-            )}
-            {state.currency === "NG" && (
+            )} */}
+            {state.accountType.value === "ng-account" && (
               <Select
                 name="bankCode"
                 labelClass={styles.profileBankInputLabel}
@@ -493,7 +724,7 @@ const Profile = ({
                 }))}
               />
             )}
-            {state.currency === "GH" && !state.isMobileMoney && (
+            {state.accountType.value === "gh-account" && (
               <Select
                 name="bankCode"
                 className={styles.profileBankInput}
@@ -507,7 +738,7 @@ const Profile = ({
                 }))}
               />
             )}
-            {state.currency === "GH" && !state.isMobileMoney && (
+            {state.accountType.value === "gh-account" && (
               <Select
                 name="bankBranchName"
                 labelClass={styles.profileBankInputLabel}
@@ -531,7 +762,7 @@ const Profile = ({
                 }
               />
             )}
-            {state.currency === "GH" && state.isMobileMoney && (
+            {state.accountType.value === "gh-mobile" && (
               <Select
                 name="bankCode"
                 className={styles.profileBankInput}
@@ -547,7 +778,7 @@ const Profile = ({
                 ]}
               />
             )}
-            {state.currency && !state.isMobileMoney && (
+            {state.currency && state.accountType.value !== "gh-mobile" && (
               <Input
                 name="accountNumber"
                 value={state.accountNumber}
@@ -556,11 +787,11 @@ const Profile = ({
                 onChange={handleChange}
                 label="Account Number"
                 placeholder="e.g 01236548"
-                maxLength="10"
+                maxLength="15"
                 hint="Please ensure to input the correct account number"
               />
             )}
-            {state.isMobileMoney && (
+            {state.accountType.value === "gh-mobile" && (
               <Input
                 name="accountNumber"
                 value={state.accountNumber}
@@ -569,11 +800,11 @@ const Profile = ({
                 onChange={handleChange}
                 label="Mobile Number"
                 placeholder="e.g 01236548"
-                maxLength="10"
+                maxLength="11"
                 hint="Please ensure to input the correct account number"
               />
             )}
-            {state.currency === "GH" && !state.isMobileMoney && (
+            {state.accountType.value !== "gh-mobile" && (
               <Input
                 name="accountName"
                 value={state.accountName}
@@ -586,34 +817,7 @@ const Profile = ({
                 disabled
               />
             )}
-            {state.currency === "NG" && (
-              <Input
-                name="accountName"
-                value={state.accountName}
-                labelClass={styles.profileBankInputLabel}
-                className={styles.profileBankInput}
-                onChange={handleChange}
-                label="Account Name"
-                placeholder="Enter your account name"
-                readOnly={true}
-                disabled
-              />
-            )}
-            {/* {state.currency === "NG" && (
-              <Input
-                name="bvn"
-                value={state.bvn}
-                onChange={handleChange}
-                label="BVN"
-                type="number"
-                maxLength="11"
-                pattern="\d{11}$"
-                placeholder="Enter 11 digit BVN"
-                hint="We cannot gain entry into your account"
-                labelClass={styles.profileBankInputLabel}
-                className={styles.profileBankInput}
-              />
-            )} */}
+
             <div className={styles.btnPair}>
               <Button
                 disabled={
@@ -645,14 +849,158 @@ const Profile = ({
           <div className={styles.profileSection}>
             <div className={styles.profileSectionLeft}>
               <span className={styles.main}>Security</span>
-              <span className={styles.sub}>Change password</span>
+              <span className={styles.sub}>Change your security keys</span>
             </div>
           </div>
+          <div className={styles.profileSecurityWidgets}>
+            <Row gutter={[8, 25]}>
+            <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
+                <div
+                  className={homeStyles.widgets__inner}
+                  onClick={() => {
+                    // alert("Not Yet available")
+                    setProfileModal(true)
+                  }}
+                >
+                  <div className={homeStyles.widgets__image}>
+                    <img
+                      src={png.Profile}
+                      className={homeStyles.widgets__images}
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                  </div>
+                  <div className={homeStyles.widgets__info}>Profile</div>
+                  <div className={homeStyles.widgets__description}>
+                    Edit your Profile
+                  </div>
+                  <div className={homeStyles.widgets__arrow}>
+                    <DoubleRightOutlined
+                      className={homeStyles.widgets__arrow__inner}
+                    />
+                  </div>
+                </div>
+              </Col>
+              <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
+                <div
+                  className={homeStyles.widgets__inner}
+                  onClick={() => {
+                    setPasswordModal(true);
+                  }}
+                >
+                  <div className={homeStyles.widgets__image}>
+                    <img
+                      src={png.ChangePassword}
+                      className={homeStyles.widgets__images}
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                  </div>
+                  <div className={homeStyles.widgets__info}>Password</div>
+                  <div className={homeStyles.widgets__description}>
+                    Change your Password
+                  </div>
+                  <div className={homeStyles.widgets__arrow}>
+                    <DoubleRightOutlined
+                      className={homeStyles.widgets__arrow__inner}
+                    />
+                  </div>
+                </div>
+              </Col>
+             {user && !user.boarded && ( <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
+                <div
+                  className={homeStyles.widgets__inner}
+                  onClick={() => {
+                    setNPinModal(true);
+                  }}
+                >
+                  <div className={homeStyles.widgets__image}>
+                    <img
+                      src={png.Pin}
+                      className={homeStyles.widgets__images}
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                  </div>
+                  <div className={homeStyles.widgets__info}>Set Pin</div>
+                  <div className={homeStyles.widgets__description}>
+                    Set your transaction Pin
+                  </div>
+                  <div className={homeStyles.widgets__arrow}>
+                    <DoubleRightOutlined
+                      className={homeStyles.widgets__arrow__inner}
+                    />
+                  </div>
+                </div>
+              </Col>)}
+              <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
+                <div
+                  className={homeStyles.widgets__inner}
+                  onClick={() => {
+                    setPinModal(true);
+                  }}
+                >
+                  <div className={homeStyles.widgets__image}>
+                    <img
+                      src={png.ChangePin}
+                      className={homeStyles.widgets__images}
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                  </div>
+                  <div className={homeStyles.widgets__info}>Change Pin</div>
+                  <div className={homeStyles.widgets__description}>
+                    Change your Pin
+                  </div>
+                  <div className={homeStyles.widgets__arrow}>
+                    <DoubleRightOutlined
+                      className={homeStyles.widgets__arrow__inner}
+                    />
+                  </div>
+                </div>
+              </Col>
+              <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
+                <div
+                  className={homeStyles.widgets__inner}
+                  onClick={() => {
+                    setResetPinModal(true);
+                  }}
+                >
+                  <div className={homeStyles.widgets__image}>
+                    <img
+                      src={png.ResetPin}
+                      className={homeStyles.widgets__images}
+                      style={{ marginRight: 5 }}
+                      alt="wallet"
+                    />
+                  </div>
+                  <div className={homeStyles.widgets__info}>Reset Pin</div>
+                  <div className={homeStyles.widgets__description}>
+                    Reset Your Pin
+                  </div>
+                  <div className={homeStyles.widgets__arrow}>
+                    <DoubleRightOutlined
+                      className={homeStyles.widgets__arrow__inner}
+                    />
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </div>
+        </div>
+        <ModalWrapper
+          isModalVisible={passwordModal}
+          setIsModalVisible={() => {
+            setPasswordModal(false);
+          }}
+        >
           <form
             onSubmit={handleChangePassword}
-            className={styles.profileSecurityContent}
+            className={styles.profileSecurityContents}
           >
-            
+            <h1>
+              <span className={styles.sub}>Change your Password</span>
+            </h1>
             <Input
               placeholder="Current Password"
               label="Current Password"
@@ -683,7 +1031,306 @@ const Profile = ({
               <Button form="full" type="submit" text="Change Password" />
             </div>
           </form>
-        </div>
+        </ModalWrapper>
+        <ModalWrapper
+          isModalVisible={profileModal}
+          setIsModalVisible={() => {
+            setProfileModal(false);
+          }}
+        >
+          <form
+            // onSubmit={handleChangePassword}
+            onSubmit={(e) => handleProfileFormSubmit(e)}
+            className={styles.profileSecurityContents}
+          >
+            <h1>
+              <span className={styles.sub}>Edit your Profile</span>
+            </h1>
+            <Input
+            name="firstName"
+            value={states.firstName}
+            onChange={handleProfileChange}
+            label="First Name"
+            placeholder="Enter First Name here"
+            required={true}
+            labelClass={styles.profileBankInputLabel}
+            className={styles.input}
+          />
+          <Input
+            name="lastName"
+            value={states.lastName}
+            onChange={handleProfileChange}
+            label="Last Name"
+            placeholder="Enter Last Name here"
+            required={true}
+            labelClass={styles.profileBankInputLabel}
+            className={styles.input}
+          />
+          <Input
+            name="username"
+            value={states.username}
+            onChange={handleProfileChange}
+            type="text"
+            label="Username"
+            required={true}
+            labelClass={styles.profileBankInputLabel}
+            className={styles.input}
+            // readOnly
+          />
+          <Input
+            name="email"
+            value={states.email}
+            onChange={handleProfileChange}
+            type="email"
+            inputMode={"email"}
+            label="Email Address"
+            placeholder="Enter a valid email address"
+            hint="This is the only way we can keep in touch with you"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
+            required={true}
+            labelClass={styles.profileBankInputLabel}
+            className={styles.input}
+          />
+          <Input
+            name="phoneNumber"
+            value={states.phoneNumber}
+            onChange={handleProfileChange}
+            type="tel"
+            label="Phone Number"
+            placeholder="Enter a valid Phone number"
+            errorMessage="phone number should be the right format. e.g. +23xxxxxxxxxxxx"
+            required={true}
+            labelClass={styles.profileBankInputLabel}
+            className={styles.input}
+          />
+          
+            <div className={styles.btnPair} style={{ marginTop: 20 }}>
+              <Button form="full" type="submit" text="Save" />
+            </div>
+          </form>
+        </ModalWrapper>
+        <ModalWrapper
+          isModalVisible={pinModal}
+          setIsModalVisible={() => {
+            setPinModal(false);
+          }}
+        >
+          <form
+            onSubmit={handleChangePin}
+            className={styles.profileSecurityContents}
+          >
+            <h1>
+              <span className={styles.sub}>Change your Pin</span>
+            </h1>
+            <Input
+              placeholder="Current Pin"
+              label="Current Pin"
+              name="currentPin"
+              onChange={handlePinChange}
+              required={true}
+              onInput={(e) => {
+                if (e.target.value.length > e.target.maxLength) {
+                  e.target.value = e.target.value.slice(0, e.target.maxLength);
+                } else {
+                  e.target.value = e.target.value;
+                }
+              }}
+              maxLength={"4"}
+              type="number"
+              // pattern={"^{8,}$"}
+              value={pin.currentPin}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+            />
+            <Input
+              placeholder="New Pin"
+              label="New Pin"
+              name="newPin"
+              onChange={handlePinChange}
+              required={true}
+              onInput={(e) => {
+                if (e.target.value.length > e.target.maxLength) {
+                  e.target.value = e.target.value.slice(0, e.target.maxLength);
+                } else {
+                  e.target.value = e.target.value;
+                }
+              }}
+              maxLength={"4"}
+              type="number"
+              // pattern={"^{8,}$"}
+              value={pin.newPin}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+            />
+            <div className={styles.btnPair} style={{ marginTop: 20 }}>
+              <Button form="full" type="submit" text="Change Pin" />
+            </div>
+          </form>
+        </ModalWrapper>
+        <ModalWrapper
+          isModalVisible={nPinModal}
+          setIsModalVisible={() => {
+            setNPinModal(false);
+          }}
+        >
+          <form
+            onSubmit={handleSetPin}
+            className={styles.profileSecurityContents}
+          >
+            <h1>
+              <span className={styles.sub}>Set your Transaction Pin</span>
+            </h1>
+            <Input
+              placeholder="Transaction Pin"
+              label="Transaction Pin"
+              name="pin"
+              onChange={handleNPinChange}
+              required={true}
+              maxLength="4"
+              type="number"
+              onInput={(e) => {
+                if (e.target.value.length > e.target.maxLength) {
+                  e.target.value = e.target.value.slice(0, e.target.maxLength);
+                } else {
+                  e.target.value = e.target.value;
+                }
+              }}
+              // pattern={"^{5,}$"}
+              value={nPin.pin}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+            />
+            <div className={styles.btnPair} style={{ marginTop: 20 }}>
+              <Button form="full" type="submit" text="Set Pin" />
+            </div>
+          </form>
+        </ModalWrapper>
+        <Modal
+          footer={null}
+          title="Reset Transaction Pin"
+          visible={resetPinModal}
+          onCancel={handleCancel}
+        >
+          {switchReset ? (
+            <div>
+              <Input
+                className={styles.auth__content__input__body}
+                inputClass={styles.auth__content__input}
+                placeholder="Email"
+                // onChange={(e) => handleResetEmail(e.target.value)}
+                value={user? user.email :""}
+                type="email"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
+                required={true}
+                readOnly={true}
+                label="Please enter your registered email."
+              />
+              <Button
+                className={styles.auth__content__button}
+                form="full"
+                // disabled={!resetEmail}
+                onClick={(e) => {
+                 user ? resetPin(e) : notification.info({
+                   message:'Please try again'
+                 })
+                }}
+                text="Submit"
+              />
+            </div>
+          ) : (
+            <div>
+              <Input
+                className={styles.auth__content__input__body}
+                inputClass={styles.auth__content__input}
+                placeholder="123456"
+                onChange={(e) => setResetCode(e.target.value)}
+                value={resetCode}
+                type="number"
+                required={true}
+                label="Please enter the OTP sent to your email."
+              />
+              <Input
+                className={styles.auth__content__input__body}
+                inputClass={styles.auth__content__input}
+                placeholder="New Pin"
+                onChange={(e) => handleNewPin(e.target.value)}
+                value={newPin}
+                maxlength={4}
+                type="number"
+                onInput={(e) => {
+                  if (e.target.value.length > e.target.maxLength) {
+                    e.target.value = e.target.value.slice(
+                      0,
+                      e.target.maxLength
+                    );
+                  } else {
+                    e.target.value = e.target.value;
+                  }
+                }}
+                required={true}
+                label="New Pin"
+              />
+              {/* <Button
+              className={styles.auth__content__button}
+              form="full"
+              
+              onClick={(e) => completePinReset(e)}
+              text="Submit"
+            /> */}
+              <div className={styles.btnPair} style={{ marginTop: 20 }}>
+                <Button
+                  form="full"
+                  type="submit"
+                  text="Submit"
+                  onClick={(e) => completePinReset(e)}
+                />
+              </div>
+            </div>
+          )}
+        </Modal>
+        {/* <div className={styles.profileSecurity}>
+          <div className={styles.profileSection}>
+            <div className={styles.profileSectionLeft}>
+              <span className={styles.main}>Security</span>
+              <span className={styles.sub}>Change password</span>
+            </div>
+          </div>
+          <form
+            onSubmit={handleChangePassword}
+            className={styles.profileSecurityContent}
+          >
+            <Input
+              placeholder="Current Password"
+              label="Current Password"
+              name="currentPassword"
+              onChange={handlePasswordChange}
+              required={true}
+              minLength={"8"}
+              type="password"
+              pattern={"^{8,}$"}
+              value={pass.currentPassword}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+            />
+            <Input
+              placeholder="New Password"
+              label="New Password"
+              name="newPassword"
+              onChange={handlePasswordChange}
+              required={true}
+              minLength={"8"}
+              type="password"
+              pattern={"^{8,}$"}
+              value={pass.newPassword}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+            />
+            <div className={styles.btnPair} style={{ marginTop: 20 }}>
+              <Button form="full" type="submit" text="Change Password" />
+            </div>
+          </form>
+          
+        </div> */}
       </div>
     </DashboardLayout>
   );
@@ -691,8 +1338,8 @@ const Profile = ({
 
 const mapStateToProps = (state) => ({
   user: state.user.user,
-  fiatCurrency:state.user.fiatCurrency,
-  cryptoCurrency:state.user.cryptoCurrency,
+  fiatCurrency: state.user.fiatCurrency,
+  cryptoCurrency: state.user.cryptoCurrency,
   balance: state.btc.balance,
   branchList: state.bank.bankBranchList,
   bankList: state.bank.bankList,
@@ -706,10 +1353,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(GetUserDetails());
   },
   getMainFiatCurrency: () => {
-    dispatch(getFiatCurrencies())
+    dispatch(getFiatCurrencies());
   },
   getMainCryptoCurrency: () => {
-    dispatch(getCryptoCurrencies())
+    dispatch(getCryptoCurrencies());
   },
   getUserBankDetails: () => {
     dispatch(getUserBankAccount());
@@ -735,11 +1382,26 @@ const mapDispatchToProps = (dispatch) => ({
   changePassword: (data) => {
     dispatch(changePassword(data));
   },
+  changePin: (data) => {
+    dispatch(changePin(data));
+  },
   getUserReferrals: (data) => {
     dispatch(getUserReferrals(data));
   },
   redeemReferralBonus: (data) => {
     dispatch(redeemUserReferralBonus(data));
+  },
+  ResetPinViaEmail: (data) => {
+    dispatch(resetPin(data));
+  },
+  completeResetPin: (data) => {
+    dispatch(completeResetPin(data));
+  },
+  submitPin: (data) => {
+    dispatch(setTransactionPin(data));
+  },
+  submitUserDetails: (data) => {
+    dispatch(updateUserDetails(data));
   },
 });
 

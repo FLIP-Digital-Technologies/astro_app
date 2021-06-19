@@ -4,7 +4,7 @@ import { TransactionIcon, Eye, ArrowRight } from "../../assets/svg";
 import { Modal } from "antd";
 import styles from "../styles.module.scss";
 import Button from "../../components/button";
-import { date, Money } from "../../utils/helper";
+import { CommaFormatted, date, Money } from "../../utils/helper";
 
 export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,7 @@ export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
   const columns = [
     {
       title: "Date",
-      dataIndex: "createdAt",
+      dataIndex: "created_at",
       render: (createdAt) => `${date(createdAt)}`,
     },
     {
@@ -45,32 +45,32 @@ export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
     },
     {
       title: "Card Ordered",
-      dataIndex: "cardSlug",
+      dataIndex: "card_slug",
       render: (cardSlug, rec) => (
         <div>
         <p>
           Ordered: {cardSlug.replace("-", " ").replace("_", " ")}
           <br/>
-          Quantity: {rec.cardDetails && rec.cardDetails.quantity}
+          Quantity: {rec.card_detail && rec.card_detail.quantity}
         </p>
         </div>
       ),
     },
     {
       title: "Card Amount | USD Amount",
-      dataIndex: "cardDetails",
+      dataIndex: "card_detail",
       render: (cardDetails) => (
         <p>
-          {cardDetails && cardDetails.cardCurrency}
-          {cardDetails && cardDetails.cardValue} | USD 
-          {cardDetails && cardDetails.estimatedUSDValue.amount}
+          {cardDetails && cardDetails.currency}{" "}
+          {CommaFormatted(cardDetails && cardDetails.value)}{" | USD"} 
+          {cardDetails && cardDetails.usd_value}
         </p>
       ),
     },
-    {
-      title: "Wallet",
-      dataIndex: "referenceCurrency"
-    },
+    // {
+    //   title: "Wallet",
+    //   dataIndex: "referenceCurrency"
+    // },
     {
       title: "Status",
       dataIndex: "status",
@@ -116,7 +116,7 @@ export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
           onChange={handleTableChange}
         />
       ) : (
-        <EmptyEntryWithTitle title="P2P Transaction" />
+        <EmptyEntryWithTitle title="Gift Card" />
       )}
     </div>
   );
@@ -173,7 +173,7 @@ export const PTwoPTab = ({ fetchTrans, transaction, handleAction }) => {
       dataIndex: "amount_sent_object",
       render: (amountSent) => (
         <p>
-          {Money(amountSent && amountSent.value, amountSent && amountSent.currency)}
+          {amountSent && amountSent.currency}{" "}{CommaFormatted(amountSent && amountSent.value)}
         </p>
       ),
     },{
@@ -181,7 +181,7 @@ export const PTwoPTab = ({ fetchTrans, transaction, handleAction }) => {
       dataIndex: "amount_received_object",
       render: (amountReceived) => (
         <p>
-          {Money(amountReceived && amountReceived.value, amountReceived && amountReceived.currency)}
+          {amountReceived && amountReceived.currency}{" "}{CommaFormatted(amountReceived && amountReceived.value)}
         </p>
       ),
     },
@@ -272,6 +272,7 @@ export const BillPaymentTab = ({ fetchTrans, transaction, handleAction }) => {
     {
       title: "Amount",
       dataIndex: "amount",
+      render:(amount, full) => `${full.FiatCurrency.code} ${CommaFormatted(amount && amount)}`
     },
     {
       title: "Reference",
@@ -279,15 +280,21 @@ export const BillPaymentTab = ({ fetchTrans, transaction, handleAction }) => {
     },
     {
       title: "Bill Payed For",
-      dataIndex: "details",
+      dataIndex: "detail",
       render: (details) => (
         <p>
-          {details && details.serviceName}
+          {details && details.serviceName }{' | '}
+          {details && details.serviceCode}
         </p>
       ),
     },{
       title: "Currency",
-      dataIndex: "referenceCurrency"
+      dataIndex: "FiatCurrency",
+      render:(currency) => (
+        <p>
+          {currency.code}
+        </p>
+      )
     },
     {
       title: "Status",
@@ -376,6 +383,7 @@ export const DepositsTab = ({ fetchTrans, transaction, handleAction }) => {
     {
       title: "Amount",
       dataIndex: "amount",
+      render:(amount) => `${CommaFormatted(amount && amount)}`
     },
     {
       title: "Reference",
@@ -473,6 +481,7 @@ export const WithdrawalsTab = ({ fetchTrans, transaction, handleAction }) => {
     {
       title: "Amount",
       dataIndex: "amount",
+      render:(amount) => `${CommaFormatted(amount && amount)}`
     },
     {
       title: "Bank Account",
@@ -647,6 +656,11 @@ export const BTCTradesTab = ({ fetchTrans, transaction, handleAction }) => {
     setLoading(false);
   }, [transaction]);
 
+  React.useEffect(() => {
+    fetchTrans({ skip: 0, limit: 10 });
+    // eslint-disable-next-line
+  }, []);
+
   const handleTableChange = (pagination, filters, sorter) => {
     fetch({
       pagination,
@@ -668,8 +682,9 @@ export const BTCTradesTab = ({ fetchTrans, transaction, handleAction }) => {
       dataIndex: "amount",
     },
     {
-      title: "Transaction Type",
-      dataIndex: "transactionType",
+      title: "Crypto Type",
+      dataIndex: "CreditCryptoCurrency",
+      render:(a) => `${a.name}`
     },
     {
       title: "Status",
@@ -838,6 +853,27 @@ export const EmptyEntryWithTitle = ({
         <Eye className={styles.transactions__empty__content__eye} />
         <span className={styles.transactions__empty__content__text}>
           No {title} here, yet
+        </span>
+      </div>
+    </div>
+  );
+};
+
+export const EmptyLoading = ({
+  title,
+  action = true,
+  onClick = () => {},
+  actionText = "Top up your account",
+}) => {
+  return (
+    <div className={styles.transactions__empty} style={{ height: 300 }}>
+      <div
+        className={styles.transactions__empty__content}
+        style={{ marginTop: 60 }}
+      >
+        <Eye className={styles.transactions__empty__content__eye} />
+        <span className={styles.transactions__empty__content__text}>
+          Loading ...
         </span>
       </div>
     </div>

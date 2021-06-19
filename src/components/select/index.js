@@ -59,7 +59,7 @@ const Select = ({
               ""}
           </div>
         )}
-        {!value && <div>{display || placeholder}</div>}
+        {!value && <div style={{color:"#ACAAAA"}}>{display || placeholder}</div>}
         <CaretDown
           className={`${show && styles.open} ${styles.caret}`}
           onClick={() => {

@@ -39,11 +39,11 @@ const paymentReducer = (state = initState, action) => {
         depositMoneyDetails: null,
       };
     case actionTypes.GET_PAYMENT_DETAILS_PENDING:
-      notification.info({
-        message: "Loading.....",
-        duration: 0,
-        key,
-      });
+      // notification.info({
+      //   message: "Loading.....",
+      //   duration: 0,
+      //   key,
+      // });
       return {
         ...state,
         loading: true,
@@ -75,11 +75,11 @@ const paymentReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.GET_PAYMENT_DETAILS_SUCCESS:
-      notification.success({
-        message: "Successful",
-        description: "Successfully fetched deposit transaction.",
-        key,
-      });
+      // notification.success({
+      //   message: "Successful",
+      //   description: "Successfully fetched deposit transaction.",
+      //   key,
+      // });
       return {
         ...state,
         depositTransactionDetails: action.payload,

@@ -7,7 +7,7 @@ import {
   TransactionIconSuc,
   TransactionIconBig,
 } from "../../assets/svg";
-import { date, Money } from "../../utils/helper";
+import capitalizeFirstLetter, { date, Money } from "../../utils/helper";
 
 export const TransactionModalBuyGiftCard = ({
   type,
@@ -65,7 +65,7 @@ export const TransactionModalBuyGiftCard = ({
             style={{ flexDirection: "column", alignItems: "flex-start" }}
           >
             <div className={styles.transactionBig__main__content}>
-              <span>Wallet Used</span> <span>{referenceCurrency}</span>
+              <span>Wallet Used</span> <span>{referenceCurrency.split('-')[0].trim()}</span>
             </div>
           </div>
           <h4>Card Details</h4>
@@ -75,9 +75,9 @@ export const TransactionModalBuyGiftCard = ({
             </div>
           </div>
           <div className={styles.transactionBig__main__holder}>
-            <div className={styles.transactionBig__main__content}>
+            {/* <div className={styles.transactionBig__main__content}>
               <span>USD Price</span> <span> {Money(estimatedUSDValue.amount, "USD")}</span>
-            </div>
+            </div> */}
           </div>
           <div className={styles.transactionBig__main__holder}>
             <div className={styles.transactionBig__main__content}>
@@ -121,7 +121,7 @@ export const TransactionModalBillPayment = ({
           <div className={styles.transactionBig__top__left}>
             <div className={`${styles.badge} ${styles[type]}`}>
               {status === "INITIATED" && <TransactionIconBig />}
-              {status === "SUCCESSFUL" && <TransactionIconSuc />}
+              {status === "DONE" && <TransactionIconSuc />}
               {status === "FAILED" && <TransactionIconMed />}
               {status === "CANCELLED" && <TransactionIconMed />}
             </div>
@@ -146,7 +146,7 @@ export const TransactionModalBillPayment = ({
             style={{ flexDirection: "column", alignItems: "flex-start" }}
           >
             <div className={styles.transactionBig__main__content}>
-              <span>Service Name</span> <span>{details && details.serviceName}</span>
+              <span>Service Name</span> <span>{details && details.serviceName}{" "}{details && capitalizeFirstLetter(details.serviceCode)}</span>
             </div>
           </div>
           <div className={styles.transactionBig__main__holder}>
@@ -156,12 +156,12 @@ export const TransactionModalBillPayment = ({
           </div>
           <div className={styles.transactionBig__main__holder}>
             <div className={styles.transactionBig__main__content}>
-              <span>Amount Paid</span> <span>{Money(amount, referenceCurrency)}</span>
+              <span>Amount Paid</span> <span>{amount}</span>
             </div>
           </div>
           <div className={styles.transactionBig__main__holder}>
             <div className={styles.transactionBig__main__content}>
-              <span>Transaction Fee</span> <span>{Money(transactionFee, referenceCurrency)}</span>
+              <span>Transaction Fee</span> <span>{transactionFee}</span>
             </div>
           </div>
         </div>
@@ -281,6 +281,7 @@ export const TransactionModalBTC = ({
   transactionFee,
   setIsModalVisible,
   isModalVisible,
+  data,
 }) => {
   return (
     <ModalWrapper
@@ -292,7 +293,7 @@ export const TransactionModalBTC = ({
     >
       <div className={styles.transactionBig}>
         <div className={styles.transactionBig__tag}>
-          <span>Transaction</span> <span> #{quidaxTransactionId} </span>
+          <span>Transaction</span> <span> #{data.quidax_transaction_id} </span>
         </div>
         <div className={styles.transactionBig__top}>
           <div className={styles.transactionBig__top__left}>
@@ -336,7 +337,7 @@ export const TransactionModalBTC = ({
             </div>
             <div className={styles.text}>
               <div className={`${styles.title} ${styles.main}`}>
-                BTC Transaction
+                {data.CreditCryptoCurrency.code} Transaction
               </div>
               <div className={`${styles.sub}`}>{date(dateData)}</div>
             </div>
@@ -354,19 +355,19 @@ export const TransactionModalBTC = ({
           </div>
           <div className={styles.transactionBig__main__holder}>
             <div className={styles.transactionBig__main__content}>
-              <span>Amount Paid</span> <span>{amount} BTC</span>
+              <span>Amount</span> <span>{amount} {data.CreditCryptoCurrency.code}</span>
             </div>
-            <div className={styles.transactionBig__main__content}>
+            {/* <div className={styles.transactionBig__main__content}>
               <span>Transaction Rate</span> <span>{Money(rate, "NGN")}/$</span>
-            </div>
+            </div> */}
             <div className={styles.transactionBig__main__content}>
-              <span>Transaction Type</span> <span>{transactionType}</span>
+              <span>Transaction Type</span> <span>{data.CreditCryptoCurrency.name}</span>
             </div>
           </div>
           <div className={styles.transactionBig__main__holder}>
-            <div className={styles.transactionBig__main__content}>
+            {/* <div className={styles.transactionBig__main__content}>
               <span>Transaction fee</span> <span>{transactionFee} BTC</span>
-            </div>
+            </div> */}
             <div className={styles.transactionBig__main__content}>
               <span>Type</span> <span>{type}</span>
             </div>

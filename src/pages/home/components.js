@@ -17,7 +17,8 @@ import { getBTCWalletDetails } from "../../redux/actions/btc";
 import { getFiatCurrencies } from "../../redux/actions/Auths";
 
 function validateEmail(email) {
-  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
 
@@ -63,7 +64,7 @@ export const DiscoFlyout = ({
       <div className={styles.airttime}>
         <Select
           labelClass={styles.largeMarginLabel}
-          label="Select currency"
+          label="Select Wallet"
           value={state.currency}
           onSelect={(value) => {
             setState((state) => ({
@@ -96,7 +97,7 @@ export const DiscoFlyout = ({
             _id: item.id,
           }))}
         />
-        
+
         {state.currency in { NGN: "0" } && (
           <Select
             labelClass={styles.largeMarginLabel}
@@ -141,6 +142,7 @@ export const DiscoFlyout = ({
               label="Amount"
               value={state.amount}
               name="amount"
+              type={"number"}
               onChange={(e) =>
                 setState((state) => ({ ...state, amount: e.target.value }))
               }
@@ -186,7 +188,7 @@ export const InternetFlyout = ({
       <div className={styles.airttime}>
         <Select
           labelClass={styles.largeMarginLabel}
-          label="Select currency"
+          label="Select Wallet"
           value={state.currency}
           onSelect={(value) => {
             setState((state) => ({
@@ -334,7 +336,7 @@ export const CableFlyout = ({
       <div className={styles.airttime}>
         <Select
           labelClass={styles.largeMarginLabel}
-          label="Select currency"
+          label="Select Wallet"
           value={state.currency}
           onSelect={(value) => {
             setState((state) => ({
@@ -432,6 +434,7 @@ export const CableFlyout = ({
               label="Amount"
               value={state.amount}
               name="amount"
+              type={"number"}
               onChange={(e) =>
                 setState((state) => ({ ...state, amount: e.target.value }))
               }
@@ -464,6 +467,8 @@ export const AirtimeFlyout = ({
   BillPaymentCategory = [],
   loading,
   fiatCurrency,
+  setShowAirtime,
+  setAirtimeState,
   buyAirtime = () => {},
 }) => {
   const handleAirtime = () => {
@@ -478,13 +483,17 @@ export const AirtimeFlyout = ({
       payload
     );
     setState({});
+    try {
+      setAirtimeState({});
+      setShowAirtime(false);
+    } catch (error) {}
   };
   return (
     <div>
       <div className={styles.airttime}>
         <Select
           labelClass={styles.largeMarginLabel}
-          label="Select currency"
+          label="Select Wallet"
           value={state.currency}
           onSelect={(value) => {
             setState((state) => ({
@@ -569,6 +578,7 @@ export const AirtimeFlyout = ({
               label="Amount"
               value={state.amount}
               name="amount"
+              type={"number"}
               onChange={(e) =>
                 setState((state) => ({ ...state, amount: e.target.value }))
               }
@@ -634,6 +644,7 @@ export const FundFlyout = ({
             label={`Amount in ${state.currency}`}
             value={state.amount}
             name="amount"
+            type={"number"}
             onChange={(e) =>
               setState((state) => ({ ...state, amount: e.target.value }))
             }
@@ -674,6 +685,7 @@ const PTwoPFlyout = ({
   useEffect(() => {
     getFiatP2PRate();
   }, [getFiatP2PRate]);
+  useEffect(() => {}, [convertedAmount]);
   useEffect(() => {
     if (pairTwoPairBTC && state.amount) {
       setState({});
@@ -692,13 +704,12 @@ const PTwoPFlyout = ({
   }, [pairTwoPairFiatDetails]);
 
   const onConfirm = (data) => {
-    
     return convertedCurrency({
       amount: data,
       from: state.referenceCurrency,
       to: state.recipientCurrency,
     });
-  }
+  };
 
   const handleP2PTransfer = () => {
     if (state.referenceCurrency === "BTC") {
@@ -729,7 +740,7 @@ const PTwoPFlyout = ({
       } else {
         return alert("Please enter a valid email address");
       }
-      
+
       initializeFiatPairTwoPairTransaction(data);
     }
     // setOpenModal(false);
@@ -811,7 +822,7 @@ const PTwoPFlyout = ({
         {state.recipientCurrency && (
           <Input
             labelClass={styles.largeMarginLabel}
-            label={`Enter Recipient Username or Email`}
+            label={`Enter Recipient Email`}
             value={state.recipientUsername}
             name="recipientUsername"
             onChange={(e) =>
@@ -831,7 +842,7 @@ const PTwoPFlyout = ({
             type={"number"}
             name="amount"
             onChange={(e) => {
-              onConfirm(e.target.value)
+              onConfirm(e.target.value);
               setState((state) => ({ ...state, amount: e.target.value }));
             }}
             hint={
@@ -852,7 +863,7 @@ const PTwoPFlyout = ({
         {state.recipientUsername && (
           <Input
             labelClass={styles.largeMarginLabel}
-            label={`Transfer Note(optional)`}
+            label={`Transfer Note (optional)`}
             value={state.transferNote}
             name="transferNote"
             onChange={(e) =>

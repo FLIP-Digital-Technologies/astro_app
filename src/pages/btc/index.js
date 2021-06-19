@@ -20,8 +20,9 @@ import {
   initialBTCSellTransaction,
   initialBTCSellToExternalWalletTransaction,
 } from "../../redux/actions/btc";
-import { getUserWallets } from "../../redux/actions/Auths";
+import { getFiatCurrencies, getUserWallets } from "../../redux/actions/Auths";
 import * as SVG from "../../assets/svg";
+import { getCurrencyConversions } from "../../redux/actions/user";
 
 const BuyCoin = ({
   active,
@@ -39,6 +40,10 @@ const BuyCoin = ({
   sellCoinsExternal,
   sellBTCExternal,
   fiatWallets,
+  conversions,
+  getConversions,
+  fiatCurrency,
+  getMainFiatCurrency,
 }) => {
   const [state, setState] = useState({
     btc: 0,
@@ -50,22 +55,28 @@ const BuyCoin = ({
   });
   const [mode, setMode] = useState("buy");
   React.useEffect(() => {
+    getConversions()
+    getMainFiatCurrency()
+    // eslint-disable-next-line
+  }, [])
+  React.useEffect(() => {
     const interval = setInterval(async () => {
       getBTCRates({coin:active.Currency.code});
+      getConversions();
     }, 60000);
     return () => clearInterval(interval);
-  }, [getBTCRates]);
+  }, [getBTCRates, getConversions, active.Currency.code]);
   React.useEffect(() => {
-    receiveBTC();
+    receiveBTC({cryptoWalletId:active.id});
     getBTCRates({coin:active.Currency.code});
-  }, [receiveBTC, getBTCRates]);
+  }, [receiveBTC, getBTCRates, active.Currency.code, active.id]);
   return (
     <>
       <div className={styles.gitcard__form}>
         <div
           className={styles.gitcard__form__holder}
           style={{ alignItems: "flex-start" }}
-        >
+        >{console.log({active})}
           <div onClick={handleBack} className={styles.gitcard__form__link}>
             <SVG.ArrowLeft /> {active.Currency.name}
           </div>
@@ -86,8 +97,7 @@ const BuyCoin = ({
      <SVG.ArrowLeft /> Bitcoin
      </div> */}
         {/* <span className={styles.gitcard__top__title}></span> */}
-        <br />
-        <br />
+      
         <div className={styles.sellPage}>
           <div className={styles.sellPage__left}>
             <div className={styles.sellPage__select}>
@@ -96,10 +106,10 @@ const BuyCoin = ({
                   setMode("buy");
                   setState({
                     ...state,
-                    btc: 0,
-                    usd: 0,
-                    ngn: 0,
-                    ghs: 0,
+                    btc: "",
+                    usd: "",
+                    ngn: "",
+                    ghs: "",
                     walletBalance: 0,
                   });
                 }}
@@ -107,7 +117,7 @@ const BuyCoin = ({
                   mode === "buy" && styles.active
                 }`}
               >
-                <div className={`${styles.sell}`}>
+                <div className={`${styles.selling}`}>
                   <ArrowLeftOutlined style={{ color: "#fff" }} />
                 </div>
                 <span>Buy</span>
@@ -117,10 +127,10 @@ const BuyCoin = ({
                   setMode("sell");
                   setState({
                     ...state,
-                    btc: 0,
-                    usd: 0,
-                    ngn: 0,
-                    ghs: 0,
+                    btc: "",
+                    usd: "",
+                    ngn: "",
+                    ghs: "",
                     walletBalance: 0,
                   });
                 }}
@@ -128,7 +138,7 @@ const BuyCoin = ({
                   mode === "sell" && styles.active
                 }`}
               >
-                <div className={`${styles.buy}`}>
+                <div className={`${styles.buying}`}>
                   <ArrowLeftOutlined style={{ color: "#fff" }} rotate={180} />
                 </div>
                 <span>Sell</span>
@@ -139,10 +149,10 @@ const BuyCoin = ({
                   setMode("recieve");
                   setState({
                     ...state,
-                    btc: 0,
-                    usd: 0,
-                    ngn: 0,
-                    ghs: 0,
+                    btc: "",
+                    usd: "",
+                    ngn: "",
+                    ghs: "",
                     walletBalance: 0,
                   });
                 }}
@@ -156,14 +166,16 @@ const BuyCoin = ({
                 <span>Recieve</span>
               </div>
               <div
+              
                 onClick={() => {
+                  // alert('Service Unavailable')
                   setMode("send");
                   setState({
                     ...state,
-                    btc: 0,
-                    usd: 0,
-                    ngn: 0,
-                    ghs: 0,
+                    btc: "",
+                    usd: "",
+                    ngn: "",
+                    ghs: "",
                     walletBalance: 0,
                   });
                 }}
@@ -184,6 +196,8 @@ const BuyCoin = ({
                   balance={balance}
                   rates={btcRates}
                   fiatWallets={fiatWallets}
+                  conversions={conversions}
+                  fiatCurrency={fiatCurrency}
                   {...{ state, setState, buyCoins, buyBTC, loading, active }}
                 />
               )}
@@ -193,6 +207,8 @@ const BuyCoin = ({
                   balance={balance}
                   rates={btcRates}
                   fiatWallets={fiatWallets}
+                  conversions={conversions}
+                  fiatCurrency={fiatCurrency}
                   {...{ state, setState, sellCoins, sellBTC, loading, active }}
                 />
               )}
@@ -235,15 +251,20 @@ const mapStateToProps = (state) => ({
   loading: state.btc.loading,
   sellBTC: state.btc.sellBTC,
   sellBTCExternal: state.btc.sellBTCExternal,
-  btcTicker: state.btc.btcTicker
+  btcTicker: state.btc.btcTicker,
+  conversions:state.user.conversions,
+  fiatCurrency: state.user.fiatCurrency,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  receiveBTC: () => {
-    dispatch(receiveBTCIntoWallet());
+  receiveBTC: (data) => {
+    dispatch(receiveBTCIntoWallet(data));
   },
   getBTCRates: (data) => {
     dispatch(getBTCCurrentMarketTicker(data));
+  },
+  getConversions: () => {
+    dispatch(getCurrencyConversions())
   },
   buyCoins: (data) => {
     dispatch(initialBTCBuyTransaction(data));
@@ -256,6 +277,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getBalance: () => {
     dispatch(getUserWallets());
+  },
+  getMainFiatCurrency: () => {
+    dispatch(getFiatCurrencies());
   },
 });
 

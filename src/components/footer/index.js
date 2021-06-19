@@ -35,30 +35,30 @@ const Footer = () => {
           </div> */}
           <div style={{ textAlign: "center" }}>
             <div className={styles.link} style={{display: "flex", justifyContent: "center"}}>
-              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://twitter.com/FlipAfrika">
+              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://twitter.com/myastroafrica">
                 <i class="fab text-dark fa-twitter"></i>
               </a>
-              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://web.facebook.com/FlipAfrika">
+              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://web.facebook.com/myastroafrica">
                 <i class="fab text-dark fa-facebook"></i>
               </a>
-              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://www.instagram.com/FlipAfrika">
+              <a class="nav-link" style={{color: "white", fontSize: 18, margin: 7}} href="https://www.instagram.com/myastroafrica">
                 <i class="fab text-dark fa-instagram"></i>
               </a>
             </div>
             <div style={{marginBottom: 8}} className={styles.link}>
               <a
                 style={{ color: "white" }}
-                href="mailto:support@Flipafrika.com"
+                href="mailto:hello@astroafrica.site"
               >
-                Email Us: support@Flipafrika.com
+                Email Us: hello@astroafrica.site
               </a>
             </div>
             <div className={styles.link}>
-              <address>Lagos Address - Magodo Lagos</address>
-              <address>Accra Address - 2,Anumansa street, accra ghana.</address>
+              <address>Lagos Address - Magodo, Lagos State, Nigeria.</address>
+              <address>Accra Address - Osu, Accra, Ghana.</address>
             </div>
             <div className={styles.link}>
-              <p>All Rights Reserved. Flip 2020</p>
+              <p>All Rights Reserved. Astro Africa {new Date().getFullYear()}</p>
             </div>
           </div>
         </div>

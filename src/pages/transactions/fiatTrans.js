@@ -1,28 +1,29 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Tabs } from "antd";
-import { DashboardLayout } from "../../components/layout";
+// import { DashboardLayout } from "../../components/layout";
 // import { TableSort } from "../../assets/svg";
-import { Money } from "../../utils/helper";
+import { CommaFormatted, Money } from "../../utils/helper";
 import styles from "../styles.module.scss";
 import {
   DepositsTab,
   WithdrawalsTab,
-  GiftCardTradesTab,
+  // GiftCardTradesTab,
   BillPaymentTab,
   PTwoPTab,
-  BuyGiftCardTab,
+  // BuyGiftCardTab,
 } from "./components";
-import TransactionModalBig, {
+import {
+  // TransactionModalBig
   TransactionModalBillPayment,
   TransactionModalBuyGiftCard,
-  TransactionModalP2P
+  TransactionModalP2P,
 } from "../../components/Modals/transaction-info-modal-big";
 import TransactionModal from "../../components/Modals/transaction-info-modal";
-import {
-  getGiftCardTransactionHistory,
-  getGiftCardTransaction,
-} from "../../redux/actions/giftCard";
+// import {
+//   getGiftCardTransactionHistory,
+//   getGiftCardTransaction,
+// } from "../../redux/actions/giftCard";
 import {
   getAllUserWithdrawalDetails,
   getWithdrawalDetailsById,
@@ -39,7 +40,11 @@ import {
   getAllUserFiatP2PTransferDetails,
   getFiatP2PTransferById,
 } from "../../redux/actions/pairTwoPair";
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import {
+  ArrowLeftOutlined,
+  // LoadingOutlined,
+  // ReloadOutlined,
+} from "@ant-design/icons";
 
 const Transactions = ({
   goBack,
@@ -60,34 +65,76 @@ const Transactions = ({
   viewBillPaymentTrans,
   viewP2PTrans,
   viewBuyGiftCardTrans,
+  fiatLoading,
 }) => {
   const [depositTransDetails, setDepositTransDetails] = React.useState(false);
-  const [giftCardTransDetails, setGiftCardTransDetails] = React.useState(false);
+  // const [giftCardTransDetails, setGiftCardTransDetails] = React.useState(false);
   const [billPaymentDetails, setBillPaymentDetails] = React.useState(false);
   const [buyGiftCardDetails, setBuyGiftCardDetails] = React.useState(false);
-  const [
-    pairTwoPairFiatTransDetails,
-    setPairTwoPairFiatTransDetails,
-  ] = React.useState(false);
-  const [withdrawalTransDetails, setWithdrawalTransDetails] = React.useState(
-    false
-  );
+  const [pairTwoPairFiatTransDetails, setPairTwoPairFiatTransDetails] =
+    React.useState(false);
+  const [withdrawalTransDetails, setWithdrawalTransDetails] =
+    React.useState(false);
   const { TabPane } = Tabs;
   function callback(key) {
     console.log(key);
   }
   return (
     <>
-    <div onClick={()=> goBack(true)} style={{display:"flex", flexDirection:"row", alignItems:'center'}}>
-      <ArrowLeftOutlined style={{fontSize:20}}/>
-      <span className={styles.gitcard__top__title}> Fiat Transactions</span>
-    </div>
+      <div
+        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            marginLeft: 15,
+          }}
+        >
+          <div onClick={() => goBack(true)} style={{ cursor: "pointer" }}>
+            <ArrowLeftOutlined style={{ fontSize: 25 }} />
+          </div>
+          <span className={styles.gitcard__top__title}>
+            {" "}
+            Fiat Transactions{" "}
+          </span>
+        </div>
+        {/* <div style={{display:'flex', alignItems:'center', marginLeft:20}}>
+          {" "}
+          {!fiatLoading ? (
+            <ReloadOutlined
+              onClick={() => getWithdrawalTrans({ skip: 0, limit: 10 })}
+              style={{ fontSize: 25 }}
+            />
+          ) : (
+            <LoadingOutlined style={{ fontSize: 25 }} />
+          )}
+        </div> */}
+      </div>
+
       {/* <span className={styles.gitcard__top__title}> Fiat Transactions</span> */}
       {viewP2PTrans && (
         <TransactionModalP2P
-          dateData={viewP2PTrans.createdAt}
-          amountSent={Money(viewP2PTrans?.amount_sent_object?.value, viewP2PTrans?.amountSent?.currency)}
-          amountReceived={Money(viewP2PTrans?.amount_received_object?.value, viewP2PTrans?.amountReceived?.currency)}
+          dateData={viewP2PTrans.created_at}
+          amountSent={`${
+            viewP2PTrans &&
+            viewP2PTrans.amount_sent_object &&
+            viewP2PTrans.amount_sent_object.currency
+          } ${
+            viewP2PTrans &&
+            viewP2PTrans.amount_sent_object &&
+            CommaFormatted(viewP2PTrans.amount_sent_object.value)
+          }`}
+          amountReceived={`${
+            viewP2PTrans &&
+            viewP2PTrans.amount_received_object &&
+            viewP2PTrans.amount_received_object.currency
+          } ${
+            viewP2PTrans &&
+            viewP2PTrans.amount_received_object &&
+            CommaFormatted(viewP2PTrans.amount_received_object.value)
+          }`}
           status={viewP2PTrans.status}
           reference={viewP2PTrans.reference}
           rate={`Transfer at ${viewP2PTrans.rate.value}`}
@@ -109,7 +156,9 @@ const Transactions = ({
           isModalVisible={buyGiftCardDetails}
           cardCurrency={viewBuyGiftCardTrans?.cardDetails?.cardCurrency}
           cardSlug={viewBuyGiftCardTrans.cardSlug}
-          estimatedUSDValue={viewBuyGiftCardTrans?.cardDetails?.estimatedUSDValue}
+          estimatedUSDValue={
+            viewBuyGiftCardTrans?.cardDetails?.estimatedUSDValue
+          }
         />
       )}
       {viewDepositTrans && (
@@ -139,14 +188,14 @@ const Transactions = ({
           setIsModalVisible={setBillPaymentDetails}
           isModalVisible={billPaymentDetails}
           dateData={viewBillPaymentTrans.created_at}
-          amount={viewBillPaymentTrans.amount}
+          amount={`${viewBillPaymentTrans.FiatCurrency.code} ${CommaFormatted(viewBillPaymentTrans.amount)}`}
           status={viewBillPaymentTrans.status}
           reference={viewBillPaymentTrans.reference}
           title={"Bill Payment"}
-          transactionFee={viewBillPaymentTrans.transactionFee}
+          transactionFee={`${viewBillPaymentTrans.FiatCurrency.code} ${CommaFormatted(viewBillPaymentTrans.transactionFee)}`}
           id={viewBillPaymentTrans.id}
-          referenceCurrency={viewBillPaymentTrans.referenceCurrency}
-          details={viewBillPaymentTrans.details}
+          referenceCurrency={viewBillPaymentTrans.FiatCurrency.code}
+          details={viewBillPaymentTrans.detail}
         />
       )}
       <div className={styles.transactions}>
@@ -242,12 +291,15 @@ const mapStateToProps = (state) => ({
   BillPaymentTrans: state.billPayment.BillPaymentTransaction,
   pairTwoPairFiatTrans: state.pairTwoPair.pairTwoPairFiatTransaction,
   withdrawalTrans: state.withdrawals.WithdrawalTransaction,
+  fiatLoading: state.withdrawals.loading,
   depositTransaction: state.payment.DepositTransaction,
-  viewP2PTrans: state.pairTwoPair.pairTwoPairFiatTransactionDetails && state.pairTwoPair.pairTwoPairFiatTransactionDetails.transaction,
+  viewP2PTrans:
+    state.pairTwoPair.pairTwoPairFiatTransactionDetails &&
+    state.pairTwoPair.pairTwoPairFiatTransactionDetails.transaction,
   viewGiftCardTrans: state.giftCard.giftCardDetails,
   viewWithdrawalTrans: state.withdrawals.withdrawalDetails,
   viewDepositTrans: state.payment.depositTransactionDetails,
-  viewBillPaymentTrans: state.billPayment.billPaymentDetails,
+  viewBillPaymentTrans: state.billPayment.BillPaymentTransactionDetails,
 });
 
 // viewBTCTrans,

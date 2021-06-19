@@ -1,21 +1,28 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, 
+  // Avatar
+ } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import {
   CaretDown,
   // Profile,
   Power,
-  LogoNav,
-  AstroLogoNav
+  // LogoNav,
+  AstroLogoNav,
+  AstroLogoWhite,
+  // AstroLogoFull,
 } from "../../../assets/svg";
 import { navigation } from "./data";
 // import { history } from "../../../redux/store";
 
 import styles from "./styles.module.scss";
 import { logOutUser } from "../../../redux/actions/Auths";
+import capitalizeFirstLetter from "../../../utils/helper";
 
-const { Header, Content, Sider } = Layout;
+const { Header, Content, Sider, 
+  Footer
+ } = Layout;
 
 function Toggle() {
   return (
@@ -35,20 +42,48 @@ function Toggle() {
   );
 }
 
+function getWindowDimensions() {
+  const { screen } = window;
+  let width = screen.width;
+  let height = screen.height;
+  return {
+    width,
+    height,
+  };
+}
+
 const DashboardLayout = ({ children, bg, user, logout }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [showSideBar, setShowSideBar] = useState(true);
+  // const [collapsed, setCollapsed] = useState(false);
+  const [windowDimensions,] = useState(
+    getWindowDimensions()
+  );
 
   let location = useLocation();
   const { pathname } = location;
 
+  const toggle = () => {
+    setShowSideBar(!showSideBar);
+  };
+
   return (
     <Layout>
+      {/* {console.log("dimension", windowDimensions)} */}
       <Sider
-
         breakpoint="lg"
-        collapsedWidth="0"
+        collapsedWidth={windowDimensions.width < 866 ? "0" : "80"}
+        // defaultCollapsed={true}
+        // trigger={React.createElement(
+        //   showSideBar ? MenuUnfoldOutlined : MenuFoldOutlined,
+        //   {
+        //     className: "trigger",
+        //     onClick: toggle,
+        //     style: { backgroundColor: "transparent" },
+        //   }
+        // )}
         trigger={null}
+        onCollapse={toggle}
         collapsed={showSideBar}
         onBreakpoint={(broken) => {
           setShowSideBar(broken);
@@ -62,9 +97,9 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
           backgroundColor: "#890F3C",
         }}
       >
-        
         <div className={styles.logo}>
-          <AstroLogoNav />
+          {/* <AstroLogoWhite /> */}
+          <AstroLogoNav/>
         </div>
         <Menu
           style={{
@@ -73,11 +108,10 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={[pathname]}
-
         >
           {navigation &&
             navigation.map(({ Icon, Name, route }) => (
-              <Menu.Item key={route} icon={<Icon />}>
+              <Menu.Item key={route} icon={<Icon style={{ fontSize: 24 }} />}>
                 <Link to={route}>{Name}</Link>
               </Menu.Item>
             ))}
@@ -89,33 +123,41 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
           bg ? { backgroundColor: "#fff", minWidth: 300 } : { minWidth: 300 }
         }
       >
-        <Header className="site-layout-background" style={{ padding: 0 }}>
+        <Header
+          className="site-layout-background"
+          style={{ padding: 0, backgroundColor: "#F7F4F4" }}
+        >
           <div className={styles.header}>
             <div
               className={styles.header__left}
               style={{ display: "flex", alignItems: "center" }}
             >
-              <div
-                style={{ cursor: "pointer" }}
-                id={styles.header__left_toggler}
-                onClick={() => setShowSideBar(!showSideBar)}
-              >
-                <Toggle />
-              </div>
-             
+              {windowDimensions.width < 866 && (
+                <div
+                  style={{ cursor: "pointer", fontSize:20, color:'#921946' }}
+                  id={styles.header__left_toggler}
+                  onClick={() => setShowSideBar(!showSideBar)}
+                >
+                  <Toggle />
+                </div>
+              )}
             </div>
             <div className={styles.header__right}>
-              
               <div
                 style={{ display: "flex", alignItems: "center" }}
                 onClick={() => setShowDropDown(!showDropDown)}
               >
                 <div className={styles.header__right__avatar}>{`${
                   (user && user.Profile.first_name[0].toUpperCase()) || `-`
-                } ${(user && user.Profile.last_name[0].toUpperCase()) || `-`}`}</div>
+                } ${
+                  (user && user.Profile.last_name[0].toUpperCase()) || `-`
+                }`}</div>
                 <div className={styles.header__right__name}>{`${
-                  (user && user.Profile.first_name) || `-`
-                } ${(user && user.Profile.last_name) || `-`}`}</div>
+                  (user && capitalizeFirstLetter(user.Profile.first_name)) ||
+                  `-`
+                } ${
+                  (user && capitalizeFirstLetter(user.Profile.last_name)) || `-`
+                }`}</div>
                 <CaretDown />
                 {showDropDown && (
                   <div
@@ -126,7 +168,6 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
                       right: 20,
                       boxShadow: "4px 19px 20px 5px #cecece",
                       zIndex: 9,
-                      
                     }}
                   >
                     <div
@@ -147,10 +188,29 @@ const DashboardLayout = ({ children, bg, user, logout }) => {
             </div>
           </div>
         </Header>
-        <Content style={{ padding: "24px 10px 0", overflowY: "auto" }}>
+
+        <Content
+          style={{
+            padding: "0px 0px 0",
+            overflowY: "auto",
+            backgroundColor: "#F7F4F4",
+            // maxWidth:"100%"
+          }}
+        >
           {children}
         </Content>
+        {/* <Footer>
+        <footer className="footer">
+			<span>Copyright  &copy;  {`${new Date().getFullYear()}`} <span className="font-weight-semibold">{`${'Astro africa'}`}</span> All rights reserved.</span>
+			<div>
+				<a className="text-gray" href="/#" onClick={e => e.preventDefault()}>Term & Conditions</a>
+				<span className="mx-2 text-muted"> | </span>
+				<a className="text-gray" href="/#" onClick={e => e.preventDefault()}>Privacy & Policy</a>
+			</div>
+		</footer>
+        </Footer> */}
       </Layout>
+     
     </Layout>
   );
 };

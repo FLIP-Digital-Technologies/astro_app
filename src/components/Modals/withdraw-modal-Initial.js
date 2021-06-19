@@ -6,7 +6,7 @@ import WithDrawModalPersonal from "./withdraw-modal-personal";
 import WithDrawModal3rd from "./withdrawal-modal-3rd";
 // import Button from "../button";
 
-const WithdrawInitial = ({ setIsModalVisible, isModalVisible }) => {
+const WithdrawInitial = ({ setIsModalVisible, isModalVisible, settings, fiatCurrency, balance }) => {
   const [openWithdrawal, setOpenWithdrawal] = useState(false);
   const [openThirdPartyWithdrawal, setOpenThirdPartyWithdrawal] = useState(
     false
@@ -19,6 +19,9 @@ const WithdrawInitial = ({ setIsModalVisible, isModalVisible }) => {
             setOpenWithdrawal(false);
             setIsModalVisible(true);
           }}
+          settings={settings}
+          fiatCurrency={fiatCurrency}
+          balance={balance}
           isModalVisible={openWithdrawal}
           setIsModalVisible={setOpenWithdrawal}
         />
@@ -29,6 +32,8 @@ const WithdrawInitial = ({ setIsModalVisible, isModalVisible }) => {
             setOpenThirdPartyWithdrawal(false);
             setIsModalVisible(true);
           }}
+          settings={settings}
+          fiatCurrency={fiatCurrency}
           isModalVisible={openThirdPartyWithdrawal}
           setIsModalVisible={setOpenThirdPartyWithdrawal}
         />
@@ -50,16 +55,16 @@ const WithdrawInitial = ({ setIsModalVisible, isModalVisible }) => {
         >
           <span>Withdraw to saved account</span> <ArrowRight />
         </div>
-        <div
+        {/* <div
           className={styles.lnkButton}
           onClick={() => {
-            // alert('Service Coming Soon')
-            setOpenThirdPartyWithdrawal(true);
-            setIsModalVisible(false);
+            alert('Service Coming Soon')
+            // setOpenThirdPartyWithdrawal(true);
+            // setIsModalVisible(false);
           }}
         >
           <span>Withdraw to 3rd party account</span> <ArrowRight />
-        </div>
+        </div> */}
       </ModalWrapper>
     </React.Fragment>
   );

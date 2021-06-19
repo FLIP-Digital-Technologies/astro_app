@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import styles from "./styles.module.scss";
+import { Input as AntInput } from "antd";
 
 const Input = ({
   label,
@@ -23,6 +24,11 @@ const Input = ({
   disabled,
   defaultValue,
   pattern,
+  inputMode,
+  min,
+  max,
+  onInput,
+  anotherClass,
   ...prop
 }) => {
   const textInput = useRef(null);
@@ -60,31 +66,78 @@ const Input = ({
           )}
         </>
       ) : (
-        <input
-          value={value}
-          onChange={(e) => {
-            onChange(e);
-            handleValidity();
-          }}
-          name={name}
-          ref={textInput}
-          type={type}
-          minLength={minlength}
-          maxLength={maxlength}
-          style={style}
-          disabled={disabled}
-          pattern={pattern}
-          defaultValue={defaultValue}
-          {...prop}
-          placeholder={placeholder ? placeholder : ""}
-          className={`${
-            value?.length < 1
-              ? `${styles.input__input_placeholder}  ${styles.input__input}`
-              : error
-              ? styles.input__input_invalid
-              : styles.input__input
-          } ${inputClass || ""}`}
-        />
+        <>
+          {type !== "password" && (
+            <input
+              value={value}
+              onChange={(e) => {
+                onChange(e);
+                handleValidity();
+              }}
+              name={name}
+              ref={textInput}
+              type={type}
+              onInput={onInput}
+              minLength={minlength}
+              maxLength={maxlength}
+              // min={type === "number"? 0: min}
+              min={name === "withdrawal" ? min : type === "number" ? 0 : min}
+              max={max}
+              style={style}
+              disabled={disabled}
+              pattern={pattern}
+              onWheelCapture={(e) => {
+                e.target.blur();
+              }}
+              defaultValue={defaultValue}
+              inputMode={inputMode}
+              {...prop}
+              placeholder={placeholder ? placeholder : ""}
+              className={`${
+                value?.length < 1
+                  ? `${styles.input__input_placeholder}  ${styles.input__input}`
+                  : error
+                  ? styles.input__input_invalid
+                  : styles.input__input
+              } ${inputClass || ""}`}
+            />
+          )}
+          {type === "password" && (
+            <AntInput.Password
+              value={value}
+              onChange={(e) => {
+                onChange(e);
+                // handleValidity();
+              }}
+              name={name}
+              ref={textInput}
+              type={type}
+              minLength={minlength}
+              maxLength={maxlength}
+              min={type === "number" ? 0 : min}
+              style={style}
+              disabled={disabled}
+              pattern={pattern}
+              onWheelCapture={(e) => {
+                e.target.blur();
+              }}
+              id="myInput"
+              defaultValue={defaultValue}
+              inputMode={inputMode}
+              {...prop}
+              placeholder={placeholder ? placeholder : ""}
+              className={`${
+                value.length == 0
+                  ? `${styles.input__input_placeholder}  ${styles.input__input}`
+                  : error
+                  ? styles.input__input_invalid
+                  : styles.input__input
+              } ${inputClass || ""} ${styles.input__input_password}`}
+            />
+          )}
+
+          {/* {type == "password" && (<input type="checkbox" onClick={handlePasswordToggle} style={{marginTop:10}} />)} */}
+        </>
       )}
       <div style={{ display: "flex", flexDirection: "column" }}>
         {validate && (

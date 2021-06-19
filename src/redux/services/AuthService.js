@@ -16,9 +16,12 @@ authService.createAccount = function (payload) {
   data.email = payload.email;
   data.firstName = payload.firstName;
   data.lastName = payload.lastName;
-  // data.referralCode = payload.referralCode || "";
   data.password = payload.password;
   data.username = payload.username;
+
+  if (payload.referralCode) {
+    data.referralCode = payload.referralCode;
+  }
 
   return fetch({
     url: "/user-account",
@@ -85,6 +88,20 @@ authService.verifyEmail = function (params, payload) {
   });
 };
 
+authService.verifyEmailToken = function (payload) {
+  
+  let data = {};
+  data.token = payload.token;
+  return fetch({
+    url: `/user-account/${payload.userId}/verify-email-token`,
+    method: "post",
+    data: data,
+    headers: {
+      "public-request": "true",
+    },
+  });
+};
+
 authService.resendVerificationCode = function (params) {
   return fetch({
     url: `/user-account/${params.userId}/resend-email-otp`,
@@ -116,7 +133,7 @@ authService.resetPassword = function (data) {
     },
     data: {
       email: data.email,
-    }
+    },
   });
 };
 
@@ -133,6 +150,55 @@ authService.completePasswordReset = function (payload) {
   data.reference = payload.reference;
   return fetch({
     url: `/user-account/complete-password-reset`,
+    method: "post",
+    data: data,
+    headers: {
+      "public-request": "true",
+    },
+  });
+};
+
+authService.changePin = function (params, payload) {
+  // {
+  //   "currentPassword": "Try-Guessing-this123.",
+  //   "newPassword": "passwordwl"
+  // }
+  let data = {};
+  data.currentPin = payload.currentPin;
+  data.newPin = payload.newPin;
+  return fetch({
+    url: `/user-account/${params.userId}/transaction-pin`,
+    method: "put",
+    data: data,
+  });
+};
+
+authService.resetPin = function (params ,data) {
+  return fetch({
+    url: `/user-account/reset-pin`,
+    method: "post",
+    headers: {
+      "public-request": "true",
+    },
+    data: {
+      email: data.email,
+    },
+  });
+};
+
+authService.completePinReset = function (params, payload) {
+  // {
+  //   "resetCode": "028251",
+  //   "newPassword": "Try-Guessing-this123.",
+  //   "email": "user@email.com",
+  // }
+  let data = {};
+  data.resetCode = payload.resetCode;
+  data.newPin = payload.newPin;
+  // data.email = payload.email;
+  data.reference = payload.reference;
+  return fetch({
+    url: `/user-account/${params.userId}/complete-pin-reset`,
     method: "post",
     data: data,
     headers: {

@@ -27,6 +27,7 @@ import {
 import { getLastGiftCardTransactionHistory } from "./redux/actions/giftCard";
 import { getAllUserPaymentDetails } from "./redux/actions/payment";
 import { GetUserDetails } from "./redux/actions/Auths";
+import CustomRoute from "./utils/CustomRoute";
 
 function App(props) {
   useEffect(() => {
@@ -48,32 +49,42 @@ function App(props) {
       <Route path="/app/onboarding">
         <OnBoarding />
       </Route>
+      {/* <CustomRoute
+        condition="completeRegistration"
+        path="/app/sell-giftcard"
+        component={SellGiftcard}
+      /> */}
       <Route path="/app/sell-giftcard">
         <SellGiftcard />
       </Route>
+      {/* <CustomRoute
+        condition="completeRegistration"
+        path="/app/buy-giftcard"
+        component={BuyGiftCard}
+      /> */}
       <Route path="/app/buy-giftcard">
         <BuyGiftCard />
       </Route>
-      <Route path="/app/rate">
-        <Rate />
-      </Route>
-      <Route path="/app/coin">
-        <Coin />
-      </Route>
-      <Route path="/app/crypto">
-        <CryptoView />
-        {/* <Route path="/app/btc">
-        <BTC /> */}
-      </Route>
+      {/* <CustomRoute
+        condition="completeRegistration"
+        path="/app/crypto"
+        component={Home}
+        // component={CryptoView}
+      /> */}
+
+     
       <Route path="/app/transactions">
         <Transactions />
       </Route>
-      {/* <Route path="/app/profile">
-        <Profile />
-      </Route> */}
+      {/* <CustomRoute
+        condition="completeRegistration"
+        path="/app/bills"
+        component={Bills}
+      /> */}
       <Route path="/app/bills">
         <Bills />
       </Route>
+
       <Route path="/app/settings">
         <Settings />
       </Route>

@@ -5,8 +5,12 @@ import Input from "../../components/input";
 import Select from "../../components/select";
 import Button from "../../components/button";
 import { getBTCCurrentMarketTicker } from "../../redux/actions/btc";
-import { getGiftCardCodes } from "../../redux/actions/giftCard";
+import {
+  getGiftCardCodes,
+  getGiftCardDetails,
+} from "../../redux/actions/giftCard";
 import { BitcoinInput } from "../../assets/svg";
+import AppFetch from "../../redux/services/FetchInterceptor";
 import {
   Money,
   countryOptions,
@@ -15,16 +19,44 @@ import {
   sortData,
 } from "../../utils/helper";
 import styles from "../styles.module.scss";
+import {
+  getCryptoCurrencies,
+  getFiatCurrencies,
+} from "../../redux/actions/Auths";
+import { notification, Row, Col, Tabs } from "antd";
+import { BuySide, SellSide } from "./components";
+import { SellSection } from "../btc/components";
 
-const AboutRates = ({ btcRates, giftCardList, getBTCRates, getCards }) => {
+const AboutRates = ({
+  btcRates,
+  giftCardList,
+  getBTCRates,
+  getCards,
+  getMainFiatCurrency,
+  getMainCryptoCurrency,
+  cryptoCurrency,
+  fiatCurrency,
+  getCardDetails,
+  cardDetails,
+}) => {
+  const { TabPane } = Tabs;
+  function callback(key) {
+    console.log(key);
+  }
   let b = giftCardList;
   let list = sortData(b).map((i) => i[0]);
   React.useEffect(() => {
-    getBTCRates();
-    getCards({ cardCode: "all" });
-  }, [getBTCRates, getCards]);
+    getMainCryptoCurrency();
+    getMainFiatCurrency();
+    Coins();
+    fetchTickers();
+    // getBTCRates();
+    // getCards({ cardCode: "all" });
+  }, [getBTCRates, getCards, getMainCryptoCurrency, getMainFiatCurrency]);
 
   const [buy, setBuy] = useState(false);
+  const [coins, setCoins] = useState([]);
+  const [coinsData, setCoinsData] = useState([]);
   const [meta, setMeta] = useState(null);
   const [avaCurr, setAvaCurr] = useState([]);
   const [avaCard, setAvaCard] = useState([]);
@@ -38,6 +70,41 @@ const AboutRates = ({ btcRates, giftCardList, getBTCRates, getCards }) => {
     amount: 0,
     total: 0,
   });
+  const fetchTickers = () => {
+    AppFetch({
+      url: `/coins/tickers`,
+      method: "get",
+      headers: {
+        "public-request": "true",
+      },
+    })
+      .then((res) => {
+        setCoins(res.data);
+      })
+      .catch((err) => {
+        notification.error({
+          message: "erros",
+        });
+      });
+  };
+  const Coins = () => {
+    AppFetch({
+      url: `/coins`,
+      method: "get",
+      headers: {
+        "public-request": "true",
+      },
+    })
+      .then((res) => {
+        setCoinsData(res.data.crypto);
+      })
+      .catch((err) => {
+        notification.error({
+          message: "erros",
+        });
+        setCoinsData([]);
+      });
+  };
 
   const onAssetChange = (value) => {
     if (value !== "BTC") {
@@ -76,6 +143,46 @@ const AboutRates = ({ btcRates, giftCardList, getBTCRates, getCards }) => {
   return (
     <LandingLayout>
       <div className={styles.landing}>
+        {/* <div className={styles.ratecontainer}>
+          <Row>
+            <Col span={12} style={{ display: "flex", alignItems: "center" }}>
+              <div className={styles.ratesleft}>
+                <h3>Our Rates</h3>
+                <span>
+                  We give you good value for your cards every time you choose
+                  Astro
+                </span>
+              </div>
+            </Col>
+            <Col
+              span={12}
+              style={{
+                // backgroundColor: "white",
+                display: "flex",
+                flexGrow: 1,
+                flexDirection: "column",
+                paddingTop: 20,
+                paddingBottom: 20,
+                paddingLeft: 40,
+                paddingRight: 40,
+              }}
+            >
+              <span>Rate Calculator</span>
+              <Tabs onChange={callback} defaultActiveKey="1" style={{height:600}}>
+                <TabPane key="1" tab={<div>SELL</div>}>
+                  <SellSide
+                    fiatCurrency={fiatCurrency}
+                    getCardDetails={getCardDetails}
+                    cardDetails={cardDetails}
+                  />
+                </TabPane>
+                <TabPane key="2" tab={<div>BUY</div>}>
+                  <BuySide fiatCurrency={fiatCurrency} />
+                </TabPane>
+              </Tabs>
+            </Col>
+          </Row>
+        </div> */}
         <div className={styles.rates}>
           <div className={styles.rates__left}>
             <div className={styles.title}>Our rate</div>
@@ -102,19 +209,32 @@ const AboutRates = ({ btcRates, giftCardList, getBTCRates, getCards }) => {
               />
             </div>
             {buy ? (
-              <Input
-                labelClass={styles.rate__selector__content__label}
-                className={styles.rate__selector__content__input}
-                label="Buy bitcoin"
-                Dummy={{ Icon: BitcoinInput, text: "Bitcoin" }}
-              />
+               <BuySide
+               fiatCurrency={fiatCurrency}
+               cardDetails={cardDetails}
+               getCardDetails={getCardDetails}
+               cryptoCurrency={cryptoCurrency}
+               rates={btcRates}
+               />
+              
             ) : (
               <>
-                <Select
-                  options={DigitalAsset.filter(
-                    (it) =>
-                      list.filter((i) => i === it.name || "btc").length > 0
-                  )}
+              <SellSide
+              fiatCurrency={fiatCurrency}
+              cardDetails={cardDetails}
+              getCardDetails={getCardDetails}
+              cryptoCurrency={cryptoCurrency}
+              rates={btcRates}
+              />
+                {/* <Select
+                  // options={DigitalAsset.filter(
+                  //   (it) =>
+                  //     list.filter((i) => i === it.name || "btc").length > 0
+                  // )}
+                  options={coinsData && coinsData.map((item) => ({
+                    render:`${item.name}`,
+                    value:item
+                  }))}
                   value={state.asset}
                   onSelect={onAssetChange}
                   label="How much are you willing to sell?"
@@ -147,10 +267,10 @@ const AboutRates = ({ btcRates, giftCardList, getBTCRates, getCards }) => {
                       labelClass={styles.label}
                     />
                   </>
-                )}
+                )} */}
               </>
             )}
-            {buy || state.asset === "BTC" ? (
+            {/* {buy || state.asset === "BTC" ? (
               <>
                 <div className={styles.rate}>
                   <span>Rate</span>
@@ -176,53 +296,10 @@ const AboutRates = ({ btcRates, giftCardList, getBTCRates, getCards }) => {
                   <span>{Money((meta && meta.rate.NGN) || 0, "NGN")}/$</span>
                 </div>
               </>
-            )}
-            <Button className={styles.button} text="Check Rates" form="full" />
+            )} */}
+            {/* <Button className={styles.button} text="Check Rates" form="full" /> */}
           </div>
         </div>
-        {/* <div className={`${styles.landing__steps} ${styles.rev} ${styles.two}`}>
-          <div className={styles.title}>How we are different</div>
-          <div className={styles.stepHolder}>
-            <div className={styles.step}>
-              <div className={`${styles.step__icon} ${styles.rev}`}>
-                <MidRocket />
-              </div>
-              <div className={`${styles.step__title} ${styles.rev}`}>
-                Speed redefined
-              </div>
-              <div className={`${styles.step__sub} ${styles.rev}`}>
-                Our payment process has been simplified and made hassle free for
-                your convenience.
-              </div>
-            </div>
-            <div className={styles.step}>
-              <div className={`${styles.step__icon} ${styles.rev}`}>
-                <MidChart />
-              </div>
-              <div className={`${styles.step__title} ${styles.rev}`}>
-                Reports that matter
-              </div>
-              <div className={`${styles.step__sub} ${styles.rev}`}>
-                Get reports on your activity to help you keep track and stay
-                updated.
-              </div>
-            </div>
-
-            <div className={styles.step}>
-              <div className={`${styles.step__icon} ${styles.rev}`}>
-                <MidMoney />
-              </div>
-              <div className={`${styles.step__title} ${styles.rev}`}>
-                Modern payout intergation
-              </div>
-              <div className={`${styles.step__sub} ${styles.rev}`}>
-                All payments are processed with a modern and secure third party
-                partner.
-              </div>
-            </div>
-          </div>
-        </div>
-       */}
       </div>
     </LandingLayout>
   );
@@ -231,6 +308,9 @@ const AboutRates = ({ btcRates, giftCardList, getBTCRates, getCards }) => {
 const mapStateToProps = (state) => ({
   btcRates: state.btc.btcTicker,
   giftCardList: state.giftCard.giftCardList,
+  fiatCurrency: state.user.fiatCurrency,
+  cryptoCurrency: state.user.cryptoCurrency,
+  cardDetails: state.giftCard.cardDetails,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -239,6 +319,15 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getCards: (data) => {
     dispatch(getGiftCardCodes(data));
+  },
+  getMainFiatCurrency: () => {
+    dispatch(getFiatCurrencies());
+  },
+  getMainCryptoCurrency: () => {
+    dispatch(getCryptoCurrencies());
+  },
+  getCardDetails: (data) => {
+    dispatch(getGiftCardDetails(data));
   },
 });
 

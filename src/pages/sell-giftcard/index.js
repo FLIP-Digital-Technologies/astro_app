@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Row, Col } from "antd";
-
+import { DoubleRightOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { DashboardLayout } from "../../components/layout";
 import GiftCardForm from "./components";
 import styles from "../styles.module.scss";
@@ -10,29 +10,43 @@ import {
   getGiftCardDetails,
   initialGiftCardSale,
 } from "../../redux/actions/giftCard";
-import { EmptyEntryWithTitle } from "../transactions/components";
+import { EmptyEntryWithTitle, EmptyLoading } from "../transactions/components";
+import homeStyles from "../home/styles.module.scss";
 // import { cardList } from "../../utils/helper";
 import { getFiatCurrencies, getUserWallets } from "../../redux/actions/Auths";
+import { getCurrencyConversions } from "../../redux/actions/user";
+import history from "../../redux/history";
 
 // const getHumanForm = (name) => (
 //   name.replace("-", " ").split(" ").map(word => `${word[0].toUpperCase()}${word.slice(1,)}`).join(" ")
 // )
 
 const SellGiftcard = (props) => {
+  function getWindowDimensions() {
+    const { screen } = window;
+    let width = screen.width;
+    let height = screen.height;
+    return {
+      width,
+      height,
+    };
+  }
+  const [windowDimensions] = useState(getWindowDimensions());
   let b = props.giftCardList;
- 
+
   let list = b;
   useEffect(() => {
     props.getCards({ cardCode: "" });
-    props.getWallets()
-    props.getMainFiatCurrency()
+    props.getWallets();
+    props.getMainFiatCurrency();
+    props.getConversions();
     // eslint-disable-next-line
   }, []);
   const [active, setActive] = useState(null);
 
   const CardItem = ({ item, data }) => {
     const handleClick = () => {
-      props.getCardDetails({cardCode:data.uid})
+      props.getCardDetails({ cardCode: data.uid });
       let a = {};
       let name = data.name;
       a.name = name;
@@ -47,19 +61,37 @@ const SellGiftcard = (props) => {
       // }));
       // Object(data[1]).map((key) => (a[key[0]] = key[1]));
       // console.log(a);
-      
+
       setActive(a);
     };
 
     // let C = cardList[item];
     return (
-      <div onClick={handleClick} className={styles.gitcard__content__card}>
-        <div className={styles.holder}>
-          {/* {C && C.Image && <C.Image />} */}
-          <img src={data.image} height="151.692" width="241" alt="card" />
-          </div>
-          {data.name}
-        {/* {getHumanForm(item) || null} */}
+      // <div onClick={handleClick} className={styles.gitcard__content__card}>
+      //   <div className={styles.holder}>
+
+      //     <img src={data.image} height="151.692" width="241" alt="card" />
+      //   </div>
+      //   {data.name}
+
+      // </div>
+      <div className={homeStyles.widgets__inner} onClick={handleClick}>
+        <div className={homeStyles.widgets__image}>
+          <img
+            src={data.image}
+            height="40"
+            width="40"
+            style={{ marginRight: 5 }}
+            alt="wallet"
+          />
+        </div>
+        <div className={homeStyles.widgets__info}>{data.name}</div>
+        <div className={homeStyles.widgets__description}>
+          {`Sell your ${data.name} giftcard`}
+        </div>
+        <div className={homeStyles.widgets__arrow}>
+          <DoubleRightOutlined className={homeStyles.widgets__arrow__inner} />
+        </div>
       </div>
     );
   };
@@ -70,16 +102,28 @@ const SellGiftcard = (props) => {
         {!active && (
           <>
             <div className={styles.gitcard__top}>
-              <span className={styles.gitcard__top__title}>Gift cards </span>
+              <span className={styles.gitcard__top__title}>
+                {windowDimensions.width < 600 && (
+                  <ArrowLeftOutlined
+                    onClick={() => history.goBack()}
+                    style={{ marginRight: 10, cursor: "pointer" }}
+                  />
+                )}
+                Gift cards{" "}
+              </span>
               {/* <div className={styles.gitcard__top__search}>
                 <SearchIcon />
                 <input placeholder="Search for giftcards" />
               </div> */}
             </div>
-            <Row gutter={{ xs: 0, sm: 0, md: 0, lg: 0 }}>
+            <Row
+              // gutter={{ xs: 0, sm: 0, md: 0, lg: 0 }}
+              gutter={[8,8]}
+              style={{ marginLeft: 25, marginTop: 20 }}
+            >
               {list && list.length < 1 ? (
                 <div style={{ width: "100%" }}>
-                  <EmptyEntryWithTitle title="GiftCard" action={false} />
+                  <EmptyLoading action={false} />
                 </div>
               ) : (
                 list &&
@@ -87,13 +131,14 @@ const SellGiftcard = (props) => {
                   return (
                     <Col
                       key={key}
-                      xs={12}
-                      sm={12}
-                      md={8}
+                      xs={11}
+                      sm={11}
+                      md={11}
                       lg={4}
                       xl={4}
                       className="gutter-row"
                       span={6}
+                      style={{ marginBottom: 28, marginRight: 12 }}
                     >
                       <CardItem key={key} data={item} item={item[0]} />
                     </Col>
@@ -112,6 +157,7 @@ const SellGiftcard = (props) => {
             loading={props.loading}
             userWallets={props.userWallets}
             fiatCurrency={props.fiatCurrency}
+            conversions={props.conversions}
           />
         )}
       </div>
@@ -125,7 +171,8 @@ const mapStateToProps = (state) => ({
   soldGiftCard: state.giftCard.sellGiftCard,
   cardDetails: state.giftCard.cardDetails,
   userWallets: state.user.userWallets,
-  fiatCurrency: state.user.fiatCurrency
+  fiatCurrency: state.user.fiatCurrency,
+  conversions: state.user.conversions,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -142,7 +189,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getUserWallets());
   },
   getMainFiatCurrency: () => {
-    dispatch(getFiatCurrencies())
+    dispatch(getFiatCurrencies());
+  },
+  getConversions: () => {
+    dispatch(getCurrencyConversions());
   },
 });
 
