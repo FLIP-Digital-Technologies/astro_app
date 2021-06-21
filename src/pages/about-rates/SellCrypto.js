@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {
-  getCryptoCurrencies,
+  // getCryptoCurrencies,
   getFiatCurrencies,
 } from "../../redux/actions/Auths";
 import { getBTCCurrentMarketTicker } from "../../redux/actions/btc";
@@ -187,9 +187,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getMainFiatCurrency: () => {
     dispatch(getFiatCurrencies());
-  },
-  getMainCryptoCurrency: () => {
-    dispatch(getCryptoCurrencies());
   },
 });
 

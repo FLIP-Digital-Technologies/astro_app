@@ -6,7 +6,7 @@ import styles from "../styles.module.scss";
 import { LoadingOutlined } from "@ant-design/icons";
 import { verifyEmailToken } from "../../redux/actions/Auths";
 
-function VerifyEmail({ loading, verifyEmail }) {
+function VerifyEmail({ loading, verifyEmail, emailVerify }) {
   useEffect(() => {
     try {
       const url = new URL(window.location.href);
@@ -18,6 +18,8 @@ function VerifyEmail({ loading, verifyEmail }) {
     // setOtp_code(token);
     // setUserId(userIds)
   }, [verifyEmail]);
+
+  
 
   // const history = useHistory();
 
@@ -31,8 +33,12 @@ function VerifyEmail({ loading, verifyEmail }) {
           {loading && (
             <h3 className={styles.auth__content__subTitle}>Please wait ...</h3>
           )}
-          {!loading && (
+
+          {!loading && emailVerify && emailVerify === "Email verified successfully, user access now elevated" && (
             <h3 className={styles.auth__content__subTitle}>Successful !!!</h3>
+          )}
+          {!loading && emailVerify && emailVerify !== "Email verified successfully, user access now elevated" && (
+            <h3 className={styles.auth__content__subTitle}>Failed, Please try again </h3>
           )}
           <div
             style={{
@@ -44,7 +50,7 @@ function VerifyEmail({ loading, verifyEmail }) {
             {loading && (
               <LoadingOutlined style={{ fontSize: 50, color: "#921946" }} />
             )}
-            {!loading && (
+            {!loading && emailVerify && emailVerify === "Email verified successfully, user access now elevated" && (
               <img
                 src={
                   "https://cdn.dribbble.com/users/452635/screenshots/8215076/media/9178cc623b1d395f6e87da128bf63d49.png?compress=1&resize=1600x1200"
@@ -55,6 +61,7 @@ function VerifyEmail({ loading, verifyEmail }) {
               />
             )}
           </div>
+          
         </div>
       </AnotherHeader>
     </div>
@@ -63,6 +70,7 @@ function VerifyEmail({ loading, verifyEmail }) {
 
 const mapStateToProps = (state) => ({
   loading: state.user.loading,
+  emailVerify:state.user.emailVerify,
 });
 
 const mapDispatchToProps = (dispatch) => ({

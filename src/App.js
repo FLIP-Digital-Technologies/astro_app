@@ -31,7 +31,7 @@ function App(props) {
     props.getUserBankDetails();
     // props.getBankList();
     props.getBalance();
-    props.getLatestBTCTrans({ skip: 0, limit: 5 });
+    // props.getLatestBTCTrans({ skip: 0, limit: 5 });
     props.getLatestGiftCardTrans({ skip: 0, limit: 5 });
     props.getLatestWithdrawalTrans({ skip: 0, limit: 5 });
     // eslint-disable-next-line

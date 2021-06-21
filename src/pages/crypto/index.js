@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as SVG from "../../assets/svg";
 import { connect } from "react-redux";
 import { DashboardLayout } from "../../components/layout";
-import { getCryptoCurrencies, getUserWallets } from "../../redux/actions/Auths";
+import { getUserWallets } from "../../redux/actions/Auths";
 import styles from "../styles.module.scss";
 import BTC from "../btc";
 import AddCryptoWallet from "../../components/Modals/addCryptoWallet";
@@ -227,9 +227,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getBalance: () => {
     dispatch(getUserWallets());
-  },
-  getMainCryptoCurrency: () => {
-    dispatch(getCryptoCurrencies());
   },
 });
 

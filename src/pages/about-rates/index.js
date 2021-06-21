@@ -14,7 +14,7 @@ import AppFetch from "../../redux/services/FetchInterceptor";
 
 import styles from "../styles.module.scss";
 import {
-  getCryptoCurrencies,
+  // getCryptoCurrencies,
   getFiatCurrencies,
 } from "../../redux/actions/Auths";
 import { notification } from "antd";
@@ -27,7 +27,6 @@ const AboutRates = ({
   getBTCRates,
   getCards,
   getMainFiatCurrency,
-  getMainCryptoCurrency,
   cryptoCurrency,
   fiatCurrency,
   getCardDetails,
@@ -40,13 +39,12 @@ const AboutRates = ({
   // let b = giftCardList;
   // let list = sortData(b).map((i) => i[0]);
   React.useEffect(() => {
-    getMainCryptoCurrency();
     getMainFiatCurrency();
-    Coins();
-    fetchTickers();
+    // Coins();
+    // fetchTickers();
     // getBTCRates();
     // getCards({ cardCode: "all" });
-  }, [getBTCRates, getCards, getMainCryptoCurrency, getMainFiatCurrency]);
+  }, [getBTCRates, getCards, getMainFiatCurrency]);
 
   const [buy, setBuy] = useState(false);
   const [, setCoins] = useState([]);
@@ -64,41 +62,41 @@ const AboutRates = ({
   //   amount: 0,
   //   total: 0,
   // });
-  const fetchTickers = () => {
-    AppFetch({
-      url: `/coins/tickers`,
-      method: "get",
-      headers: {
-        "public-request": "true",
-      },
-    })
-      .then((res) => {
-        setCoins(res.data);
-      })
-      .catch((err) => {
-        notification.error({
-          message: "erros",
-        });
-      });
-  };
-  const Coins = () => {
-    AppFetch({
-      url: `/coins`,
-      method: "get",
-      headers: {
-        "public-request": "true",
-      },
-    })
-      .then((res) => {
-        setCoinsData(res.data.crypto);
-      })
-      .catch((err) => {
-        notification.error({
-          message: "erros",
-        });
-        setCoinsData([]);
-      });
-  };
+  // const fetchTickers = () => {
+  //   AppFetch({
+  //     url: `/coins/tickers`,
+  //     method: "get",
+  //     headers: {
+  //       "public-request": "true",
+  //     },
+  //   })
+  //     .then((res) => {
+  //       setCoins(res.data);
+  //     })
+  //     .catch((err) => {
+  //       notification.error({
+  //         message: "erros",
+  //       });
+  //     });
+  // };
+  // const Coins = () => {
+  //   AppFetch({
+  //     url: `/coins`,
+  //     method: "get",
+  //     headers: {
+  //       "public-request": "true",
+  //     },
+  //   })
+  //     .then((res) => {
+  //       setCoinsData(res.data.crypto);
+  //     })
+  //     .catch((err) => {
+  //       notification.error({
+  //         message: "erros",
+  //       });
+  //       setCoinsData([]);
+  //     });
+  // };
 
   // const onAssetChange = (value) => {
   //   if (value !== "BTC") {
@@ -205,9 +203,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getMainFiatCurrency: () => {
     dispatch(getFiatCurrencies());
-  },
-  getMainCryptoCurrency: () => {
-    dispatch(getCryptoCurrencies());
   },
   getCardDetails: (data) => {
     dispatch(getGiftCardDetails(data));

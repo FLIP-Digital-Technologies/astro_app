@@ -76,7 +76,6 @@ const Home = ({
   loading,
   depositMoney,
   depositMoneyDetails,
-  getMainCryptoCurrency,
   getMainFiatCurrency,
   createWallets,
   fiatCurrency,
@@ -155,26 +154,26 @@ const Home = ({
     }
   }, [balance, fiatIndex]);
 
-  useEffect(() => {
-    if (!balance) return;
-    // if (!wallet) return;
-    if (!balance) {
-      return;
-    } else {
-      if (balance.cryptoWallets.length === 0) {
-        setRenderCryptoBalance(0);
-      } else {
-        balance &&
-          balance.cryptoWallets &&
-          setRenderCryptoBalance(
-            balance &&
-              balance.cryptoWallets &&
-              balance.cryptoWallets[cryptoIndex] &&
-              balance.cryptoWallets[cryptoIndex].balance
-          );
-      }
-    }
-  }, [balance, cryptoIndex]);
+  // useEffect(() => {
+  //   if (!balance) return;
+  //   // if (!wallet) return;
+  //   if (!balance) {
+  //     return;
+  //   } else {
+  //     if (balance.cryptoWallets.length === 0) {
+  //       setRenderCryptoBalance(0);
+  //     } else {
+  //       balance &&
+  //         balance.cryptoWallets &&
+  //         setRenderCryptoBalance(
+  //           balance &&
+  //             balance.cryptoWallets &&
+  //             balance.cryptoWallets[cryptoIndex] &&
+  //             balance.cryptoWallets[cryptoIndex].balance
+  //         );
+  //     }
+  //   }
+  // }, [balance, cryptoIndex]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -185,7 +184,6 @@ const Home = ({
     getBalance();
     getCurrentUser();
     getUserBankDetails();
-    getMainCryptoCurrency();
     getMainFiatCurrency();
     getWithdrawalTrans({ skip: 0, limit: 4 });
     getP2PTrans({ skip: 0, limit: 4 });
@@ -759,7 +757,7 @@ const Home = ({
                         balance && balance.fiatWallets.length > 0
                           ? setShowFund(true)
                           : notification.info({
-                              message: "Please wait",
+                              message: "Please Add Wallet",
                               duration: 2.5,
                             });
                       }}
@@ -774,7 +772,7 @@ const Home = ({
                           ? balance && balance.fiatWallets.length > 0
                             ? setOpenWithdrawal(true)
                             : notification.info({
-                                message: "Please try again",
+                                message: "Please Add Wallet",
                                 duration: 2.5,
                               })
                           : history.push("/app/onboarding");
@@ -787,17 +785,10 @@ const Home = ({
                     <div
                       className={homeStyles.extras__text}
                       onClick={() => {
-                        user && user.boarded
-                          ? balance && balance.fiatWallets.length > 0
-                            ? setShowAirtime(true)
-                            : notification.info({
-                                message: "Please try again",
-                                duration: 2.5,
-                              })
-                          : history.push("/app/onboarding");
+                        history.push("/app/settings");
                       }}
                     >
-                      {"Buy Airtime"}
+                      {"Add account/Momo"}
                       {/* <DoubleRightOutlined />{" "} */}
                     </div>
                   </div>
@@ -891,7 +882,7 @@ const Home = ({
                           ? balance && balance.fiatWallets.length > 0
                             ? setShowPTWOP(true)
                             : notification.info({
-                                message: "Please try again",
+                                message: "Please Add Wallet",
                                 duration: 2.5,
                               })
                           : history.push("/app/onboarding");
@@ -1151,9 +1142,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getMainFiatCurrency: () => {
     dispatch(getFiatCurrencies());
-  },
-  getMainCryptoCurrency: () => {
-    dispatch(getCryptoCurrencies());
   },
   getBalance: () => {
     dispatch(getBTCWalletDetails());

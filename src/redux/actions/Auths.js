@@ -121,7 +121,7 @@ const getUserDetails = (data) => async (dispatch) => {
         type: actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS,
         payload: response.data,
       });
-      localStorage.setItem("pinCheck", response.data.user.boarded);
+      // localStorage.setItem("pinCheck", response.data.user.boarded);
       history.location.pathname === "/app" && !(response.data.user.boarded) && notification.info({
         placement:"bottomLeft",
         message:"Go to Settings to Set Your Pin",
@@ -238,9 +238,12 @@ const VerifyEmailToken = (data) => async (dispatch) => {
     .then((response) => {
       dispatch({
         type: actionTypes.VERIFY_EMAIL_TOKEN_SUCCESS,
-        payload: response.data,
+        payload: response,
       });
-      history.push("/signin");
+      setTimeout(() => {
+        history.push("/signin");
+        
+      }, 3000);
     })
     .catch((err) => {
       dispatch({
@@ -358,30 +361,30 @@ export const getFiatCurrencies = (data) => (dispatch) => {
   dispatch(GetFiatCurrencies(data));
 };
 
-const GetCryptoCurrencies = () => async (dispatch) => {
-  dispatch({
-    type: actionTypes.GET_CRYPTO_CURRENCY_PENDING,
-  });
+// const GetCryptoCurrencies = () => async (dispatch) => {
+//   dispatch({
+//     type: actionTypes.GET_CRYPTO_CURRENCY_PENDING,
+//   });
 
-  await generalService
-    .getCryptoCurrency()
-    .then((response) => {
-      dispatch({
-        type: actionTypes.GET_CRYPTO_CURRENCY_SUCCESS,
-        payload: response.data,
-      });
-    })
-    .catch((err) => {
-      dispatch({
-        type: actionTypes.GET_CRYPTO_CURRENCY_FAILED,
-        payload: err,
-      });
-    });
-}; // done
+//   await generalService
+//     .getCryptoCurrency()
+//     .then((response) => {
+//       dispatch({
+//         type: actionTypes.GET_CRYPTO_CURRENCY_SUCCESS,
+//         payload: response.data,
+//       });
+//     })
+//     .catch((err) => {
+//       dispatch({
+//         type: actionTypes.GET_CRYPTO_CURRENCY_FAILED,
+//         payload: err,
+//       });
+//     });
+// }; // done
 
-export const getCryptoCurrencies = (data) => (dispatch) => {
-  dispatch(GetCryptoCurrencies(data));
-};
+// export const getCryptoCurrencies = (data) => (dispatch) => {
+//   dispatch(GetCryptoCurrencies(data));
+// };
 
 const GetUserWallets = () => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
@@ -436,32 +439,32 @@ export const createFiatWallet = (data) => (dispatch) => {
   dispatch(CreateFiatWallet(data));
 };
 
-const CreateCryptoWallet = (data) => async (dispatch) => {
-  const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
-  dispatch({
-    type: actionTypes.CREATE_USER_WALLET_PENDING,
-  });
+// const CreateCryptoWallet = (data) => async (dispatch) => {
+//   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
+//   dispatch({
+//     type: actionTypes.CREATE_USER_WALLET_PENDING,
+//   });
 
-  await generalService
-    .createCryptoWallet({ userId }, data)
-    .then((response) => {
-      dispatch({
-        type: actionTypes.CREATE_USER_WALLET_SUCCESS,
-        payload: response.data,
-      });
-      dispatch(GetUserWallets());
-    })
-    .catch((err) => {
-      dispatch({
-        type: actionTypes.CREATE_USER_WALLET_FAILED,
-        payload: err,
-      });
-    });
-}; // done
+//   await generalService
+//     .createCryptoWallet({ userId }, data)
+//     .then((response) => {
+//       dispatch({
+//         type: actionTypes.CREATE_USER_WALLET_SUCCESS,
+//         payload: response.data,
+//       });
+//       dispatch(GetUserWallets());
+//     })
+//     .catch((err) => {
+//       dispatch({
+//         type: actionTypes.CREATE_USER_WALLET_FAILED,
+//         payload: err,
+//       });
+//     });
+// }; // done
 
-export const createCryptoWallet = (data) => (dispatch) => {
-  dispatch(CreateCryptoWallet(data));
-};
+// export const createCryptoWallet = (data) => (dispatch) => {
+//   dispatch(CreateCryptoWallet(data));
+// };
 
 const ChangePin = (data) => async (dispatch) => {
   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);

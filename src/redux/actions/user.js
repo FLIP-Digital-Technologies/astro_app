@@ -80,6 +80,7 @@ const SetTransactionPin = (data) => async (dispatch) => {
         type: actionTypes.SET_TRANSACTION_PIN_SUCCESS,
         payload: response.data,
       });
+      GetUserDetails()
     })
     .catch((err) => {
       dispatch({

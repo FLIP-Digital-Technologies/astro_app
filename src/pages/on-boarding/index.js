@@ -9,7 +9,11 @@ import {
   setTransactionPin,
   updateUserDetails,
 } from "../../redux/actions/user";
-import { changePassword, getFiatCurrencies } from "../../redux/actions/Auths";
+import {
+  changePassword,
+  getFiatCurrencies,
+  GetUserDetails,
+} from "../../redux/actions/Auths";
 import {
   getBankListByCountry,
   verifyBankAccountDetails,
@@ -37,9 +41,11 @@ const OnBoarding = (props) => {
     }
   }, [props.addedBankDetails, setActiveKey]);
   React.useEffect(() => {
-    if (props.user.boarded) {
+    props.getCurrentUser()
+    console.log(props.user);
+    if (props.user && props.user.boarded && props.user.boarded) {
       history.push("/app");
-    } else {
+    } else if (props.user && props.user.boarded && !props.user.boarded) {
       message
         .info({
           content: `Chief, You need to update your 
@@ -101,6 +107,7 @@ const OnBoarding = (props) => {
             <Step3
               user={props.user}
               submitForm={props.submitPin}
+              getUser={props.getCurrentUser}
               {...{ ...props }}
             />
           </TabPane>
@@ -145,6 +152,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getMainFiatCurrency: () => {
     dispatch(getFiatCurrencies());
+  },
+  getCurrentUser: () => {
+    dispatch(GetUserDetails());
   },
 });
 

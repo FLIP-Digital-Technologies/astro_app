@@ -13,6 +13,8 @@ export default function capitalizeFirstLetter(s) {
   return s && s[0].toUpperCase() + s.slice(1);
 }
 
+export const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop)
+
 export const QRCode = ({ text, size }) => {
   const canvas = useRef(null);
   useEffect(() => {

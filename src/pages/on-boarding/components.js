@@ -533,7 +533,7 @@ export const Step3 = ({ submitForm }) => {
             // max={9999}
             type="number"
             pattern="\d{4}$"
-            errorMessage={"PIn must be 4 numbers"}
+            errorMessage={"Pin must be 4 numbers"}
           />
         </div>
       </div>

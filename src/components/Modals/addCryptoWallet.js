@@ -2,7 +2,7 @@ import React from "react";
 import ModalWrapper from "./index";
 import styles from "./styles.module.scss";
 import { ArrowRight } from "../../assets/svg";
-import { createCryptoWallet } from "../../redux/actions/Auths";
+// import { createCryptoWallet } from "../../redux/actions/Auths";
 import { connect } from "react-redux";
 // import Button from "../button";
 
@@ -55,7 +55,7 @@ const AddCryptoWallet = (props) => {
             <div
           className={styles.lnkButton}
           onClick={() => {
-              props.createWallet({cryptoCurrencyId:item.id})
+              // props.createWallet({cryptoCurrencyId:item.id})
             // setOpenWithdrawal(true);
             props.setIsModalVisible(false);
           }}
@@ -88,9 +88,6 @@ const AddCryptoWallet = (props) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    createWallet: (data) => {
-      dispatch(createCryptoWallet(data));
-    }
   });
 
 export default connect(null,mapDispatchToProps)(AddCryptoWallet);

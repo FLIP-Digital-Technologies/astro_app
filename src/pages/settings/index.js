@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import Clipboard from "react-clipboard.js";
 // import { Switch } from "antd";
@@ -13,6 +13,8 @@ import { Row, Col, Modal } from "antd";
 import png from "../../assets/png";
 import AppFetch from "../../redux/services/FetchInterceptor";
 import * as actionTypes from "../../redux/constants";
+import { animateScroll as scroll } from "react-scroll"
+
 import {
   // BarChartOutlined,
   // PayCircleOutlined,
@@ -22,7 +24,7 @@ import {
   changePassword,
   changePin,
   completeResetPin,
-  getCryptoCurrencies,
+  // getCryptoCurrencies,
   getFiatCurrencies,
   GetUserDetails,
   resetPin,
@@ -44,7 +46,7 @@ import {
   getBankBranchByID,
 } from "../../redux/actions/bank";
 import { Table, Tag, Popconfirm, notification } from "antd";
-import { date, Money } from "../../utils/helper";
+import { date, Money, scrollToRef } from "../../utils/helper";
 import { EmptyEntryWithTitle } from "../transactions/components";
 
 export const ReferralTable = ({ fetchTrans, transaction, handleAction }) => {
@@ -182,12 +184,13 @@ const Profile = ({
   cryptoCurrency,
   fiatCurrency,
   getMainFiatCurrency,
-  getMainCryptoCurrency,
+  // getMainCryptoCurrency,
   ResetPinViaEmail,
   completeResetPin,
   submitPin,
-  submitUserDetails
+  submitUserDetails,
 }) => {
+  const bankRef = useRef();
   // function getWindowDimensions() {
   //   const { screen } = window;
   //   let width = screen.width;
@@ -204,10 +207,11 @@ const Profile = ({
     // console.log("abh", [...fiatCurrency, ...cryptoCurrency]);
     getUserBankDetails();
     getMainFiatCurrency();
-    getMainCryptoCurrency();
+    // getMainCryptoCurrency();
     // getBankList();
     getBalance();
-    
+    scrollToBank();
+
     // eslint-disable-next-line
   }, []);
   useEffect(() => {
@@ -215,7 +219,7 @@ const Profile = ({
       const pinChecks = localStorage.getItem("pinCheck");
       setPinCheck(pinChecks);
     } catch (error) {}
-  }, [pinCheck])
+  }, [pinCheck]);
   const INITIAL_STATE1 = {
     firstName: (user && user.Profile.first_name) || "",
     lastName: (user && user.Profile.last_name) || "",
@@ -247,10 +251,10 @@ const Profile = ({
   const [state, setState] = useState(INITIAL_STATE);
   const [switchReset, setSwitch] = useState(true);
   const [resetCode, setResetCode] = useState("");
-  const [resetEmail,] = useState("");
+  const [resetEmail] = useState("");
   const [newPin, handleNewPin] = useState("");
   const [passwordModal, setPasswordModal] = useState(false);
-  const [profileModal, setProfileModal] = useState(false)
+  const [profileModal, setProfileModal] = useState(false);
   const [pinModal, setPinModal] = useState(false);
   const [nPinModal, setNPinModal] = useState(false);
   const [nPin, setNPin] = useState({
@@ -287,6 +291,22 @@ const Profile = ({
       e.preventDefault();
     }
     submitUserDetails(states);
+  };
+
+  const scrollToBank = () => {
+    // scrollToRef(bankRef)
+    scroll.scrollTo(bankRef.current.offsetTop);
+    // scroll.scrollToTop()
+    const root = document.getElementById('bank');
+    root.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+    window.focus()
+    window.scroll(0, bankRef.current.offsetTop);
+    window.scrollTo(0, bankRef.current.offsetTop);
+    console.log(bankRef, scroll);
   };
 
   useEffect(() => {
@@ -410,32 +430,32 @@ const Profile = ({
   };
   const resetPin = (e) => {
     const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
-      AppFetch({
-        url: `/user-account/${userId}/reset-pin`,
-        method: "post",
-        headers: {
-          "public-request": "true",
-        },
-        data: {
-          email: user.email,
-        },
-      })
-        .then((response) => {
-          console.log("reset", response);
-          localStorage.setItem("reference", response.data.reference);
-          notification.success({
-            message: "Otp sent to email successfully",
-          });
-          // setWallet_btc_rate(response.data.ticker.sell);
-          setSwitch(false);
-        })
-        .catch((err) => {
-          notification.error({
-            message: "Try Again",
-            duration: 2.5,
-          });
-          setSwitch(true);
+    AppFetch({
+      url: `/user-account/${userId}/reset-pin`,
+      method: "post",
+      headers: {
+        "public-request": "true",
+      },
+      data: {
+        email: user.email,
+      },
+    })
+      .then((response) => {
+        console.log("reset", response);
+        localStorage.setItem("reference", response.data.reference);
+        notification.success({
+          message: "Otp sent to email successfully",
         });
+        // setWallet_btc_rate(response.data.ticker.sell);
+        setSwitch(false);
+      })
+      .catch((err) => {
+        notification.error({
+          message: "Try Again",
+          duration: 2.5,
+        });
+        setSwitch(true);
+      });
     // if (resetEmail.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$/)) {
     //   const userId = localStorage.getItem(actionTypes.AUTH_TOKEN_ID);
     //   AppFetch({
@@ -491,7 +511,7 @@ const Profile = ({
   };
   return (
     <DashboardLayout bg="#fff">
-      <div className={styles.profile} style={{ margin: 0 }}>
+      <div className={styles.profile} style={{ margin: 0, overflow:'scroll' }}>
         <div className={styles.profilePersonal}>
           <div
             className={styles.profileSection}
@@ -549,7 +569,7 @@ const Profile = ({
             </span>
           </div>
         </div>
-        <div className={styles.profileBank}>
+        <div className={styles.profileBank} ref={bankRef} id="bank">
           <div className={styles.profileSection}>
             <div className={styles.profileSectionLeft}>
               <span className={styles.main}>Bank Accounts</span>
@@ -854,12 +874,12 @@ const Profile = ({
           </div>
           <div className={styles.profileSecurityWidgets}>
             <Row gutter={[8, 25]}>
-            <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
+              <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
                 <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
                     // alert("Not Yet available")
-                    setProfileModal(true)
+                    setProfileModal(true);
                   }}
                 >
                   <div className={homeStyles.widgets__image}>
@@ -907,37 +927,40 @@ const Profile = ({
                   </div>
                 </div>
               </Col>
-             {user && !user.boarded && ( <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
-                <div
-                  className={homeStyles.widgets__inner}
-                  onClick={() => {
-                    setNPinModal(true);
-                  }}
-                >
-                  <div className={homeStyles.widgets__image}>
-                    <img
-                      src={png.Pin}
-                      className={homeStyles.widgets__images}
-                      style={{ marginRight: 5 }}
-                      alt="wallet"
-                    />
+              {user && !user.boarded && (
+                <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
+                  <div
+                    className={homeStyles.widgets__inner}
+                    onClick={() => {
+                      setNPinModal(true);
+                    }}
+                  >
+                    <div className={homeStyles.widgets__image}>
+                      <img
+                        src={png.Pin}
+                        className={homeStyles.widgets__images}
+                        style={{ marginRight: 5 }}
+                        alt="wallet"
+                      />
+                    </div>
+                    <div className={homeStyles.widgets__info}>Set Pin</div>
+                    <div className={homeStyles.widgets__description}>
+                      Set your transaction Pin
+                    </div>
+                    <div className={homeStyles.widgets__arrow}>
+                      <DoubleRightOutlined
+                        className={homeStyles.widgets__arrow__inner}
+                      />
+                    </div>
                   </div>
-                  <div className={homeStyles.widgets__info}>Set Pin</div>
-                  <div className={homeStyles.widgets__description}>
-                    Set your transaction Pin
-                  </div>
-                  <div className={homeStyles.widgets__arrow}>
-                    <DoubleRightOutlined
-                      className={homeStyles.widgets__arrow__inner}
-                    />
-                  </div>
-                </div>
-              </Col>)}
+                </Col>
+              )}
               <Col span={8} xs={12} sm={12} md={12} lg={8} xl={8} xxl={8}>
                 <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
-                    setPinModal(true);
+                    // setPinModal(true);
+                    scrollToBank();
                   }}
                 >
                   <div className={homeStyles.widgets__image}>
@@ -1047,63 +1070,63 @@ const Profile = ({
               <span className={styles.sub}>Edit your Profile</span>
             </h1>
             <Input
-            name="firstName"
-            value={states.firstName}
-            onChange={handleProfileChange}
-            label="First Name"
-            placeholder="Enter First Name here"
-            required={true}
-            labelClass={styles.profileBankInputLabel}
-            className={styles.input}
-          />
-          <Input
-            name="lastName"
-            value={states.lastName}
-            onChange={handleProfileChange}
-            label="Last Name"
-            placeholder="Enter Last Name here"
-            required={true}
-            labelClass={styles.profileBankInputLabel}
-            className={styles.input}
-          />
-          <Input
-            name="username"
-            value={states.username}
-            onChange={handleProfileChange}
-            type="text"
-            label="Username"
-            required={true}
-            labelClass={styles.profileBankInputLabel}
-            className={styles.input}
-            // readOnly
-          />
-          <Input
-            name="email"
-            value={states.email}
-            onChange={handleProfileChange}
-            type="email"
-            inputMode={"email"}
-            label="Email Address"
-            placeholder="Enter a valid email address"
-            hint="This is the only way we can keep in touch with you"
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
-            required={true}
-            labelClass={styles.profileBankInputLabel}
-            className={styles.input}
-          />
-          <Input
-            name="phoneNumber"
-            value={states.phoneNumber}
-            onChange={handleProfileChange}
-            type="tel"
-            label="Phone Number"
-            placeholder="Enter a valid Phone number"
-            errorMessage="phone number should be the right format. e.g. +23xxxxxxxxxxxx"
-            required={true}
-            labelClass={styles.profileBankInputLabel}
-            className={styles.input}
-          />
-          
+              name="firstName"
+              value={states.firstName}
+              onChange={handleProfileChange}
+              label="First Name"
+              placeholder="Enter First Name here"
+              required={true}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+            />
+            <Input
+              name="lastName"
+              value={states.lastName}
+              onChange={handleProfileChange}
+              label="Last Name"
+              placeholder="Enter Last Name here"
+              required={true}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+            />
+            <Input
+              name="username"
+              value={states.username}
+              onChange={handleProfileChange}
+              type="text"
+              label="Username"
+              required={true}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+              // readOnly
+            />
+            <Input
+              name="email"
+              value={states.email}
+              onChange={handleProfileChange}
+              type="email"
+              inputMode={"email"}
+              label="Email Address"
+              placeholder="Enter a valid email address"
+              hint="This is the only way we can keep in touch with you"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
+              required={true}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+            />
+            <Input
+              name="phoneNumber"
+              value={states.phoneNumber}
+              onChange={handleProfileChange}
+              type="tel"
+              label="Phone Number"
+              placeholder="Enter a valid Phone number"
+              errorMessage="phone number should be the right format. e.g. +23xxxxxxxxxxxx"
+              required={true}
+              labelClass={styles.profileBankInputLabel}
+              className={styles.input}
+            />
+
             <div className={styles.btnPair} style={{ marginTop: 20 }}>
               <Button form="full" type="submit" text="Save" />
             </div>
@@ -1221,7 +1244,7 @@ const Profile = ({
                 inputClass={styles.auth__content__input}
                 placeholder="Email"
                 // onChange={(e) => handleResetEmail(e.target.value)}
-                value={user? user.email :""}
+                value={user ? user.email : ""}
                 type="email"
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,9}$"
                 required={true}
@@ -1233,9 +1256,11 @@ const Profile = ({
                 form="full"
                 // disabled={!resetEmail}
                 onClick={(e) => {
-                 user ? resetPin(e) : notification.info({
-                   message:'Please try again'
-                 })
+                  user
+                    ? resetPin(e)
+                    : notification.info({
+                        message: "Please try again",
+                      });
                 }}
                 text="Submit"
               />
@@ -1358,9 +1383,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getMainFiatCurrency: () => {
     dispatch(getFiatCurrencies());
-  },
-  getMainCryptoCurrency: () => {
-    dispatch(getCryptoCurrencies());
   },
   getUserBankDetails: () => {
     dispatch(getUserBankAccount());
