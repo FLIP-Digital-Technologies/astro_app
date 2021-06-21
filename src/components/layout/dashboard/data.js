@@ -2,15 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import {
-  // Home,
-  // Coin,
-  // GiftCard,
-  // Wallet,
-  // Transactions,
-  // RateIcon,
   ArrowLeft,
-  // Settings,
-  // Logout,
 } from "../../../assets/svg";
 import {
   TransactionOutlined,
@@ -18,7 +10,6 @@ import {
   SettingOutlined,
   CreditCardOutlined,
   GiftOutlined,
-  MoneyCollectOutlined,
   HomeOutlined
 } from '@ant-design/icons';
 

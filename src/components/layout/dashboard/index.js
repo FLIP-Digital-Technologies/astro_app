@@ -10,7 +10,7 @@ import {
   Power,
   // LogoNav,
   AstroLogoNav,
-  AstroLogoWhite,
+  // AstroLogoWhite,
   // AstroLogoFull,
 } from "../../../assets/svg";
 import { navigation } from "./data";
@@ -21,7 +21,7 @@ import { logOutUser } from "../../../redux/actions/Auths";
 import capitalizeFirstLetter from "../../../utils/helper";
 
 const { Header, Content, Sider, 
-  Footer
+  // Footer
  } = Layout;
 
 function Toggle() {

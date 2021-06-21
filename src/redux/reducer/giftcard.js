@@ -1,4 +1,4 @@
-import { notification } from "antd";
+// import { notification } from "antd";
 // // import { joinArray } from "../../utils/helper";
 import * as actionTypes from "../constants";
 
@@ -18,7 +18,7 @@ const initState = {
     meta: {},
   },
 };
-const key = actionTypes.KEY;
+// const key = actionTypes.KEY;
 
 const giftCardReducers = (state = initState, action) => {
   switch (action.type) {

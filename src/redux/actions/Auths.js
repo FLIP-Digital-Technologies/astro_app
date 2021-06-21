@@ -122,7 +122,7 @@ const getUserDetails = (data) => async (dispatch) => {
         payload: response.data,
       });
       localStorage.setItem("pinCheck", response.data.user.boarded);
-      history.location.pathname == "/app" && !(response.data.user.boarded) && notification.info({
+      history.location.pathname === "/app" && !(response.data.user.boarded) && notification.info({
         placement:"bottomLeft",
         message:"Go to Settings to Set Your Pin",
         onClick:()=> {history.push("/app/settings")},
@@ -240,7 +240,7 @@ const VerifyEmailToken = (data) => async (dispatch) => {
         type: actionTypes.VERIFY_EMAIL_TOKEN_SUCCESS,
         payload: response.data,
       });
-      // history.push("/signin");
+      history.push("/signin");
     })
     .catch((err) => {
       dispatch({

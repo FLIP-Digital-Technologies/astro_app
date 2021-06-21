@@ -188,16 +188,16 @@ const Profile = ({
   submitPin,
   submitUserDetails
 }) => {
-  function getWindowDimensions() {
-    const { screen } = window;
-    let width = screen.width;
-    let height = screen.height;
-    return {
-      width,
-      height,
-    };
-  }
-  const [windowDimensions] = useState(getWindowDimensions());
+  // function getWindowDimensions() {
+  //   const { screen } = window;
+  //   let width = screen.width;
+  //   let height = screen.height;
+  //   return {
+  //     width,
+  //     height,
+  //   };
+  // }
+  // const [windowDimensions] = useState(getWindowDimensions());
   const [pinCheck, setPinCheck] = useState(false);
   useEffect(() => {
     getCurrentUser();
@@ -247,7 +247,7 @@ const Profile = ({
   const [state, setState] = useState(INITIAL_STATE);
   const [switchReset, setSwitch] = useState(true);
   const [resetCode, setResetCode] = useState("");
-  const [resetEmail, handleResetEmail] = useState("");
+  const [resetEmail,] = useState("");
   const [newPin, handleNewPin] = useState("");
   const [passwordModal, setPasswordModal] = useState(false);
   const [profileModal, setProfileModal] = useState(false)
@@ -1132,6 +1132,7 @@ const Profile = ({
                 if (e.target.value.length > e.target.maxLength) {
                   e.target.value = e.target.value.slice(0, e.target.maxLength);
                 } else {
+                  // eslint-disable-next-line
                   e.target.value = e.target.value;
                 }
               }}
@@ -1152,6 +1153,7 @@ const Profile = ({
                 if (e.target.value.length > e.target.maxLength) {
                   e.target.value = e.target.value.slice(0, e.target.maxLength);
                 } else {
+                  // eslint-disable-next-line
                   e.target.value = e.target.value;
                 }
               }}
@@ -1192,6 +1194,7 @@ const Profile = ({
                 if (e.target.value.length > e.target.maxLength) {
                   e.target.value = e.target.value.slice(0, e.target.maxLength);
                 } else {
+                  // eslint-disable-next-line
                   e.target.value = e.target.value;
                 }
               }}
@@ -1264,6 +1267,7 @@ const Profile = ({
                       e.target.maxLength
                     );
                   } else {
+                    // eslint-disable-next-line
                     e.target.value = e.target.value;
                   }
                 }}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { notification, Tabs, message } from "antd";
+import { Tabs, message } from "antd";
 import { connect } from "react-redux";
 import { DashboardLayout } from "../../components/layout";
 import { Step1, Step2, Step3 } from "./components";
@@ -49,7 +49,7 @@ const OnBoarding = (props) => {
         })
         .then(() => message.info("Add Bank details and transaction Pin", 5));
     }
-  }, [props.updatedTransactionPin, setActiveKey]);
+  }, [props.updatedTransactionPin, setActiveKey, props.user.boarded]);
   function callback(key) {
     setActiveKey(key);
   }

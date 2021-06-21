@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { connect } from "react-redux";
-import { AuthHeader, AnotherHeader } from "../../components/header";
-import { useHistory } from "react-router-dom";
+import { AnotherHeader } from "../../components/header";
+// import { useHistory } from "react-router-dom";
 import styles from "../styles.module.scss";
 import { LoadingOutlined } from "@ant-design/icons";
 import { verifyEmailToken } from "../../redux/actions/Auths";
@@ -17,12 +17,12 @@ function VerifyEmail({ loading, verifyEmail }) {
 
     // setOtp_code(token);
     // setUserId(userIds)
-  }, []);
+  }, [verifyEmail]);
 
-  const history = useHistory();
+  // const history = useHistory();
 
-  const [otp_code, setOtp_code] = useState("");
-  const [userId, setUserId] = useState("");
+  // const [otp_code, setOtp_code] = useState("");
+  // const [userId, setUserId] = useState("");
   return (
     <div>
       <AnotherHeader>
@@ -49,6 +49,7 @@ function VerifyEmail({ loading, verifyEmail }) {
                 src={
                   "https://cdn.dribbble.com/users/452635/screenshots/8215076/media/9178cc623b1d395f6e87da128bf63d49.png?compress=1&resize=1600x1200"
                 }
+                alt=""
                 width="380"
                 height="260"
               />

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Tabs } from "antd";
 // import { DashboardLayout } from "../../components/layout";
 // import { TableSort } from "../../assets/svg";
-import { CommaFormatted, Money } from "../../utils/helper";
+import { CommaFormatted } from "../../utils/helper";
 import styles from "../styles.module.scss";
 import {
   DepositsTab,

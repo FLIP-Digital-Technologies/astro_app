@@ -4,7 +4,7 @@ import { TransactionIcon, Eye, ArrowRight } from "../../assets/svg";
 import { Modal } from "antd";
 import styles from "../styles.module.scss";
 import Button from "../../components/button";
-import { CommaFormatted, date, Money } from "../../utils/helper";
+import { CommaFormatted, date } from "../../utils/helper";
 
 export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
   const [loading, setLoading] = useState(false);

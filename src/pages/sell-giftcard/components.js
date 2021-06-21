@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Progress, notification, Radio } from "antd";
+import { Progress, notification } from "antd";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import Input from "../../components/input";
 import Select from "../../components/select";
@@ -16,7 +16,7 @@ import {
 import { history } from "../../redux/store";
 
 import styles from "../styles.module.scss";
-import labelStyles from "../../components/select/styles.module.scss";
+// import labelStyles from "../../components/select/styles.module.scss";
 import { connect } from "react-redux";
 import {
   getGiftCardCodes,
@@ -521,7 +521,7 @@ const GiftCardForm = ({
 
   const [details, setDetails] = useState(INITIAL_STATE);
   // const [amount, setAmount] = useState(0);
-  const [currencyType, setCurrencyType] = useState(true);
+  const [currencyType,] = useState(true);
   // const [state, setState] = useState(INITIAL_STATE2);
   // const [rate, setRate] = useState({});
   const [progress, setProgress] = useState();
@@ -531,7 +531,7 @@ const GiftCardForm = ({
   const [uploadLoading, setUploadLoading] = useState(false);
   const [total, setTotal] = useState(0);
   const [rate_conv, setRate_conv] = useState(0);
-  const [rate_selected, setRate_selected] = useState("");
+  const [, setRate_selected] = useState("");
 
   useEffect(() => {
     getCardDetails({ cardCode: active.uid });
@@ -640,10 +640,10 @@ const GiftCardForm = ({
   const handleCancel = () => {
     setOpenTerm(false);
   };
-  const onRadioChange = (e) => {
-    console.log("radio checked", e.target.value);
-    setCurrencyType(e.target.value);
-  };
+  // const onRadioChange = (e) => {
+  //   console.log("radio checked", e.target.value);
+  //   setCurrencyType(e.target.value);
+  // };
 
   return (
     <div className={styles.gitcard__form}>

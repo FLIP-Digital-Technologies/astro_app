@@ -10,7 +10,7 @@ import {
   getGiftCardDetails,
   initialGiftCardSale,
 } from "../../redux/actions/giftCard";
-import { EmptyEntryWithTitle, EmptyLoading } from "../transactions/components";
+import { EmptyLoading } from "../transactions/components";
 import homeStyles from "../home/styles.module.scss";
 // import { cardList } from "../../utils/helper";
 import { getFiatCurrencies, getUserWallets } from "../../redux/actions/Auths";

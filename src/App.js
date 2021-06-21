@@ -8,17 +8,13 @@ import { getBankListByCountry } from "./redux/actions/bank";
 import {
   Home,
   SellGiftcard,
-  // Wallet,
+ 
   Transactions,
-  Rate,
+ 
   OnBoarding,
-  Coin,
-  // Profile,
-  // BTC,
   BuyGiftCard,
   Bills,
   Settings,
-  CryptoView,
 } from "./pages";
 import {
   getBTCTransactionHistory,
@@ -49,22 +45,22 @@ function App(props) {
       <Route path="/app/onboarding">
         <OnBoarding />
       </Route>
-      {/* <CustomRoute
+      <CustomRoute
         condition="completeRegistration"
         path="/app/sell-giftcard"
         component={SellGiftcard}
-      /> */}
-      <Route path="/app/sell-giftcard">
+      />
+      {/* <Route path="/app/sell-giftcard">
         <SellGiftcard />
-      </Route>
-      {/* <CustomRoute
+      </Route> */}
+      <CustomRoute
         condition="completeRegistration"
         path="/app/buy-giftcard"
         component={BuyGiftCard}
-      /> */}
-      <Route path="/app/buy-giftcard">
+      />
+      {/* <Route path="/app/buy-giftcard">
         <BuyGiftCard />
-      </Route>
+      </Route> */}
       {/* <CustomRoute
         condition="completeRegistration"
         path="/app/crypto"
@@ -76,14 +72,14 @@ function App(props) {
       <Route path="/app/transactions">
         <Transactions />
       </Route>
-      {/* <CustomRoute
+      <CustomRoute
         condition="completeRegistration"
         path="/app/bills"
         component={Bills}
-      /> */}
-      <Route path="/app/bills">
+      />
+      {/* <Route path="/app/bills">
         <Bills />
-      </Route>
+      </Route> */}
 
       <Route path="/app/settings">
         <Settings />

@@ -526,6 +526,7 @@ export const Step3 = ({ submitForm }) => {
                   e.target.maxLength
                 );
               } else {
+                // eslint-disable-next-line
                 e.target.value = e.target.value;
               }
             }}

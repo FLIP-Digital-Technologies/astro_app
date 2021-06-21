@@ -32,7 +32,7 @@ function SellCrypto({
   useEffect(() => {
     crypto.currency && getBTCRates({ coin: crypto.currency });
     console.log(crypto.currency);
-  }, [crypto.currency]);
+  }, [crypto.currency, getBTCRates]);
 
   useEffect(() => {
     rates && rates.ticker && setSell_btc_usd_rate(rates.ticker.buy);
@@ -48,9 +48,9 @@ function SellCrypto({
   }, [rates, state.wallet]);
 
   const onCryptoWalletChange = (value) => {
-    let cryptoCurrencyUsed = cryptoCurrency.filter(
-      (item) => item.code === value.code
-    )[0];
+    // let cryptoCurrencyUsed = cryptoCurrency.filter(
+    //   (item) => item.code === value.code
+    // )[0];
 
     setCrypto((crypto) => ({
       ...crypto,
@@ -64,9 +64,9 @@ function SellCrypto({
   };
 
   const onFiatWalletChange = (value) => {
-    let fiatCurrencyUsed = fiatCurrency.filter(
-      (item) => item.code === value.code
-    )[0];
+    // let fiatCurrencyUsed = fiatCurrency.filter(
+    //   (item) => item.code === value.code
+    // )[0];
 
     setState((state) => ({
       ...state,

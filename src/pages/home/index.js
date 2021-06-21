@@ -18,7 +18,6 @@ import { history } from "../../redux/store";
 import {
   // RightCircleOutlined,
   // LeftCircleOutlined,
-  DownOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
 import TimeAgo from "react-timeago";
@@ -36,7 +35,7 @@ import {
   getWithdrawalSettings,
 } from "../../redux/actions/withdrawals";
 import PTwoPFlyout, { AirtimeFlyout, FundFlyout } from "./components";
-import PTwoPCrypto from "./components2";
+// import PTwoPCrypto from "./components2";
 import { initialPaymentByUser } from "../../redux/actions/payment";
 import ModalWrapper from "../../components/Modals";
 import WithdrawInitial from "../../components/Modals/withdraw-modal-Initial";
@@ -47,7 +46,7 @@ import {
 import capitalizeFirstLetter, {
   CommaFormatted,
   CurrencyFormatted,
-  date,
+  // date,
 } from "../../utils/helper";
 import {
   createFiatWallet,
@@ -104,7 +103,7 @@ const Home = ({
     };
   }
   const [windowDimensions] = useState(getWindowDimensions());
-  const [pinCheck, setPinCheck] = useState(false);
+  const [, setPinCheck] = useState(false);
   // const [wallet, setWallet] = useState("NGN");
   let [fiatIndex, setFiatIndex] = useState(0);
   let [cryptoIndex, setCryptoIndex] = useState(0);
@@ -113,11 +112,11 @@ const Home = ({
   const [showAirtime, setShowAirtime] = useState(false);
   const [showFund, setShowFund] = useState(false);
   const [showPTWOP, setShowPTWOP] = useState(false);
-  const [showPTWOPcrypto, setShowPTWOPcrypto] = useState(false);
+  // const [showPTWOPcrypto, setShowPTWOPcrypto] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openWithdrawal, setOpenWithdrawal] = useState(false);
-  const [currencyHeader, setCurrencyHeader] = useState("Fiat Wallet Balance");
-  const [, setHeaderId] = useState("1");
+  const [currencyHeader,] = useState("Fiat Wallet Balance");
+  // const [, setHeaderId] = useState("1");
   const [visible, setVisible] = useState(false);
   const [openAddWallet, setOpenAddWallet] = useState(false);
   const [opencryptoAddWallet, setOpencryptoAddWallet] = useState(false);
@@ -201,16 +200,16 @@ const Home = ({
     // eslint-disable-next-line
   }, []);
 
-  const handleMenuClick = (e) => {
-    if (e.key === "2") {
-      setHeaderId(e.key);
-      setCurrencyHeader("Crypto Wallet Balance");
-      setVisible(false);
-    } else if (e.key === "1") {
-      setHeaderId(e.key);
-      setCurrencyHeader("Fiat Wallet Balance");
-    }
-  };
+  // const handleMenuClick = (e) => {
+  //   if (e.key === "2") {
+  //     setHeaderId(e.key);
+  //     setCurrencyHeader("Crypto Wallet Balance");
+  //     setVisible(false);
+  //   } else if (e.key === "1") {
+  //     setHeaderId(e.key);
+  //     setCurrencyHeader("Fiat Wallet Balance");
+  //   }
+  // };
 
   const handleVisibleChange = (flag) => {
     setVisible(flag);

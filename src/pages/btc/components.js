@@ -322,7 +322,7 @@ export const SellSection = ({
   const [sell_btc_usd_rate, setSell_btc_usd_rate] = useState(0);
   // const [sell_btc_ghs_rate, setSell_btc_ghs_rate] = useState(0);
   // const [sell_btc_ngn_rate, setSell_btc_ngn_rate] = useState(0);
-  const [afterFees, setAfterFees] = useState(0);
+  // const [afterFees, setAfterFees] = useState(0);
   const [wallet_btc_rate, setWallet_btc_rate] = useState(0);
   const [open, setOpen] = useState(false);
   const showPromiseConfirm = () => {
