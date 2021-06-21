@@ -770,7 +770,7 @@ const Home = ({
                     <div
                       className={homeStyles.extras__text}
                       onClick={() => {
-                        user && !user.boarded
+                        user && user.boarded
                           ? balance && balance.fiatWallets.length > 0
                             ? setOpenWithdrawal(true)
                             : notification.info({
@@ -787,7 +787,7 @@ const Home = ({
                     <div
                       className={homeStyles.extras__text}
                       onClick={() => {
-                        user && !user.boarded
+                        user && user.boarded
                           ? balance && balance.fiatWallets.length > 0
                             ? setShowAirtime(true)
                             : notification.info({
@@ -887,7 +887,7 @@ const Home = ({
                     <div
                       className={homeStyles.widgets__inner}
                       onClick={() => {
-                        user && !user.boarded
+                        user && user.boarded
                           ? balance && balance.fiatWallets.length > 0
                             ? setShowPTWOP(true)
                             : notification.info({
