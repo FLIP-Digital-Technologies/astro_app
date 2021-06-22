@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Switch, Route } from "react-router-dom";
 import "./index.css";
-import reportWebVitals from "./reportWebVitals";
+// import reportWebVitals from "./reportWebVitals";
 import { ConnectedRouter } from "connected-react-router";
 import store, { history } from "./redux/store";
 import { Provider } from "react-redux";

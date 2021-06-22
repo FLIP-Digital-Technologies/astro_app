@@ -92,6 +92,7 @@ authService.verifyEmailToken = function (payload) {
   
   let data = {};
   data.token = payload.token;
+  data.userId = payload.userId;
   return fetch({
     url: `/user-account/${payload.userId}/verify-email-token`,
     method: "post",

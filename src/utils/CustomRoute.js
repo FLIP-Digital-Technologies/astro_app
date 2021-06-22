@@ -8,7 +8,7 @@ const CustomRoute = (props) => {
     switch (props.condition) {
       case "completeRegistration":
         return setReturnedRoute(
-          props.user.boarded === true ? (
+          props.user && props.user.boarded && props.user.boarded === true ? (
             <Route {...props} />
           ) : (
             <Redirect to="/app/onboarding" />
@@ -17,6 +17,7 @@ const CustomRoute = (props) => {
       default:
         return setReturnedRoute(<Route {...props} />);
     }
+    // eslint-disable-next-line
   }, [props.user]);
   return <>{returnedRoute}</>;
 };

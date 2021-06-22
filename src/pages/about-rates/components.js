@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Select from "../../components/select";
-import { notification, Radio } from "antd";
+import { notification } from "antd";
 import labelStyles from "../../components/select/styles.module.scss";
 import styles from "../styles.module.scss";
 import Input from "../../components/input";
 import { CommaFormatted } from "../../utils/helper";
 import SellCrypto from "./SellCrypto";
-import BuyCrypto from "./BuyCrypto";
+// import BuyCrypto from "./BuyCrypto";
 import AppFetch from "../../redux/services/FetchInterceptor";
 
 export const BuySide = ({
@@ -16,19 +16,19 @@ export const BuySide = ({
   cardDetails,
   cryptoCurrency,
 }) => {
-  const [currencyType, setCurrencyType] = useState(true);
-  const [state, setState] = useState({
-    btc: "",
-    usd: 0,
-    ngn: "",
-    ghs: 0,
-    walletBalance: 0,
-    // creditCoinsWalletId:
-  });
-  const onRadioChange = (e) => {
-    console.log("radio checked", e.target.value);
-    setCurrencyType(e.target.value);
-  };
+  // const [, setCurrencyType] = useState(true);
+  // const [state, setState] = useState({
+  //   btc: "",
+  //   usd: 0,
+  //   ngn: "",
+  //   ghs: 0,
+  //   walletBalance: 0,
+  //   // creditCoinsWalletId:
+  // });
+  // const onRadioChange = (e) => {
+  //   console.log("radio checked", e.target.value);
+  //   setCurrencyType(e.target.value);
+  // };
   return (
     <div>
       {/* <div
@@ -53,11 +53,11 @@ export const BuySide = ({
         
       )} */}
       {/* {!currencyType && ( */}
-        <BuyCrypto 
+        {/* <BuyCrypto 
         rates={rates}
         state={state} 
         setState={setState}
-        />
+        /> */}
       {/* )} */}
     </div>
   );
@@ -88,18 +88,18 @@ export const SellSide = ({
     wallet: "",
     remark: "",
   };
-  const INITIAL_STATE2 = {
-    currency: "",
-    creditCurrency: "",
-    category: "",
-  };
+  // const INITIAL_STATE2 = {
+  //   currency: "",
+  //   creditCurrency: "",
+  //   category: "",
+  // };
 
   const [details, setDetails] = useState(INITIAL_STATE);
   const [cards, setCards] = useState([])
-  const [crypto, setCrypto] = useState(INITIAL_STATE2);
+  // const [crypto, setCrypto] = useState(INITIAL_STATE2);
   const [total, setTotal] = useState(0);
-  const [currencyType, setCurrencyType] = useState(true);
-  const [rate_selected, setRate_selected] = useState("");
+  const [currencyType, ] = useState(true);
+  const [, setRate_selected] = useState("");
   const [rate_conv, setRate_conv] = useState(0)
   const [state, setState] = useState({
     btc: 0,
@@ -128,10 +128,10 @@ export const SellSide = ({
       });
   };
 
-  const onRadioChange = (e) => {
-    console.log("radio checked", e.target.value);
-    setCurrencyType(e.target.value);
-  };
+  // const onRadioChange = (e) => {
+  //   console.log("radio checked", e.target.value);
+  //   setCurrencyType(e.target.value);
+  // };
   useEffect(() => {
     let walletRate =
       fiatCurrency &&
@@ -149,6 +149,7 @@ export const SellSide = ({
       details &&
       details.category &&
       setRate_conv(details.category.rate * walletRate.we_buy)
+      // eslint-disable-next-line
   }, [fiatCurrency, details.creditCurrency, details.category, details.amount]);
 
   const onWalletChange = (value) => {
@@ -162,16 +163,16 @@ export const SellSide = ({
     }));
     setRate_selected(fiatCurrencyUsed.we_buy);
   };
-  const onCryptoWalletChange = (value) => {
-    let cryptoCurrencyUsed = cryptoCurrency.filter(
-      (item) => item.code === value.code
-    )[0];
+  // const onCryptoWalletChange = (value) => {
+  //   let cryptoCurrencyUsed = cryptoCurrency.filter(
+  //     (item) => item.code === value.code
+  //   )[0];
 
-    setCrypto((crypto) => ({
-      ...crypto,
-      currency: value.code,
-    }));
-  };
+  //   setCrypto((crypto) => ({
+  //     ...crypto,
+  //     currency: value.code,
+  //   }));
+  // };
   const onCardChange = (value) => {
     console.log(value);
     getCardDetails({ cardCode: value });
@@ -181,32 +182,6 @@ export const SellSide = ({
       // category: value,
     }));
   };
-  let data = [
-    {
-      id: 1,
-      name: "Amazon",
-      uid: "amazon",
-      image: "https/img.com/img",
-      created_at: "2021-04-12T11:05:27.000Z",
-      updated_at: "2021-04-12T11:05:27.000Z",
-    },
-    {
-      id: 2,
-      name: "Amex Gold",
-      uid: "amex-gold",
-      image: "https/img.com/img",
-      created_at: "2021-04-12T11:05:27.000Z",
-      updated_at: "2021-04-12T11:05:27.000Z",
-    },
-    {
-      id: 3,
-      name: "Ebay",
-      uid: "ebay",
-      image: "https/img.com/img",
-      created_at: "2021-04-12T11:05:27.000Z",
-      updated_at: "2021-04-12T11:05:27.000Z",
-    },
-  ];
   return (
     <div style={{}}>
       <div
@@ -214,18 +189,18 @@ export const SellSide = ({
       >
         <label
           className={`${labelStyles.input__label} ${styles.label}`}
-          style={{ marginTop: 10 }}
+          style={{ marginTop: 10, fontSize:25 }}
         >
-          {"Select Transaction type"}
+          {"Gift Card Sale"}
         </label>
-        <Radio.Group
+        {/* <Radio.Group
           onChange={onRadioChange}
           value={currencyType}
           style={{ marginTop: 10, color:"#921946" }}
         >
           <Radio value={true}>Gift Card</Radio>
           <Radio value={false}>Cryptocurrency</Radio>
-        </Radio.Group>
+        </Radio.Group> */}
       </div>
       {currencyType && (
         <>
@@ -278,7 +253,7 @@ export const SellSide = ({
               label="Select Card Category"
               placeholder="Select Card Category"
               labelClass={styles.label}
-              placeholder={"Card Category"}
+              
             />
           </div>
           {/* <br /> */}

@@ -7,6 +7,7 @@ const initState = {
   token: localStorage.getItem(actionTypes.AUTH_TOKEN),
   userId: localStorage.getItem(actionTypes.AUTH_TOKEN_ID),
   user: null,
+  emailVerify:null,
   updatedUser: false,
   updatedUserBank: false,
   updatedTransactionPin: false,
@@ -122,10 +123,12 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.VERIFY_EMAIL_TOKEN_SUCCESS:
+    console.log('passed', action.payload)
       return {
         ...state,
         loading: false,
         error: null,
+        emailVerify:action.payload.message
       };
     case actionTypes.VERIFY_EMAIL_OTP_SUCCESS:
       notification.success({
@@ -343,6 +346,12 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.VERIFY_EMAIL_TOKEN_FAILED:
+      console.log('failed',action)
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
     case actionTypes.CREATE_USER_WALLET_FAILED:
     case actionTypes.GET_CURRENCY_CONVERSIONS_FAILED:
     case actionTypes.GET_CRYPTO_CURRENCY_FAILED:

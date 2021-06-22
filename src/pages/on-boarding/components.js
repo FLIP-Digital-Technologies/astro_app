@@ -526,13 +526,14 @@ export const Step3 = ({ submitForm }) => {
                   e.target.maxLength
                 );
               } else {
+                // eslint-disable-next-line
                 e.target.value = e.target.value;
               }
             }}
             // max={9999}
             type="number"
             pattern="\d{4}$"
-            errorMessage={"PIn must be 4 numbers"}
+            errorMessage={"Pin must be 4 numbers"}
           />
         </div>
       </div>

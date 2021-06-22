@@ -18,7 +18,6 @@ import { history } from "../../redux/store";
 import {
   // RightCircleOutlined,
   // LeftCircleOutlined,
-  DownOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
 import TimeAgo from "react-timeago";
@@ -36,7 +35,7 @@ import {
   getWithdrawalSettings,
 } from "../../redux/actions/withdrawals";
 import PTwoPFlyout, { AirtimeFlyout, FundFlyout } from "./components";
-import PTwoPCrypto from "./components2";
+// import PTwoPCrypto from "./components2";
 import { initialPaymentByUser } from "../../redux/actions/payment";
 import ModalWrapper from "../../components/Modals";
 import WithdrawInitial from "../../components/Modals/withdraw-modal-Initial";
@@ -47,7 +46,7 @@ import {
 import capitalizeFirstLetter, {
   CommaFormatted,
   CurrencyFormatted,
-  date,
+  // date,
 } from "../../utils/helper";
 import {
   createFiatWallet,
@@ -77,7 +76,6 @@ const Home = ({
   loading,
   depositMoney,
   depositMoneyDetails,
-  getMainCryptoCurrency,
   getMainFiatCurrency,
   createWallets,
   fiatCurrency,
@@ -104,7 +102,7 @@ const Home = ({
     };
   }
   const [windowDimensions] = useState(getWindowDimensions());
-  const [pinCheck, setPinCheck] = useState(false);
+  const [, setPinCheck] = useState(false);
   // const [wallet, setWallet] = useState("NGN");
   let [fiatIndex, setFiatIndex] = useState(0);
   let [cryptoIndex, setCryptoIndex] = useState(0);
@@ -113,11 +111,11 @@ const Home = ({
   const [showAirtime, setShowAirtime] = useState(false);
   const [showFund, setShowFund] = useState(false);
   const [showPTWOP, setShowPTWOP] = useState(false);
-  const [showPTWOPcrypto, setShowPTWOPcrypto] = useState(false);
+  // const [showPTWOPcrypto, setShowPTWOPcrypto] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openWithdrawal, setOpenWithdrawal] = useState(false);
-  const [currencyHeader, setCurrencyHeader] = useState("Fiat Wallet Balance");
-  const [, setHeaderId] = useState("1");
+  const [currencyHeader,] = useState("Fiat Wallet Balance");
+  // const [, setHeaderId] = useState("1");
   const [visible, setVisible] = useState(false);
   const [openAddWallet, setOpenAddWallet] = useState(false);
   const [opencryptoAddWallet, setOpencryptoAddWallet] = useState(false);
@@ -156,26 +154,26 @@ const Home = ({
     }
   }, [balance, fiatIndex]);
 
-  useEffect(() => {
-    if (!balance) return;
-    // if (!wallet) return;
-    if (!balance) {
-      return;
-    } else {
-      if (balance.cryptoWallets.length === 0) {
-        setRenderCryptoBalance(0);
-      } else {
-        balance &&
-          balance.cryptoWallets &&
-          setRenderCryptoBalance(
-            balance &&
-              balance.cryptoWallets &&
-              balance.cryptoWallets[cryptoIndex] &&
-              balance.cryptoWallets[cryptoIndex].balance
-          );
-      }
-    }
-  }, [balance, cryptoIndex]);
+  // useEffect(() => {
+  //   if (!balance) return;
+  //   // if (!wallet) return;
+  //   if (!balance) {
+  //     return;
+  //   } else {
+  //     if (balance.cryptoWallets.length === 0) {
+  //       setRenderCryptoBalance(0);
+  //     } else {
+  //       balance &&
+  //         balance.cryptoWallets &&
+  //         setRenderCryptoBalance(
+  //           balance &&
+  //             balance.cryptoWallets &&
+  //             balance.cryptoWallets[cryptoIndex] &&
+  //             balance.cryptoWallets[cryptoIndex].balance
+  //         );
+  //     }
+  //   }
+  // }, [balance, cryptoIndex]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -186,7 +184,6 @@ const Home = ({
     getBalance();
     getCurrentUser();
     getUserBankDetails();
-    getMainCryptoCurrency();
     getMainFiatCurrency();
     getWithdrawalTrans({ skip: 0, limit: 4 });
     getP2PTrans({ skip: 0, limit: 4 });
@@ -201,16 +198,16 @@ const Home = ({
     // eslint-disable-next-line
   }, []);
 
-  const handleMenuClick = (e) => {
-    if (e.key === "2") {
-      setHeaderId(e.key);
-      setCurrencyHeader("Crypto Wallet Balance");
-      setVisible(false);
-    } else if (e.key === "1") {
-      setHeaderId(e.key);
-      setCurrencyHeader("Fiat Wallet Balance");
-    }
-  };
+  // const handleMenuClick = (e) => {
+  //   if (e.key === "2") {
+  //     setHeaderId(e.key);
+  //     setCurrencyHeader("Crypto Wallet Balance");
+  //     setVisible(false);
+  //   } else if (e.key === "1") {
+  //     setHeaderId(e.key);
+  //     setCurrencyHeader("Fiat Wallet Balance");
+  //   }
+  // };
 
   const handleVisibleChange = (flag) => {
     setVisible(flag);
@@ -760,7 +757,7 @@ const Home = ({
                         balance && balance.fiatWallets.length > 0
                           ? setShowFund(true)
                           : notification.info({
-                              message: "Please wait",
+                              message: "Please Add Wallet",
                               duration: 2.5,
                             });
                       }}
@@ -771,11 +768,11 @@ const Home = ({
                     <div
                       className={homeStyles.extras__text}
                       onClick={() => {
-                        user && !user.boarded
+                        user && user.boarded
                           ? balance && balance.fiatWallets.length > 0
                             ? setOpenWithdrawal(true)
                             : notification.info({
-                                message: "Please try again",
+                                message: "Please Add Wallet",
                                 duration: 2.5,
                               })
                           : history.push("/app/onboarding");
@@ -788,17 +785,10 @@ const Home = ({
                     <div
                       className={homeStyles.extras__text}
                       onClick={() => {
-                        user && !user.boarded
-                          ? balance && balance.fiatWallets.length > 0
-                            ? setShowAirtime(true)
-                            : notification.info({
-                                message: "Please try again",
-                                duration: 2.5,
-                              })
-                          : history.push("/app/onboarding");
+                        history.push("/app/settings");
                       }}
                     >
-                      {"Buy Airtime"}
+                      {"Add account/Momo"}
                       {/* <DoubleRightOutlined />{" "} */}
                     </div>
                   </div>
@@ -888,11 +878,11 @@ const Home = ({
                     <div
                       className={homeStyles.widgets__inner}
                       onClick={() => {
-                        user && !user.boarded
+                        user && user.boarded
                           ? balance && balance.fiatWallets.length > 0
                             ? setShowPTWOP(true)
                             : notification.info({
-                                message: "Please try again",
+                                message: "Please Add Wallet",
                                 duration: 2.5,
                               })
                           : history.push("/app/onboarding");
@@ -1152,9 +1142,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   getMainFiatCurrency: () => {
     dispatch(getFiatCurrencies());
-  },
-  getMainCryptoCurrency: () => {
-    dispatch(getCryptoCurrencies());
   },
   getBalance: () => {
     dispatch(getBTCWalletDetails());

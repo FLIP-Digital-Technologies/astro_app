@@ -9,8 +9,8 @@ import Select from "../select";
 import Button from "../button";
 import { getUserBankAccount } from "../../redux/actions/user";
 import { initialWithdrawalByUser } from "../../redux/actions/withdrawals";
-import { CommaFormatted, Money } from "../../utils/helper";
-import fetch from "../../redux/services/FetchInterceptor";
+import { CommaFormatted } from "../../utils/helper";
+// import fetch from "../../redux/services/FetchInterceptor";
 import { getBTCWalletDetails } from "../../redux/actions/btc";
 
 const { confirm } = Modal;
@@ -33,7 +33,7 @@ const WithDrawModalPersonal = ({
     getBalance();
     // eslint-disable-next-line
   }, []);
-  const [fee, setFee] = React.useState(0);
+  // const [fee, setFee] = React.useState(0);
   const [min_amount, setMin_amount] = useState(0);
   const [max_amount, setMax_amount] = useState(0);
   const [walletBalance, setWalletBalance] = useState(0);
@@ -86,7 +86,8 @@ const WithDrawModalPersonal = ({
       walletCurrencyUsed &&
       walletCurrencyUsed.balance &&
       setWalletBalance(parseFloat(walletCurrencyUsed.balance));
-  }, [acc.currency]);
+      // eslint-disable-next-line
+  }, [acc.currency, fiatCurrency,balance.fiatWallets]);
 
   const showPromiseConfirm = () => {
     if (

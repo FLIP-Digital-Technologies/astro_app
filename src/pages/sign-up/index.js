@@ -5,7 +5,7 @@ import { AuthHeader } from "../../components/header";
 import Input from "../../components/input";
 import Button from "../../components/button";
 import styles from "../styles.module.scss";
-import { Input as AntInput, } from "antd";
+// import { Input as AntInput, } from "antd";
 import {
   checkEmailAvailability,
   registerUser,
