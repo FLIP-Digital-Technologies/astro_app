@@ -57,6 +57,7 @@ const DepositModal = ({
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           placeholder="Enter amount here"
+          min={0}
         />
 
         <Button

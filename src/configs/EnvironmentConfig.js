@@ -12,7 +12,6 @@ const test = {
 
 const stage = {
   API_ENDPOINT_URL:  "https://api.astroafrica.xyz/v1/",
-
 };
 
 const getEnv = () => {

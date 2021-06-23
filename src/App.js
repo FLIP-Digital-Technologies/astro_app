@@ -8,9 +8,7 @@ import { getBankListByCountry } from "./redux/actions/bank";
 import {
   Home,
   SellGiftcard,
- 
   Transactions,
- 
   OnBoarding,
   BuyGiftCard,
   Bills,
@@ -46,7 +44,7 @@ function App(props) {
         <OnBoarding />
       </Route>
       <CustomRoute
-        condition="completeRegistration"
+        condition="sellGiftcard"
         path="/app/sell-giftcard"
         component={SellGiftcard}
       />
@@ -54,7 +52,7 @@ function App(props) {
         <SellGiftcard />
       </Route> */}
       <CustomRoute
-        condition="completeRegistration"
+        condition="buyGiftcard"
         path="/app/buy-giftcard"
         component={BuyGiftCard}
       />
@@ -73,7 +71,7 @@ function App(props) {
         <Transactions />
       </Route>
       <CustomRoute
-        condition="completeRegistration"
+        condition="bills"
         path="/app/bills"
         component={Bills}
       />
@@ -88,7 +86,9 @@ function App(props) {
     </Switch>
   );
 }
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  user:state.user.user
+});
 
 const mapDispatchToProps = (dispatch) => ({
   getCurrentUser: () => {
