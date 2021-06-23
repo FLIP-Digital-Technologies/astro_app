@@ -55,7 +55,7 @@ const OnBoarding = (props) => {
         })
         .then(() => message.info("Add Bank details and transaction Pin", 5));
     }
-  }, [props.updatedTransactionPin, setActiveKey, props.user.boarded]);
+  }, [props.updatedTransactionPin, setActiveKey, props.user]);
   function callback(key) {
     setActiveKey(key);
   }

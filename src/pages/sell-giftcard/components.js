@@ -778,6 +778,14 @@ const GiftCardForm = ({
                     amount: e.target.value,
                   }))
                 }
+                onInput={(e) => {
+                  if (e.target.value < 0) {
+                    e.target.value = 0
+                  } else {
+                    // eslint-disable-next-line
+                    e.target.value = e.target.value;
+                  }
+                }}
                 labelClass={styles.label}
                 className={`${styles.gitcard__form__body__input} ${styles.countryInput}`}
               />
@@ -926,6 +934,7 @@ const GiftCardForm = ({
                 placeholder="Enter image remark"
                 value={details.remark}
                 type="text"
+                min={0}
                 onChange={(e) =>
                   setDetails((details) => ({
                     ...details,
@@ -969,6 +978,7 @@ const GiftCardForm = ({
               disabled={
                 details.file.length === 0 ||
                 !details.amount ||
+                details.ammount < 0 ||
                 !details.cardCurrencyId ||
                 !details.wallet ||
                 uploadLoading

@@ -212,6 +212,12 @@ const WithDrawModalPersonal = ({
             setShow_min(false);
             setShow_max(false);
           }
+          if (e.target.value < 0) {
+            e.target.value = 0
+          } else {
+            // eslint-disable-next-line
+            e.target.value = e.target.value;
+          }
         }}
         min={min_amount}
         max={max_amount}

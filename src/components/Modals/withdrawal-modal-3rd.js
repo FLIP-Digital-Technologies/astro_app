@@ -239,6 +239,14 @@ const WithDrawModal3rd = ({
         label="Withdrawal amount"
         placeholder="Enter amount here"
         type="number"
+        onInput={(e) => {
+          if (e.target.value < 0) {
+            e.target.value = 0
+          } else {
+            // eslint-disable-next-line
+            e.target.value = e.target.value;
+          }
+        }}
         value={acc.amount}
         min={500}
         onChange={(e) => setAcc({ ...acc, amount: e.target.value })}

@@ -163,6 +163,15 @@ const PTwoPCrypto = ({
             label={`Amount in ${state.referenceCurrency}`}
             value={state.amount}
             name="amount"
+            type="number"
+            onInput={(e) => {
+              if (e.target.value < 0) {
+                e.target.value = 0
+              } else {
+                // eslint-disable-next-line
+                e.target.value = e.target.value;
+              }
+            }}
             onChange={(e) =>
               setState((state) => ({ ...state, amount: e.target.value }))
             }

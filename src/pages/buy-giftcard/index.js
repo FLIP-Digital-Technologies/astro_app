@@ -387,6 +387,14 @@ const BuyGiftCard = (props) => {
                       quantity: e.target.value,
                     }));
                   }}
+                  onInput={(e) => {
+                    if (e.target.value < 0) {
+                      e.target.value = 0
+                    } else {
+                      // eslint-disable-next-line
+                      e.target.value = e.target.value;
+                    }
+                  }}
                   type="number"
                 />
                 <Input

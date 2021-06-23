@@ -116,18 +116,22 @@ const getUserDetails = (data) => async (dispatch) => {
   await authService
     .getUserDetails(data)
     .then((response) => {
-      console.log('code',response.headers)
+      console.log("code", response.headers);
       dispatch({
         type: actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS,
         payload: response.data,
       });
-      // localStorage.setItem("pinCheck", response.data.user.boarded);
-      history.location.pathname === "/app" && !(response.data.user.boarded) && notification.info({
-        placement:"bottomLeft",
-        message:"Go to Settings to Set Your Pin",
-        onClick:()=> {history.push("/app/settings")},
-        duration:2
-      })
+      localStorage.setItem("pinCheck", response.data.user.boarded);
+      history.location.pathname === "/app" &&
+        !response.data.user.boarded &&
+        notification.info({
+          placement: "bottomLeft",
+          message: "Complete your Profile",
+          onClick: () => {
+            history.push("/app/onboarding");
+          },
+          duration: 2,
+        });
       // console.log(history.location)
       // localStorage.setItem(actionTypes.AUTH_TOKEN_ID, response.data.user.id);
       // localStorage.setItem("type", response.data.user.type);
@@ -139,10 +143,10 @@ const getUserDetails = (data) => async (dispatch) => {
         payload: err,
       });
       // console.log(err.response.status)
-      if (err.response.status === 401 || err.response.status === 403 ) {
-        dispatch(LogOutUser());  
-      } else {}
-      
+      if (err.response.status === 401 || err.response.status === 403) {
+        dispatch(LogOutUser());
+      } else {
+      }
     });
 };
 
@@ -242,7 +246,6 @@ const VerifyEmailToken = (data) => async (dispatch) => {
       });
       setTimeout(() => {
         history.push("/signin");
-        
       }, 3000);
     })
     .catch((err) => {

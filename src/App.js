@@ -8,9 +8,7 @@ import { getBankListByCountry } from "./redux/actions/bank";
 import {
   Home,
   SellGiftcard,
- 
   Transactions,
- 
   OnBoarding,
   BuyGiftCard,
   Bills,
@@ -26,6 +24,8 @@ import { GetUserDetails } from "./redux/actions/Auths";
 import CustomRoute from "./utils/CustomRoute";
 
 function App(props) {
+  const profileCompletion = localStorage.getItem("pinCheck");
+
   useEffect(() => {
     props.getCurrentUser();
     props.getUserBankDetails();
@@ -57,6 +57,7 @@ function App(props) {
         condition="completeRegistration"
         path="/app/buy-giftcard"
         component={BuyGiftCard}
+        // component={Bills}
       />
       {/* <Route path="/app/buy-giftcard">
         <BuyGiftCard />
@@ -88,7 +89,9 @@ function App(props) {
     </Switch>
   );
 }
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  user:state.user.user
+});
 
 const mapDispatchToProps = (dispatch) => ({
   getCurrentUser: () => {

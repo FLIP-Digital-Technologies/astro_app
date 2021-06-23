@@ -143,6 +143,14 @@ export const DiscoFlyout = ({
               value={state.amount}
               name="amount"
               type={"number"}
+              onInput={(e) => {
+                if (e.target.value < 0) {
+                  e.target.value = 0
+                } else {
+                  // eslint-disable-next-line
+                  e.target.value = e.target.value;
+                }
+              }}
               onChange={(e) =>
                 setState((state) => ({ ...state, amount: e.target.value }))
               }
@@ -435,6 +443,14 @@ export const CableFlyout = ({
               value={state.amount}
               name="amount"
               type={"number"}
+              onInput={(e) => {
+                if (e.target.value < 0) {
+                  e.target.value = 0
+                } else {
+                  // eslint-disable-next-line
+                  e.target.value = e.target.value;
+                }
+              }}
               onChange={(e) =>
                 setState((state) => ({ ...state, amount: e.target.value }))
               }
@@ -579,6 +595,14 @@ export const AirtimeFlyout = ({
               value={state.amount}
               name="amount"
               type={"number"}
+              onInput={(e) => {
+                if (e.target.value < 0) {
+                  e.target.value = 0
+                } else {
+                  // eslint-disable-next-line
+                  e.target.value = e.target.value;
+                }
+              }}
               onChange={(e) =>
                 setState((state) => ({ ...state, amount: e.target.value }))
               }
@@ -645,6 +669,14 @@ export const FundFlyout = ({
             value={state.amount}
             name="amount"
             type={"number"}
+            onInput={(e) => {
+              if (e.target.value < 0) {
+                e.target.value = 0
+              } else {
+                // eslint-disable-next-line
+                e.target.value = e.target.value;
+              }
+            }}
             onChange={(e) =>
               setState((state) => ({ ...state, amount: e.target.value }))
             }
@@ -840,6 +872,14 @@ const PTwoPFlyout = ({
             label={`Amount in ${state.referenceCurrency}`}
             value={state.amount}
             type={"number"}
+            onInput={(e) => {
+              if (e.target.value < 0) {
+                e.target.value = 0
+              } else {
+                // eslint-disable-next-line
+                e.target.value = e.target.value;
+              }
+            }}
             name="amount"
             onChange={(e) => {
               onConfirm(e.target.value);
