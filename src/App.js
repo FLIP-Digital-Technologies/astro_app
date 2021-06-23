@@ -24,6 +24,8 @@ import { GetUserDetails } from "./redux/actions/Auths";
 import CustomRoute from "./utils/CustomRoute";
 
 function App(props) {
+  const profileCompletion = localStorage.getItem("pinCheck");
+
   useEffect(() => {
     props.getCurrentUser();
     props.getUserBankDetails();
@@ -44,7 +46,7 @@ function App(props) {
         <OnBoarding />
       </Route>
       <CustomRoute
-        condition="sellGiftcard"
+        condition="completeRegistration"
         path="/app/sell-giftcard"
         component={SellGiftcard}
       />
@@ -52,9 +54,10 @@ function App(props) {
         <SellGiftcard />
       </Route> */}
       <CustomRoute
-        condition="buyGiftcard"
+        condition="completeRegistration"
         path="/app/buy-giftcard"
         component={BuyGiftCard}
+        // component={Bills}
       />
       {/* <Route path="/app/buy-giftcard">
         <BuyGiftCard />
@@ -71,7 +74,7 @@ function App(props) {
         <Transactions />
       </Route>
       <CustomRoute
-        condition="bills"
+        condition="completeRegistration"
         path="/app/bills"
         component={Bills}
       />

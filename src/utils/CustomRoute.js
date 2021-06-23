@@ -6,10 +6,11 @@ const CustomRoute = (props) => {
   const profileCompletion = localStorage.getItem("pinCheck");
   const [returnedRoute, setReturnedRoute] = useState("");
   useEffect(() => {
+    console.log('df',profileCompletion)
     switch (props.condition) {
       case "completeRegistration":
         return setReturnedRoute(
-          profileCompletion === true ? (
+          profileCompletion ? (
             <Route {...props} />
           ) : (
             <Redirect to="/app/onboarding" />
@@ -43,7 +44,7 @@ const CustomRoute = (props) => {
         return setReturnedRoute(<Route {...props} />);
     }
     // eslint-disable-next-line
-  }, [props.user]);
+  }, [props.user, props.path]);
   return (<>
   {returnedRoute}
   {console.log('failing',returnedRoute)}
