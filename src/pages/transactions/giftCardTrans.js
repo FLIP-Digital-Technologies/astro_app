@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Tabs } from "antd";
 // import { DashboardLayout } from "../../components/layout";
@@ -28,6 +28,7 @@ import {
   getBuyCardTransaction,
 } from "../../redux/actions/buyGiftCard";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { CommaFormatted } from "../../utils/helper";
 
 const Transactions = ({
   goBack,
@@ -39,41 +40,55 @@ const Transactions = ({
   getBuyGiftCardTransById,
   BuyGiftCardTrans,
   viewBuyGiftCardTrans,
+  userWallets,
+  fiatCurrency,
 }) => {
-//   const [depositTransDetails, setDepositTransDetails] = React.useState(false);
+  //   const [depositTransDetails, setDepositTransDetails] = React.useState(false);
   const [giftCardTransDetails, setGiftCardTransDetails] = React.useState(false);
-//   const [billPaymentDetails, setBillPaymentDetails] = React.useState(false);
+  //   const [billPaymentDetails, setBillPaymentDetails] = React.useState(false);
   const [buyGiftCardDetails, setBuyGiftCardDetails] = React.useState(false);
+  const [credit_wallet, setCredit_wallet] = useState({});
   const { TabPane } = Tabs;
   function callback(key) {
     console.log(key);
   }
+  useEffect(() => {
+    console.log("currency", fiatCurrency);
+    let walletRate =
+      fiatCurrency &&
+      viewGiftCardTrans &&
+      viewGiftCardTrans.credit_currency_id &&
+      fiatCurrency.length > 0 &&
+      fiatCurrency.filter(
+        (item) => item.id === viewGiftCardTrans.credit_currency_id
+      )[0];
+    setCredit_wallet(walletRate);
+    console.log("currency 1", walletRate);
+  }, [viewGiftCardTrans, fiatCurrency]);
   return (
     <>
-    <div
-          
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            marginLeft:15
-          }}
-        >
-          <div onClick={() => goBack(true)} style={{cursor:'pointer'}}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          marginLeft: 15,
+        }}
+      >
+        <div onClick={() => goBack(true)} style={{ cursor: "pointer" }}>
           <ArrowLeftOutlined style={{ fontSize: 25 }} />
-
-          </div>
-          <span className={styles.gitcard__top__title}>
-            {" "}
-            Gift Card Transactions{" "}
-          </span>
         </div>
-    {/* <div onClick={()=> goBack(true)} style={{display:"flex", flexDirection:"row", alignItems:'center'}}>
+        <span className={styles.gitcard__top__title}>
+          {" "}
+          Gift Card Transactions{" "}
+        </span>
+      </div>
+      {/* <div onClick={()=> goBack(true)} style={{display:"flex", flexDirection:"row", alignItems:'center'}}>
       <ArrowLeftOutlined style={{fontSize:20}}/>
       <span className={styles.gitcard__top__title}> Gift Card Transactions</span>
     </div> */}
       {/* <span className={styles.gitcard__top__title}> Fiat Transactions</span> */}
-      
+
       {viewBuyGiftCardTrans && (
         <TransactionModalBuyGiftCard
           dateData={viewBuyGiftCardTrans.created_at}
@@ -87,20 +102,28 @@ const Transactions = ({
           isModalVisible={buyGiftCardDetails}
           cardCurrency={viewBuyGiftCardTrans?.card_detail?.currency}
           cardSlug={viewBuyGiftCardTrans.card_slug}
-          estimatedUSDValue={viewBuyGiftCardTrans?.card_detail?.estimatedUSDValue}
+          estimatedUSDValue={
+            viewBuyGiftCardTrans?.card_detail?.estimatedUSDValue
+          }
         />
       )}
-      
+
       {viewGiftCardTrans && (
         <TransactionModalBig
           title="Gift Card"
-          rate={viewGiftCardTrans.rate.amount}
-          Qua={viewGiftCardTrans.comments}
+          rate={`${
+            credit_wallet && credit_wallet.code && credit_wallet.code
+          } ${CommaFormatted(
+            credit_wallet &&
+              credit_wallet.we_buy &&
+              viewGiftCardTrans.rate * credit_wallet.we_buy
+          )} / USD`}
+          Qua={viewGiftCardTrans.comment}
           id={viewGiftCardTrans.id}
-          cardCode={viewGiftCardTrans.cardCode}
+          cardCode={viewGiftCardTrans.GiftCard.name}
           images={viewGiftCardTrans.images}
           dateData={viewGiftCardTrans.created_at}
-          amount={viewGiftCardTrans.amount}
+          amount={`${"USD"} ${CommaFormatted(viewGiftCardTrans.amount)}`}
           status={viewGiftCardTrans.status}
           reference={viewGiftCardTrans.reference}
           setIsModalVisible={setGiftCardTransDetails}
@@ -113,7 +136,6 @@ const Transactions = ({
         </div>
         <div className={styles.transactions__tab}>
           <Tabs defaultActiveKey="1" onChange={callback}>
-            
             <TabPane
               tab={
                 <div className={styles.transactions__tab__item}>

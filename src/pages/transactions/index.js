@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DashboardLayout } from "../../components/layout";
 import {
   ArrowLeftOutlined,
@@ -15,8 +15,10 @@ import homeStyles from "../home/styles.module.scss";
 import { Row, Col } from "antd";
 import png from "../../assets/png";
 import history from "../../redux/history";
+import { connect } from "react-redux";
+import { getFiatCurrencies, getUserWallets } from "../../redux/actions/Auths";
 
-const Transactions = () => {
+const Transactions = (props) => {
   function getWindowDimensions() {
     const { screen } = window;
     let width = screen.width;
@@ -26,6 +28,13 @@ const Transactions = () => {
       height,
     };
   }
+
+  useEffect(() => {
+    props.getWallets();
+    props.getMainFiatCurrency();
+    // eslint-disable-next-line
+  }, []);
+
   const [windowDimensions] = useState(getWindowDimensions());
   const [showFiatTrans, setShowFiatTrans] = useState(false);
   const [showCryptoTrans, setShowCryptoTrans] = useState(false);
@@ -52,6 +61,8 @@ const Transactions = () => {
           isVisible={showGiftTrans}
           setIsVisible={setShowGiftTrans}
           goBack={setActive}
+          userWallets={props.userWallets}
+          fiatCurrency={props.fiatCurrency}
         />
       )}
       {active && (
@@ -167,4 +178,19 @@ const Transactions = () => {
   );
 };
 
-export default Transactions;
+const mapStateToProps = (state) => ({
+  loading: state.giftCard.loading,
+  userWallets: state.user.userWallets,
+  fiatCurrency: state.user.fiatCurrency,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getWallets: () => {
+    dispatch(getUserWallets());
+  },
+  getMainFiatCurrency: () => {
+    dispatch(getFiatCurrencies());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Transactions);
