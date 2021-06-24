@@ -6,7 +6,7 @@ import {
   TransactionIconSuc,
   TransactionIconBig,
 } from "../../assets/svg";
-import { date, Money } from "../../utils/helper";
+import { date } from "../../utils/helper";
 
 const TransactionModal = ({
   type,
@@ -43,7 +43,7 @@ const TransactionModal = ({
         <div className={styles.transaction__sub}>
           <div className={styles.textHolder}>
             <div className={`${styles.title}`}>Amount</div>
-            <div className={`${styles.sub}`}>{Money(amount, "NGN")}</div>
+            <div className={`${styles.sub}`}>{amount}</div>
           </div>
           <div className={styles.textHolder}>
             <div className={`${styles.title}`}>Status</div>

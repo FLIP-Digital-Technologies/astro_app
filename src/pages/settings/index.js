@@ -627,7 +627,7 @@ const Profile = ({
           <div className={styles.profileSection}>
             <div className={styles.profileSectionLeft}>
               <span className={styles.sub}>
-                Add a primary bank account and trade easily{" "}
+              Add a primary bank account or mobile money number to process your withdrawals instantly
               </span>
             </div>
           </div>

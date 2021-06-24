@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Tabs } from "antd";
 // import { DashboardLayout } from "../../components/layout";
@@ -16,7 +16,7 @@ import {
 import {
   // TransactionModalBig
   TransactionModalBillPayment,
-  TransactionModalBuyGiftCard,
+  // TransactionModalBuyGiftCard,
   TransactionModalP2P,
 } from "../../components/Modals/transaction-info-modal-big";
 import TransactionModal from "../../components/Modals/transaction-info-modal";
@@ -66,11 +66,13 @@ const Transactions = ({
   viewP2PTrans,
   viewBuyGiftCardTrans,
   fiatLoading,
+  userWallets,
+  fiatCurrency,
 }) => {
   const [depositTransDetails, setDepositTransDetails] = React.useState(false);
   // const [giftCardTransDetails, setGiftCardTransDetails] = React.useState(false);
   const [billPaymentDetails, setBillPaymentDetails] = React.useState(false);
-  const [buyGiftCardDetails, setBuyGiftCardDetails] = React.useState(false);
+  // const [buyGiftCardDetails, setBuyGiftCardDetails] = React.useState(false);
   const [pairTwoPairFiatTransDetails, setPairTwoPairFiatTransDetails] =
     React.useState(false);
   const [withdrawalTransDetails, setWithdrawalTransDetails] =
@@ -79,6 +81,30 @@ const Transactions = ({
   function callback(key) {
     console.log(key);
   }
+  const [wallet_info, setWallet_info] = useState({});
+  const [deposit_wallet, setDeposit_wallet] = useState({});
+  useEffect(() => {
+    let walletRate =
+      fiatCurrency &&
+      viewWithdrawalTrans &&
+      viewWithdrawalTrans.fiat_currency_id &&
+      fiatCurrency.filter(
+        (item) => item.id === viewWithdrawalTrans.fiat_currency_id
+      )[0];
+    setWallet_info(walletRate);
+  }, [viewWithdrawalTrans, fiatCurrency]);
+
+  useEffect(() => {
+    let walletRate =
+      fiatCurrency &&
+      viewDepositTrans &&
+      viewDepositTrans.currency_id &&
+      fiatCurrency.filter(
+        (item) => item.id === viewDepositTrans.currency_id
+      )[0];
+    setDeposit_wallet(walletRate);
+  }, [viewDepositTrans, fiatCurrency]);
+
   return (
     <>
       <div
@@ -143,7 +169,7 @@ const Transactions = ({
           isModalVisible={pairTwoPairFiatTransDetails}
         />
       )}
-      {viewBuyGiftCardTrans && (
+      {/* {viewBuyGiftCardTrans && (
         <TransactionModalBuyGiftCard
           dateData={viewBuyGiftCardTrans.createdAt}
           amount={viewBuyGiftCardTrans.amount}
@@ -160,12 +186,14 @@ const Transactions = ({
             viewBuyGiftCardTrans?.cardDetails?.estimatedUSDValue
           }
         />
-      )}
+      )} */}
       {viewDepositTrans && (
         <TransactionModal
           title={"Deposit"}
           dateData={viewDepositTrans.created_at}
-          amount={viewDepositTrans.amount}
+          amount={`${
+            deposit_wallet && deposit_wallet.code && deposit_wallet.code
+          } ${CommaFormatted(viewDepositTrans.amount)}`}
           status={viewDepositTrans.status}
           reference={viewDepositTrans.reference}
           setIsModalVisible={setDepositTransDetails}
@@ -176,7 +204,9 @@ const Transactions = ({
         <TransactionModal
           title={"Withdrawal"}
           dateData={viewWithdrawalTrans.created_at}
-          amount={viewWithdrawalTrans.amount}
+          amount={`${
+            wallet_info && wallet_info.code && wallet_info.code
+          } ${CommaFormatted(viewWithdrawalTrans.amount)}`}
           status={viewWithdrawalTrans.status}
           reference={viewWithdrawalTrans.reference}
           setIsModalVisible={setWithdrawalTransDetails}
@@ -188,11 +218,15 @@ const Transactions = ({
           setIsModalVisible={setBillPaymentDetails}
           isModalVisible={billPaymentDetails}
           dateData={viewBillPaymentTrans.created_at}
-          amount={`${viewBillPaymentTrans.FiatCurrency.code} ${CommaFormatted(viewBillPaymentTrans.amount)}`}
+          amount={`${viewBillPaymentTrans.FiatCurrency.code} ${CommaFormatted(
+            viewBillPaymentTrans.amount
+          )}`}
           status={viewBillPaymentTrans.status}
           reference={viewBillPaymentTrans.reference}
           title={"Bill Payment"}
-          transactionFee={`${viewBillPaymentTrans.FiatCurrency.code} ${CommaFormatted(viewBillPaymentTrans.transactionFee)}`}
+          transactionFee={`${
+            viewBillPaymentTrans.FiatCurrency.code
+          } ${CommaFormatted(viewBillPaymentTrans.transactionFee)}`}
           id={viewBillPaymentTrans.id}
           referenceCurrency={viewBillPaymentTrans.FiatCurrency.code}
           details={viewBillPaymentTrans.detail}
@@ -215,6 +249,8 @@ const Transactions = ({
               <DepositsTab
                 fetchTrans={getDepositTrans}
                 transaction={depositTransaction}
+                userWallets={userWallets}
+                fiatCurrency={fiatCurrency}
                 handleAction={(id) => {
                   getDepositById({ transactionId: id });
                   setDepositTransDetails(true);
@@ -232,6 +268,8 @@ const Transactions = ({
               <WithdrawalsTab
                 fetchTrans={getWithdrawalTrans}
                 transaction={withdrawalTrans}
+                userWallets={userWallets}
+                fiatCurrency={fiatCurrency}
                 handleAction={(id) => {
                   getWithdrawalById({ transactionId: id });
                   setWithdrawalTransDetails(true);
@@ -249,6 +287,8 @@ const Transactions = ({
               <BillPaymentTab
                 fetchTrans={getBillPaymentTrans}
                 transaction={BillPaymentTrans}
+                userWallets={userWallets}
+                fiatCurrency={fiatCurrency}
                 handleAction={(id) => {
                   getBillPaymentById({ transactionId: id });
                   setBillPaymentDetails(true);

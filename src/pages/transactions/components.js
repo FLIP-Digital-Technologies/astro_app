@@ -48,11 +48,11 @@ export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
       dataIndex: "card_slug",
       render: (cardSlug, rec) => (
         <div>
-        <p>
-          Ordered: {cardSlug.replace("-", " ").replace("_", " ")}
-          <br/>
-          Quantity: {rec.card_detail && rec.card_detail.quantity}
-        </p>
+          <p>
+            Ordered: {cardSlug.replace("-", " ").replace("_", " ")}
+            <br />
+            Quantity: {rec.card_detail && rec.card_detail.quantity}
+          </p>
         </div>
       ),
     },
@@ -62,7 +62,8 @@ export const BuyGiftCardTab = ({ fetchTrans, transaction, handleAction }) => {
       render: (cardDetails) => (
         <p>
           {cardDetails && cardDetails.currency}{" "}
-          {CommaFormatted(cardDetails && cardDetails.value)}{" | USD"} 
+          {CommaFormatted(cardDetails && cardDetails.value)}
+          {" | USD"}
           {cardDetails && cardDetails.usd_value}
         </p>
       ),
@@ -173,15 +174,18 @@ export const PTwoPTab = ({ fetchTrans, transaction, handleAction }) => {
       dataIndex: "amount_sent_object",
       render: (amountSent) => (
         <p>
-          {amountSent && amountSent.currency}{" "}{CommaFormatted(amountSent && amountSent.value)}
+          {amountSent && amountSent.currency}{" "}
+          {CommaFormatted(amountSent && amountSent.value)}
         </p>
       ),
-    },{
+    },
+    {
       title: "Amount Received",
       dataIndex: "amount_received_object",
       render: (amountReceived) => (
         <p>
-          {amountReceived && amountReceived.currency}{" "}{CommaFormatted(amountReceived && amountReceived.value)}
+          {amountReceived && amountReceived.currency}{" "}
+          {CommaFormatted(amountReceived && amountReceived.value)}
         </p>
       ),
     },
@@ -272,7 +276,8 @@ export const BillPaymentTab = ({ fetchTrans, transaction, handleAction }) => {
     {
       title: "Amount",
       dataIndex: "amount",
-      render:(amount, full) => `${full.FiatCurrency.code} ${CommaFormatted(amount && amount)}`
+      render: (amount, full) =>
+        `${full.FiatCurrency.code} ${CommaFormatted(amount && amount)}`,
     },
     {
       title: "Reference",
@@ -283,18 +288,16 @@ export const BillPaymentTab = ({ fetchTrans, transaction, handleAction }) => {
       dataIndex: "detail",
       render: (details) => (
         <p>
-          {details && details.serviceName }{' | '}
+          {details && details.serviceName}
+          {" | "}
           {details && details.serviceCode}
         </p>
       ),
-    },{
+    },
+    {
       title: "Currency",
       dataIndex: "FiatCurrency",
-      render:(currency) => (
-        <p>
-          {currency.code}
-        </p>
-      )
+      render: (currency) => <p>{currency.code}</p>,
     },
     {
       title: "Status",
@@ -383,7 +386,7 @@ export const DepositsTab = ({ fetchTrans, transaction, handleAction }) => {
     {
       title: "Amount",
       dataIndex: "amount",
-      render:(amount) => `${CommaFormatted(amount && amount)}`
+      render: (amount) => `${CommaFormatted(amount && amount)}`,
     },
     {
       title: "Reference",
@@ -440,7 +443,12 @@ export const DepositsTab = ({ fetchTrans, transaction, handleAction }) => {
   );
 };
 
-export const WithdrawalsTab = ({ fetchTrans, transaction, handleAction }) => {
+export const WithdrawalsTab = ({
+  fetchTrans,
+  transaction,
+  handleAction,
+  fiatCurrency,
+}) => {
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
@@ -474,18 +482,27 @@ export const WithdrawalsTab = ({ fetchTrans, transaction, handleAction }) => {
       dataIndex: "created_at",
       render: (created_at) => `${date(created_at)}`,
     },
-    {
-      title: "Reference",
-      dataIndex: "reference",
-    },
+    // {
+    //   title: "Reference",
+    //   dataIndex: "reference",
+    // },
     {
       title: "Amount",
       dataIndex: "amount",
-      render:(amount) => `${CommaFormatted(amount && amount)}`
+      render: (amount, all) =>
+        `${
+          fiatCurrency &&
+          all.fiat_currency_id &&
+          fiatCurrency.filter((item) => item.id === all.fiat_currency_id)[0]
+            .code
+        } ${CommaFormatted(amount && amount)}`,
     },
     {
       title: "Bank Account",
-      dataIndex: "bankAccount",
+      dataIndex: "BankAccount",
+      render:(a) => (
+        <p>{a.account_number} {a.type.value !== "gh-mobile" ? `${a.details.account_name} ${a.details.bankName}`: `${a.bank_code} ${a.details.account_name}`}</p>
+      )
     },
     {
       title: "Status",
@@ -684,7 +701,7 @@ export const BTCTradesTab = ({ fetchTrans, transaction, handleAction }) => {
     {
       title: "Crypto Type",
       dataIndex: "CreditCryptoCurrency",
-      render:(a) => `${a.name}`
+      render: (a) => `${a.name}`,
     },
     {
       title: "Status",
@@ -741,7 +758,7 @@ export const SuccessfulModal = ({
   onClick = () => {},
   title = "Payment Successful!",
   btnText = "Continue",
-  walletBalance
+  walletBalance,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(true);
 
@@ -768,7 +785,11 @@ export const SuccessfulModal = ({
           >
             <span
               className={styles.transactions__empty__content__text}
-              style={{ color: "#012169", fontWeight: "bold", textAlign: "center" }}
+              style={{
+                color: "#012169",
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
             >
               {title}
             </span>

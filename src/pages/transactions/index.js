@@ -47,6 +47,8 @@ const Transactions = (props) => {
           isVisible={showFiatTrans}
           setIsVisible={setShowFiatTrans}
           goBack={setActive}
+          userWallets={props.userWallets}
+          fiatCurrency={props.fiatCurrency}
         />
       )}
       {!active && showCryptoTrans && (
