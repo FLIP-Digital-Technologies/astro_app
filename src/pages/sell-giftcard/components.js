@@ -650,7 +650,8 @@ const GiftCardForm = ({
       {open && soldGiftCard && (
         <SuccessfulModal
           title={
-            "Your card has been received, kindly wait 10-15 minutes, check the progress of trade on the 'Transactions' tab"
+            // "Your card has been received, kindly wait 10-15 minutes, check the progress of trade on the 'Transactions' tab"
+            "Your card has been received, please be patient, you’ll get a notification once trade is completed, check the transactions tab for further updates"
           }
           onClick={() => history.push("/app")}
         />
