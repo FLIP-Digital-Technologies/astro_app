@@ -589,6 +589,13 @@
       button {
         height: fit-content;
       }
+      p {
+        width: 95%;
+        overflow-wrap: normal !important;
+        flex-wrap: wrap;
+        line-break: strict;
+        line-height: 1.8em;
+      }
     }
 
     &__holder {

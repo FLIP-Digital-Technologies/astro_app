@@ -521,7 +521,7 @@ const GiftCardForm = ({
 
   const [details, setDetails] = useState(INITIAL_STATE);
   // const [amount, setAmount] = useState(0);
-  const [currencyType,] = useState(true);
+  const [currencyType] = useState(true);
   // const [state, setState] = useState(INITIAL_STATE2);
   // const [rate, setRate] = useState({});
   const [progress, setProgress] = useState();
@@ -780,7 +780,7 @@ const GiftCardForm = ({
                 }
                 onInput={(e) => {
                   if (e.target.value < 0) {
-                    e.target.value = 0
+                    e.target.value = 0;
                   } else {
                     // eslint-disable-next-line
                     e.target.value = e.target.value;
@@ -996,7 +996,7 @@ const GiftCardForm = ({
                 paddingBottom: 10,
                 paddingLeft: 8,
                 paddingRight: 8,
-                width:"100%"
+                width: "100%",
               }}
             >
               <div style={{ marginBottom: 15 }}>
@@ -1009,9 +1009,9 @@ const GiftCardForm = ({
                   </u>
                 </strong>
               </div>
-              <pre style={{ lineHeight: 1.1 }}>
+              <p>
                 {details && details.value && details.value.tac}
-              </pre>
+              </p>
             </div>
           </div>
         </div>
