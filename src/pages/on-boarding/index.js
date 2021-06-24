@@ -55,6 +55,7 @@ const OnBoarding = (props) => {
         })
         .then(() => message.info("Add Bank details and transaction Pin", 5));
     }
+    // eslint-disable-next-line
   }, [props.updatedTransactionPin, setActiveKey, props.user]);
   function callback(key) {
     setActiveKey(key);

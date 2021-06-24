@@ -13,6 +13,7 @@ import {
   BuyGiftCard,
   Bills,
   Settings,
+  NotFoundApp
 } from "./pages";
 import {
   getBTCTransactionHistory,
@@ -24,7 +25,6 @@ import { GetUserDetails } from "./redux/actions/Auths";
 import CustomRoute from "./utils/CustomRoute";
 
 function App(props) {
-  const profileCompletion = localStorage.getItem("pinCheck");
 
   useEffect(() => {
     props.getCurrentUser();
@@ -85,6 +85,7 @@ function App(props) {
       <Route path="/app/settings">
         <Settings />
       </Route>
+      <Route component={NotFoundApp}/>
       {/* <Redirect to="/" /> */}
     </Switch>
   );

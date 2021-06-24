@@ -10,14 +10,14 @@ import {
   getGiftCardDetails,
 } from "../../redux/actions/giftCard";
 // import { BitcoinInput } from "../../assets/svg";
-import AppFetch from "../../redux/services/FetchInterceptor";
+// import AppFetch from "../../redux/services/FetchInterceptor";
 
 import styles from "../styles.module.scss";
 import {
   // getCryptoCurrencies,
   getFiatCurrencies,
 } from "../../redux/actions/Auths";
-import { notification } from "antd";
+// import { notification } from "antd";
 import { BuySide, SellSide } from "./components";
 // import { SellSection } from "../btc/components";
 
@@ -47,8 +47,8 @@ const AboutRates = ({
   }, [getBTCRates, getCards, getMainFiatCurrency]);
 
   const [buy, setBuy] = useState(false);
-  const [, setCoins] = useState([]);
-  const [, setCoinsData] = useState([]);
+  // const [, setCoins] = useState([]);
+  // const [, setCoinsData] = useState([]);
   // const [meta, setMeta] = useState(null);
   // const [avaCurr, setAvaCurr] = useState([]);
   // const [avaCard, setAvaCard] = useState([]);

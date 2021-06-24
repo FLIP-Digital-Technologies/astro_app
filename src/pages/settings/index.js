@@ -46,7 +46,7 @@ import {
   getBankBranchByID,
 } from "../../redux/actions/bank";
 import { Table, Tag, Popconfirm, notification } from "antd";
-import { date, Money, scrollToRef } from "../../utils/helper";
+import { date, Money } from "../../utils/helper";
 import { EmptyEntryWithTitle } from "../transactions/components";
 
 export const ReferralTable = ({ fetchTrans, transaction, handleAction }) => {

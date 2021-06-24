@@ -14,6 +14,7 @@ import {
   // About,
   AboutRates,
   VerifyEmail,
+  NotFoundIndex,
 } from "./pages";
 import { PrivateRoute } from "./utils/PrivateRoute";
 import { WaitingComponent } from "./utils/helper";
@@ -45,6 +46,7 @@ ReactDOM.render(
           {/* <App /> */}
           {WaitingComponent(App)}
         </Route>
+        <Route component={NotFoundIndex} />
         {/* <PrivateRoute path="/app" component={WaitingComponent(App)} /> */}
       </Switch>
     </ConnectedRouter>
