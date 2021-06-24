@@ -590,11 +590,11 @@
         height: fit-content;
       }
       p {
-        width: 95%;
+        width: 90%;
         overflow-wrap: normal !important;
         flex-wrap: wrap;
         line-break: strict;
-        line-height: 1.8em;
+        line-height: 2em;
       }
     }
 
@@ -635,7 +635,7 @@
         flex-direction: row;
 
         @include sm {
-          width: 350px;
+          width: 90%;
         }
 
         @include xl {
