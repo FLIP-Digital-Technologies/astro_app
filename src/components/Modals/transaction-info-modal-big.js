@@ -1,5 +1,5 @@
 import React from "react";
-import { Image } from "antd";
+// import { Image } from "antd";
 import ModalWrapper from "./index";
 import styles from "./styles.module.scss";
 import {
@@ -7,7 +7,7 @@ import {
   TransactionIconSuc,
   TransactionIconBig,
 } from "../../assets/svg";
-import capitalizeFirstLetter, { date, Money } from "../../utils/helper";
+import capitalizeFirstLetter, { date } from "../../utils/helper";
 
 export const TransactionModalBuyGiftCard = ({
   type,
@@ -224,12 +224,12 @@ const TransactionModalBig = ({
               <span>Reference ID</span> <span>{reference}</span>
             </div>
             <div className={styles.transactionBig__main__content}>
-              <span>Transaction Rate</span> <span>{Money(rate, "NGN")}/$</span>
+              <span>Transaction Rate</span> <span>{rate}</span>
             </div>
           </div>
           <div className={styles.transactionBig__main__holder}>
             <div className={styles.transactionBig__main__content}>
-              <span>Amount Paid</span> <span>{Money(amount, "NGN")}</span>
+              <span>Amount</span> <span>{amount}</span>
             </div>
             <div className={styles.transactionBig__main__content}>
               <span>Comment</span> <span>{Qua}</span>
@@ -241,7 +241,7 @@ const TransactionModalBig = ({
               <span>{cardCode && cardCode.replace(".", "-")}</span>
             </div>
           </div>
-          <div className={styles.transactionBig__main__holder}>
+          {/* <div className={styles.transactionBig__main__holder}>
             <div
               className={styles.transactionBig__main__content}
               style={{ width: "100%" }}
@@ -260,7 +260,7 @@ const TransactionModalBig = ({
                 ))}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </ModalWrapper>
