@@ -2932,3 +2932,42 @@
   padding-bottom: 20px;
   background-color: #dbdad9;
 }
+.notfoundapp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  background-color: #F7F7F4;
+  background-image:
+    linear-gradient(#921946 0.01px, transparent 1px),
+    linear-gradient(90deg, #921946 0.01px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+
+  h1 {
+    color:#921946;
+    font-size: 3em;
+  }
+  h2 {
+    color: #921940;
+    font-size: 3.5em;
+  }
+}
+
+.notfoundindex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+
+  h1 {
+    color:#921946;
+    font-size: 3.5em;
+  }
+  h2 {
+    color: #921940;
+    font-size: 2em;
+  }
+}

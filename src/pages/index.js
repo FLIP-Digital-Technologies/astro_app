@@ -18,3 +18,5 @@ export { default as Airtime } from "./airtime";
 export { default as Settings } from "./settings";
 export { default as CryptoView } from "./crypto";
 export { default as VerifyEmail } from "./verify_email";
+export {default as NotFoundApp} from "./not-found-app";
+export {default as NotFoundIndex} from "./not-found-index";

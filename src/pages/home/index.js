@@ -50,7 +50,7 @@ import capitalizeFirstLetter, {
 } from "../../utils/helper";
 import {
   createFiatWallet,
-  getCryptoCurrencies,
+  // getCryptoCurrencies,
   getFiatCurrencies,
   GetUserDetails,
 } from "../../redux/actions/Auths";
@@ -107,7 +107,7 @@ const Home = ({
   let [fiatIndex, setFiatIndex] = useState(0);
   let [cryptoIndex, setCryptoIndex] = useState(0);
   const [renderBalance, setRenderBalance] = useState("0");
-  const [renderCryptoBalance, setRenderCryptoBalance] = useState("0");
+  const [renderCryptoBalance,] = useState("0");
   const [showAirtime, setShowAirtime] = useState(false);
   const [showFund, setShowFund] = useState(false);
   const [showPTWOP, setShowPTWOP] = useState(false);
