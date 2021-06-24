@@ -224,7 +224,7 @@ const Profile = ({
     firstName: (user && user.Profile.first_name) || "",
     lastName: (user && user.Profile.last_name) || "",
     email: (user && user.email) || "",
-    phoneNumber: (user && user.phoneNumber) || "",
+    phoneNumber: (user && user.Profile.phone) || "",
     country: "NGN",
     username: (user && user.username) || "",
   };
@@ -959,8 +959,8 @@ const Profile = ({
                 <div
                   className={homeStyles.widgets__inner}
                   onClick={() => {
-                    // setPinModal(true);
-                    scrollToBank();
+                    setPinModal(true);
+                    // scrollToBank();
                   }}
                 >
                   <div className={homeStyles.widgets__image}>
