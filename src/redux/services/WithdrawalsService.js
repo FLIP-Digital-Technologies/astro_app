@@ -71,8 +71,8 @@ withdrawalsService.getWithdrawalRequestByUser = function (params) {
     url: `/payments/outwards/${params.userId}`,
     method: "get",
     params: {
-      page: params.skip | 0,
-      per_page: params.limit | 10,
+      page: params.skip || 0,
+      per_page: params.limit || 10,
     },
   });
 };
