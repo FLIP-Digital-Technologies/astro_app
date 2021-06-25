@@ -350,7 +350,12 @@ export const BillPaymentTab = ({ fetchTrans, transaction, handleAction }) => {
   );
 };
 
-export const DepositsTab = ({ fetchTrans, transaction, handleAction }) => {
+export const DepositsTab = ({
+  fetchTrans,
+  transaction,
+  handleAction,
+  fiatCurrency,
+}) => {
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
@@ -386,7 +391,13 @@ export const DepositsTab = ({ fetchTrans, transaction, handleAction }) => {
     {
       title: "Amount",
       dataIndex: "amount",
-      render: (amount) => `${CommaFormatted(amount && amount)}`,
+      render: (amount, all) =>
+        `${
+          fiatCurrency &&
+          all.currency_id &&
+          fiatCurrency.filter((item) => item.id === all.currency_id)[0]
+            .code
+        } ${CommaFormatted(amount && amount)}`,
     },
     {
       title: "Reference",
@@ -500,9 +511,14 @@ export const WithdrawalsTab = ({
     {
       title: "Bank Account",
       dataIndex: "BankAccount",
-      render:(a) => (
-        <p>{a.account_number} {a.type.value !== "gh-mobile" ? `${a.details.account_name} ${a.details.bankName}`: `${a.bank_code} ${a.details.account_name}`}</p>
-      )
+      render: (a) => (
+        <p>
+          {a.account_number}{" "}
+          {a.type.value !== "gh-mobile"
+            ? `${a.details.account_name} ${a.details.bankName}`
+            : `${a.bank_code} ${a.details.account_name}`}
+        </p>
+      ),
     },
     {
       title: "Status",
