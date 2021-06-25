@@ -116,7 +116,7 @@ const getUserDetails = (data) => async (dispatch) => {
   await authService
     .getUserDetails(data)
     .then((response) => {
-      console.log("code", response.headers);
+      // console.log("code", response.headers);
       dispatch({
         type: actionTypes.GET_USER_DETAILS_BY_ID_SUCCESS,
         payload: response.data,

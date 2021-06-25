@@ -40,14 +40,7 @@ const SignUp = (props) => {
       });
       return;
     }
-    console.log("resulted", {
-      referralCode,
-      email,
-      password,
-      firstName,
-      lastName,
-      username,
-    });
+  
 
     if (referralCode === null) {
       props.checkEmailAvailable({

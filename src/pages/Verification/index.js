@@ -10,23 +10,16 @@ import {
   resendEmailVerificationCode,
   verifyEmailOTP,
 } from "../../redux/actions/Auths";
-import { useHistory } from "react-router";
+// import { useHistory } from "react-router";
 
 const VerifyOtp = (props) => {
   const [otp, setOtp] = useState("");
-
-  const history = useHistory()
 
   useEffect(() => {
     props.resendOTP()
     props.getUserInfo()
     // eslint-disable-next-line
   }, [])
-
-  useEffect(() => {
-   
-   console.log('history',history)
-  }, [history])
 
   const login = (e) => {
     if (e) {

@@ -53,7 +53,7 @@ const Transactions = ({
     console.log(key);
   }
   useEffect(() => {
-    console.log("currency", fiatCurrency);
+    // console.log("currency", fiatCurrency);
     let walletRate =
       fiatCurrency &&
       viewGiftCardTrans &&
@@ -63,7 +63,7 @@ const Transactions = ({
         (item) => item.id === viewGiftCardTrans.credit_currency_id
       )[0];
     setCredit_wallet(walletRate);
-    console.log("currency 1", walletRate);
+    // console.log("currency 1", walletRate);
   }, [viewGiftCardTrans, fiatCurrency]);
   return (
     <>

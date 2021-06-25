@@ -31,7 +31,7 @@ function SellCrypto({
   const [sell_btc_usd_rate, setSell_btc_usd_rate] = useState(0);
   useEffect(() => {
     crypto.currency && getBTCRates({ coin: crypto.currency });
-    console.log(crypto.currency);
+    // console.log(crypto.currency);
   }, [crypto.currency, getBTCRates]);
 
   useEffect(() => {

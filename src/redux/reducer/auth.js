@@ -123,7 +123,7 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.VERIFY_EMAIL_TOKEN_SUCCESS:
-    console.log('passed', action.payload)
+    // console.log('passed', action.payload)
       return {
         ...state,
         loading: false,
@@ -346,7 +346,7 @@ const authReducer = (state = initState, action) => {
         error: null,
       };
     case actionTypes.VERIFY_EMAIL_TOKEN_FAILED:
-      console.log('failed',action)
+      // console.log('failed',action)
       return {
         ...state,
         loading: false,

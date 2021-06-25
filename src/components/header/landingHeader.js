@@ -26,7 +26,7 @@ const LandingHeader = ({ form, type }) => {
 
       <div onClick={() => {
         setShow(true)
-        console.log('pressed')
+        // console.log('pressed')
         }} className={styles.Hamburger}>
         <MenuOutlined style={{ color: "white", fontSize: "24px" }} />
       </div>
