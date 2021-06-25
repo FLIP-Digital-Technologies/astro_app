@@ -111,14 +111,14 @@ export const BuySection = ({
         conversions &&
         conversions[`USD${data}`] &&
         conversions[`USD${data}`].we_sell;
-      console.log("wallet", walletRate);
+      // console.log("wallet", walletRate);
       setWallet_btc_rate((walletRate ?? 0) * buy_btc_usd_rate);
     }
   };
 
   return (
     <div className={styles.transactionCard}>
-      {console.log("buy", active)}
+      
       {open && buyBTC && (
         <SuccessfulModal onClick={() => history.push("/app")} />
       )}
@@ -345,7 +345,7 @@ export const SellSection = ({
   };
   return (
     <div className={styles.transactionCard}>
-      {console.log("sell", state.wallet)}
+      
       {open && sellBTC && (
         <SuccessfulModal onClick={() => history.push("/app")} />
       )}

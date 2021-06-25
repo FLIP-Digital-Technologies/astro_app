@@ -277,7 +277,7 @@ const Profile = ({
   };
   const handleNPinChange = ({ target: { name, value } }) => {
     setNPin((pass) => ({ ...pass, [name]: value }));
-    console.log(value);
+    // console.log(value);
   };
 
   const handleChange = ({ target: { name, value } }) => {
@@ -306,7 +306,7 @@ const Profile = ({
     window.focus()
     window.scroll(0, bankRef.current.offsetTop);
     window.scrollTo(0, bankRef.current.offsetTop);
-    console.log(bankRef, scroll);
+    // console.log(bankRef, scroll);
   };
 
   useEffect(() => {
@@ -316,7 +316,7 @@ const Profile = ({
       state.accountNumber.length === 10 &&
       !state.isMobileMoney
     ) {
-      console.log("ng- account");
+      // console.log("ng- account");
       verifyBankAccount({
         bankCode: state.bankCode,
         accountNumber: state.accountNumber,
@@ -327,7 +327,7 @@ const Profile = ({
       state.accountNumber.length === 13 &&
       !state.isMobileMoney
     ) {
-      console.log("gh - account");
+      // console.log("gh - account");
       verifyBankAccount({
         bankCode: state.bankCode,
         accountNumber: state.accountNumber,
@@ -336,7 +336,7 @@ const Profile = ({
       state.accountType.value === "gh-mobile" &&
       state.accountNumber.length === 11
     ) {
-      console.log("mobile");
+      // console.log("mobile");
       verifyBankAccount({
         bankCode: state.bankCode,
         accountNumber: `233${state.accountNumber.substring(1)}`,
@@ -441,7 +441,7 @@ const Profile = ({
       },
     })
       .then((response) => {
-        console.log("reset", response);
+        // console.log("reset", response);
         localStorage.setItem("reference", response.data.reference);
         notification.success({
           message: "Otp sent to email successfully",

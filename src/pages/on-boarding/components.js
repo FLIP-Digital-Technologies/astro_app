@@ -159,7 +159,7 @@ export const Step2 = ({
       state.accountNumber.length === 10 &&
       !state.isMobileMoney
     ) {
-      console.log("ng- account");
+      // console.log("ng- account");
       verifyBankAccount({
         bankCode: state.bankCode,
         accountNumber: state.accountNumber,
@@ -170,7 +170,7 @@ export const Step2 = ({
       state.accountNumber.length === 12 &&
       !state.isMobileMoney
     ) {
-      console.log("gh - account");
+      // console.log("gh - account");
       verifyBankAccount({
         bankCode: state.bankCode,
         accountNumber: state.accountNumber,
@@ -179,7 +179,7 @@ export const Step2 = ({
       state.accountType.value === "gh-mobile" &&
       state.accountNumber.length === 11
     ) {
-      console.log("mobile");
+      // console.log("mobile");
       verifyBankAccount({
         bankCode: state.bankCode,
         accountNumber: `233${state.accountNumber.substring(1,)}`,
@@ -198,7 +198,7 @@ export const Step2 = ({
       state.accountNumber.length === 10 &&
       !state.isMobileMoney
     ) {
-      console.log("ng- account");
+      // console.log("ng- account");
       verifyBankAccount({
         bankCode: state.bankCode,
         accountNumber: state.accountNumber,
@@ -209,7 +209,7 @@ export const Step2 = ({
       state.accountNumber.length === 12 &&
       !state.isMobileMoney
     ) {
-      console.log("gh - account");
+      // console.log("gh - account");
       verifyBankAccount({
         bankCode: state.bankCode,
         accountNumber: state.accountNumber,
@@ -218,7 +218,7 @@ export const Step2 = ({
       state.accountType.value === "gh-mobile" &&
       state.accountNumber.length === 11
     ) {
-      console.log("mobile");
+      // console.log("mobile");
       verifyBankAccount({
         bankCode: state.bankCode,
         accountNumber: `233${state.accountNumber.substring(1,)}`,
@@ -488,7 +488,7 @@ export const Step2 = ({
   );
 };
 
-export const Step3 = ({ submitForm }) => {
+export const Step3 = ({ submitForm, getUser }) => {
   const INITIAL_STATE = {
     pin: "",
   };

@@ -137,7 +137,7 @@ export const SellSide = ({
       fiatCurrency &&
       fiatCurrency.length > 0 &&
       fiatCurrency.filter((item) => item.code === details.creditCurrency)[0];
-    console.log(details.creditCurrency);
+    // console.log(details.creditCurrency);
     walletRate &&
       walletRate.we_buy &&
       details &&
@@ -174,7 +174,7 @@ export const SellSide = ({
   //   }));
   // };
   const onCardChange = (value) => {
-    console.log(value);
+    // console.log(value);
     getCardDetails({ cardCode: value });
     setDetails((state) => ({
       ...state,
@@ -242,7 +242,7 @@ export const SellSide = ({
               }
               value={details.category}
               onSelect={(value) => {
-                console.log(value);
+                // console.log(value);
                 setDetails((state) => ({
                   ...state,
                   cardCategory: value,

@@ -6,7 +6,7 @@ const CustomRoute = (props) => {
   const profileCompletion = localStorage.getItem("pinCheck");
   const [returnedRoute, setReturnedRoute] = useState("");
   useEffect(() => {
-    console.log('df',profileCompletion)
+    // console.log('df',profileCompletion)
     switch (props.condition) {
       case "completeRegistration":
         return setReturnedRoute(
@@ -47,7 +47,7 @@ const CustomRoute = (props) => {
   }, [props.user, props.path]);
   return (<>
   {returnedRoute}
-  {console.log('failing',returnedRoute)}
+  
   </>);
 };
 

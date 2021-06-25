@@ -31,11 +31,11 @@ function BuyCrypto({
   const [sell_btc_usd_rate, setSell_btc_usd_rate] = useState(0);
   useEffect(() => {
     crypto.currency && getBTCRates({ coin: crypto.currency });
-    console.log(crypto.currency);
+    // console.log(crypto.currency);
   }, [crypto.currency, getBTCRates]);
 
   useEffect(() => {
-      console.log('rates',rates)
+      // console.log('rates',rates)
     rates && rates.ticker && setSell_btc_usd_rate(rates.ticker.sell);
     let walletRate =
       state.wallet &&

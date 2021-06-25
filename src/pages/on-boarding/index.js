@@ -42,7 +42,7 @@ const OnBoarding = (props) => {
   }, [props.addedBankDetails, setActiveKey]);
   React.useEffect(() => {
     props.getCurrentUser()
-    console.log(props.user);
+    // console.log(props.user);
     if (props.user && props.user.boarded && props.user.boarded) {
       history.push("/app");
     } else if (props.user && props.user.boarded && !props.user.boarded) {

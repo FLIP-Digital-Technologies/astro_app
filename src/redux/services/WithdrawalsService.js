@@ -8,7 +8,7 @@ withdrawalsService.initialWithdrawalRequest = function (params, data) {
   //   "bankAccountId": "851d92fa-cf9d-46dc-355d-c4f5bfd60ab8",
   //   "currency": "NGN"
   // }
-  console.log('withdraw', data)
+  // console.log('withdraw', data)
   let payload = {};
   // if (data.bankAccount) {
   //   payload.amount = Number(data.amount);

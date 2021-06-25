@@ -1098,8 +1098,6 @@ const Home = ({
           </Col>
         </Row>
       </div>
-
-      {console.log("withdraw", pairTwoPairFiatTrans)}
     </DashboardLayout>
   );
 };
