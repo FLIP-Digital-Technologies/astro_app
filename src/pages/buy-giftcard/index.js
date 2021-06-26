@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import { Row, Col, Card, Drawer, Typography, Badge, Modal } from "antd";
-import { ExclamationCircleOutlined, LoadingOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import {
+  ExclamationCircleOutlined,
+  LoadingOutlined,
+  ArrowLeftOutlined,
+} from "@ant-design/icons";
 import { useHistory, useLocation } from "react-router-dom";
 import _ from "lodash";
 
@@ -20,7 +24,7 @@ import {
   getBuyCardsCardDetail,
   initialBuyGiftCard,
 } from "../../redux/actions/buyGiftCard";
-import { Money } from "../../utils/helper";
+import { CommaFormatted, Money } from "../../utils/helper";
 import { getBTCWalletDetails } from "../../redux/actions/btc";
 
 function getImgUrl(data) {
@@ -87,10 +91,11 @@ const BuyGiftCard = (props) => {
     confirm({
       title: `Purchase of Gift card`,
       icon: <ExclamationCircleOutlined style={{ color: "#19a9de" }} />,
-      content: `Confirm the Purchase of ${Money(
-        card?.cardValue,
+      content: `Confirm the Purchase of ${
         props?.buyGiftCardDetails?.currency
-      )} ${props?.buyGiftCardDetails?.name} Gift card`,
+      } ${CommaFormatted(card?.cardValue)} ${
+        props?.buyGiftCardDetails?.name
+      } Gift card`,
       onOk() {
         return handleSubmit();
       },
@@ -105,7 +110,7 @@ const BuyGiftCard = (props) => {
       cardValue: card.cardValue,
       email: card.email || props?.user?.email,
       amount: card.amount === "null" ? null : card.amount,
-      quantity: parseInt(card.quantity),
+      // quantity: parseInt(card.quantity),
       isCustom: false,
       fiatWalletId: card.walletId,
     };
@@ -369,12 +374,12 @@ const BuyGiftCard = (props) => {
                     }}
                     name="wallet"
                     options={props.balance.fiatWallets.map((item) => ({
-                      render: `${item.Currency.code}`,
+                      render: `${item.Currency.code} Wallet`,
                       value: item,
                     }))}
                   />
                 )}
-                <Input
+                {/* <Input
                   className={`${styles.input}`}
                   value={card.quantity}
                   label="Quantity"
@@ -396,7 +401,7 @@ const BuyGiftCard = (props) => {
                     }
                   }}
                   type="number"
-                />
+                /> */}
                 <Input
                   className={`${styles.input}`}
                   defaultValue={props?.user?.email}
@@ -427,8 +432,8 @@ const BuyGiftCard = (props) => {
                   }
                   options={props?.buyGiftCardDetails?.packages.map((item) => ({
                     render: `${props?.buyGiftCardDetails?.currency} ${
-                      item.value
-                    } - Price: ${Money(item.usdPrice, "USD")}`,
+                      CommaFormatted(item.value)
+                    }`, // - Price: ${Money(item.usdPrice, "USD")}
                     value: `${item.value}.${item.amount}`,
                   }))}
                   hint={<p dangerouslySetInnerHTML={extraInfo()} />}
@@ -438,8 +443,8 @@ const BuyGiftCard = (props) => {
                   text="Buy"
                   form="full"
                   disabled={
-                    card.quantity === 0 ||
-                    !card.quantity ||
+                    // card.quantity === 0 ||
+                    // !card.quantity ||
                     !card.amount ||
                     !card.cardValue ||
                     !card.referenceCurrency
