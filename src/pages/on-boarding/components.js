@@ -510,12 +510,13 @@ export const Step3 = ({ submitForm, user }) => {
     >
       <div className={styles.onboarding__section}>
         <h2 className={styles.onboarding__title}>Set Transaction Pin</h2>
+        <h4 className={styles.onboarding__subtitle}>You'll need this to approve your withdrawals</h4>
         <div className={styles.onboarding__inputList5}>
           <Input
             name="pin"
             value={state.pin}
             onChange={handleChange}
-            label="Transaction Pin ( You'll use this 4 digit pin to approve withdrawals )"
+            label="Transaction Pin"
             placeholder="1234"
             required={true}
             maxLength="4"
