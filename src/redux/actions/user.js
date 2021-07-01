@@ -3,7 +3,7 @@ import * as actionTypes from "../constants";
 import generalService from "../services/GeneralService";
 import referralService from "../services/Referral";
 import { GetUserDetails } from "./Auths";
-// import { history } from "../store";
+import { history } from "../store";
 
 const key = actionTypes.KEY;
 
@@ -80,7 +80,8 @@ const SetTransactionPin = (data) => async (dispatch) => {
         type: actionTypes.SET_TRANSACTION_PIN_SUCCESS,
         payload: response.data,
       });
-      GetUserDetails()
+      // GetUserDetails()
+      history.push("/app")
     })
     .catch((err) => {
       dispatch({
