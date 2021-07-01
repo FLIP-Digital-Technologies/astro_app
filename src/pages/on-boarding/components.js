@@ -515,7 +515,7 @@ export const Step3 = ({ submitForm, user }) => {
             name="pin"
             value={state.pin}
             onChange={handleChange}
-            label="Transaction Pin"
+            label="Transaction Pin ( You'll use this 4 digit pin to approve withdrawals )"
             placeholder="1234"
             required={true}
             maxLength="4"
