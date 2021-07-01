@@ -3,7 +3,7 @@ import { Spin } from 'antd';
 import PropTypes from 'prop-types'
 import { LoadingOutlined } from '@ant-design/icons';
 
-const Icon = <LoadingOutlined style={{ fontSize: 35 }} spin />
+const Icon = <LoadingOutlined style={{ fontSize: 35, color:"#921946" }} spin />
 
 const Loading = (props) => {
 	const { align, cover } = props
