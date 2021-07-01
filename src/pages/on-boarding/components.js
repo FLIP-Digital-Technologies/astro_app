@@ -488,7 +488,7 @@ export const Step2 = ({
   );
 };
 
-export const Step3 = ({ submitForm, getUser }) => {
+export const Step3 = ({ submitForm, user }) => {
   const INITIAL_STATE = {
     pin: "",
   };
@@ -515,7 +515,7 @@ export const Step3 = ({ submitForm, getUser }) => {
             name="pin"
             value={state.pin}
             onChange={handleChange}
-            label="Transaction Pin"
+            label="Transaction Pin ( You'll use this 4 digit pin to approve withdrawals )"
             placeholder="1234"
             required={true}
             maxLength="4"
@@ -537,7 +537,8 @@ export const Step3 = ({ submitForm, getUser }) => {
           />
         </div>
       </div>
-      <div className={styles.btnPair}>
+      {console.log(user)}
+      {!user.boarding && (<div className={styles.btnPair}>
         <div className={styles.btnPair__inner}>
           <Button text="Save" type="submit" form="full" />{" "}
         </div>
@@ -548,7 +549,12 @@ export const Step3 = ({ submitForm, getUser }) => {
           form="outline"
         />
         </div>
-      </div>
+      </div>)}
+      {user.boarding && (<div className={styles.btnPair}>
+        <div className={styles.btnPair__inner}>
+          <Button text="Next" type="submit" form="full" />{" "}
+        </div>
+      </div>)}
       {/* <div className={styles.btnPair}>
         <Button text="Save" type="submit" form="full" />{" "}
         <Button
