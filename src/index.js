@@ -25,9 +25,9 @@ ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Switch>
-        <PrivateRoute allow path="/verification" component={Verification} />
+        {/* <PrivateRoute allow path="/verification" component={Verification} />
         <Route exact path="/">
-          {/* <Landing /> */}
+          
           <SignIn />
         </Route>
         <Route path="/verify-email">
@@ -43,9 +43,9 @@ ReactDOM.render(
           <SignUp />
         </Route>
         <Route path="/app">
-          {/* <App /> */}
+          
           {WaitingComponent(App)}
-        </Route>
+        </Route> */}
         <Route component={NotFoundIndex} />
         {/* <PrivateRoute path="/app" component={WaitingComponent(App)} /> */}
       </Switch>
