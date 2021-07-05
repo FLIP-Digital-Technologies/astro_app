@@ -58,6 +58,7 @@ import SteamSpecialCard from "./steam1.png"
 import TargetCard from "./target.png"
 import TargetVisaCard from "./targetbug.png"
 import UberCard from "./uber1.png"
+import UnderMaintenance from "./under-construction.png"
 import VanillaCard from "./vanilla1.png"
 import VisaCard from "./visa1.png"
 import WalmartMoneyCard from "./walmartmoneycard.png"
@@ -130,6 +131,7 @@ png = {
   TargetCard,
   TargetVisaCard,
   UberCard,
+  UnderMaintenance,
   VanillaCard,
   VisaCard,
   WalmartMoneyCard,
