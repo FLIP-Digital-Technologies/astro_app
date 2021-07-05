@@ -39,26 +39,26 @@ function App(props) {
 
   return (
     <Switch>
-      <Route exact path="/app">
+      {/* <Route exact path="/app">
         <Home />
-      </Route>
-      <Route path="/app/onboarding">
+      </Route> */}
+      {/* <Route path="/app/onboarding">
         <OnBoarding />
-      </Route>
-      <CustomRoute
+      </Route> */}
+      {/* <CustomRoute
         condition="completeRegistration"
         path="/app/sell-giftcard"
         component={SellGiftcard}
-      />
+      /> */}
       {/* <Route path="/app/sell-giftcard">
         <SellGiftcard />
       </Route> */}
-      <CustomRoute
+      {/* <CustomRoute
         condition="completeRegistration"
         path="/app/buy-giftcard"
         component={BuyGiftCard}
         // component={Bills}
-      />
+      /> */}
       {/* <Route path="/app/buy-giftcard">
         <BuyGiftCard />
       </Route> */}
@@ -70,21 +70,21 @@ function App(props) {
       /> */}
 
      
-      <Route path="/app/transactions">
+      {/* <Route path="/app/transactions">
         <Transactions />
-      </Route>
-      <CustomRoute
+      </Route> */}
+      {/* <CustomRoute
         condition="completeRegistration"
         path="/app/bills"
         component={Bills}
-      />
+      /> */}
       {/* <Route path="/app/bills">
         <Bills />
       </Route> */}
 
-      <Route path="/app/settings">
+      {/* <Route path="/app/settings">
         <Settings />
-      </Route>
+      </Route> */}
       <Route component={NotFoundApp}/>
       {/* <Redirect to="/" /> */}
     </Switch>
