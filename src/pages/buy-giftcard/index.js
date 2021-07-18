@@ -24,7 +24,7 @@ import {
   getBuyCardsCardDetail,
   initialBuyGiftCard,
 } from "../../redux/actions/buyGiftCard";
-import { CommaFormatted, Money } from "../../utils/helper";
+import { CommaFormatted } from "../../utils/helper";
 import { getBTCWalletDetails } from "../../redux/actions/btc";
 
 function getImgUrl(data) {

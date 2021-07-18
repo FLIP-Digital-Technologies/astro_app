@@ -9,7 +9,7 @@ export default function NotFound() {
       <div className={styles.notfoundapp}>
         <img
         src={png.UnderMaintenance}
-        
+        alt=''
         />
         <h1>Astro will be back shortly</h1>
         <h2>We are under Maintenance</h2>
