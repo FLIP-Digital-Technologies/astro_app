@@ -25,7 +25,7 @@ ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Switch>
-        {/* <PrivateRoute allow path="/verification" component={Verification} />
+        <PrivateRoute allow path="/verification" component={Verification} />
         <Route exact path="/">
           
           <SignIn />
@@ -45,7 +45,7 @@ ReactDOM.render(
         <Route path="/app">
           
           {WaitingComponent(App)}
-        </Route> */}
+        </Route>
         <Route component={NotFoundIndex} />
         {/* <PrivateRoute path="/app" component={WaitingComponent(App)} /> */}
       </Switch>
