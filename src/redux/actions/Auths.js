@@ -47,13 +47,19 @@ const RegisterUser = (data) => async (dispatch) => {
         type: actionTypes.REGISTER_SUCCESS,
         payload: response.data,
       });
+      console.log("response", response);
       localStorage.setItem(actionTypes.AUTH_TOKEN, response.data.token);
       localStorage.setItem(actionTypes.AUTH_TOKEN_ID, response.data.user.id);
       localStorage.setItem("type", response.data.user.type);
-      history.push({
-        pathname: "/verification",
-        state: { detail: "register" },
-      });
+      if (response.data.user.is_verified === true) {
+        history.push("/app")
+      } else {
+        history.push({
+          pathname: "/verification",
+          state: { detail: "register" },
+        });  
+      }
+      
     })
     .catch((err) => {
       dispatch({

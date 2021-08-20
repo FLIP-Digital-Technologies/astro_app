@@ -44,6 +44,7 @@ import Pin from "./unlock.png"
 import Profile from "./user.png"
 import P2P from "./lending.png"
 import QuickAction from "./action.png"
+import Rates from "./exchange-rate.png"
 import RazorGoldCard from "./razergold1.png"
 import Referrals from "./referrals.png"
 import ResetPin from "./reset.png"
@@ -117,6 +118,7 @@ png = {
   Profile,
   P2P,
   QuickAction,
+  Rates,
   RazorGoldCard,
   Referrals,
   ResetPin,

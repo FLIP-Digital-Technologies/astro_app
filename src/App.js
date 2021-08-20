@@ -10,7 +10,7 @@ import {
   SellGiftcard,
   Transactions,
   OnBoarding,
-  BuyGiftCard,
+  // BuyGiftCard,
   Bills,
   Settings,
   NotFoundApp
@@ -53,12 +53,12 @@ function App(props) {
       {/* <Route path="/app/sell-giftcard">
         <SellGiftcard />
       </Route> */}
-      <CustomRoute
+      {/* <CustomRoute
         condition="completeRegistration"
         path="/app/buy-giftcard"
         component={BuyGiftCard}
         // component={Bills}
-      />
+      /> */}
       {/* <Route path="/app/buy-giftcard">
         <BuyGiftCard />
       </Route> */}
