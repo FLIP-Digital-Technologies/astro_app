@@ -841,21 +841,21 @@ const Home = ({
                   >
                     <div
                       className={homeStyles.widgets__inner}
-                      onClick={() => history.push("/app/buy-giftcard")}
+                      onClick={() => history.push("/rates")}
                     >
                       <div className={homeStyles.widgets__image}>
                         <img
-                          src={png.GiftCardTrans}
+                          src={png.Rates}
                           className={homeStyles.widgets__images}
                           style={{ marginRight: 5 }}
                           alt="wallet"
                         />
                       </div>
                       <div className={homeStyles.widgets__info}>
-                        Buy Gift Cards
+                        Rates
                       </div>
                       <div className={homeStyles.widgets__description}>
-                        Buy the Gift Card of your choice
+                        Best rates ever !!!
                       </div>
                       <div className={homeStyles.widgets__arrow}>
                         <DoubleRightOutlined
@@ -878,27 +878,28 @@ const Home = ({
                     <div
                       className={homeStyles.widgets__inner}
                       onClick={() => {
-                        user && user.boarded
-                          ? balance && balance.fiatWallets.length > 0
-                            ? setShowPTWOP(true)
-                            : notification.info({
-                                message: "Please Add Wallet",
-                                duration: 2.5,
-                              })
-                          : history.push("/app/onboarding");
+                        history.push("/app/transactions");
+                        // user && user.boarded
+                        //   ? balance && balance.fiatWallets.length > 0
+                        //     ? setShowPTWOP(true)
+                        //     : notification.info({
+                        //         message: "Please Add Wallet",
+                        //         duration: 2.5,
+                        //       })
+                        //   : history.push("/app/onboarding");
                       }}
                     >
                       <div className={homeStyles.widgets__image}>
                         <img
-                          src={png.P2P}
+                          src={png.Withdrawal}
                           className={homeStyles.widgets__images}
                           style={{ marginRight: 5 }}
                           alt="wallet"
                         />
                       </div>
-                      <div className={homeStyles.widgets__info}>Astro Send</div>
+                      <div className={homeStyles.widgets__info}>Transactions</div>
                       <div className={homeStyles.widgets__description}>
-                        Send Money to another Astro user
+                        Check your transactions
                       </div>
                       <div className={homeStyles.widgets__arrow}>
                         <DoubleRightOutlined

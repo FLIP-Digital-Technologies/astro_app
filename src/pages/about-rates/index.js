@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { LandingLayout } from "../../components/layout";
 // import Input from "../../components/input";
 // import Select from "../../components/select";
-import Button from "../../components/button";
+// import Button from "../../components/button";
 import { getBTCCurrentMarketTicker } from "../../redux/actions/btc";
 import {
   getGiftCardCodes,
@@ -46,7 +46,7 @@ const AboutRates = ({
     // getCards({ cardCode: "all" });
   }, [getBTCRates, getCards, getMainFiatCurrency]);
 
-  const [buy, setBuy] = useState(false);
+  const [buy,] = useState(false);
   // const [, setCoins] = useState([]);
   // const [, setCoinsData] = useState([]);
   // const [meta, setMeta] = useState(null);
@@ -146,7 +146,7 @@ const AboutRates = ({
             <div className={styles.sub}>
               Get the current value of your transaction
             </div>
-            <div className={styles.buttonHolder}>
+            {/* <div className={styles.buttonHolder}>
               <Button
                 className={`${styles.buttonLeft} ${buy && styles.rev}`}
                 text="SELL"
@@ -159,7 +159,7 @@ const AboutRates = ({
                 form="full"
                 onClick={() => setBuy(true)}
               />
-            </div>
+            </div> */}
             {buy ? (
               <BuySide
                 fiatCurrency={fiatCurrency}
