@@ -11,9 +11,9 @@ export default function NotFound() {
         src={png.UnderMaintenance}
         alt=''
         />
-        <h1>Astro will be back shortly</h1>
-        <h2>We are under Maintenance</h2>
-        <h3>Please bear with us</h3>
+        <h1>Error 404</h1>
+        <h2>Not found</h2>
+        {/* <h3></h3> */}
       </div>
     </DashboardLayout>
   );

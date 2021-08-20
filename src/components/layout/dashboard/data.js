@@ -8,7 +8,7 @@ import {
   TransactionOutlined,
   ProjectOutlined,
   SettingOutlined,
-  CreditCardOutlined,
+  // CreditCardOutlined,
   GiftOutlined,
   HomeOutlined
 } from '@ant-design/icons';
@@ -30,7 +30,7 @@ export const Routes = {
 export const navigation = [
   { Icon: HomeOutlined, Name: "Home", route: Routes.home },
   { Icon: GiftOutlined, Name: "Sell Gift Cards", route: Routes.sellgiftcard },
-  { Icon: CreditCardOutlined, Name: "Buy Gift Cards", route: Routes.buygiftcard },
+  // { Icon: CreditCardOutlined, Name: "Buy Gift Cards", route: Routes.buygiftcard },
   // { Icon: MoneyCollectOutlined, Name: "Crypto", route: Routes.CryptoView },
   { Icon: TransactionOutlined, Name: "Transactions", route: Routes.transactions },
   { Icon: ProjectOutlined, Name: "Bills", route: Routes.bills },
