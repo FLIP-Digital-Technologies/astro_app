@@ -182,7 +182,7 @@ const authReducer = (state = initState, action) => {
     case actionTypes.REGISTER_SUCCESS:
       notification.success({
         message: "Successful",
-        description: "Check your email for the otp",
+        description: "Welcome to Astro",
         key,
       });
       return {

@@ -136,10 +136,10 @@ const AboutRates = ({
     <LandingLayout>
       <div className={styles.landing}>
         <div className={styles.rates}>
-          <div className={styles.rates__left}>
+          {/* <div className={styles.rates__left}>
             <div className={styles.title}>Our rate</div>
             <div className={styles.sub}>Absolutely the best</div>
-          </div>
+          </div> */}
 
           <div className={styles.rates__right}>
             <div className={styles.title}>Rates Calculator</div>
