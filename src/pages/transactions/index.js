@@ -100,9 +100,9 @@ const Transactions = (props) => {
                       alt="wallet"
                     />
                   </div>
-                  <div className={homeStyles.widgets__info}>Fiat</div>
+                  <div className={homeStyles.widgets__info}>Cash</div>
                   <div className={homeStyles.widgets__description}>
-                    Details of your Fiat Currency Transactions
+                    Details of your Cash Transactions
                   </div>
                   <div className={homeStyles.widgets__arrow}>
                     <DoubleRightOutlined

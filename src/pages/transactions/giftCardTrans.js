@@ -11,7 +11,7 @@ import {
   GiftCardTradesTab,
   // BillPaymentTab,
   // PTwoPTab,
-  BuyGiftCardTab,
+  // BuyGiftCardTab,
 } from "./components";
 import TransactionModalBig, {
   // TransactionModalBillPayment,
@@ -153,7 +153,7 @@ const Transactions = ({
                 }}
               />
             </TabPane>
-            <TabPane
+            {/* <TabPane
               tab={
                 <div className={styles.transactions__tab__item}>
                   <span>Buy GiftCard Transactions</span>
@@ -169,7 +169,7 @@ const Transactions = ({
                   setBuyGiftCardDetails(true);
                 }}
               />
-            </TabPane>
+            </TabPane> */}
           </Tabs>
         </div>
       </div>
