@@ -35,10 +35,14 @@ const Upload = ({ handleFile, file }) => {
 
   return (
     <div
+    onClick={handleClick}
+    >
+    <div
       onDragOver={dragOver}
       onDragEnter={dragEnter}
       onDragLeave={dragLeave}
       onDrop={fileDrop}
+      
       className={`${styles.body} ${file && styles.active} `}
     >
       <UploadIcon />
@@ -47,7 +51,7 @@ const Upload = ({ handleFile, file }) => {
       </div>
       <div
         className={`${styles.upload} ${file && styles.active}`}
-        onClick={handleClick}
+        // onClick={handleClick}
       >
         Or upload a file
       </div>
@@ -58,6 +62,7 @@ const Upload = ({ handleFile, file }) => {
         type="file"
         accept="image/jpeg,image/png"
       />
+    </div>
     </div>
   );
 };
