@@ -931,8 +931,8 @@ const GiftCardForm = ({
             </div>
             <div>
               <Input
-                label="Image Remark"
-                placeholder="Enter image remark"
+                label="Add Note"
+                placeholder="Enter note (optional)"
                 value={details.remark}
                 type="text"
                 min={0}
