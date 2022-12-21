@@ -11,6 +11,8 @@
     "antd": "^4.9.1",
     "axios": "^0.21.0",
     "connected-react-router": "^6.8.0",
+    "global": "^4.4.0",
+    "netlify-cli": "^12.4.1",
     "qrious": "^4.0.2",
     "react": "^17.0.1",
     "react-clipboard.js": "^2.0.16",
